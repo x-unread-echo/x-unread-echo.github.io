@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大 吉</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+</head>
+<body>
+<div class="moon"></div>
+
+<!-- 阶段一：加载 -->
+<div class="stage" id="stBoot">
+  <div style="min-height:38vh"></div>
+  <div class="mono small" id="bootline" style="letter-spacing:2px">正在连接……</div>
+  <div style="height:60px"></div>
+  <div class="small" style="opacity:.35;letter-spacing:6px">如 果 有 人 在 找 你 ，请 回 应</div>
+</div>
+
+<!-- 阶段二：输入称呼 -->
+<div class="stage" id="stName" style="display:none">
+  <div class="narrow fade">
+    <h1 class="title" style="font-size:38px;margin-bottom:10px">大 吉</h1>
+    <p class="sub" style="margin-bottom:60px">一款关于寻找的实验 · 第一章之前</p>
+    <p class="dimt center" style="margin-bottom:26px;letter-spacing:2px">在这台机器上，你想被叫作什么？</p>
+    <input type="text" id="nameInput" maxlength="12" placeholder="随便什么。没有人会看。" autocomplete="off">
+    <div id="nameTip" class="small center" style="margin-top:14px;min-height:20px;letter-spacing:2px"></div>
+    <div class="center" style="margin-top:34px">
+      <button class="btn" id="goBtn" disabled>进 入</button>
+    </div>
+    <p class="small center" id="lockedTip" style="display:none;margin-top:50px;letter-spacing:2px">
+      有些门，要先走完前面的路。</p>
+  </div>
+</div>
+
+<!-- 阶段二点五：继续游戏 -->
+<div class="stage" id="stResume" style="display:none">
+  <div class="narrow fade center">
+    <p class="mono dimt" style="letter-spacing:2px;margin-bottom:8px">进度还停在原地。</p>
+    <p class="dimt" id="resumeWhere" style="letter-spacing:3px;font-size:17px;margin-bottom:46px"></p>
+    <button class="btn" id="resumeBtn" style="min-width:220px">继 续 游 戏</button>
+    <div style="height:18px"></div>
+    <button class="btn" id="restartBtn" style="min-width:220px;background:transparent;color:#8b9ab5;border:1px solid #24324e">从 头 开 始</button>
+  </div>
+</div>
+
+<!-- 阶段三：入梦 -->
+<div class="stage" id="stSync" style="display:none">
+  <div class="narrow center">
+    <p class="mono dimt" id="syncLine" style="letter-spacing:2px;min-height:24px">正在同步未读消息……(8)</p>
+    <div style="height:120px"></div>
+    <p class="small" id="syncNote" style="opacity:0;transition:opacity 2s;letter-spacing:2px">
+      深夜。冰箱在响。手机屏幕是这间屋里唯一的光。</p>
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+/* 门禁提示 */
+if (new URLSearchParams(location.search).get("locked")) {
+  document.addEventListener("DOMContentLoaded", () => { $("lockedTip").style.display = "block"; });
+}
+
+/* 老玩家：先停在「继续游戏」的岔路口 */
+const CHAPTER_PAGES = { 1:"chat.html", 2:"guanyun.html", 3:"forum.html", 4:"ruins.html", 5:"mask.html", 6:"archive.html", 7:"final.html" };
+const CHAPTER_NAMES = { 1:"未读", 2:"青云观", 3:"倒影小组", 4:"亥时", 5:"面具", 6:"档案室", 7:"顺其自然" };
+if (DJ.state.name && !new URLSearchParams(location.search).get("restart")) {
+  document.addEventListener("DOMContentLoaded", () => {
+    const rvBoot = DJ.revisit("boot");
+    $("bootline").textContent = "欢迎回来，" + DJ.state.name + "。"
+      + (rvBoot >= 2 ? "（第 " + rvBoot + " 次唤醒）" : "");
+    clearInterval(bootTick);
+    setTimeout(() => {
+      $("stBoot").style.display = "none"; $("stResume").style.display = "flex";
+      const ch = Math.min(DJ.state.chapter || 1, 7);
+      $("resumeWhere").textContent = DJ.state.done
+        ? (rvBoot >= 3
+            ? "上次，你已经走完了。但那台手机还开着。电量比上次少了一点。"
+            : "上次，你已经走完了。但那台手机还开着。")
+        : "已存档 · 第" + "一二三四五六七"[ch-1] + "章「" + CHAPTER_NAMES[ch] + "」";
+      $("resumeBtn").onclick = () => {
+        DJ.sfx.click();
+        document.body.classList.add("flash");
+        setTimeout(() => location.href = DJ.state.done ? "chat.html" : CHAPTER_PAGES[ch], 350);
+      };
+      $("restartBtn").onclick = () => {
+        if (!confirm("从头开始会清掉现在的存档。确定吗？")) return;
+        DJ.state.name = ""; DJ.state.chapter = 0; DJ.state.incense = 3;
+        DJ.state.flags = {}; DJ.state.fails = 0; DJ.state.badPulls = 0; DJ.state.done = false;
+        DJ.state.rv = {}; DJ.state.blank = "";
+        DJ.save();
+        location.href = "index.html?restart=1";
+      };
+    }, 1400);
+  });
+}
+
+/* 阶段一：boot */
+const lines = [
+  "正在连接……", "信号很弱。", "正在同步未读消息……(8)",
+  "同步失败（8 项）。", "……重试。"
+];
+let li = 0;
+const bootTick = setInterval(() => {
+  if (li < lines.length) { $("bootline").textContent = lines[li++]; DJ.sfx.type(); }
+  else {
+    clearInterval(bootTick);
+    setTimeout(() => { $("stBoot").style.display = "none"; $("stName").style.display = "flex"; }, 900);
+  }
+}, 1100);
+
+/* 阶段二：称呼 */
+const input = $("nameInput");
+input.addEventListener("input", () => {
+  const v = input.value.trim();
+  $("goBtn").disabled = v.length === 0;
+  const t = $("nameTip");
+  if (["X", "x", "自己", "我", "本人"].includes(v)) {
+    t.textContent = "……这个名字，也有人用过。";
+    t.style.color = "var(--teal)";
+    DJ.flag("name_is_x");
+  } else { t.textContent = ""; }
+});
+$("goBtn").onclick = () => {
+  DJ.state.name = input.value.trim();
+  DJ.save(); DJ.sfx.click();
+  $("stName").style.display = "none"; $("stSync").style.display = "flex";
+  doSync();
+};
+
+/* 阶段三：同步 → 进第一章 */
+let si = 0;
+const syncLines = [
+  "正在同步未读消息……(8)", "正在同步未读消息……(8)", "同步失败（8 项）。"
+];
+function doSync() {
+  const tick = setInterval(() => {
+    if (si < syncLines.length) {
+      $("syncLine").textContent = syncLines[si++];
+      if (si === 3) { $("syncLine").classList.add("glitch"); DJ.sfx.err(); }
+    } else {
+      clearInterval(tick);
+      $("syncNote").style.opacity = "1";
+      setTimeout(() => {
+        DJ.unlock(1);
+        document.body.classList.add("flash");
+        setTimeout(() => location.href = "chat.html", 350);
+      }, 2600);
+    }
+  }, 1200);
+}
+
+/* 环境提示（重玩者） */
+DJ.envHint("未读不会自己消失。但它也不会催你。", "boot");
+</script>
+</body>
+</html>

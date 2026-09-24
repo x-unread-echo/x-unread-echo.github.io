@@ -1,0 +1,108 @@
+/* 《大吉》共享样式 —— 深夜蓝体系 */
+:root{
+  --bg:#070d18; --bg2:#0a1220; --panel:#0c1526; --panel2:#101c33;
+  --line:#1c2c4a; --ink:#c9d6ea; --dim:#6d80a0; --faint:#42536f;
+  --blue:#4a7dd6; --moon:#aebfd8; --white:#f2f5fa; --teal:#4f8f8b;
+  --warn:#c0564f; --paper:#dfe5ee;
+  --serif:"Songti SC","Noto Serif SC","STSong",serif;
+  --mono:"SF Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--serif);
+  line-height:1.85; font-size:16px; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(74,125,214,.35);color:#fff}
+
+/* ---------- 通用 ---------- */
+.stage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative}
+.narrow{max-width:640px;width:100%}
+h1.title{color:var(--white);letter-spacing:14px;font-weight:600;text-align:center}
+.sub{color:var(--dim);letter-spacing:4px;text-align:center;font-size:13px}
+button{font-family:var(--serif);cursor:pointer}
+.btn{
+  background:var(--panel2);border:1px solid var(--line);color:var(--moon);
+  padding:10px 26px;letter-spacing:4px;font-size:15px;border-radius:4px;
+  transition:all .25s;
+}
+.btn:hover{border-color:var(--blue);color:var(--white);box-shadow:0 0 18px rgba(74,125,214,.15)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+input[type=text],textarea{
+  background:var(--bg2);border:1px solid var(--line);color:var(--ink);
+  font-family:var(--serif);padding:10px 14px;border-radius:4px;font-size:15px;
+  letter-spacing:2px;outline:none;width:100%;
+}
+input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14px rgba(74,125,214,.12)}
+.fade{animation:fadein 1.6s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.glitch{animation:glitch .18s steps(2) 3}
+@keyframes glitch{0%{opacity:1;transform:none}50%{opacity:.2;transform:translateX(3px)}100%{opacity:1;transform:none}}
+.flash{animation:flash .35s ease}
+@keyframes flash{0%{filter:brightness(3) contrast(1.4)}100%{filter:none}}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.small{font-size:12.5px;color:var(--faint)}
+.dimt{color:var(--dim)}
+.mono{font-family:var(--mono)}
+.center{text-align:center}
+
+/* ---------- 月光 ---------- */
+.moon{
+  position:fixed;top:7%;right:10%;width:110px;height:110px;border-radius:50%;
+  background:radial-gradient(circle at 38% 38%, #dfe7f2 0%, #b9c7dd 45%, #8fa2bd 100%);
+  opacity:.14;pointer-events:none;filter:blur(1px);
+}
+
+/* ---------- 提示浮层 ---------- */
+#envhint{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  color:var(--faint);font-size:12.5px;letter-spacing:3px;opacity:0;
+  transition:opacity 3s ease;pointer-events:none;font-family:var(--serif);
+  text-shadow:0 0 10px rgba(7,13,24,.9);z-index:50;text-align:center;
+}
+#envhint.show{opacity:.75}
+
+/* ---------- 问卦 ---------- */
+#divhint{
+  position:fixed;inset:0;background:rgba(4,8,16,.82);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;z-index:60;
+}
+#divhint.open{display:flex}
+.divbox{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:34px 40px;max-width:420px;text-align:center;position:relative;
+}
+.divbox h3{color:var(--moon);letter-spacing:6px;font-weight:600;margin-bottom:14px}
+.divstick{
+  font-size:26px;letter-spacing:8px;color:var(--white);margin:18px 0;
+  min-height:44px;
+}
+.divtext{color:var(--dim);font-size:14px;min-height:48px;white-space:pre-line}
+.divbtns{display:flex;gap:12px;justify-content:center;margin-top:18px}
+.incense-count{color:var(--faint);font-size:12px;letter-spacing:2px;margin-top:12px}
+.divclose{position:absolute;top:10px;right:16px;background:none;border:none;color:var(--faint);font-size:18px}
+.divclose:hover{color:var(--white)}
+
+/* ---------- 页脚导航 ---------- */
+.corner{
+  position:fixed;top:18px;right:22px;z-index:40;
+  color:var(--faint);font-size:12px;letter-spacing:2px;
+  background:none;border:1px solid transparent;border-radius:4px;padding:4px 10px;
+}
+.corner:hover{color:var(--dim);border-color:var(--line)}
+
+/* ---------- 蝴蝶 ---------- */
+.bfly{display:inline-block;animation:flap 4s ease-in-out infinite;transform-origin:center}
+@keyframes flap{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.72)}}
+
+/* ---- 自动存档提示 ---- */
+#djtoast{
+  position:fixed;right:26px;bottom:26px;z-index:200;
+  background:rgba(13,22,38,.92);border:1px solid #2c4468;border-radius:4px;
+  color:#aebfd8;font-size:12px;letter-spacing:3px;padding:10px 18px;
+  opacity:0;transform:translateY(8px);transition:all .9s ease;pointer-events:none;
+  box-shadow:0 4px 24px rgba(0,0,0,.5);
+}
+#djtoast.show{opacity:1;transform:translateY(0)}

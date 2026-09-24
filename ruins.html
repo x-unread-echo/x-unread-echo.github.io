@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亥时 — 废墟</title>
+<!-- 亥时三刻。你自己挑的时间。 -->
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#04070d;overflow:hidden}
+  /* .scene 由 JS 按图片比例计算出"cover 矩形"，热点在里面按百分比定位——任何屏幕都和画面对得上 */
+  .scene{position:fixed;overflow:hidden}
+  .scene img{width:100%;height:100%;object-fit:fill;filter:brightness(.9) saturate(.7)}
+  /* 手电筒：全屏黑幕，鼠标处开一个洞 */
+  #dark{
+    position:fixed;inset:0;pointer-events:none;z-index:5;
+    background:radial-gradient(circle 150px at var(--fx,50%) var(--fy,50%),
+      transparent 0%, transparent 55%, rgba(2,4,9,.94) 78%, rgba(1,2,6,.985) 100%);
+    transition:opacity 1.2s;
+  }
+  body.lit #dark{opacity:.35}
+  .hud{
+    position:fixed;top:16px;left:0;right:0;z-index:20;display:flex;justify-content:center;gap:26px;
+    color:#42536f;font-size:11.5px;letter-spacing:3px;pointer-events:none;
+  }
+  .hud b{color:#aebfd8;font-weight:400}
+  /* 热点：微光透过黑暗呼吸——不照到也隐约可见，不用瞎扫 */
+  .spot{
+    position:absolute;width:60px;height:60px;border-radius:50%;cursor:pointer;z-index:7;
+    background:radial-gradient(circle, rgba(174,191,216,.22) 0%, transparent 70%);
+    animation:breath 3.2s ease-in-out infinite;
+  }
+  @media (max-width:600px){ .spot{width:84px;height:84px} }
+  @keyframes breath{0%,100%{opacity:.35}50%{opacity:1}}
+  .spot.found{animation:none;background:none;cursor:default}
+  /* 事件浮层 */
+  #event{
+    position:fixed;left:50%;bottom:9vh;transform:translateX(-50%);z-index:30;
+    max-width:560px;width:88vw;background:rgba(10,15,26,.93);border:1px solid #22304a;
+    border-radius:8px;padding:20px 24px;display:none;
+  }
+  #event.show{display:block;animation:fadein .9s ease both}
+  #event .et{color:#dfe5ee;font-size:15px;letter-spacing:2px;margin-bottom:8px}
+  #event .eb{color:#8b9ab5;font-size:13.5px;line-height:2;white-space:pre-wrap}
+  #event .ehl{color:#4f8f8b}
+  #nextBtn{
+    display:none;margin-top:14px;background:#141d2e;border:1px solid #2c3a52;color:#aebfd8;
+    padding:8px 26px;border-radius:3px;cursor:pointer;letter-spacing:3px;font-size:13px;
+  }
+  #nextBtn:hover{border-color:#4a7dd6;color:#fff}
+  .clockglitch{animation:glitch .4s steps(2) infinite}
+  @keyframes glitch{0%{transform:translateX(0)}50%{transform:translateX(1.5px)}100%{transform:translateX(-1.5px)}}
+</style>
+</head>
+<body>
+<div class="scene" id="scene"><img id="sceneImg" src="assets/media/temple.png" alt="">
+<!-- 热点在图片坐标系内定位，JS 会把 .scene 对齐到图片实际显示区域 -->
+<div class="spot" id="spWall" style="left:16%;top:30%"></div>
+<!-- 热点 2：白蝶 -->
+<div class="spot" id="spBfly" style="left:63%;top:58%"></div>
+<!-- 热点 3：收音机 -->
+<div class="spot" id="spRadio" style="left:40%;top:74%"></div>
+</div>
+<div id="dark"></div>
+
+<div class="hud">
+  <span>亥时三刻 · <b id="clock">21:45</b></span>
+  <span>找到 <b id="foundN">0</b> / 3</span>
+  <span><b>手电</b>：移动鼠标或手指</span>
+</div>
+
+<!-- 热点已移入 .scene -->
+
+<div id="event">
+  <div class="et" id="evTitle"></div>
+  <div class="eb" id="evBody"></div>
+  <button id="nextBtn">跟着脚印走 →</button>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(4)) main();
+function main(){
+  DJ.unlock(4);
+  const rvRuins = DJ.revisit("ruins");
+  const $ = id => document.getElementById(id);
+
+  /* 关键修复：.scene 对齐到图片显示矩形，热点（百分比）永远钉在画面内容上。
+     横屏（屏幕比图更"宽"）→ cover 铺满；竖屏（手机）→ contain 整图完整显示，保证所有热点可达 */
+  const scene = $("scene"), img = $("sceneImg");
+  function fitScene(){
+    const iw = img.naturalWidth || 1536, ih = img.naturalHeight || 1024;
+    const cover = innerWidth / innerHeight >= iw / ih;
+    const s = cover ? Math.max(innerWidth / iw, innerHeight / ih)
+                    : Math.min(innerWidth / iw, innerHeight / ih);
+    const w = iw * s, h = ih * s;
+    scene.style.width = w + "px";
+    scene.style.height = h + "px";
+    scene.style.left = ((innerWidth - w) / 2) + "px";
+    scene.style.top = ((innerHeight - h) / 2) + "px";
+  }
+  if (img.complete) fitScene();
+  else img.onload = fitScene;
+  addEventListener("resize", fitScene);
+  fitScene();
+
+  /* 手电筒跟随 */
+  const dark = $("dark");
+  const move = (x,y) => {
+    dark.style.setProperty("--fx", x + "px");
+    dark.style.setProperty("--fy", y + "px");
+  };
+  document.addEventListener("mousemove", e => move(e.clientX, e.clientY));
+  document.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
+
+  const found = { wall:false, bfly:false, radio:false };
+  const foundCount = () => Object.values(found).filter(Boolean).length;
+  const updHud = () => {
+    $("foundN").textContent = foundCount();
+    if (foundCount() === 3) setTimeout(showExit, 1600);
+  };
+
+  function show(title, body){
+    $("evTitle").textContent = title;
+    $("evBody").innerHTML = body;
+    $("event").classList.add("show");
+    DJ.sfx.read();
+  }
+  const hideEv = () => $("event").classList.remove("show");
+
+  /* 1. 墙上的刻痕 */
+  $("spWall").onclick = () => {
+    if (found.wall) return;
+    found.wall = true; $("spWall").classList.add("found");
+    show("墙上的刻痕",
+      `刻得很深，一笔一划，像描过很多遍：<span class="ehl">倒影自渡</span>。
+刻痕的落款处，有几个被抹掉的字母，看不清。
+但笔画的停顿位置，你在哪里见过——
+<span class="ehl">论坛里。每一篇帖子。每一次回复。</span>`);
+    DJ.flag("ruin_wall"); DJ.addIncense(1);
+    updHud();
+  };
+
+  /* 2. 白蝶 */
+  $("spBfly").onclick = () => {
+    if (found.bfly) return;
+    found.bfly = true; $("spBfly").classList.add("found");
+    show("一只白蝶",
+      `趴在断墙上。黑白。
+<span class="ehl">已经不动了。但翅膀是张开的，像随时准备飞。</span>
+你手机里那张照片，构图和它一模一样。
+——不是他模仿了蝴蝶。
+是他把蝴蝶摆好，才拍的。`);
+    DJ.flag("ruin_bfly"); DJ.addIncense(1);
+    updHud();
+  };
+
+  /* 3. 收音机（催泪点） */
+  $("spRadio").onclick = () => {
+    if (found.radio) return;
+    found.radio = true; $("spRadio").classList.add("found");
+    show("一台旧收音机",
+      `还开着。声音很小。
+放的是一首没有词的歌。0:08，然后从头再来。
+<span class="ehl">是空耳FM 的第八首。是空房间。</span>
+电是哪来的？没有人问。
+它就这么在这废墟里，替一个人，把房间空着的声音，放了一遍又一遍。${rvRuins >= 2 ? "\n<span class='ehl'>这一次，中途好像有半秒——有个人跟着哼了半个音。只有半个。</span>" : ""}`);
+    DJ.flag("ruin_radio"); DJ.addIncense(2);
+    updHud();
+  };
+
+  /* 集齐 → 出口 */
+  function showExit(){
+    document.body.classList.add("lit");
+    $("clock").classList.add("clockglitch");
+    $("clock").textContent = "21:53";
+    show("亥时 · 将尽",
+      `三样东西都看清了。
+你回头，准备离开——
+门口的雪地上有两行脚印。
+<span class="ehl">一深，一浅。走向同一个方向。</span>
+你抬起自己的脚，比了比。
+两行，都是你刚才走进来时踩的。
+<span class="ehl">只是其中一行，比你的鞋，小八码。</span>${rvRuins >= 2 ? "\n\n这一次，雪地上比上次多了一行字，是用手指划出来的：\n<span class='ehl'>「别数了。你每次都会回来数。」</span>" : ""}`);
+    $("nextBtn").style.display = "inline-block";
+    $("nextBtn").onclick = () => {
+      DJ.sfx.ok(); DJ.unlock(5);
+      document.body.classList.add("flash");
+      setTimeout(() => location.href = "mask.html", 400);
+    };
+  }
+
+  /* 点击空白处关闭事件浮层 */
+  $("event").addEventListener("click", e => { if (e.target.id === "event") hideEv(); });
+
+  /* 环境提示 */
+  DJ.envHint("微光一直在呼吸。手电移过去，它会更亮。", "ru0", 35);
+  DJ.envHint("废墟不怕黑。怕黑的是废墟里的人。", "ru1", 90);
+  DJ.envHint("呼吸着微光的地方，就是有人来过的地方。", "ru2", 160);
+
+  DJ.injectDivine({
+    clear:[ "上上签：亥时的废墟里，有三样东西替他活着。",
+            "上上签：刻痕、蝴蝶、收音机。一个都别放过。" ],
+    poetic:["中平签：雪地无声，脚印有话。",
+            "中平签：两行脚印，一个人走成两个人的样子。" ],
+    empty:[ "下下签：手电照不到的地方，也别怕。",
+            "下下签：收音机比你先找到这里。" ]
+  });
+}
+</script>
+</body>
+</html>

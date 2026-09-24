@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>倒影小组 - Reflexion BBS - 2008</title>
+<!-- 你看到这里了。你看东西，总是越过表面。 -->
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#0a0e14}
+  .wrapf{max-width:780px;margin:0 auto;padding:20px 16px 100px}
+  .fhdr{border-bottom:2px solid #22304a;padding-bottom:12px;display:flex;align-items:baseline;gap:14px}
+  .fhdr h1{color:#dfe5ee;font-size:24px;letter-spacing:6px}
+  .fhdr span{color:#42536f;font-size:11px;letter-spacing:2px}
+  .navbar{background:#0e141d;border:1px solid #1c2c4a;border-top:none;padding:7px 14px;font-size:12.5px;color:#5a6a84;display:flex;gap:18px;flex-wrap:wrap}
+  .navbar a{color:#5a6a84;text-decoration:none;letter-spacing:2px}
+  .navbar a:hover{color:#aebfd8}
+  .thread{border-bottom:1px solid #141f36;padding:11px 8px;display:flex;gap:10px;align-items:center;cursor:pointer}
+  .thread:hover{background:#0e141d}
+  .thread .tavatar{width:30px;height:30px;border-radius:3px;flex-shrink:0;background:#0d1626;overflow:hidden}
+  .thread .ttitle{color:#c9d6ea;font-size:14.5px;letter-spacing:1px;flex:1}
+  .thread .tmeta{color:#33415e;font-size:11px;text-align:right;line-height:1.5;letter-spacing:1px}
+  .pin{color:#4f8f8b;border:1px solid #1c3a38;font-size:10px;padding:0 6px;border-radius:2px;margin-right:6px}
+  .searchrow{display:flex;gap:8px;margin:14px 0;align-items:center}
+  .searchrow input{max-width:300px;font-size:13px;padding:7px 12px;border-radius:99px}
+  .pager{display:flex;gap:6px;justify-content:center;margin:20px 0;font-size:13px}
+  .pager a{color:#5a6a84;text-decoration:none;border:1px solid #1c2c4a;padding:2px 10px;border-radius:3px}
+  .pager a:hover{color:#aebfd8;border-color:#4a7dd6}
+  .view{display:none}
+  .view.show{display:block;animation:fadein .8s ease both}
+  .backlist{display:inline-block;margin:14px 0 4px;color:#5a6a84;font-size:12.5px;letter-spacing:2px;text-decoration:none;cursor:pointer}
+  .backlist:hover{color:#aebfd8}
+  .postbody{color:#c9d6ea;line-height:2;white-space:pre-wrap;font-size:14.5px}
+  .postmeta{color:#42536f;font-size:11.5px;letter-spacing:1px;margin-bottom:14px}
+  .floor{border-top:1px solid #141f36;padding:14px 4px;display:flex;gap:14px}
+  .floor .favatar{width:44px;height:44px;border-radius:4px;background:#0d1626;flex-shrink:0;overflow:hidden}
+  .floor .fhead{font-size:12px;color:#5a6a84;margin-bottom:6px;letter-spacing:1px}
+  .reply{font-size:14px;color:#9fb0ca;line-height:1.9;white-space:pre-wrap}
+  .btn88{display:inline-block;background:#141d2e;border:1px solid #2c3a52;color:#aebfd8;padding:6px 18px;border-radius:3px;cursor:pointer;letter-spacing:3px;font-size:13px;margin-top:10px}
+  .btn88:hover{border-color:#4a7dd6;color:#fff}
+  #butterflyBig{width:200px;cursor:pointer;user-select:none;transition:filter .4s}
+  #butterflyBig:hover{filter:drop-shadow(0 0 12px rgba(174,191,216,.25))}
+  #burnWord{color:#c0564f;opacity:0;transition:opacity 2s;letter-spacing:6px;font-size:15px;margin-top:10px}
+  .mirror8{width:150px;height:190px;border:4px solid #2c3a52;border-radius:6px;margin:16px auto;
+    background:linear-gradient(135deg,#1a2436 0%,#0d1420 60%,#22314d 100%);position:relative;overflow:hidden}
+  .mirror8::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(174,191,216,.12) 45%,transparent 60%)}
+  .verdict{background:#0e141d;border:1px solid #1c3a38;padding:18px;margin-top:12px}
+  .verdict .num{font-family:var(--mono);color:#4f8f8b;font-size:30px;letter-spacing:2px}
+  .trashlink{color:#33415e;font-size:11px;letter-spacing:2px;cursor:pointer;text-decoration:underline dotted}
+</style>
+</head>
+<body>
+<div class="moon"></div>
+
+<div class="wrapf">
+  <div class="fhdr"><h1>倒影小组</h1><span>Reflexion BBS · since 2008 · 在线会员：1</span></div>
+  <div class="navbar">
+    <a href="#" data-view="list">首页</a>
+    <a href="#" data-view="rules">版规</a>
+    <a href="#" data-view="hall">精华区</a>
+    <a href="#" id="searchNav">搜索</a>
+    <a href="search.html" id="sosoNav">搜搜</a>
+    <a href="#" id="trashNav" data-view="bin">回收站</a>
+  </div>
+
+  <!-- ===== 列表 ===== -->
+  <div class="view show" id="v_list">
+    <div class="searchrow" id="searchRow" style="display:none">
+      <input type="text" id="forumSearch" placeholder="搜帖子……试试『孤独』" autocomplete="off">
+      <div class="small" id="forumSearchOut"></div>
+    </div>
+
+    <div id="searchResults" style="display:none"></div>
+
+    <div id="threadList"></div>
+
+    <div class="pager" id="pager">
+      <a href="#" style="color:#33415e">‹</a>
+      <a href="#" style="color:#aebfd8">1</a>
+      <a href="#" id="nextPage">下一页 ›</a>
+    </div>
+    <div class="center small" style="letter-spacing:2px">页码直达：<span id="pagerNums"></span></div>
+  </div>
+
+  <!-- ===== 帖子 ===== -->
+  <div class="view" id="v_thread">
+    <a href="#" id="threadBack" class="backlist">« 返回帖子列表</a>
+    <div id="threadBody"></div>
+  </div>
+
+  <!-- ===== 版规 ===== -->
+  <div class="view" id="v_rules">
+    <h3 class="sub" style="margin:20px 0;letter-spacing:4px">倒影小组 · 版规</h3>
+    <div class="verdict" style="line-height:2.2;color:#c9d6ea;font-size:14px;letter-spacing:1px">
+      一、本组只讨论一个话题：自己。<br>
+      二、本组不设「回复」考核。已读，不回，是传统。请尊重传统。<br>
+      三、发帖前请自检：你想说的这句话，上一个想说话的人是否已经说过。如果是，请照常发。<br>
+      四、删帖不予通知。被删的帖子会进入回收站。回收站仅楼主本人可见——也就是说，只有你删得掉你的话。<br>
+      五、本组仅有一位管理员，注册于 2008-08-08。<br>
+      六、版规共六条。第六条不存在。
+    </div>
+    <div class="small" style="margin-top:14px;color:#33415e;letter-spacing:1px">最后修订：2008-08-08 · 修订人：（空白）</div>
+  </div>
+
+  <!-- ===== 精华区 ===== -->
+  <div class="view" id="v_hall">
+    <h3 class="sub" style="margin:20px 0;letter-spacing:4px">精华区 · 由管理员人工挑选 · 共 4 篇</h3>
+    <div class="thread" data-hall="butterfly">
+      <div class="tavatar"></div>
+      <div class="ttitle"><span class="pin">图</span>今天在废墟里拍到的一只蝴蝶。黑白。本来想调色。</div>
+      <div class="tmeta">楼主：深水无鱼<br>回复 8 · 08-08</div>
+    </div>
+    <div class="thread" data-hall="2">
+      <div class="tavatar"></div>
+      <div class="ttitle">测试：你会把『我没事』说出口吗</div>
+      <div class="tmeta">楼主：静音模式<br>回复 8 · 08-16</div>
+    </div>
+    <div class="thread" data-hall="7">
+      <div class="tavatar"></div>
+      <div class="ttitle">晚安。这个版块每天晚上都有一句晚安，从来没有少过一天</div>
+      <div class="tmeta">楼主：无人接听<br>回复 8 · 09-09</div>
+    </div>
+    <div class="thread" data-hall="locked">
+      <div class="tavatar"></div>
+      <div class="ttitle"><span class="pin">锁</span>第 8 页存档（管理员加锁）</div>
+      <div class="tmeta">楼主：（无）<br>回复 — · —</div>
+    </div>
+    <div class="small" style="margin-top:16px;color:#33415e;letter-spacing:1px">精华区的挑选标准，管理员从未公布过。有人猜是文笔，有人猜是诚实。</div>
+  </div>
+
+  <!-- ===== 回收站 ===== -->
+  <div class="view" id="v_bin">
+    <h3 class="sub" style="margin:20px 0;letter-spacing:4px">回收站 · 仅本人可见 · 已删除 8 条 · 保留 3 条</h3>
+    <div class="thread" id="binThread">
+      <div class="tavatar" id="binAvatar"></div>
+      <div class="ttitle">【树洞】家长会那天，我签了两个名字 <span class="pin">已删除</span></div>
+      <div class="tmeta">深水无鱼 · 删除于 8 天前<br>没人回复，还是删了</div>
+    </div>
+    <div class="thread" id="binThread2">
+      <div class="tavatar" id="binAvatar2"></div>
+      <div class="ttitle">【记录】搬家第 8 次。箱子还是那几个，少的那一件每次都不一样 <span class="pin">已删除</span></div>
+      <div class="tmeta">深水无鱼 · 删除于 8 天前<br>这次少的是一台旧收音机</div>
+    </div>
+    <div class="thread" id="binThread3">
+      <div class="tavatar" id="binAvatar3"></div>
+      <div class="ttitle">【树洞】不是不想回那个电话。是怕一接起来，声音先塌了 <span class="pin">已删除</span></div>
+      <div class="tmeta">深水无鱼 · 删除于 8 天前<br>第 8 次响起时，他看着它暗下去</div>
+    </div>
+    <div class="small" style="margin-top:20px;letter-spacing:1px">这个回收站只删过一个人的帖子。发帖人和删除人，是同一个 ID。</div>
+  </div>
+
+  <div class="center" style="margin-top:40px;color:#33415e;font-size:11px;letter-spacing:2px">
+    倒影小组 Reflexion BBS · 服务器已于 2008-08-08 启动 · 当前在线 1 人
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(3)) main();
+function main(){
+  DJ.unlock(3);
+  const $ = id => document.getElementById(id);
+
+  /* 蝴蝶局部头像（八块拼图） */
+  const bpart = (r,fill) => `<svg width="30" height="30" viewBox="0 0 24 24"><g transform="translate(${-r*6},0)"><g fill="${fill}"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></g></svg>`;
+  const fills = ["#c9d6ea","#8b9ab5","#5a6a84","#aebfd8","#6d80a0","#7e90ad","#9fb0ca","#42536f"];
+
+  const users = ["深水无鱼","静音模式","北岛以北","倒影先生","未命名文件夹","凌晨四点的鲸","无人接听","白噪"];
+  const titles = [
+    "寻找一个和我说一样话的人",
+    "有人也觉得，热闹是一群人的孤单吗",
+    "测试：你会把『我没事』说出口吗",
+    "我数过了，我和熟络的朋友大概每八天聊一次，很规律，像潮汐",
+    "怎么样才能不在乎别人怎么看我（在线等，挺急的）",
+    "把『哈哈哈』打出来的时候，你们真的在笑吗",
+    "一个理性的问题：如何用逻辑证明『被理解』是存在的",
+    "晚安。这个版块每天晚上都有一句晚安，从来没有少过一天"
+  ];
+  const list = $("threadList");
+  const rvForum = DJ.revisit("forum");
+  if (rvForum >= 2){
+    /* 异变：多出一篇只对你可见的系统帖。它在数你。 */
+    const st = document.createElement("div"); st.className = "thread";
+    st.innerHTML = `<div class="tavatar" style="background:#0a0e14"></div>
+      <div class="ttitle"><span class="pin">系统</span>欢迎回来。你是今天第 ${rvForum >= 4 ? "88" : "8"} 位访客。</div>
+      <div class="tmeta">未命名文件夹 · 刚刚<br>本帖仅你可见</div>`;
+    st.onclick = () => {
+      show("v_thread");
+      $("threadBody").innerHTML = `
+        <div class="floor"><div class="favatar" style="background:#0a0e14"></div><div style="flex:1">
+        <div class="fhead">未命名文件夹 · 刚刚 · 本帖仅你可见</div>
+        <div class="postbody">这里没有新内容。
+只是想让你知道：你在数这个论坛的时候，<span style="color:#4f8f8b">这个论坛也在数你。</span>
+
+你是今天第 ${rvForum >= 4 ? "88" : "8"} 位访客。
+这句话的另一个意思是——今天，一个访客都没有。</div>
+        </div></div>`;
+      DJ.sfx.read();
+      window.scrollTo(0,0);
+    };
+    list.appendChild(st);
+  }
+  users.forEach((u,i) => {
+    const t = document.createElement("div"); t.className = "thread";
+    t.innerHTML = `<div class="tavatar">${bpart(i, fills[i])}</div>
+      <div class="ttitle">${titles[i]}</div>
+      <div class="tmeta">楼主：${u}<br>回复 8 · 08-08</div>`;
+    t.onclick = () => openThread(i);
+    list.appendChild(t);
+  });
+
+  /* 置顶帖：废墟蝴蝶图（C19 的入口。它必须真的能被看到） */
+  const bp = document.createElement("div"); bp.className = "thread";
+  bp.innerHTML = `<div class="tavatar">${bpart(0, fills[0])}</div>
+    <div class="ttitle"><span class="pin">图</span>今天在废墟里拍到的一只蝴蝶。黑白。本来想调色。</div>
+    <div class="tmeta">楼主：深水无鱼<br>回复 8 · 08-08</div>`;
+  bp.onclick = () => butterflyPost();
+  list.insertBefore(bp, list.firstChild);
+
+  /* 帖子视图：每帖正文独一无二 */
+  const bodies = [
+    /* 1 寻找一个和我说一样话的人 */
+    `说真的，我不是来交友的。
+我是在找一个变量。理论模型是这样的：如果这个世界上有七十亿人，
+那么存在另一个人，和我用完全一样的方式孤独——的概率，不为零。
+我在等这个概率落地。
+
+证据我都有。只是证据不说话。`,
+    /* 2 热闹是一群人的孤单吗 */
+    `昨天有人对我说：「你是我认识的人里，过得最好的一个。」
+我说谢谢。用时 0.4 秒。
+我的相册确实好看。每一张里我都在笑，笑得很标准，
+标准到我可以一边笑、一边想别的事。
+他们说我过得光鲜。我没有反驳，反驳需要力气。
+
+（这条帖子我编辑了 8 次。删掉的七版，写的都是实话。）`,
+    /* 3 测试：你会把『我没事』说出口吗 */
+    `自制测试，就一道题：
+朋友问「你还好吗」，你心里正在塌。
+A. 说「我没事」，然后转移话题
+B. 说「我没事」，并且配上语气词
+C. 不说话，等对方自己放弃
+我把三个选项都试过了。得分一样：零。`,
+    /* 4 每八天聊一次像潮汐 */
+    `做了个表格。8 月 1 日，聊了。8 月 9 日，聊了。8 月 17 日，聊了。
+不是约好的。是双方默契得可怕。
+今天 8 月 25 日。我盯着对话框，决定打破这个循环——
+不主动。
+结果对面先发来了消息。时间是 20:08。
+你看，连反抗都被安排好了。`,
+    /* 5 怎么才能不在乎别人怎么看我 */
+    `在线等，挺急的。
+具体场景：我说了一句话，对方沉默了三秒。
+这三秒里我把那句话重播了 40 遍，测算了 8 种对方的内心活动。
+——
+（编辑）不用回了。我已经装作不在乎了。
+装得还挺像。`,
+    /* 6 打『哈哈哈』的时候你们真的在笑吗 */
+    `统计了下我上个月的聊天记录：
+「哈哈」出现 208 次，「哈哈哈」出现 88 次。
+四个以上「哈」的，只有 3 次，全是发给客户的。
+所以我笑的最高纪录是三个哈。你们呢。
+（评论区不用安慰我。这是学术讨论。）`,
+    /* 7 如何用逻辑证明『被理解』存在 */
+    `前提一：理解需要语言。
+前提二：语言在翻译的过程中必然损耗。
+结论：被理解 = 对方理解了「损耗之后的我」。
+所以被理解的从来不是我，是我的翻译。
+求反驳。真的，求反驳。`,
+    /* 8 晚安 */
+    `第 2920 句晚安。
+今天没有发生任何事。没有事，也是一天。
+版规说要保持水帖质量，那就说一句：
+今天冰箱的声音，比昨天轻了一度。
+不知道是不是它也累了。
+晚安。`
+  ];
+  function openThread(i){
+    show("v_thread");
+    const replies = [
+      "抱抱楼主。虽然我不认识你。",
+      "看见你了。",
+      "哈哈哈同感哈哈哈",
+      "顶。让更多人看见。",
+      "楼主文笔很好。好到不像来发帖，像来求救的。",
+      "在的。",
+      "第八个回复。不知道为什么就想占这个位置。",
+      "我一直都在啊。你怎么不回头。"
+    ];
+    let html = `<div class="floor">
+      <div class="favatar">${bpart(i, fills[i])}</div>
+      <div style="flex:1">
+        <div class="fhead">${users[i]} · 楼主 · 注册于 2008-08-08</div>
+        <div class="postbody">${titles[i]}
+
+${bodies[i]}</div>
+      </div></div>`;
+    for (let r = 0; r < 8; r++){
+      const ui = (i + r) % 8;
+      html += `<div class="floor">
+        <div class="favatar">${bpart(ui, fills[ui])}</div>
+        <div style="flex:1">
+          <div class="fhead">${users[ui]} · ${r+1}楼 · 注册于 2008-08-08</div>
+          <div class="reply">${replies[r]}</div>
+        </div></div>`;
+    }
+    $("threadBody").innerHTML = html;
+    if (!DJ.has("noticed_same")){
+      DJ.flag("noticed_same");
+      setTimeout(() => {}, 100);
+    }
+    DJ.addIncense(1); // 只在第一次给？简单起见每帖+1，香火不设上限
+    window.scrollTo(0,0);
+  }
+
+  /* 笔迹鉴定（第一次进帖后出现的环境彩蛋） */
+  function bijiCheck(){
+    show("v_thread");
+    $("threadBody").innerHTML = `
+      <h3 class="sub" style="letter-spacing:4px;margin:16px 0">倒影小组 · 自助笔迹鉴定（beta）</h3>
+      <div class="verdict">
+        <div class="small">正在比对样本……</div>
+        <div class="mono" id="bijilog" style="color:#5a6a84;font-size:12px;margin-top:8px;min-height:80px;white-space:pre-wrap"></div>
+        <div class="num" id="bijinum" style="opacity:0;transition:opacity 1.5s">99.7%</div>
+        <div class="small" id="bijitxt" style="opacity:0;transition:opacity 1.5s;margin-top:6px">样本 A（楼主发帖）与样本 B（任意回帖）出自同一只手。可能性 99.7%。<br>（本工具仅供参考。本工具万一是对的。）</div>
+      </div>`;
+    const log = $("bijilog");
+    const steps = ["读取样本 A…… 14 帖 281 字","读取样本 B…… 62 帖 1408 字","分词……用词频率……句长分布……标点习惯……","『我没事』出现次数：A 17 次 / B 41 次","破折号偏好：一致。省略号偏好：一致。","停顿位置：一致。","……"];
+    let k = 0;
+    const t = setInterval(() => {
+      log.textContent += steps[k] + "\n"; DJ.sfx.type(); k++;
+      if (k >= steps.length){
+        clearInterval(t);
+        $("bijinum").style.opacity = 1; $("bijitxt").style.opacity = 1;
+        DJ.sfx.read(); DJ.flag("biji_997"); DJ.addIncense(1);
+      }
+    }, 700);
+  }
+  /* 进入任何帖子后，侧栏出现鉴定入口：挂在导航里 */
+  const nav = document.querySelector(".navbar");
+  const bijiLink = document.createElement("a"); bijiLink.href = "#"; bijiLink.textContent = "笔迹鉴定";
+  bijiLink.style.display = "none";
+  nav.appendChild(bijiLink);
+  bijiLink.onclick = e => { e.preventDefault(); bijiCheck(); };
+  list.addEventListener("click", () => { if (DJ.has("noticed_same")) bijiLink.style.display = "inline"; }, {once:false});
+  // 打开帖子后显示
+  const obs = new MutationObserver(() => { if (DJ.has("noticed_same")) bijiLink.style.display = "inline"; });
+  obs.observe(list, {childList:true});
+  setTimeout(() => bijiLink.style.display = "inline", 60000); // 兜底
+
+  /* C19：白蝴蝶图点 8 次 */
+  function butterflyPost(){
+    show("v_thread");
+    $("threadBody").innerHTML = `
+      <div class="floor"><div class="favatar">${bpart(0,fills[0])}</div><div style="flex:1">
+      <div class="fhead">深水无鱼 · 楼主 · 注册于 2008-08-08</div>
+      <div class="postbody">今天在废墟里拍到的一只蝴蝶。黑白。本来想调色，后来觉得黑白更好。</div>
+      <div style="text-align:center;margin:18px 0">
+        <div id="butterflyBig">
+          <svg width="200" height="160" viewBox="0 0 24 24"><g fill="#dfe5ee"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></svg>
+        </div>
+        <div id="burnWord">三刻</div>
+      </div></div></div>`;
+    let n = 0;
+    $("butterflyBig").onclick = () => {
+      n++; DJ.sfx.type();
+      $("butterflyBig").style.transform = `scale(${1 + n*0.005})`;
+      if (n >= 8){
+        $("burnWord").style.opacity = 1;
+        $("burnWord").classList.add("glitch");
+        DJ.sfx.read(); DJ.flag("butterfly_8"); DJ.addIncense(1);
+      }
+    };
+    window.scrollTo(0,0);
+  }
+
+  /* 原生家庭线：X 自己被删掉的碎片帖 */
+  $("binAvatar").innerHTML = bpart(0, fills[0]);
+  $("binAvatar2").innerHTML = bpart(3, fills[3]);
+  $("binAvatar3").innerHTML = bpart(6, fills[6]);
+  const binBodies = {
+    binThread: `【树洞】家长会那天，我签了两个名字
+
+通知单上要签两个名字。
+一个是我自己的，签得歪歪扭扭。
+另一个我练了很多年——
+现在闭着眼睛，都写得比自己的还熟练。
+
+冰箱里的水果永远是满的。
+有个电话，不接，它也一定会再打来。
+
+这些我都记得。
+
+发完就删。然后出门走了走。
+他们说这叫散步。
+我说这叫逃。`,
+    binThread2: `【记录】搬家第 8 次。箱子还是那几个，少的那一件每次都不一样
+
+这次少的是一台旧收音机。
+其实不是少。是我没带。
+有些东西你搬来搬去，最后发现，
+你留下它，不是因为它值钱，
+是因为你终于承认：
+你需要的不是它的声音，是有人在隔壁屋骂你音量太大。
+
+照片一张没扔。都在云屉里，跟着我搬了八次。`,
+    binThread3: `【树洞】不是不想回那个电话。是怕一接起来，声音先塌了
+
+第 1 次响，我在对明天的发言稿。稿子很好，好得不像我写的。
+第 2 次响，我在挑下周上台要穿的衬衫。
+第 3 次响，我在洗澡。水很烫。
+第 4 到第 7 次响，我在练习语气。
+第 8 次响，它停了。
+我看着屏幕暗下去，松了一口气，
+然后为这口气，恨了自己一晚上。
+
+第二天，它又响了。第 9 次。
+你看。
+还是有人，不肯把我弄丢。
+
+其实那天夜里我回了一条。写了很长。
+发送键按下去的时候，它说：未送达。
+到现在，也还是未送达。`
+  };
+  ["binThread","binThread2","binThread3"].forEach(id => {
+    $(id).onclick = () => {
+      show("v_thread");
+      $("threadBody").innerHTML = `
+        <div class="floor"><div class="favatar">${$(id.replace("Thread","Avatar").replace("binThread2","binAvatar2").replace("binThread3","binAvatar3")).innerHTML}</div><div style="flex:1">
+        <div class="fhead">深水无鱼 · 楼主 · 已删除</div>
+        <div class="postbody">${binBodies[id]}</div>
+        </div></div>`;
+      DJ.flag("saw_family"); DJ.flag("read_bin"); DJ.addIncense(1); DJ.sfx.read();
+      window.scrollTo(0,0);
+    };
+  });
+
+  /* C23：搜索"孤独" */
+  $("searchNav").onclick = e => { e.preventDefault(); $("searchRow").style.display = "flex"; $("forumSearch").focus(); };
+  $("forumSearch").addEventListener("input", () => {
+    const q = $("forumSearch").value.trim();
+    const out = $("forumSearchOut");
+    if (!q){ $("searchResults").style.display = "none"; out.textContent = ""; return; }
+    if (q.includes("孤独")){
+      const dates = ["08-08","08-16","08-24","09-01","09-09","09-17","09-25","10-03"];
+      let html = `<div class="small" style="margin:8px 0">找到 8 条结果：</div>`;
+      titles.forEach((t,i) => {
+        html += `<div class="thread" data-t="${i}"><div class="tavatar">${bpart(i,fills[i])}</div>
+          <div class="ttitle">${t}</div><div class="tmeta">深水无鱼 等<br>${dates[i]}</div></div>`;
+      });
+      $("searchResults").innerHTML = html; $("searchResults").style.display = "block";
+      $("searchResults").querySelectorAll(".thread").forEach(el => el.onclick = () => openThread(parseInt(el.dataset.t)));
+      out.innerHTML = `<span style="color:#4f8f8b">注意日期。</span>`;
+      DJ.flag("saw_8day"); DJ.addIncense(1);
+    } else if (q.includes("顺其自然")){
+      out.innerHTML = `<span style="color:#c0564f">1 条结果已被管理员永久删除。</span>`;
+    } else {
+      out.textContent = "没有找到。";
+    }
+  });
+
+  /* C24：分页循环 & 8 楼 */
+  $("nextPage").onclick = e => { e.preventDefault(); DJ.sfx.err(); document.body.classList.add("shake"); setTimeout(()=>document.body.classList.remove("shake"),450); };
+  const nums = $("pagerNums");
+  for (let i = 1; i <= 10; i++){
+    const a = document.createElement("a"); a.href = "#"; a.textContent = i;
+    a.style.margin = "0 3px";
+    a.onclick = e => {
+      e.preventDefault();
+      if (i === 8){ openFloor8(); } else { DJ.sfx.err(); a.style.color = "#33415e"; }
+    };
+    nums.appendChild(a);
+  }
+  function openFloor8(){
+    show("v_thread");
+    /* 环环相扣：第 8 页只给集齐三样跨页证据的人开门。
+       青云观的纸条 → 蝴蝶图点 8 次 → 笔迹鉴定，缺一不可。 */
+    const need = [
+      { f:"found_slip",  hint:"香炉底下的东西，你还没有翻出来。" },
+      { f:"butterfly_8", hint:"废墟里那只蝴蝶，你还没有看清。" },
+      { f:"biji_997",    hint:"这个论坛里到底有几个人，还没有人替你数过。" }
+    ];
+    const missing = need.filter(n => !DJ.has(n.f));
+    if (missing.length){
+      let html = `<div class="floor"><div class="favatar">${bpart(1,fills[1])}</div><div style="flex:1">
+        <div class="fhead">系统 · 第 8 页</div>
+        <div class="postbody">第 8 页有 8 个楼层。</div></div></div>`;
+      for (let r = 0; r < 8; r++){
+        html += `<div class="floor"><div class="favatar" style="background:#0a0e14"></div>
+          <div style="flex:1"><div class="fhead">${71+r}楼 · 匿名</div>
+          <div class="reply" style="color:#33415e">该楼层仅对特定成员可见。</div></div></div>`;
+      }
+      html += `<div class="verdict"><div class="small" style="letter-spacing:1px">
+        这一页不看陌生人。它数过你身上的证据——还差 ${missing.length} 样。<br><br>
+        ${missing.map(m => "· " + m.hint).join("<br>")}</div></div>`;
+      $("threadBody").innerHTML = html;
+      DJ.sfx.err();
+      window.scrollTo(0,0);
+      return;
+    }
+    $("threadBody").innerHTML = `
+      <div class="floor"><div class="favatar">${bpart(1,fills[1])}</div><div style="flex:1">
+      <div class="fhead">未命名文件夹 · 楼主 · 注册于 2008-08-08</div>
+      <div class="postbody center">
+        <div class="mirror8"></div>
+        8 楼没有帖子。只有一面镜子。
+
+你找的人没有丢。他只是不敢回头。</div>
+      <div class="verdict"><div class="small" style="letter-spacing:1px">
+        镜沿刻着一行小字：时辰对的人，才进得来。<br>
+        时辰这种东西，散落在你走过的地方——纸条说过一半，蝴蝶烧出过一半。</div>
+        <input type="text" id="whenInput" autocomplete="off" placeholder="什么时辰？" style="margin-top:10px;background:#0a0e14;color:#dfe5ee;border:1px solid #33415e;padding:9px 14px;width:240px;letter-spacing:3px;font-size:14px;text-align:center">
+        <div class="small" id="whenErr" style="color:#8a4b46;margin-top:6px;min-height:16px"></div>
+      </div>
+      <div class="center"><span class="btn88" id="toMask" style="display:none">推门进去 →</span></div>
+      </div></div>`;
+    let wfails = 0;
+    $("whenInput").addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      const v = $("whenInput").value.replace(/[\s点分]/g, "");
+      if (v.includes("亥时三刻") || v === "21:45" || v === "2145" || v === "2145"){
+        DJ.sfx.read(); DJ.flag("found_floor8");
+        $("whenErr").textContent = "";
+        $("whenInput").disabled = true;
+        $("toMask").style.display = "inline-block";
+        $("toMask").classList.add("glitch");
+      } else {
+        wfails++;
+        $("whenErr").textContent = wfails >= 3 ? "纸条说了前一半。蝴蝶烧出了后一半。" : "镜子不说话。它只是等。";
+        DJ.sfx.err();
+      }
+    });
+    $("toMask").onclick = () => {
+      DJ.unlock(4); DJ.sfx.ok();
+      document.body.classList.add("flash");
+      setTimeout(() => location.href = "ruins.html", 400);
+    };
+    window.scrollTo(0,0);
+  }
+
+  /* 视图切换 */
+  function show(id){
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("show"));
+    $(id).classList.add("show");
+    $("searchResults").style.display = "none";
+  }
+  /* 帖子页 → 返回列表：看完这篇，接着看下一篇，不用退出页面 */
+  $("threadBack").onclick = e => { e.preventDefault(); show("v_list"); window.scrollTo(0,0); DJ.sfx.click(); };
+  document.querySelectorAll(".navbar a[data-view]").forEach(a => {
+    a.onclick = e => { e.preventDefault(); show("v_" + a.dataset.view); window.scrollTo(0,0); DJ.sfx.click(); };
+  });
+
+  /* 精华区：头像 + 跳转 */
+  const hallMap = { butterfly:"butterfly", "2":2, "7":7 };
+  document.querySelectorAll("#v_hall .thread").forEach(el => {
+    const key = el.dataset.hall;
+    const av = el.querySelector(".tavatar");
+    if (key === "butterfly") av.innerHTML = bpart(0, fills[0]);
+    else if (key === "locked") av.innerHTML = `<svg width="30" height="30" viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="9" rx="1.5" fill="none" stroke="#33415e" stroke-width="1.6"/><path d="M8.5 10 V7.5 a3.5 3.5 0 0 1 7 0 V10" fill="none" stroke="#33415e" stroke-width="1.6"/></svg>`;
+    else av.innerHTML = bpart(parseInt(key), fills[parseInt(key)]);
+    el.onclick = () => {
+      if (key === "butterfly") { butterflyPost(); }
+      else if (key === "locked") {
+        show("v_thread");
+        $("threadBody").innerHTML = `<div class="floor"><div class="favatar"></div><div style="flex:1">
+          <div class="fhead">系统 · 加锁存档</div>
+          <div class="postbody">锁着的。钥匙不在精华区。<br>去列表的页码里数一数。</div></div></div>`;
+        DJ.sfx.err(); window.scrollTo(0,0);
+      }
+      else openThread(hallMap[key]);
+    };
+  });
+
+  /* 环境提示 */
+  DJ.envHint("这个论坛的会员注册日期……再看一眼。", "fm1", 80);
+  DJ.envHint("蝴蝶照片不怕点。多点几下。", "fm2", 180);
+  DJ.envHint("浏览器的右键里，有一个叫『查看页面源代码』的功能。这里的人喜欢留言在那里。", "fm3", 280);
+  DJ.envHint("『下一页』回不去的地方，试试页码。但第 8 页只认证据：香炉、蝴蝶、笔迹。", "fm4", 400);
+
+  DJ.injectDivine({
+    clear:[ "上上签：帖子的楼层，数到八。页码，也数到八。",
+            "上上签：鉴定工具在导航栏。答案是一个很小的百分数前面，有两个九。",
+            "上上签：回收站的链接，颜色很淡，但它在。"],
+    poetic:["中平签：满座衣冠皆似雪，座中无一外人。", "中平签：一花八瓣，瓣瓣同根。"],
+    empty:[ "下下签：论坛很旧了，别嫌它慢。", "下下签：搜『孤独』看看。" ]
+  });
+}
+</script>
+</body>
+</html>

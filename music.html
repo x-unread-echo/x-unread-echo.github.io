@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>空耳FM — 听见没人在听的声音</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#0b0e14;font-family:-apple-system,"PingFang SC",sans-serif;color:#d5dbe6}
+  .m-wrap{max-width:680px;margin:0 auto;padding:0 18px 130px}
+  .m-top{display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #1a2230}
+  .m-logo{font-size:18px;font-weight:700;letter-spacing:2px}
+  .m-logo b{color:#4a7dd6}
+  .m-logo .sm{font-size:10px;color:#4d586c;letter-spacing:2px;font-weight:400;display:block}
+  .cover{
+    width:120px;height:120px;border-radius:12px;flex-shrink:0;
+    background:linear-gradient(135deg,#131c2e 0%,#1c2a45 60%,#0a1220 100%);
+    display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+  }
+  .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(174,191,216,.12) 45%,transparent 60%)}
+  .cover span{font-family:"Songti SC",serif;color:#8b9ab5;font-size:13px;letter-spacing:3px;text-align:center;line-height:2}
+  .pl-head{display:flex;gap:20px;padding:24px 0;align-items:center}
+  .pl-info h2{font-size:19px;font-weight:600;letter-spacing:1px}
+  .pl-info .pmeta{color:#4d586c;font-size:12px;margin-top:8px;line-height:2;letter-spacing:.5px}
+  .pl-info .pdesc{color:#8b93a3;font-size:13px;margin-top:8px;line-height:1.9}
+  .tracks{border-top:1px solid #1a2230}
+  .tr{display:flex;align-items:center;gap:14px;padding:12px 8px;border-bottom:1px solid #141b26;cursor:pointer;border-radius:6px}
+  .tr:hover{background:#10161f}
+  .tr.playing{background:#121b2c}
+  .tr .no{width:24px;text-align:center;color:#4d586c;font-size:13px;font-family:Menlo,monospace}
+  .tr.playing .no{color:#4a7dd6}
+  .tr .tt{flex:1;font-size:14.5px;color:#c3cad8;letter-spacing:.5px}
+  .tr.playing .tt{color:#fff}
+  .tr .dur{color:#4d586c;font-size:12px;font-family:Menlo,monospace}
+  .tr .init{color:#33415e;font-size:11px;font-family:"Songti SC",serif;width:14px;text-align:center}
+  .playerbar{
+    position:fixed;bottom:0;left:0;right:0;background:#0d1420ee;border-top:1px solid #1a2230;
+    backdrop-filter:blur(6px);padding:12px 20px;display:none;z-index:30;
+  }
+  .playerbar.show{display:block}
+  .pb-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:16px}
+  .pb-title{font-size:14px;color:#e8edf5;width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pb-wave{flex:1;height:30px;display:flex;align-items:center;gap:2px}
+  .pb-wave i{width:3px;background:#223356;border-radius:2px;transition:background .3s}
+  .pb-wave.live i{animation:wv 1s ease-in-out infinite alternate}
+  @keyframes wv{from{transform:scaleY(.4)}to{transform:scaleY(1.3)}}
+  .lyric{
+    position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:29;
+    max-width:600px;width:92vw;text-align:center;color:#8b93a3;font-size:13.5px;line-height:2.1;
+    letter-spacing:1px;display:none;font-family:"Songti SC",serif;white-space:pre-wrap;
+  }
+  .lyric.show{display:block}
+  .lyric .hl{color:#aebfd8}
+</style>
+</head>
+<body>
+<div class="m-wrap">
+  <div class="m-top">
+    <div class="m-logo">空耳<b>FM</b><span class="sm">听见没人在听的声音 · 在线 1 人</span></div>
+    <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
+    <button class="corner" style="position:static" id="toChat">‹ 未 读</button>
+  </div>
+
+  <div class="pl-head">
+    <div class="cover"><span>我把心事<br>排成队列</span></div>
+    <div class="pl-info">
+      <h2>我把心事排成队列</h2>
+      <div class="pmeta">创建者：深水无鱼 · 8 首 · 创建于 8 月 8 日 08:08 · 收藏 8 人 · 播放 8 次</div>
+      <div class="pdesc">全部是没人听过的歌。没有人听过的歌，就全是他的歌。<br>
+      他说过：听懂这张歌单的人，就能找到他。（听懂的方式写在歌名里。他没说，但你已经看到了。）</div>
+    </div>
+  </div>
+
+  <div class="tracks" id="tracks"></div>
+  <p style="color:#232d3f;font-size:10px;letter-spacing:1px;margin-top:30px;text-align:center">BGM: Kevin MacLeod (incompetech.com) · Licensed under CC BY 4.0</p>
+</div>
+
+<div class="lyric" id="lyric"></div>
+<div class="playerbar" id="playerbar">
+  <div class="pb-inner">
+    <div class="pb-title" id="pbTitle"></div>
+    <div class="pb-wave" id="pbWave"></div>
+    <span class="pb-time" id="pbTime">0:00</span>
+    <button class="btn" id="pbStop" style="padding:6px 16px;font-size:12px">停</button>
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(2)) main();
+function main(){
+  DJ.unlock(2);
+  const $ = id => document.getElementById(id);
+
+  const tracks = [
+    { t:"我很好，谢谢关心", d:"3:04", src:"assets/media/audio/t1.mp3", c:"他说这首歌的 beat 是用冰箱的嗡嗡声做的。没人听出来过。", lyric:"「我很好」三个字\n是我用过最多的\n编曲" },
+    { t:"把手机调成飞行的人", d:"5:50", src:"assets/media/audio/t2.mp3", c:"评论 8 条。全部是同一个人写的，每一条都装成不同的路人。", lyric:"飞行模式\n是我唯一会开的\n门" },
+    { t:"心事回收站", d:"2:02", src:"assets/media/audio/t3.mp3", c:"这首歌采样了青云观的签筒声。他自己录的。抽了八次才录到不手抖的那一次。", lyric:"删掉的\n都还在\n排队" },
+    { t:"排队孤独", d:"3:41", src:"assets/media/audio/t4.mp3", c:"热评：孤独还要排队吗。楼主回复：不然呢，都想插队。", lyric:"一个人\n也是一个\n队列" },
+    { t:"成年人的崩塌是静音的", d:"4:09", src:"assets/media/audio/t5.mp3", c:"四分多钟，没有一句词。热评：为什么没有词。楼主回复：崩塌不需要。", lyric:"（这首歌里\n他一个字\n都没说）" },
+    { t:"队列练习", d:"2:57", src:"assets/media/audio/t6.mp3", c:"「每天练习把情绪排成整齐的一列，一个都不许出列。」——他在简介里这么写。", lyric:"稍息\n立正\n不许难过" },
+    { t:"列车晚点通知", d:"4:09", src:"assets/media/audio/t7.mp3", c:"采样了真实的列车晚点广播。那趟车他坐过一次，去见一个说好了要等他的人。他晚点了，人没等。", lyric:"本次列车\n终点站\n不需要我" },
+    { t:"空房间", d:"0:08", src:"assets/media/audio/t8.wav", c:"热评（只有一条）：这首歌只有八秒。楼主回复：重要的事，都发生在同一分钟。", lyric:"（这首没有词。）\n\n他说：词都在删掉的草稿里。\n房间空着，是因为\n住的人出去找自己了。" }
+  ];
+
+  const box = $("tracks");
+  tracks.forEach((t,i) => {
+    const d = document.createElement("div"); d.className = "tr";
+    d.innerHTML = `<div class="no">${i+1}</div><div class="tt">${t.t}</div>
+      <div class="init">${t.t[0]}</div><div class="dur">${t.d}</div>`;
+    d.onclick = () => play(i, d);
+    box.appendChild(d);
+  });
+
+  /* 波形 */
+  const wave = $("pbWave");
+  for (let i = 0; i < 42; i++){
+    const b = document.createElement("i");
+    b.style.height = (4 + Math.random()*22) + "px";
+    wave.appendChild(b);
+  }
+
+  /* ---- 真实音频播放 ---- */
+  const audio = new Audio();
+  audio.preload = "none";
+  let cur = -1, paused = false;
+
+  const fmt = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
+  const bars = Array.from(wave.children);
+
+  function stopAudio(){
+    audio.pause();
+    wave.classList.remove("live");
+    bars.forEach(b => { b.style.background = ""; });
+  }
+
+  function play(i, el){
+    paused = false;
+    document.querySelectorAll(".tr").forEach(x => x.classList.remove("playing"));
+    el.classList.add("playing");
+    cur = i;
+    $("playerbar").classList.add("show");
+    $("pbTitle").textContent = (i+1) + ". " + tracks[i].t;
+    const ly = $("lyric");
+    ly.innerHTML = tracks[i].lyric + "<br><span style='color:#33415e;font-size:11px'>热评：" + tracks[i].c + "</span>";
+    ly.classList.add("show");
+    if (audio.src.indexOf(tracks[i].src) === -1){
+      audio.src = tracks[i].src;
+      audio.currentTime = 0;
+    }
+    audio.play().catch(()=>{});
+    wave.classList.add("live");
+    DJ.sfx.click();
+    if (i === 7 && !DJ.has("heard_track8")){
+      DJ.flag("heard_track8"); DJ.addIncense(2);
+    }
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    const dur = audio.duration || 1;
+    $("pbTime").textContent = fmt(audio.currentTime) + " / " + fmt(dur);
+    const p = audio.currentTime / dur;
+    const lit = Math.round(p * bars.length);
+    bars.forEach((b, i) => { b.style.background = i < lit ? "#4a7dd6" : ""; });
+  });
+  audio.addEventListener("ended", () => {
+    stopAudio();
+    $("pbTime").textContent = fmt(audio.duration) + " / " + fmt(audio.duration);
+    if (cur === 7){
+      /* 听完了整整 8 秒的空房间 */
+      const ly = $("lyric");
+      ly.innerHTML = "（8 秒，到了。）<br><span style='color:#4f8f8b'>——这就是他住的地方。安静得能听见自己。<br>记住这个长度。有人把它设成了别的东西。</span>";
+    }
+  });
+
+  /* 点同一首：暂停 / 继续（逻辑已并入 play） */
+
+  $("pbStop").onclick = () => {
+    stopAudio();
+    document.querySelectorAll(".tr").forEach(x => x.classList.remove("playing"));
+    $("playerbar").classList.remove("show");
+    $("lyric").classList.remove("show");
+    audio.currentTime = 0;
+  };
+
+  $("toSearch").onclick = () => location.href="search.html";
+  $("toChat").onclick = () => location.href="chat.html";
+
+  DJ.envHint("歌名第一个字。竖着读。", "mu1", 70);
+  DJ.envHint("第八首 0:08。听完它。", "mu2", 170);
+
+  DJ.injectDivine({
+    clear:[ "上上签：把八首歌名的第一个字，竖着连起来读。",
+            "上上签：云屉的锁不问歌名。它问的是：第八首，有多长？" ],
+    poetic:["中平签：藏头露尾，露的全是心。",
+            "中平签：他最爱的歌，时长和他的一切一样。" ],
+    empty:[ "下下签：这首歌你没听过。没人听过。",
+            "下下签：耳机分你一半。" ]
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心理健康档案系统 v8.08</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#080b11}
+  .wrapa{max-width:860px;margin:0 auto;padding:34px 20px 110px}
+  .sysbar{background:#101827;border:1px solid #1c2c4a;padding:8px 16px;font-size:12px;color:#5a6a84;letter-spacing:2px;display:flex;justify-content:space-between}
+  .panel{background:#0e141d;border:1px solid #1c2c4a;border-radius:6px;margin:22px 0;padding:24px 28px}
+  .panel h2{color:#aebfd8;font-size:16px;letter-spacing:6px;margin-bottom:16px;border-left:3px solid #3a5080;padding-left:12px}
+  .file{display:flex;gap:26px;flex-wrap:wrap}
+  .photo-empty{width:120px;height:150px;flex-shrink:0;border:1px dashed #1c2c4a;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#2c3a55;font-size:11px;letter-spacing:3px}
+  .photo-empty::before{content:"📷";opacity:.25;font-size:22px;filter:grayscale(1)}
+  .redact{background:#04060a;color:#04060a;padding:1px 10px;border-radius:2px;cursor:pointer;user-select:none;transition:all .4s}
+  .redact:hover{background:#04060a}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14px}
+  .kv dt{color:#5a6a84;letter-spacing:2px;white-space:nowrap}
+  .kv dd{color:#c9d6ea}
+  .hw{color:#8b9ab5;font-family:"Kaiti SC","STKaiti",serif;background:#0d1626;padding:8px 14px;border-radius:4px;display:inline-block;transform:rotate(-1deg)}
+  .ecg{width:100%;height:110px;background:#0a0f18;border:1px solid #1c2c4a;border-radius:4px;position:relative;overflow:hidden}
+  .ecg svg{width:100%;height:100%}
+  .lamp{width:16px;height:16px;border-radius:50%;background:#13203a;border:1px solid #223356;transition:all .1s;display:inline-block;margin-right:10px;vertical-align:middle}
+  .lamp.on{background:#e8edf5;box-shadow:0 0 16px #aebfd8}
+  .strip{font-family:var(--mono);color:#aebfd8;letter-spacing:4px;min-height:24px;margin-top:10px;font-size:15px}
+  .morsechart{color:#5a6a84;font-size:12.5px;line-height:2.2;margin-top:12px;letter-spacing:1px}
+  .morsechart b{color:#8b9ab5;font-family:var(--mono)}
+  .qbox{display:none}
+  .qbox.show{display:block;animation:fadein .7s ease both}
+  .q{color:#c9d6ea;font-size:15px;margin:20px 0 12px;letter-spacing:1px}
+  .opts label{display:block;color:#9fb0ca;padding:8px 14px;border:1px solid #16233d;border-radius:4px;margin:7px 0;cursor:pointer;transition:all .2s;font-size:14px}
+  .opts label:hover{border-color:#3a5080;color:#dfe5ee}
+  .opts input{display:none}
+  .opts input:checked + span{color:#e8edf5}
+  .opts label:has(input:checked){border-color:#4a7dd6;background:#101d38}
+  .result8{display:none;background:#0d1626;border:1px solid #1c3a38;border-radius:6px;padding:20px;margin-top:18px}
+  .result8.show{display:block;animation:fadein 1s ease both}
+  .bignum{font-family:var(--mono);color:#4f8f8b;font-size:34px;letter-spacing:3px}
+  #chatpop{
+    position:fixed;inset:0;background:rgba(4,8,16,.9);display:none;z-index:90;
+    align-items:center;justify-content:center;flex-direction:column;
+  }
+  #chatpop.show{display:flex}
+  .chatcard{background:#0c1526;border:1px solid #223356;border-radius:14px;padding:26px 30px;max-width:400px}
+  .chatcard .who{color:#8b9ab5;font-size:12px;letter-spacing:3px;margin-bottom:12px}
+  .chatcard .msg{color:#e8edf5;font-size:17px;letter-spacing:2px;line-height:2;min-height:60px}
+  .door{margin-top:26px;text-align:center;display:none}
+  .door.show{display:block;animation:fadein 1s ease both}
+</style>
+</head>
+<body>
+<div class="moon"></div>
+
+<div class="wrapa">
+  <div class="sysbar"><span>心理健康档案系统 · 内网</span><span>授权访客：8 号</span></div>
+
+  <!-- 访客档案 -->
+  <div class="panel">
+    <h2>访 客 档 案</h2>
+    <div class="file">
+      <div class="photo-empty">此栏为空<br><span style="letter-spacing:2px">照片由访客本人撤下</span></div>
+      <dl class="kv">
+        <dt>姓名</dt><dd><span class="redact" id="redact" title="……">████████</span></dd>
+        <dt>编号</dt><dd>08-0808</dd>
+        <dt>主诉</dt><dd>「我一切正常。」（自述，微笑）</dd>
+        <dt>观察记录</dt><dd>就诊全程保持幽默感，且笑得很好看。<br><span class="small" style="color:#5a6a84">记录员备注：他熟练得让人心疼。这一项练过很多年。</span></dd>
+        <dt>评估</dt><dd>「未见明显异常。」<br><span class="small" style="color:#5a6a84">记录员备注：未见，不等于没有。有些屋子收拾得太干净，恰恰是因为里面东西最多。</span></dd>
+        <dt>危险备注</dt><dd>「他比谁都擅长让别人放心。」</dd>
+        <dt>笔迹样本</dt><dd><span class="hw">我只是……只是……</span><div class="small" style="margin-top:6px">样本笔迹与本系统内所有档案批注笔迹一致。</div></dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 心电图 -->
+  <div class="panel">
+    <h2>床 边 监 护</h2>
+    <div class="ecg">
+      <svg viewBox="0 0 600 110" preserveAspectRatio="none">
+        <polyline id="ecgline" fill="none" stroke="#4f8f8b" stroke-width="1.6"
+          points=""/>
+      </svg>
+    </div>
+    <div style="margin-top:14px;display:flex;align-items:center">
+      <span class="lamp" id="lamp"></span>
+      <span class="small">信号灯 · 与心跳同步闪烁（短 = ·，长 = —）</span>
+    </div>
+    <div class="strip" id="strip"></div>
+    <button class="btn" id="matchBtn" style="display:none;margin-top:12px">对照墙上的旧电码表</button>
+    <div class="morsechart" id="chart" style="display:none">
+      旧式电码表（部分，已褪色）：<br>
+      <b>· — — ·</b> ＝ 顺　　<b>— — · ·</b> ＝ 其<br>
+      <b>· — · ·</b> ＝ 自　　<b>· — ·</b> ＝ 然
+    </div>
+    <div class="qtext" id="morseOut" style="margin-top:12px;min-height:24px"></div>
+  </div>
+
+  <!-- 性格测试 -->
+  <div class="panel">
+    <h2>性 格 测 试（第 8 版）</h2>
+    <p class="small" style="letter-spacing:1px">本卷由访客本人填写过一次（弃考）。现在，请你替他作答。</p>
+    <div id="quiz" class="qbox"></div>
+    <button class="btn" id="startQuiz" style="margin-top:16px">开始作答</button>
+    <div class="result8" id="result8"></div>
+  </div>
+
+  <div class="door" id="door">
+    <button class="btn" id="toFinal">往 里 走</button>
+  </div>
+</div>
+
+<div id="chatpop">
+  <div class="chatcard">
+    <div class="who" id="popWho">未读</div>
+    <div class="msg" id="cicadaMsg"></div>
+  </div>
+  <div style="margin-top:30px">
+    <button class="btn" id="popGo" style="display:none">……</button>
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(6)) main();
+function main(){
+  DJ.unlock(6);
+  const $ = id => document.getElementById(id);
+
+  /* 涂黑姓名 */
+  $("redact").onclick = () => {
+    $("redact").textContent = "█";
+    setTimeout(() => $("redact").textContent = "████████", 900);
+    DJ.sfx.err();
+  };
+
+  /* ---------- 心电图 + 摩斯灯 ---------- */
+  const line = $("ecgline");
+  let pts = [];
+  for (let x = 0; x <= 600; x += 4){
+    let y = 70;
+    const phase = x % 90;
+    if (phase > 40 && phase < 52) y = 70 - Math.sin((phase-40)/12*Math.PI) * 46;
+    if (phase >= 52 && phase < 58) y = 78;
+    pts.push(x + "," + y.toFixed(1));
+  }
+  line.setAttribute("points", pts.join(" "));
+  /* 闪烁摩斯：顺其自然 */
+  const code = [
+    ["·","—","—","·"], ["—","—","·","·"], ["·","—","·","·"], ["·","—","·"]
+  ];
+  const flat = [];
+  code.forEach((g,gi) => { g.forEach((s,si) => flat.push({s, gi, si})); flat.push({gap:true, gi}); });
+  let idx = 0, stripVal = "";
+  function pulse(){
+    const item = flat[idx];
+    const lamp = $("lamp");
+    if (item.gap){
+      stripVal += "　"; idx++;
+      if (idx >= flat.length){
+        idx = 0;
+        $("matchBtn").style.display = "inline-block";
+        return;
+      }
+      setTimeout(pulse, 500);
+      return;
+    }
+    const dur = item.s === "·" ? 260 : 800;
+    lamp.classList.add("on");
+    stripVal += item.s;
+    $("strip").textContent = stripVal;
+    setTimeout(() => {
+      lamp.classList.remove("on");
+      idx++;
+      setTimeout(pulse, 300);
+    }, dur);
+  }
+  setTimeout(pulse, 1200);
+
+  $("matchBtn").onclick = () => {
+    $("chart").style.display = "block";
+    $("morseOut").innerHTML = "<span style='color:#4f8f8b;letter-spacing:8px'>顺 其 自 然</span>";
+    DJ.sfx.read(); DJ.flag("morse_done"); DJ.addIncense(1);
+    maybeFinish();
+  };
+
+  /* ---------- 性格测试 ---------- */
+  const qs = [
+    ["最近两周，他大多时候……", ["开开心心的，谁看都开心","没什么特别，正常发挥","晚上比较沉默，白天照旧","自己也说不清楚"]],
+    ["有人夸他的时候，他会……", ["哈哈谢谢谢谢！","礼貌回应，内心毫无波动","记很久，但嘴上说没有","怀疑对方有所图"]],
+    ["朋友消息很久不回，他……", ["自己脑补了一百种被讨厌的理由","根本没注意到","看到了，想回，但手停着","回一个『哈哈哈』就跑"]],
+    ["深夜来临的时候，他通常……", ["秒睡，铁人","刷手机到自然睡","躺着，想很多，不承认在想","和这台机器一样，亮着"]],
+    ["对『顺其自然』这四个字，他觉得……", ["挺有道理的","道理是道理，我是我","听到就烦","有人曾经用这四个字，骗过他一次"]],
+    ["如果明天所有人都消失，他会……", ["终于清净了，可喜可贺","先确认是不是自己的问题","把每个人的备注再看一遍","第九稿，删掉，不发"]],
+    ["他最擅长的事是……", ["让别人放心","把心事排成队列，永不执行","在『我没事』里加上语气词","以上都是"]],
+    ["最后一题。他值得被理解吗……", ["值得（他想了很久才选这个）","不值得","不知道","这题超纲了，换一题行吗"]]
+  ];
+  let qi = 0, score = 0;
+  $("startQuiz").onclick = () => {
+    $("quiz").classList.add("show"); $("startQuiz").style.display = "none";
+    renderQ();
+  };
+  function renderQ(){
+    const [q, opts] = qs[qi];
+    $("quiz").innerHTML = `<div class="q">第 ${qi+1} 题 / 8　${q}</div>
+      <div class="opts">${opts.map((o,i)=>`<label><input type="radio" name="q${qi}" value="${i}"><span>${o}</span></label>`).join("")}</div>`;
+    $("quiz").querySelectorAll("input").forEach(inp => inp.onchange = () => {
+      score += [0,1,2,3][parseInt(inp.value)] ?? 1;
+      DJ.sfx.click(); qi++;
+      if (qi < qs.length) renderQ();
+      else finishQuiz();
+    });
+  }
+  function finishQuiz(){
+    $("quiz").innerHTML = "";
+    const r = $("result8"); r.classList.add("show");
+    r.innerHTML = `<div class="small">评分完成（24 分制）</div>
+      <div class="bignum">${score} 分</div>
+      <div style="color:#c9d6ea;margin-top:8px;letter-spacing:1px">结论：${score >= 16 ? "抑郁状态（掩饰良好）。他答得太快了，像是排练过。" : "状态起伏。注意第 8 题的作答用时——他犹豫了多久？"}
+      <br><span class="small">系统提示：本卷成绩将作为 8 号房间的门禁码。门禁码从来不是数字，是有人愿意替他认真答完这一卷。</span></div>`;
+    DJ.flag("quiz_done"); DJ.addIncense(2); DJ.sfx.ok();
+    maybeFinish();
+  }
+
+  /* ---------- 完成 → 惊吓 + 蝉开口 ---------- */
+  let finished = false;
+  function maybeFinish(){
+    if (finished || !DJ.has("quiz_done") || !DJ.has("morse_done")) return;
+    finished = true;
+    setTimeout(() => {
+      DJ.sfx.scare();
+      document.body.classList.add("flash");
+      DJ.flag("scare_2");
+      setTimeout(() => {
+        $("chatpop").classList.add("show");
+        /* 屏幕故障字：没有发件人。档案室的电脑替他说了这句话。 */
+        $("popWho").textContent = "SYS_ERR · 未知来源 · 输出方：8 号档案";
+        $("popWho").style.color = "#c0564f";
+        $("cicadaMsg").classList.add("glitch");
+        const m = $("cicadaMsg");
+        const txt = "我不是访客。我是你删掉的草稿。";
+        let i = 0;
+        const t = setInterval(() => {
+          m.textContent = txt.slice(0, ++i);
+          if (i % 2 === 0) DJ.sfx.type();
+          if (i >= txt.length){
+            clearInterval(t);
+            $("popGo").style.display = "inline-block";
+            DJ.sfx.read();
+          }
+        }, 130);
+      }, 500);
+    }, 1800);
+  }
+  $("popGo").onclick = () => {
+    DJ.sfx.ok(); DJ.unlock(7);
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "final.html", 420);
+  };
+
+  /* 环境提示 */
+  DJ.envHint("档案都看完了？还有两样东西没动：监护仪，和那份测试。", "ar1", 80);
+  DJ.envHint("灯的节奏不乱。短的快，长的慢。墙上有表。", "ar2", 190);
+  DJ.envHint("替他答题的时候，别想『正确答案』。想他。", "ar3", 300);
+
+  DJ.injectDivine({
+    clear:[ "上上签：监护仪的灯会替他把那四个字说出口。拿纸笔记下来，再对表。",
+            "上上签：卷子答完，灯也译完，房间就亮了。" ],
+    poetic:["中平签：心上有痕，纸上有音。", "中平签：涂黑的地方，越想看清，越要看清。" ],
+    empty:[ "下下签：档案室的灯，闪一下，是他的心跳。", "下下签：替别人答卷，也要签名。" ]
+  });
+}
+</script>
+</body>
+</html>

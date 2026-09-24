@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搜搜 — 搜点正经的</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#f4f6fa;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
+  .s-wrap{max-width:640px;margin:0 auto;padding:8vh 20px 80px}
+  .s-logo{text-align:center;font-size:38px;font-weight:700;letter-spacing:6px;color:#2a2f3a}
+  .s-logo b{color:#4a7dd6}
+  .s-logo .sm{display:block;font-size:11px;color:#8b93a3;letter-spacing:3px;margin-top:4px;font-weight:400}
+  .s-box{display:flex;margin:34px 0 14px;box-shadow:0 4px 20px rgba(30,50,90,.10);border-radius:8px;overflow:hidden}
+  .s-box input{flex:1;border:none;outline:none;padding:14px 18px;font-size:15px;background:#fff;color:#2a2f3a}
+  .s-box button{border:none;background:#4a7dd6;color:#fff;padding:0 30px;letter-spacing:4px;cursor:pointer}
+  .s-box button:hover{background:#3a67bd}
+  .sugg{margin:2px 2px 22px}
+  .sugg .sg-h{font-size:11px;color:#b3bac7;letter-spacing:2px;margin-bottom:8px}
+  .sugg .sg-chip{display:inline-block;border:1px solid #e3e8f0;background:#fff;border-radius:99px;
+    padding:6px 16px;margin:0 8px 8px 0;font-size:13px;color:#5a6274;cursor:pointer;letter-spacing:1px}
+  .sugg .sg-chip:hover{border-color:#4a7dd6;color:#4a7dd6}
+  .results{min-height:200px}
+  .r{margin-bottom:24px}
+  .r .t{color:#1d3a8f;font-size:17px;cursor:pointer;text-decoration:none}
+  .r .t:hover{text-decoration:underline}
+  .r .u{color:#3d8b5f;font-size:12px;margin:2px 0;letter-spacing:.5px}
+  .r .d{color:#5a6274;font-size:13.5px;line-height:1.8}
+  .r .d em{color:#c0564f;font-style:normal}
+  .s-foot{color:#a8b0bf;font-size:11px;text-align:center;margin-top:60px;letter-spacing:2px}
+  .ad{border:1px solid #e3e8f0;border-radius:8px;padding:14px 18px;margin-bottom:24px;background:#fff}
+  .ad .tag{font-size:10px;color:#8b93a3;border:1px solid #e3e8f0;border-radius:2px;padding:0 4px;margin-right:6px}
+  .ad .t{color:#2a2f3a;font-size:15px}
+  .ad .d{color:#8b93a3;font-size:12.5px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="s-wrap">
+  <div class="s-logo">搜搜<b>.</b><span class="sm">搜点正经的 · 全球第 8 大搜索引擎</span></div>
+  <div class="s-box">
+    <input type="text" id="q" placeholder="搜点正经的……" autocomplete="off">
+    <button id="go">搜 索</button>
+  </div>
+  <div class="sugg" id="sugg"></div>
+  <div class="results" id="results">
+    <div class="ad"><span class="tag">广告</span><span class="t">解压积木 · 一盒八块装</span>
+      <div class="d">拼好的都会拆，拆完的还得再拼。买过的人都说：像极了生活。</div></div>
+    <div class="ad"><span class="tag">广告</span><span class="t">失眠救星 · 三秒入睡课程（第 8 期）</span>
+      <div class="d">已有 8 位学员成功入睡。其余学员还在上课。</div></div>
+  </div>
+  <div class="s-foot">搜搜 Soso © 2008 · 找到约 8,080,808 条结果（0.08 秒）</div>
+</div>
+
+<button class="corner" style="color:#8b93a3;border-color:#d8dee9" id="backChat">‹ 未 读</button>
+<div id="envhint" style="text-shadow:none"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(2)) main();
+function main(){
+  DJ.unlock(2);
+  const $ = id => document.getElementById(id);
+  const light = {envhint:"rgba(90,98,116,.8)"};
+
+  const DB = [
+    { kw:["倒影","论坛"], html:`
+      <div class="r"><a class="t" href="forum.html">倒影小组 Reflexion BBS — 寻找一个和我说一样话的人</a>
+      <div class="u">reflexion-bbs.2008 › 板块 › 树洞</div>
+      <div class="d">…有人也觉得，热闹是一群人的孤单吗。我数过了，我和熟络的朋友大概每<em>八天</em>聊一次，很规律，像潮汐…</div></div>
+      <div class="r"><a class="t" href="forum.html">倒影小组：8 楼为什么打不开？</a>
+      <div class="u">reflexion-bbs.2008 › 站务</div>
+      <div class="d">…页码只到 8 就没有了。有人说 8 楼住着<em>镜子</em>。谣言。一定是谣言…</div></div>` },
+    { kw:["青云观","道观","算命"], html:`
+      <div class="r"><a class="t" href="guanyun.html">青云观 — 有求必应（在线问签 第 8 版）</a>
+      <div class="u">qingyun-guan.web › 首页</div>
+      <div class="d">…本观已无住持。签文仅供娱乐。心诚则灵，心不诚亦灵。已有 8 位访客抽到<em>大吉</em>…</div></div>` },
+    { kw:["亥时"], html:`
+      <div class="r"><div class="t" style="cursor:default">亥时是什么时候？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">亥时，旧时计时法，指 21 时至 23 时。<em>亥时三刻</em>，约 21:45。旧俗认为此时阴气渐盛，宜静，宜自省，忌远行。</div></div>` },
+    { kw:["蝴蝶"], html:`
+      <div class="r"><a class="t" href="video.html">黑白。废墟里的一只蝴蝶。_高清MV_MUTE.TV</a>
+      <div class="u">bailu-video.tv › watch</div>
+      <div class="d">…上传于 8 月 8 日 08:08。播放 8 次。<em>评论区有人说：放大看翅膀黑色的部分。</em>…</div></div>
+      <div class="r"><a class="t" href="forum.html">倒影小组 — 今天在废墟里拍到的一只蝴蝶</a>
+      <div class="u">reflexion-bbs.2008 › 摄影版</div>
+      <div class="d">…本来想调色，后来觉得黑白更好…</div></div>` },
+    { kw:["空房间","网盘","照片","云屉","散步"], html:`
+      <div class="r"><a class="t" href="cloud.html">云屉 — 相册「散步」需要密码</a>
+      <div class="u">yun-ti.drive › share › 8 个文件</div>
+      <div class="d">…分享者设置了一个密码。提示：<em>他把密码设成了自己最喜欢的那首歌</em>…</div></div>` },
+    { kw:["rap","音乐","歌单","歌","空耳"], html:`
+      <div class="r"><a class="t" href="music.html">歌单「我把心事排成队列」— 空耳FM</a>
+      <div class="u">konger.fm › playlist › 8 首</div>
+      <div class="d">…全部是没人听过的歌。创建者说：<em>听懂这张歌单的人，就能找到他。</em>…</div></div>` },
+    { kw:["顺其自然"], html:`
+      <div class="r"><div class="t" style="cursor:default">顺其自然是什么意思？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">道家哲学。指顺应事物自身发展规律，不强求。常见于劝慰语境。该词条被编辑过 <em>8</em> 次，最近一次编辑补充：「但没有人告诉你，它的反面是什么。」</div></div>` },
+    { kw:["大吉"], html:`
+      <div class="r"><div class="t" style="cursor:default">签文「大吉」真的好吗？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案（8 个赞）：签是签，日子是日子。<em>我抽到大吉的那天，失去了最重要的人。</em>（该回答已被折叠）</div></div>` },
+    { kw:["未读","已读"], html:`
+      <div class="r"><div class="t" style="cursor:default">消息显示已读却不回复，是什么心理？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案：他看见了。他可能看了十七遍。<em>回复这个动作本身，比内容更难。</em></div></div>` },
+    { kw:["失眠","睡不着"], html:`
+      <div class="r"><div class="t" style="cursor:default">数羊真的有用吗？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案（8 个赞）：数到第 8 只总会数丢。后来我不数了。<em>我听房间里的声音。房间空的时候，声音很诚实。</em></div></div>` },
+    { kw:["一个人吃饭"], html:`
+      <div class="r"><div class="t" style="cursor:default">一个人吃饭丢人吗？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案：不丢人。丢人的是<em>你为了不让别人觉得丢人，而编造出来的那个「在路上了」</em>。（该回答已被提问者收藏 8 次）</div></div>` },
+    { kw:["废墟"], html:`
+      <div class="r"><div class="t" style="cursor:default">在废墟拍照违法吗？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">废弃建筑本身不违法。但请注意：<em>有些地方门开着，不代表它欢迎你。有些地方锁着，不代表它里面没有人。</em></div></div>` },
+    { kw:["未送达"], req:"read_bin", html:`
+      <div class="r"><div class="t" style="cursor:default">发送失败显示「未送达」，对方能收到吗？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案：收不到。未送达的消息哪儿也没去。<em>它们只是停在半路，等一个敢重发的人。</em>（该回答还有后半段，需要特殊权限查看）</div></div>` },
+    { kw:["第八日"], req:"done", html:`
+      <div class="r"><div class="t" style="cursor:default">一周为什么有八天？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">该词条不存在。<em>但你已经知道了，不是吗。第八日不进日历，进草稿。</em></div></div>` },
+    { kw:["x","自己","我"], html:`
+      <div class="r"><div class="t" style="cursor:default">搜索「${DJ.state.name || "X"}」的结果</div>
+      <div class="u">soso.com › 全网</div>
+      <div class="d">找到约 8,080,808 条结果。<em>全部与你有关。</em></div></div>` }
+  ];
+
+  function doSearch(){
+    const q = $("q").value.trim().toLowerCase();
+    if (!q) return;
+    DJ.sfx.click();
+    const nm = (DJ.state.name || "").trim().toLowerCase();
+    const out = $("results");
+    /* 搜自己的名字：全网都与你有关 */
+    if (nm && q.includes(nm)){
+      out.innerHTML = `<div class="r"><div class="t" style="cursor:default">搜索「${DJ.state.name}」的结果</div>
+        <div class="u">soso.com › 全网</div>
+        <div class="d">找到约 8,080,808 条结果。<em>全部与你有关。</em></div></div>`;
+      DJ.addIncense(1);
+      return;
+    }
+    const hits = DB.filter(d => (!d.req || (d.req === "done" ? DJ.state.done : DJ.has(d.req))) && d.kw.some(k => q.includes(k)));
+    if (hits.length){
+      out.innerHTML = hits.map(h => h.html).join("");
+      DJ.addIncense(1);
+    } else {
+      out.innerHTML = `<div class="r"><div class="d">没有找到「${q}」。<br>但问题本身就很好。有些问题不着急有答案。</div></div>`;
+    }
+  }
+  $("go").onclick = doSearch;
+  $("q").addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
+  $("backChat").onclick = () => location.href="chat.html";
+
+  /* ---- 搜索联想：只联想玩家真正在别处见过的词。见得越多，联想越多 ---- */
+  const suggPool = [];
+  suggPool.push({ w: DJ.state.name || "我" });
+  if (DJ.has("hint_draft") || DJ.state.chapter >= 3){
+    suggPool.push({ w:"倒影" }, { w:"青云观" }, { w:"亥时" });
+  }
+  if (DJ.has("saw_lucky") || DJ.state.chapter >= 3) suggPool.push({ w:"大吉" });
+  if (DJ.has("noticed_same") || DJ.has("butterfly_8")) suggPool.push({ w:"蝴蝶" });
+  if (DJ.has("video_hai")) suggPool.push({ w:"空耳" });
+  if (DJ.has("heard_track8")) suggPool.push({ w:"空房间" });
+  if (DJ.has("read_bin")) suggPool.push({ w:"未送达" });
+  if (DJ.state.done) suggPool.push({ w:"第八日" });
+  const suggBox = $("sugg");
+  suggBox.innerHTML = `<div class="sg-h">搜索联想 · 都是你在别处见过的话（见得越多，这里越懂你）</div>` +
+    suggPool.map(it => `<span class="sg-chip" data-w="${it.w}">${it.w}</span>`).join("");
+  suggBox.querySelectorAll(".sg-chip").forEach(c => {
+    c.onclick = () => { $("q").value = c.dataset.w; doSearch(); };
+  });
+
+  DJ.envHint("有些词，是在别处捡到的。捡到了，就拿来这里搜。", "se2", 150);
+
+  DJ.injectDivine({
+    clear:[ "上上签：你在别处见过的词，都不只是词。",
+            "上上签：草稿里、纸条上、热评里——那些词，拿来搜。" ],
+    poetic:["中平签：一搜索，万物皆 searchable；一心事，无处 searchable。",
+            "中平签：你搜的从来不是词。" ],
+    empty:[ "下下签：搜索引擎不知道。它只会找，不会懂。",
+            "下下签：换个词试试。" ]
+  });
+}
+</script>
+</body>
+</html>

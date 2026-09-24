@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>　</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#04070d}
+  .stage{transition:opacity 1.2s}
+  .stage.hide{opacity:0;pointer-events:none}
+
+  /* 密码框 */
+  #pLabel{color:#aebfd8;letter-spacing:14px;font-size:20px;margin-bottom:30px}
+  #pw{max-width:320px;text-align:center;font-size:17px;letter-spacing:6px}
+  #pwTip{color:#42536f;font-size:12px;letter-spacing:3px;margin-top:16px;min-height:20px}
+  #failCount{color:#33415e;font-size:11px;letter-spacing:2px;margin-top:8px}
+
+  /* 留白 */
+  #paper{
+    width:min(480px,90vw);height:340px;background:#dfe5ee;border-radius:3px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative;padding:30px;
+    display:flex;align-items:center;justify-content:center;transform:rotate(-.6deg);
+  }
+  #paper input{background:transparent;border:none;border-bottom:1px solid #b9c2d2;border-radius:0;
+    color:#3a3f4a;text-align:center;font-size:17px;letter-spacing:4px}
+
+  /* 终幕 */
+  #endo{position:fixed;inset:0;background:#000;display:none;flex-direction:column;
+    align-items:center;justify-content:center;z-index:100}
+  #endo.show{display:flex;animation:fadein 2.5s ease both}
+  #bflyLogo{margin-bottom:40px}
+  #readlog{color:#6d80a0;font-size:13px;letter-spacing:3px;line-height:2.4;text-align:center;min-height:120px}
+  .readline{opacity:0;transition:opacity .8s}
+  .readline.on{opacity:1}
+  #mirrorFinal{margin-top:30px;color:#e8edf5;font-size:17px;letter-spacing:6px;opacity:0;transition:opacity 2.5s}
+  #credits{margin-top:46px;color:#33415e;font-size:11.5px;letter-spacing:4px;opacity:0;transition:opacity 2s;text-align:center;line-height:2.4}
+  #credits a{color:#5a6a84;text-decoration:none;letter-spacing:4px}
+  #credits a:hover{color:#aebfd8}
+</style>
+</head>
+<body>
+
+<!-- 阶段一：顺其自然 -->
+<div class="stage" id="stPw">
+  <div id="pLabel">顺 其 自 然</div>
+  <input type="text" id="pw" autocomplete="off" placeholder="输入">
+  <div id="pwTip"></div>
+  <div id="failCount"></div>
+</div>
+
+<!-- 阶段二：留白 -->
+<div class="stage hide" id="stBlank">
+  <div id="paper">
+    <input type="text" id="blankInput" autocomplete="off" placeholder="">
+  </div>
+  <div id="blankTip" class="small" style="margin-top:40px;letter-spacing:4px;min-height:20px"></div>
+</div>
+
+<!-- 终幕 -->
+<div id="endo">
+  <div id="bflyLogo">
+    <video id="bvideo" src="assets/media/butterfly.mp4" autoplay muted loop playsinline
+      style="width:min(420px,80vw);border-radius:10px;opacity:.9;filter:contrast(1.05)"></video>
+  </div>
+  <div id="readlog"></div>
+  <div id="mirrorFinal"></div>
+  <div id="credits">
+    未读 8 → 已读 8 · 大吉<br>
+    <br>
+    他找了那么久的灵魂共鸣者，<br>
+    一直在镜子里，陪他熬过了每一个 08:08。<br>
+    <br>
+    <a href="chat.html">回到未读</a><br>
+    <br>
+    <span id="saveCard" style="display:none;color:#aebfd8;border:1px solid #2c3a52;border-radius:3px;
+      padding:7px 22px;cursor:pointer;letter-spacing:4px">◈ 保存一张卡片，替他发出去</span>
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(7)) main();
+function main(){
+  DJ.unlock(7);
+  const $ = id => document.getElementById(id);
+
+  /* ---------- 阶段一：顺其自然，永远错误 ---------- */
+  const pw = $("pw");
+  let fails = Math.max(0, DJ.state.fails || 0);
+  let submitTimes = [];
+  function fail(msg){
+    fails++; DJ.state.fails = fails; DJ.save();
+    DJ.sfx.err();
+    pw.classList.add("shake"); setTimeout(()=>pw.classList.remove("shake"), 420);
+    $("pwTip").textContent = msg;
+    $("failCount").textContent = "错误 " + fails + " 次";
+    pw.select();
+  }
+  function submit(){
+    const v = pw.value.trim();
+    if (!v) { fail("……"); return; }
+    const now = Date.now();
+    submitTimes.push(now);
+    submitTimes = submitTimes.slice(-3);
+    /* 乱按检测：连续三次提交间隔都小于 0.9 秒 */
+    let mashing = submitTimes.length === 3 &&
+      submitTimes[1]-submitTimes[0] < 900 && submitTimes[2]-submitTimes[1] < 900;
+    if (mashing || fails >= 5){ pass1(); return; }
+    if (v.includes("顺其自然")) fail("错误。");
+    else fail("错误。");
+  }
+  pw.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+
+  function pass1(){
+    DJ.sfx.read();
+    $("pwTip").innerHTML = "　";
+    const st = $("stPw");
+    st.style.transition = "opacity 2s";
+    st.classList.add("hide");
+    setTimeout(() => {
+      st.style.display = "none";
+      $("blankTip").textContent = "（没有题目。没有提示。没有标准答案。）";
+      const sb = $("stBlank"); sb.classList.remove("hide");
+      $("blankInput").focus();
+    }, 2000);
+  }
+
+  /* ---------- 留白提交：把答案留在档案里 ---------- */
+  $("blankInput").addEventListener("keydown", e => {
+    if (e.key === "Enter"){
+      const v = $("blankInput").value;
+      DJ.state.blank = v.trim(); DJ.save();
+      $("blankInput").disabled = true;
+      $("blankInput").value = "";
+      $("blankInput").placeholder = v ? "「" + v + "」" : "（空白也是答案）";
+      $("blankTip").textContent = "你终于不再试图寻找标准答案了。";
+      $("blankTip").style.color = "#aebfd8";
+      DJ.sfx.ok();
+      setTimeout(endo, 3200);
+    }
+  });
+
+  /* ---------- 终幕 ---------- */
+  function endo(){
+    DJ.state.done = true; DJ.save();
+    document.body.classList.add("flash");
+    const e = $("endo"); e.classList.add("show");
+    DJ.sfx.read();
+
+    const log = $("readlog");
+    const msgs = [
+      "「今天也是元气满满的一天！！」", "「在吗」", "「问你个事，特严肃的」",
+      "「你也会吗」", "「算了。你好。初次见面。」",
+      "「其实我一直都在。」", "「我没事。」", "「晚安。」"
+    ];
+    msgs.forEach((m, i) => {
+      setTimeout(() => {
+        const d = document.createElement("div");
+        d.className = "readline";
+        d.textContent = m + " —— 已读";
+        log.appendChild(d);
+        requestAnimationFrame(() => d.classList.add("on"));
+        DJ.sfx.type();
+        if (i === msgs.length - 1){
+          setTimeout(() => {
+            const last = document.createElement("div");
+            last.className = "readline";
+            last.innerHTML = "<span style='color:#aebfd8'>已读 08:08</span>";
+            log.appendChild(last);
+            requestAnimationFrame(() => last.classList.add("on"));
+            DJ.sfx.read();
+          }, 1200);
+          setTimeout(() => {
+            const mf = $("mirrorFinal");
+            mf.innerHTML = "镜中人：<span style='letter-spacing:10px'>" + (DJ.state.name || "X") + "</span>";
+            mf.style.opacity = 1;
+          }, 3200);
+          setTimeout(() => { $("credits").style.opacity = 1; }, 5600);
+          setTimeout(() => { $("saveCard").style.display = "inline-block"; }, 7200);
+        }
+      }, 900 + i * 1100);
+    });
+  }
+
+  /* ---------- 通关分享卡片 ---------- */
+  $("saveCard").onclick = () => {
+    const c = document.createElement("canvas");
+    c.width = 720; c.height = 960;
+    const x = c.getContext("2d");
+    /* 底 */
+    x.fillStyle = "#04070d"; x.fillRect(0, 0, 720, 960);
+    /* 边框 */
+    x.strokeStyle = "#1c2c4a"; x.lineWidth = 1;
+    x.strokeRect(28, 28, 664, 904);
+    /* 白蝴蝶（与游戏 LOGO 同一笔迹） */
+    const wing = new Path2D("M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z");
+    const wing2 = new Path2D("M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z");
+    const body = new Path2D("M12 11.4 a1.2 3.2 0 1 0 0.001 0 Z");
+    x.save();
+    x.translate(360 - 150, 150); x.scale(14.3, 14.3);
+    x.fillStyle = "#dfe5ee";
+    x.fill(wing); x.fill(wing2); x.fill(body);
+    x.restore();
+    /* 名字 */
+    x.textAlign = "center";
+    x.fillStyle = "#e8edf5";
+    x.font = "300 44px 'Songti SC','STSong',serif";
+    x.fillText((DJ.state.name || "X").split("").join(" "), 360, 470);
+    /* 已读 */
+    x.fillStyle = "#6d80a0";
+    x.font = "300 22px 'PingFang SC',sans-serif";
+    x.fillText("已 读  0 8 : 0 8", 360, 560);
+    /* 留白答案（若有） */
+    const blank = (DJ.state.blank || "").trim();
+    if (blank){
+      x.fillStyle = "#8b9ab5";
+      x.font = "300 19px 'Songti SC','STSong',serif";
+      x.fillText("「" + blank.slice(0, 12) + "」", 360, 620);
+    } else {
+      x.fillStyle = "#33415e";
+      x.font = "300 17px 'Songti SC','STSong',serif";
+      x.fillText("（空白也是答案）", 360, 620);
+    }
+    /* 大吉印 */
+    x.fillStyle = "#9e3f39";
+    x.fillRect(312, 700, 96, 96);
+    x.fillStyle = "#f4e9e4";
+    x.font = "600 34px 'Songti SC','STSong',serif";
+    x.fillText("大", 360, 740);
+    x.fillText("吉", 360, 782);
+    /* 落款 */
+    x.fillStyle = "#33415e";
+    x.font = "300 15px 'PingFang SC',sans-serif";
+    x.fillText("《 大 吉 》 · 通 关 纪 念 · 黑 底 白 蝴 蝶", 360, 880);
+    /* 下载 */
+    const a = document.createElement("a");
+    a.download = "大吉-已读0808.png";
+    a.href = c.toDataURL("image/png");
+    a.click();
+    DJ.sfx.read();
+    $("saveCard").textContent = "◈ 已保存。替他发出去吧。";
+  };
+
+  /* 环境提示（温柔到最后一刻） */
+  DJ.envHint("这四个字，你试过按规矩来。这次，不按规矩试试。", "fn1", 45);
+  DJ.envHint("不是让你乱来。是让你不较劲。这两者不一样。", "fn2", 120);
+
+  DJ.injectDivine({
+    clear:[ "上上签：这一关，签帮不了你。签只能告诉你：帮不了，也是一种答案。",
+            "上上签：闭上眼睛，把手指放在键盘上，让它们自己走。" ],
+    poetic:["中平签：大巧若拙，大智若愚，大正确若不正确。", "中平签：天之道，不争而善胜。" ],
+    empty:[ "下下签：别问签了。问你自己累不累。", "下下签：……" ]
+  });
+}
+</script>
+</body>
+</html>

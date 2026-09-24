@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云屉 — 你的每一次回忆，都值得被妥善存放</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#101418;font-family:-apple-system,"PingFang SC",sans-serif;color:#d5dbe6}
+  .c-wrap{max-width:900px;margin:0 auto;padding:0 18px 100px}
+  .c-top{display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #1e2630}
+  .c-logo{font-size:18px;font-weight:700;letter-spacing:2px}
+  .c-logo b{color:#4a7dd6}
+  .c-logo .sm{font-size:10px;color:#4d586c;letter-spacing:2px;font-weight:400;display:block}
+  .crumb{color:#4d586c;font-size:12.5px;padding:16px 2px;letter-spacing:1px}
+  .folders{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .folder{
+    width:180px;background:#161c24;border:1px solid #232d3a;border-radius:10px;
+    padding:16px;cursor:pointer;transition:border-color .3s;position:relative;
+  }
+  .folder:hover{border-color:#3a5080}
+  .folder .ficon{font-size:30px;color:#4a7dd6}
+  .folder.locked .ficon{color:#5a6274}
+  .folder .fname{margin-top:8px;font-size:14px;color:#dfe5ee;letter-spacing:1px}
+  .folder .fmeta{color:#4d586c;font-size:11px;margin-top:4px;letter-spacing:.5px}
+  .folder.locked .fmeta{color:#6b5d4a}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+  .ph{background:#161c24;border:1px solid #232d3a;border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .25s}
+  .ph:hover{transform:translateY(-3px)}
+  .ph img{width:100%;height:150px;object-fit:cover;display:block;filter:saturate(.85)}
+  .ph .pc{padding:10px 12px}
+  .ph .pn{font-size:13px;color:#dfe5ee}
+  .ph .pd{font-size:11px;color:#4d586c;margin-top:4px;line-height:1.7;letter-spacing:.3px}
+  /* 大图 */
+  #lightbox{position:fixed;inset:0;background:rgba(4,7,12,.94);display:none;z-index:50;
+    align-items:center;justify-content:center;flex-direction:column;padding:20px}
+  #lightbox.show{display:flex}
+  #lightbox img{max-width:min(880px,92vw);max-height:62vh;border-radius:8px;filter:saturate(.9)}
+  #lbMeta{margin-top:16px;max-width:640px;text-align:center;color:#8b93a3;font-size:13px;line-height:2;white-space:pre-wrap}
+  #lbBurn{color:#c0564f;letter-spacing:10px;font-size:18px;margin-top:10px;opacity:0;transition:opacity 1.5s;font-family:"Songti SC",serif}
+  /* 锁 */
+  #lockbox{position:fixed;inset:0;background:rgba(4,7,12,.9);display:none;z-index:60;align-items:center;justify-content:center}
+  #lockbox.show{display:flex}
+  .lockcard{background:#141b24;border:1px solid #2a3542;border-radius:12px;padding:34px 40px;text-align:center;width:min(360px,90vw)}
+  .lockcard h3{color:#dfe5ee;letter-spacing:4px;font-size:16px;font-weight:600}
+  .lockcard .ltip{color:#4d586c;font-size:12px;margin:12px 0 18px;letter-spacing:1px;line-height:1.9}
+  .lockcard input{text-align:center;letter-spacing:4px;margin-bottom:12px}
+  .lockerr{color:#c0564f;font-size:12px;min-height:18px;letter-spacing:2px}
+  .navlinks a{color:#4a7dd6;text-decoration:none;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="c-wrap">
+  <div class="c-top">
+    <div class="c-logo">云<b>屉</b><span class="sm">你的每一次回忆，都值得被妥善存放 · 剩余空间 8 GB</span></div>
+    <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
+    <button class="corner" style="position:static" id="toChat">‹ 未 读</button>
+  </div>
+
+  <div class="crumb">全部文件 › 我的相册 › 共 8 个项目 · 全部由 深水无鱼 上传</div>
+
+  <div class="folders">
+    <div class="folder" id="f1"><div class="ficon">▣</div><div class="fname">废墟</div><div class="fmeta">3 张照片 · 2008-08-08</div></div>
+    <div class="folder locked" id="fLock"><div class="ficon">▤</div><div class="fname">散步</div><div class="fmeta">加密 · 密码提示：他最喜欢的那首歌</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="ph" data-img="temple.png" data-name="IMG_0808.jpg" data-desc="上传于 8 月 8 日 21:45（亥时三刻）\n\n青云观。灰还是温的。签纸烧到一半，剩下的那一半写着什么，风替我收走了。">
+      <img src="assets/media/temple.png" alt=""><div class="pc"><div class="pn">IMG_0808.jpg</div><div class="pd">2008-08-08 · 青云观</div></div></div>
+    <div class="ph" data-img="room.png" data-name="IMG_0808_2.jpg" data-desc="上传于 8 月 8 日 03:08\n\n凌晨三点。屏幕亮着，人没亮。这张拍完我删了三次，又从回收站恢复了三次。">
+      <img src="assets/media/room.png" alt=""><div class="pc"><div class="pn">IMG_0808_2.jpg</div><div class="pd">8月8日 · 出租屋</div></div></div>
+    <div class="ph" data-img="snowstreet.png" data-name="IMG_0808_3.jpg" data-desc="上传于 8 月 8 日 08:08\n\n雪。路上没有人。灯是唯一一个等我的人。">
+      <img src="assets/media/snowstreet.png" alt=""><div class="pc"><div class="pn">IMG_0808_3.jpg</div><div class="pd">8月8日 · 路上</div></div></div>
+    <div class="ph" data-img="butterfly.png" data-name="IMG_0808_4.jpg" data-desc="上传于 8 月 8 日 08:08\n\n黑底。白蝶。它停在屏幕上不走，我就把它拍下来了。后来发现，黑的那部分像一个人。">
+      <img src="assets/media/butterfly.png" alt=""><div class="pc"><div class="pn">IMG_0808_4.jpg</div><div class="pd">8月8日 · 屏幕</div></div></div>
+  </div>
+</div>
+
+<!-- 大图 -->
+<div id="lightbox">
+  <img id="lbImg" src="" alt="">
+  <div id="lbMeta"></div>
+  <div id="lbBurn"></div>
+</div>
+
+<!-- 加锁 -->
+<div id="lockbox">
+  <div class="lockcard">
+    <h3>「 空 房 间 」</h3>
+    <div class="ltip">此文件夹已加密。<br>密码提示：他最喜欢的那首歌，<b>和它一样长</b>。</div>
+    <input type="text" id="lockInput" autocomplete="off" placeholder="输入密码">
+    <div class="lockerr" id="lockErr"></div>
+    <button class="btn" id="lockGo">解 锁</button>
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(2)) main();
+function main(){
+  DJ.unlock(2);
+  const $ = id => document.getElementById(id);
+  const esc = s => s.replace(/\\n/g,"<br>");
+
+  /* 大图 */
+  let openCount = {};
+  document.querySelectorAll(".ph").forEach(p => {
+    p.onclick = () => {
+      $("lbImg").src = "assets/media/" + p.dataset.img;
+      $("lbMeta").innerHTML = "<b style='color:#dfe5ee'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
+      $("lbBurn").style.opacity = 0;
+      $("lightbox").classList.add("show");
+      DJ.sfx.click();
+      openCount[p.dataset.img] = (openCount[p.dataset.img]||0) + 1;
+      if (openCount[p.dataset.img] >= 3 && !DJ.has("cloud_temple_burn")){
+        /* 多看几张照片后，给一个环扣提示 */
+        $("lbBurn").textContent = "香炉下面有东西。";
+        $("lbBurn").style.opacity = 1;
+        DJ.flag("cloud_temple_burn"); DJ.addIncense(1);
+      }
+    };
+  });
+  $("lightbox").onclick = () => $("lightbox").classList.remove("show");
+
+  /* 锁：密码 = 08:08（第 8 首歌长 8 秒，"和它一样长"） */
+  $("fLock").onclick = () => { $("lockbox").classList.add("show"); $("lockInput").focus(); };
+  function tryLock(){
+    const v = $("lockInput").value.replace(/[\s：:]/g, "");
+    if (v === "0808" || v === "808" || v.toLowerCase() === "lingdianlingba"){
+      $("lockbox").classList.remove("show");
+      DJ.sfx.ok(); DJ.flag("cloud_unlocked"); DJ.addIncense(2);
+      /* 解锁相册：替换网格 */
+      document.querySelector(".grid").innerHTML = `
+        <div class="ph" data-img="reflection.png" data-name="IMG_0808_5.jpg" data-desc="上传于 8 月 8 日 23:08（这一张没有删过）\n\n屏幕黑着。但我总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。\n\n——本来想配一段话发出去，写了八稿，全删了。歌单第八首就是那时候建的。">
+          <img src="assets/media/reflection.png" alt=""><div class="pc"><div class="pn">IMG_0808_5.jpg</div><div class="pd">8月8日 · 加密相册</div></div></div>
+        <div class="ph" data-img="butterfly.png" data-name="注意.txt" data-desc="（这不是照片。是一个记事本文件的截图。）\n\n如果我找到了那个人，我要问他：\n1. 你也是每八天孤独一次吗\n2. 你也数过自己发出去多少条未读吗\n3. 你也会在亥时三刻突然不敢关灯吗\n\n（第 4 条被涂掉了。涂黑的笔迹，和青云观签纸上的，是同一只手。）">
+          <img src="assets/media/butterfly.png" alt="" style="filter:brightness(.35)"><div class="pc"><div class="pn">注意.txt</div><div class="pd">8月8日 · 加密相册</div></div></div>`;
+      document.querySelectorAll(".ph").forEach(p => p.onclick = () => {
+        $("lbImg").src = "assets/media/" + p.dataset.img;
+        $("lbMeta").innerHTML = "<b style='color:#dfe5ee'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
+        $("lbBurn").style.opacity = 0;
+        $("lightbox").classList.add("show");
+      });
+    } else {
+      $("lockErr").textContent = "密码不对。它不长。和那首歌一样长。";
+      DJ.sfx.err();
+    }
+  }
+  $("lockGo").onclick = tryLock;
+  $("lockInput").addEventListener("keydown", e => { if (e.key === "Enter") tryLock(); });
+
+  $("toSearch").onclick = () => location.href="search.html";
+  $("toMusic").onclick = () => location.href="music.html";
+  $("toChat").onclick = () => location.href="chat.html";
+
+  DJ.envHint("照片的拍摄时间，全是同一天。同一座废墟，同一间屋子。", "cl1", 70);
+  DJ.envHint("锁的提示：那首歌有多长，密码就有多长。长，是用秒数量的。", "cl2", 170);
+  DJ.envHint("加密相册里的东西，他一张都没舍得删。", "cl3", 300);
+
+  DJ.injectDivine({
+    clear:[ "上上签：云屉的锁问的不是歌名，是时间。第八首有多长？",
+            "上上签：点开每一张照片，看描述。日期会说话。" ],
+    poetic:["中平签：屉中有屉，屋中有屋。",
+            "中平签：他删了三次，又恢复了三次。",
+            "中平签：重要的事，都发生在同一分钟。" ],
+    empty:[ "下下签：8 GB 空间，装了一个人。",
+            "下下签：去听歌。听完，看秒数。" ]
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUTE.TV — 每一帧都值得</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<style>
+  body{background:#0d1117;font-family:-apple-system,"PingFang SC",sans-serif;color:#d5dbe6}
+  .v-wrap{max-width:860px;margin:0 auto;padding:0 16px 90px}
+  .v-top{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid #1c2330}
+  .v-logo{font-size:19px;font-weight:700;letter-spacing:2px}
+  .v-logo b{color:#4a7dd6}
+  .v-logo .sm{font-size:10px;color:#4d586c;letter-spacing:2px;font-weight:400;display:block}
+  .v-item{margin:28px 0}
+  .player{position:relative;background:#000;border-radius:10px;overflow:hidden}
+  .player video{width:100%;display:block;filter:brightness(.92)}
+  .danmu{position:absolute;top:0;left:0;right:0;height:40%;pointer-events:none;overflow:hidden}
+  .danmu span{position:absolute;white-space:nowrap;color:rgba(213,219,230,.85);font-size:14px;
+    text-shadow:0 0 4px rgba(0,0,0,.8);animation:dm linear infinite}
+  @keyframes dm{from{transform:translateX(100vw)}to{transform:translateX(-160%)}}
+  .vmeta{padding:12px 4px}
+  .vtitle{font-size:17px;font-weight:600;letter-spacing:.5px}
+  .vstats{color:#4d586c;font-size:12px;margin-top:4px;letter-spacing:1px}
+  .vdesc{color:#8b93a3;font-size:13.5px;line-height:1.9;margin-top:10px;white-space:pre-wrap}
+  .vdesc .hl{color:#4f8f8b}
+  .comments{border-top:1px solid #1c2330;margin-top:10px;padding-top:14px}
+  .comments h4{color:#4d586c;font-size:12px;letter-spacing:3px;font-weight:400}
+  .cm{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #151c28}
+  .cm .ca{width:32px;height:32px;border-radius:50%;background:#151c28;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#4a7dd6;font-size:13px}
+  .cm .cb{flex:1}
+  .cm .cu{color:#4d586c;font-size:12px}
+  .cm .cu b{color:#7e8aa0;font-weight:500}
+  .cm .ct{color:#c3cad8;font-size:14px;margin-top:3px;line-height:1.8}
+  .cm .ct .hl{color:#4f8f8b}
+  #reveal{
+    position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.88);color:#e8edf5;font-size:24px;letter-spacing:14px;
+    font-family:"Songti SC",serif;
+  }
+  #reveal.show{display:flex;animation:fadein 1.2s ease both}
+  .navlinks{display:flex;gap:16px;font-size:12.5px;margin-top:8px}
+  .navlinks a{color:#4a7dd6;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="v-wrap">
+  <div class="v-top">
+    <div class="v-logo">MUTE<b>.TV</b><span class="sm">每一帧都值得 · 反正也没人看</span></div>
+    <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
+    <button class="corner" style="position:static" id="toMusic">‹ 空耳FM</button>
+    <button class="corner" style="position:static" id="toChat">‹ 未 读</button>
+  </div>
+
+  <!-- 视频 1：蝴蝶 -->
+  <div class="v-item">
+    <div class="player" id="p1">
+      <video id="v1" src="assets/media/butterfly.mp4" poster="assets/media/butterfly.png" muted loop playsinline></video>
+      <div class="danmu" id="dm1"></div>
+      <div id="reveal">亥 时 三 刻</div>
+    </div>
+    <div class="vmeta">
+      <div class="vtitle">黑白。废墟里的一只蝴蝶。</div>
+      <div class="vstats">深水无鱼 · 播放 8 · 点赞 8 · 收藏 8 · 上传于 8 月 8 日 08:08</div>
+      <div class="vdesc">今天在青云观的废墟里拍的。本来想调色，后来觉得黑白更好。
+黑色的部分我一直盯着看，看久了有点晕。<span class="hl">（本视频简介被编辑过 8 次，其余 7 次都只写了一个字。）</span></div>
+      <div class="comments">
+        <h4>评论 8</h4>
+        <div class="cm"><div class="ca">倒</div><div class="cb"><div class="cu"><b>倒影先生</b> · 8 天前</div>
+          <div class="ct">放大看翅膀黑色的部分。多看几次。别眨眼。</div></div></div>
+        <div class="cm"><div class="ca">北</div><div class="cb"><div class="cu"><b>北岛以北</b> · 8 天前</div>
+          <div class="ct">拍蝴蝶的人在想什么。</div></div></div>
+        <div class="cm"><div class="ca">未</div><div class="cb"><div class="cu"><b>未命名文件夹</b> · 8 天前</div>
+          <div class="ct">楼主，<span class="hl">青云观的香炉下面有东西</span>，你拨开看看。</div></div></div>
+        <div class="cm"><div class="ca">无</div><div class="cb"><div class="cu"><b>无人接听</b> · 8 天前</div>
+          <div class="ct">为什么播放量是 8。谁看了八次。</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 视频 2：房间 -->
+  <div class="v-item">
+    <div class="player">
+      <video id="v2" src="assets/media/room.mp4" poster="assets/media/room.png" muted loop playsinline></video>
+      <div class="danmu" id="dm2"></div>
+    </div>
+    <div class="vmeta">
+      <div class="vtitle">凌晨三点，我的房间。没有开灯。</div>
+      <div class="vstats">深水无鱼 · 播放 8 · 点赞 8 · 弹幕 8 · 上传于 8 月 8 日 20:08</div>
+      <div class="vdesc">拍着玩的。屏幕亮着，人没亮。<span class="hl">（这条视频只有 8 秒。有人把它看了 8 个 8 秒。）</span></div>
+      <div class="comments">
+        <h4>评论 8</h4>
+        <div class="cm"><div class="ca">倒</div><div class="cb"><div class="cu"><b>深水无鱼</b> · 置顶 · 8 天前</div>
+          <div class="ct">床底下有个旧箱子，我从老家搬来的。密码是我歌单里<span class="hl">第 8 首歌的名字</span>。猜出来也没有奖。</div></div></div>
+        <div class="cm"><div class="ca">静</div><div class="cb"><div class="cu"><b>静音模式</b> · 8 天前</div>
+          <div class="ct">箱子里是什么。</div></div></div>
+        <div class="cm"><div class="ca">倒</div><div class="cb"><div class="cu"><b>深水无鱼</b> · 8 天前</div>
+          <div class="ct">箱子里是<span class="hl">我</span>。开个玩笑。去云屉看。</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=33"></script>
+<script>
+if (DJ.gate(2)) main();
+function main(){
+  DJ.unlock(2);
+  const $ = id => document.getElementById(id);
+
+  /* 弹幕 */
+  const words = ["未读","已读","大吉","8","别看了","顺其自然","哈哈哈","亥时","空房间","你也在看吗"];
+  function fillDanmu(id){
+    const box = $(id);
+    for (let i = 0; i < 8; i++){
+      const s = document.createElement("span");
+      s.textContent = words[Math.floor(Math.random()*words.length)];
+      s.style.top = (Math.random()*160) + "px";
+      s.style.animationDuration = (9 + Math.random()*10) + "s";
+      s.style.animationDelay = (Math.random()*8) + "s";
+      s.style.opacity = .3 + Math.random()*.5;
+      box.appendChild(s);
+    }
+  }
+  fillDanmu("dm1"); fillDanmu("dm2");
+
+  /* 视频 1：点视频 8 次 → 揭示 */
+  let n = 0;
+  $("p1").onclick = () => {
+    $("v1").muted = false; $("v1").play(); 
+    n++; DJ.sfx.type();
+    if (n >= 8){
+      $("reveal").classList.add("show");
+      DJ.sfx.read(); DJ.flag("video_hai"); DJ.addIncense(1);
+      setTimeout(() => $("reveal").classList.remove("show"), 3600);
+    }
+  };
+  $("v2").onclick = () => { $("v2").muted = false; $("v2").play(); };
+
+  $("toSearch").onclick = () => location.href="search.html";
+  $("toMusic").onclick = () => location.href="music.html";
+  $("toChat").onclick = () => location.href="chat.html";
+
+  DJ.envHint("第一条视频的评论区，有人说了个地方。", "vd1", 70);
+  DJ.envHint("点视频。八次。别眨眼。", "vd2", 160);
+  DJ.envHint("箱子密码在歌单里。歌单在另一个平台。", "vd3", 280);
+
+  DJ.injectDivine({
+    clear:[ "上上签：蝴蝶视频要用手点。八下。",
+            "上上签：箱子密码是歌单第八首。歌单叫『我把心事排成队列』。" ],
+    poetic:["中平签：八目共赏，赏的是同一只蝴蝶。",
+            "中平签：视频八秒，有人看了八个八秒。" ],
+    empty:[ "下下签：弹幕都比你先到。",
+            "下下签：播放量为什么是 8？你再想想谁在看。" ]
+  });
+}
+</script>
+</body>
+</html>
