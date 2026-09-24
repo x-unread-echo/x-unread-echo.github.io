@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>亥时 — 废墟</title>
 <!-- 亥时三刻。你自己挑的时间。 -->
-<link rel="stylesheet" href="assets/style.css?v=33">
+<link rel="stylesheet" href="assets/style.css?v=34">
 <style>
   body{background:#04070d;overflow:hidden}
   /* .scene 由 JS 按图片比例计算出"cover 矩形"，热点在里面按百分比定位——任何屏幕都和画面对得上 */
@@ -62,6 +62,8 @@
 <div class="spot" id="spRadio" style="left:40%;top:74%"></div>
 </div>
 <div id="dark"></div>
+<!-- 暗角：让手电的光更像光 -->
+<div style="position:fixed;inset:0;pointer-events:none;z-index:6;background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.55) 100%)"></div>
 
 <div class="hud">
   <span>亥时三刻 · <b id="clock">21:45</b></span>
@@ -78,7 +80,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=33"></script>
+<script src="assets/game.js?v=34"></script>
 <script>
 if (DJ.gate(4)) main();
 function main(){

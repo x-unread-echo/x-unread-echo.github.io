@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=33">
+<link rel="stylesheet" href="assets/style.css?v=34">
 <style>
   body{background:#0b0f14;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
@@ -72,6 +72,14 @@
   }
   @keyframes smoke{0%,100%{transform:translateX(-2px) scaleY(1)}50%{transform:translateX(4px) scaleY(1.2)}}
   .censer-big:hover .smoke{height:52px}
+  /* 摇签筒抖动 */
+  @keyframes shake{0%,100%{transform:rotate(0)}18%{transform:rotate(-4deg)}36%{transform:rotate(4deg)}54%{transform:rotate(-3deg)}72%{transform:rotate(3deg)}86%{transform:rotate(-1deg)}}
+  .stickpit.shake{animation:shake .5s ease}
+  /* 签纸：真签文有红头 */
+  #paperSlip::before{
+    content:"青云观灵签";display:block;font-size:11px;letter-spacing:6px;
+    color:#a03a32;border-bottom:1px solid #c9b8a8;padding-bottom:6px;margin-bottom:8px;
+  }
   #paperSlip{
     display:none;background:#dfe5ee;color:#3a3f4a;padding:14px 20px;margin:14px auto;
     max-width:380px;font-size:14px;letter-spacing:3px;text-align:center;transform:rotate(-1.5deg);
@@ -165,7 +173,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=33"></script>
+<script src="assets/game.js?v=34"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -175,9 +183,9 @@ function main(){
 
   /* ---------- C11：问缘问财问寿皆大吉，签文皆孤 ---------- */
   const luckyTexts = [
-    "大吉。\n所爱隔山海，山海皆可平。\n唯君独立处，无人问归程。",
-    "大吉。\n财自八方来，尽入君囊中。\n囊中无一物，可换一盏灯。",
-    "大吉。\n寿比南山石，石烂君犹在。\n在者无一亲，遥祭自己身。"
+    "第六签 · 上吉\n所爱隔山海，山海皆可平。\n唯君独立处，无人问归程。\n解曰：诸事皆宜。宜远行，宜断舍，宜不告而别。",
+    "第十七签 · 上吉\n财自八方来，尽入君囊中。\n囊中无一物，可换一盏灯。\n解曰：大吉。只是吉的不是你。",
+    "第三九签 · 上吉\n寿比南山石，石烂君犹在。\n在者无一亲，遥祭自己身。\n解曰：长寿。勿念。"
   ];
   let luckyIdx = 0;
   document.querySelectorAll(".askbtn[data-ask]").forEach(b => {
@@ -185,7 +193,7 @@ function main(){
       DJ.sfx.click();
       const out = $("qianResult");
       if (b.dataset.ask === "ji"){ askJi(); return; }
-      out.innerHTML = `<div class="qhead">大 吉</div><div class="qtext">${luckyTexts[luckyIdx++ % luckyTexts.length]}</div>`;
+      out.innerHTML = `<div class="qhead">上 吉</div><div class="qtext">${luckyTexts[luckyIdx++ % luckyTexts.length]}</div>`;
       DJ.flag("saw_lucky");
     };
   });
@@ -219,7 +227,7 @@ function main(){
   let pulls = 0;
   const pit = $("pit");
   for (let i = 0; i < 9; i++){ const s = document.createElement("i"); s.className = "stick"; pit.appendChild(s); }
-  const normalQian = ["第一签：平。","第七签：小吉。行路遇雨，带伞则安。","第廿三签：中平。勿问。","第五五签：上吉。所求皆妄，所遇皆缘。"];
+  const normalQian = ["第一签 · 平。解曰：不必解。","第七签 · 小吉。行路遇雨，带伞则安。解曰：伞在观里。你来晚了。","第廿三签 · 中平。解曰：勿问。","第五五签 · 上吉。所求皆妄，所遇皆缘。解曰：缘已用尽。"];
   $("pullBtn").onclick = () => {
     DJ.sfx.pull();
     pit.classList.add("shake"); setTimeout(()=>pit.classList.remove("shake"), 450);
@@ -249,8 +257,15 @@ function main(){
     if (!dug){
       dug = true;
       $("paperSlip").style.display = "block";
+      document.querySelector(".censer-big .ash").style.background = "#23262d";
+      document.querySelector(".censer-big .ash").style.boxShadow = "inset 0 2px 6px rgba(0,0,0,.7)";
       DJ.flag("found_slip"); DJ.addIncense(1);
       setTimeout(openGate, 800);
+      /* 灰里的刻痕：拨开纸条的位置，八道，等宽，像数出来的 */
+      const mark = document.createElement("div");
+      mark.className = "small"; mark.style.marginTop = "8px"; mark.style.letterSpacing = "2px";
+      mark.textContent = "纸条拿走后，灰底上留着刻痕。数了数，八道。";
+      document.querySelector(".censer-big").after(mark);
     } else {
       $("paperSlip").textContent = DJ.rvOf("guanyun") >= 2
         ? "灰下面又露出一张新的。只写了一句：『你上次也翻过这里。』"

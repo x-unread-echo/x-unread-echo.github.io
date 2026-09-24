@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=33">
+<link rel="stylesheet" href="assets/style.css?v=34">
 <style>
   body{background:#04070c;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -196,6 +196,12 @@
   }
   #divbtn:hover{color:#d0d0d4;border-color:rgba(255,255,255,.3)}
   .glitch{animation:glitch .18s steps(2) 3}
+  /* 消息入场：新气泡轻轻浮上来 */
+  @keyframes popin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .mrow{animation:popin .28s ease both}
+  /* 未读角标跳动 */
+  @keyframes bjump{0%,100%{transform:scale(1)}40%{transform:scale(1.35)}}
+  .navbadge.jump{animation:bjump .4s ease}
 </style>
 </head>
 <body>
@@ -239,6 +245,10 @@
 
     <div class="sysmsg">8月8日 8:09</div>
     <div class="mrow me"><div><div class="bub removed" id="recalled">此信息已移除</div><div class="ts">8:09</div></div></div>
+
+    <div class="datebar">8月12日 周三</div>
+    <div class="mrow me"><div><div class="bub">睡不着。你那边呢</div><div class="ts">3:12</div></div></div>
+    <div class="mrow me"><div><div class="bub">算了。你睡吧</div><div class="ts">3:16</div></div></div>
 
     <div class="datebar">8月18日 周二</div>
     <div class="mrow me"><div><div class="bub">我发现一个规律。所有我在乎的人，最后都会变成一个备注名。</div><div class="ts">18:08</div></div></div>
@@ -311,7 +321,7 @@
     <div class="sheettitle">草稿箱</div>
     <div class="sheetsub">这些都是打了、但从来没敢发出去的话</div>
     <div class="draft"><div class="dt">草稿 · 8月8日 08:08</div>
-      <div class="db">其实我没有很开心。今天那种。就是正常营业。</div></div>
+      <div class="db">其实我没有很开心。也说不上不好。就是正常营业。</div></div>
     <div class="draft"><div class="dt">草稿 · 8月18日 18:08</div>
       <div class="db">我不是不回你消息。我是怕我一开口，就全说出来了。</div></div>
     <div class="draft"><div class="dt">草稿 · 8月20日 20:08</div>
@@ -331,7 +341,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=33"></script>
+<script src="assets/game.js?v=34"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -445,6 +455,8 @@ function main(){
       unread += 8;
     }
     renderUnread();
+    const b = $("ubadge");
+    b.classList.remove("jump"); void b.offsetWidth; b.classList.add("jump");
     DJ.flag("sent_any");
     scheduleStill();
   }
@@ -530,6 +542,8 @@ function main(){
       r.innerHTML = "<span style='color:#0a84ff'>找到 1 条相关结果——但它从来没有被发送过。在 ⓘ → 草稿箱。</span>";
       DJ.flag("hint_draft");
     }
+    else if (q.includes("为什么")) r.innerHTML = "<span style='color:#8e8e93'>没有找到「为什么」的结果。</span>";
+    else if (q.includes("还好")) r.innerHTML = "<span style='color:#8e8e93'>「还好」在这段对话里出现过 24 次。全部是在回答。</span>";
     else if (q.includes("顺其自然")) r.innerHTML = "<span style='color:#ff453a'>搜索结果：还不急。</span>";
     else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。</span>";
     else r.textContent = "没有找到「" + q + "」的结果。";
@@ -567,6 +581,12 @@ function main(){
 
   /* 问卦按钮挪进手机框内（否则 fixed 定位会悬在框外） */
   document.querySelector(".iphone").appendChild($("divbtn"));
+
+  /* 电量与"第 N 次唤醒"挂钩：每次重进少一格，呼应首页那句话 */
+  const rvBootPct = Math.max(8, 72 - (DJ.state.rv && DJ.state.rv.boot ? DJ.state.rv.boot : 0) * 9);
+  const battBar = document.querySelector(".batt i");
+  battBar.style.width = rvBootPct + "%";
+  document.querySelector(".batt").title = "你从没见过这个数字变大。";
 
   renderUnread();
 }

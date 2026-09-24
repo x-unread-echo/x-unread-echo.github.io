@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>倒影小组 - Reflexion BBS - 2008</title>
 <!-- 你看到这里了。你看东西，总是越过表面。 -->
-<link rel="stylesheet" href="assets/style.css?v=33">
+<link rel="stylesheet" href="assets/style.css?v=34">
 <style>
   body{background:#0a0e14}
   .wrapf{max-width:780px;margin:0 auto;padding:20px 16px 100px}
@@ -155,7 +155,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=33"></script>
+<script src="assets/game.js?v=34"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -177,6 +177,8 @@ function main(){
     "一个理性的问题：如何用逻辑证明『被理解』是存在的",
     "晚安。这个版块每天晚上都有一句晚安，从来没有少过一天"
   ];
+  /* 日期：八天一个周期——和搜索结果、和『潮汐』那帖对得上 */
+  const tdates = ["08-08","08-16","08-24","09-01","09-09","09-17","09-25","10-03"];
   const list = $("threadList");
   const rvForum = DJ.revisit("forum");
   if (rvForum >= 2){
@@ -205,7 +207,7 @@ function main(){
     const t = document.createElement("div"); t.className = "thread";
     t.innerHTML = `<div class="tavatar">${bpart(i, fills[i])}</div>
       <div class="ttitle">${titles[i]}</div>
-      <div class="tmeta">楼主：${u}<br>回复 8 · 08-08</div>`;
+      <div class="tmeta">楼主：${u}<br>回复 8 · ${tdates[i]}</div>`;
     t.onclick = () => openThread(i);
     list.appendChild(t);
   });
@@ -298,11 +300,12 @@ ${bodies[i]}</div>
       </div></div>`;
     for (let r = 0; r < 8; r++){
       const ui = (i + r) % 8;
+      const ri = (r + i * 3) % replies.length; /* 每帖回复错位，不重样 */
       html += `<div class="floor">
         <div class="favatar">${bpart(ui, fills[ui])}</div>
         <div style="flex:1">
           <div class="fhead">${users[ui]} · ${r+1}楼 · 注册于 2008-08-08</div>
-          <div class="reply">${replies[r]}</div>
+          <div class="reply">${replies[ri]}</div>
         </div></div>`;
     }
     $("threadBody").innerHTML = html;
