@@ -58,6 +58,42 @@
   .hline .who { color:#6c7ca3; margin-right:8px; }
   .hline.glow { color:#dfe7f5; }
 
+  /* ---- 标签面板 ---- */
+  .tabview { display:none; }
+  .tabview.show { display:block; animation:fadein2 .5s ease both; }
+  @keyframes fadein2 { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+  .nvlinks a { cursor:pointer; }
+  .nvlinks a.on { pointer-events:none; }
+
+  /* 待办 */
+  .todo .row .what::before { content:"◻ "; color:#c9c9c9; }
+  .todo .row.done .what::before { content:"◼ "; color:#dcdcdc; }
+  .todo .row.done .what { color:#bdbdbd; text-decoration:line-through; text-decoration-color:#e3e3e3; }
+  .todo .row.noti .what::before { content:"◻ "; color:#c0392b; }
+  .todonote { font-size:12px; color:#bbb; margin-top:12px; letter-spacing:1px; }
+  body.night .todonote { color:#3d4a68; }
+
+  /* 归档 */
+  .arch .row .what { color:#666; }
+  .arch .row .what small { color:#c5c5c5; }
+  .archempty { font-size:13px; color:#c5c5c5; letter-spacing:2px; padding:16px 20px; }
+  body.night .archempty { color:#3d4a68; }
+
+  /* 共享设置 */
+  .sharebox { background:#fff; border:1px solid #ececec; border-radius:8px; padding:18px 20px; display:flex; align-items:center; gap:14px; }
+  body.night .sharebox { background:#10141f; border-color:#1d2436; }
+  .sharebox .avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#e8e8e8,#d3d3d3); flex-shrink:0; position:relative; overflow:hidden; }
+  body.night .sharebox .avatar { background:linear-gradient(135deg,#232c42,#161d30); }
+  .sharebox .avatar::after { content:""; position:absolute; inset:0; background:linear-gradient(20deg,transparent 45%,rgba(255,255,255,.5) 50%,transparent 55%); }
+  .sharebox .sinfo { flex:1; }
+  .sharebox .sname { font-size:14px; color:#333; }
+  body.night .sharebox .sname { color:#aebad0; }
+  .sharebox .sperm { font-size:12px; color:#b5b5b5; margin-top:2px; }
+  body.night .sharebox .sperm { color:#3d4a68; }
+  .rmshare { font-size:12px; color:#c0392b; background:none; border:1px solid #e8c5c2; border-radius:14px; padding:5px 14px; cursor:pointer; font-family:inherit; }
+  .rmshare:hover { background:#fdf3f2; }
+  .rmshare:disabled { opacity:.5; cursor:default; }
+
   /* ---- 共用 ---- */
   .cta-row { text-align:center; margin:32px 0 8px; }
   .cta {
@@ -119,22 +155,60 @@
       <h1>X 的本周</h1>
       <div class="sub">与 <b>1</b> 人共享 · 最后编辑 今天</div>
     </div>
-    <div class="statline">
-      <span>本周事项：<b>32</b></span>
-      <span>已完成：<b>29</b></span>
-      <span>未完成：<b>3</b></span>
-      <span>访客：<b id="pv">3</b></span>
+    <div class="tabview show" id="tabSched">
+      <div class="statline">
+        <span>本周事项：<b>32</b></span>
+        <span>已完成：<b>29</b></span>
+        <span>未完成：<b>3</b></span>
+        <span>访客：<b id="pv">3</b></span>
+      </div>
+
+      <div class="sched">
+        <div class="row"><span class="tm">07:50</span><span class="what">闹钟响了三遍<small>第三遍才是真的想起</small></span></div>
+        <div class="row"><span class="tm">09:30</span><span class="what">上午的会<small>大部分时间是等</small></span></div>
+        <div class="row"><span class="tm">12:00</span><span class="what">中午吃什么<small>这道题每天都没解出来</small></span></div>
+        <div class="row"><span class="tm">15:00</span><span class="what">回消息<small>回了三个字</small></span></div>
+        <div class="row"><span class="tm">18:30</span><span class="what">人多的饭<small>笑到脸酸</small></span></div>
+        <div class="row"><span class="tm">22:40</span><span class="what">洗澡<small>水声很大，想了很多</small></span></div>
+        <div class="row blank"><span class="tm">23:00</span><span class="what" id="dayBlank">— 空白 —</span></div>
+        <div class="row blank"><span class="tm">03:12</span><span class="what" id="dayBlank2">— 空白 —</span></div>
+      </div>
     </div>
 
-    <div class="sched">
-      <div class="row"><span class="tm">07:50</span><span class="what">闹钟响了三遍<small>第三遍才是真的想起</small></span></div>
-      <div class="row"><span class="tm">09:30</span><span class="what">上午的会<small>大部分时间是等</small></span></div>
-      <div class="row"><span class="tm">12:00</span><span class="what">中午吃什么<small>这道题每天都没解出来</small></span></div>
-      <div class="row"><span class="tm">15:00</span><span class="what">回消息<small>回了三个字</small></span></div>
-      <div class="row"><span class="tm">18:30</span><span class="what">人多的饭<small>笑到脸酸</small></span></div>
-      <div class="row"><span class="tm">22:40</span><span class="what">洗澡<small>水声很大，想了很多</small></span></div>
-      <div class="row blank"><span class="tm">23:00</span><span class="what" id="dayBlank">— 空白 —</span></div>
-      <div class="row blank"><span class="tm">03:12</span><span class="what" id="dayBlank2">— 空白 —</span></div>
+    <div class="tabview todo" id="tabTodo">
+      <div class="sched">
+        <div class="row done"><span class="tm">周一</span><span class="what">把上周的会纪要发出去</span></div>
+        <div class="row done"><span class="tm">周二</span><span class="what">给家里回个电话</span></div>
+        <div class="row done"><span class="tm">周三</span><span class="what">取快递（放了四天的那个）</span></div>
+        <div class="row done"><span class="tm">周四</span><span class="what">修一下连不上网的旧手机</span></div>
+        <div class="row done"><span class="tm">周五</span><span class="what">回复节日祝福（收到 8 条）</span></div>
+        <div class="row noti"><span class="tm">本周</span><span class="what">回复那条消息<small>置顶第 8 天了</small></span></div>
+        <div class="row noti"><span class="tm">本月</span><span class="what">整理相册<small>去年剩下的没动</small></span></div>
+        <div class="row noti"><span class="tm">长期</span><span class="what">睡前把明天想好<small>还没有做到过一次</small></span></div>
+      </div>
+      <div class="todonote">完成率 91%。剩下 9% 从来不是没时间。</div>
+    </div>
+
+    <div class="tabview arch" id="tabArch">
+      <div class="sched">
+        <div class="row"><span class="tm">上周</span><span class="what">完成 31 / 32<small>很好的一周</small></span></div>
+        <div class="row"><span class="tm">2 周前</span><span class="what">完成 30 / 31<small>正常的一周</small></span></div>
+        <div class="row"><span class="tm">3 周前</span><span class="what">完成 32 / 32<small>满分。没有什么想说的</small></span></div>
+        <div class="row"><span class="tm">更早</span><span class="what">……</span></div>
+      </div>
+      <div class="archempty" id="archCrack">（再往前没有记录。不是因为没发生过。）</div>
+    </div>
+
+    <div class="tabview" id="tabShare">
+      <div class="sharebox">
+        <div class="avatar"></div>
+        <div class="sinfo">
+          <div class="sname" id="shareName">该用户已注销</div>
+          <div class="sperm">始终可见 · 不可移除 · 自 2008-08-08</div>
+        </div>
+        <button class="rmshare" id="rmShare">移除</button>
+      </div>
+      <div class="todonote" id="shareNote">你与 1 人共享本周。对方从未打开过。也删不掉。</div>
     </div>
 
     <div class="cta-row">
@@ -151,20 +225,40 @@
       <h1>X</h1>
       <div class="sub">仅自己可见 · 共 8 条</div>
     </div>
-    <div class="statline">
-      <span>最近登录：<b>今天</b></span>
-      <span>访客：<b id="pv2">3</b></span>
+    <div class="tabview show" id="tabEntries">
+      <div class="statline">
+        <span>最近登录：<b>今天</b></span>
+        <span>访客：<b id="pv2">3</b></span>
+      </div>
+
+      <div class="hole">
+        <div class="hline"><span class="ht">00:40</span>朋友圈划了三遍。一个赞都没点。</div>
+        <div class="hline"><span class="ht">01:15</span>有人问我最近怎么样。我说挺好的。标准答案。</div>
+        <div class="hline"><span class="ht">01:52</span>已读不回也算回吧。那我回得可多了。</div>
+        <div class="hline"><span class="ht">02:06</span>笑了一整天。脸现在才下班。</div>
+        <div class="hline"><span class="ht">02:31</span>房间很安静。安静得不像我的。</div>
+        <div class="hline unread"><span class="ht">03:00 · 未读</span>有一条未读消息。你知道是谁的。你从来不点开。</div>
+        <div class="hline"><span class="ht">03:12</span>今天也没什么事。就是不想睡。睡了明天就来了。</div>
+        <div class="hline"><span class="ht">03:58</span>洗澡的时候差点哭了。出来就好了。真的。</div>
+      </div>
     </div>
 
-    <div class="hole">
-      <div class="hline"><span class="ht">00:40</span>朋友圈划了三遍。一个赞都没点。</div>
-      <div class="hline"><span class="ht">01:15</span>有人问我最近怎么样。我说挺好的。标准答案。</div>
-      <div class="hline"><span class="ht">01:52</span>已读不回也算回吧。那我回得可多了。</div>
-      <div class="hline"><span class="ht">02:06</span>笑了一整天。脸现在才下班。</div>
-      <div class="hline"><span class="ht">02:31</span>房间很安静。安静得不像我的。</div>
-      <div class="hline unread"><span class="ht">03:00 · 未读</span>有一条未读消息。你知道是谁的。你从来不点开。</div>
-      <div class="hline"><span class="ht">03:12</span>今天也没什么事。就是不想睡。睡了明天就来了。</div>
-      <div class="hline"><span class="ht">03:58</span>洗澡的时候差点哭了。出来就好了。真的。</div>
+    <div class="tabview" id="tabUnread">
+      <div class="sharebox" style="display:block">
+        <div class="sname">发件人：<span style="color:#c0564f">（你没有备注过这个名字）</span></div>
+        <div class="sperm" style="margin-top:8px">时间：03:00 · 状态：送达，未读</div>
+        <div style="margin-top:14px;padding:14px;background:#0d1420;border:1px solid #1d2436;border-radius:6px;color:#6c7ca3;font-size:13.5px;line-height:2" id="unreadBody">内容加载失败。已重试 8 次。</div>
+      </div>
+      <div class="todonote">你可以不点开。这本身也是一种回答。</div>
+    </div>
+
+    <div class="tabview" id="tabArch2">
+      <div class="sched">
+        <div class="row"><span class="tm">今年</span><span class="what">已存档 8 条</span></div>
+        <div class="row"><span class="tm">去年</span><span class="what">已存档 8 条</span></div>
+        <div class="row"><span class="tm">八年前</span><span class="what">存档失败<small>原因：当天没有结束</small></span></div>
+      </div>
+      <div class="todonote">恢复功能暂不可用。抱歉。</div>
     </div>
 
     <div class="cta-row">
@@ -205,18 +299,50 @@ const now = new Date();
 const hr = now.getHours();
 const isNight = hr >= 23 || hr < 5;
 
-/* 白天/夜晚切换 */
+/* 白天/夜晚切换 + 真标签页 */
+const TABS = isNight
+  ? [ ["tabEntries","条目"], ["tabUnread","未读"], ["tabArch2","存档"] ]
+  : [ ["tabSched","日程"], ["tabTodo","待办"], ["tabArch","归档"], ["tabShare","共享设置"] ];
+
+function switchTab(id){
+  TABS.forEach(([tid]) => $(tid).classList.toggle("show", tid === id));
+  $("nvlinks").querySelectorAll("a").forEach(a =>
+    a.classList.toggle("on", a.dataset.tab === id));
+}
+
 if (isNight) {
   document.title = "X";
   document.body.classList.add("night");
   $("dayView").style.display = "none";
   $("nightView").style.display = "block";
   $("nvlogo").innerHTML = 'X<em style="font-style:normal;color:#4a5570;font-size:11px;font-weight:400;margin-left:8px">树洞</em>';
-  $("nvlinks").innerHTML = '<a href="#">条目</a><a href="#" style="color:#dfe7f5;font-weight:600">未读</a><a href="#">存档</a>';
 } else {
   $("nvtag").textContent = "本周";
-  $("nvlinks").innerHTML = '<a href="#" style="color:#111;font-weight:600">日程</a><a href="#">待办</a><a href="#">归档</a><a href="#">共享设置</a>';
 }
+$("nvlinks").innerHTML = TABS.map(([tid,label],i) =>
+  `<a data-tab="${tid}"${i===0?' style="font-weight:600"':''}>${label}</a>`).join("");
+$("nvlinks").querySelectorAll("a").forEach(a =>
+  a.onclick = () => { DJ.sfx.click(); switchTab(a.dataset.tab); });
+$("nvlinks").firstChild.classList.add("on");
+$("nvlinks").firstChild.style.color = isNight ? "#dfe7f5" : "#111";
+
+/* 共享设置：移除不掉的人 */
+const rm = $("rmShare");
+if (rm) rm.onclick = () => {
+  DJ.sfx.err();
+  rm.disabled = true;
+  rm.textContent = "移除失败";
+  $("shareNote").textContent = "移除失败。权限不在你这里。从来都不在。";
+  rm.style.animation = "jit .12s linear 6";
+};
+/* 未读：点一次，多漏一句 */
+const ub = $("unreadBody");
+if (ub){ let uc = 0; ub.onclick = () => {
+  uc++; DJ.sfx.type();
+  if (uc === 1) ub.textContent = "重试失败。这一次不是网络的问题。";
+  else if (uc === 2) ub.textContent = "（其实不是加载失败。）";
+  else { ub.textContent = "是你自己选的：不读。八年来，一直是。"; ub.style.color = "#c0564f"; DJ.sfx.read(); }
+}; }
 
 /* ---------- 老玩家 ---------- */
 const CHAPTER_PAGES = { 1:"chat.html", 2:"guanyun.html", 3:"forum.html", 4:"ruins.html", 5:"mask.html", 6:"archive.html", 7:"final.html" };
@@ -251,12 +377,28 @@ if (isReturning) {
     }, 2200);
   });
 } else {
-  /* ---------- 新玩家：龟裂时间线（白天/夜晚各自版本） ---------- */
+  /* ---------- 新玩家：龟裂时间线（提前一倍 + 互动加速） ---------- */
   let started = false;
-  const step = (ms, fn) => setTimeout(() => { if (!started) fn(); }, ms);
+  const TL = [];
+  const step = (ms, fn) => TL.push({ ms, fn, done:false });
+  /* 调度器：玩家一滚动/点击/触摸，剩余等待全部压缩到 35% */
+  let factor = 1, booted = Date.now(), handles = [];
+  function schedule(){
+    handles.forEach(clearTimeout); handles = [];
+    const el = Date.now() - booted;
+    TL.forEach(s => {
+      if (s.done) return;
+      handles.push(setTimeout(() => { s.done = true; if (!started) s.fn(); }, Math.max(0, (s.ms - el) * factor)));
+    });
+  }
+  function accel(){ if (factor === 1){ factor = .35; booted = Date.now() - 0; schedule(); } }
+  ["scroll","touchstart","keydown"].forEach(ev =>
+    window.addEventListener(ev, accel, { once:true, passive:true }));
+  document.addEventListener("click", accel, { once:true });
+  schedule();
 
-  /* 4s：访客数 3 → 8，然后永远卡住 */
-  step(4000, () => {
+  /* 2.5s：访客数 3 → 8，然后永远卡住 */
+  step(2500, () => {
     const pv = isNight ? $("pv2") : $("pv");
     pv.textContent = "8";
     pv.parentElement.title = "每天都是第 8 位。";
@@ -264,35 +406,35 @@ if (isReturning) {
 
   if (isNight) {
     /* 夜晚：树洞开始回应 */
-    step(8000, () => {
+    step(4500, () => {
       const hlines = document.querySelectorAll(".hline");
       hlines[Math.floor(hlines.length / 2)].classList.add("glitchy", "redded");
     });
-    step(12000, () => {
+    step(6500, () => {
       const g = document.createElement("div");
       g.className = "hline glow";
       g.innerHTML = '<span class="ht">' + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + ' · 刚刚</span>有人在看这个页面。是你吗。';
       document.querySelector(".hole").appendChild(g);
       g.scrollIntoView({ block: "center", behavior: "smooth" });
     });
-    step(14500, () => {
+    step(8000, () => {
       const g = document.querySelector(".hline.glow");
       if (g) g.innerHTML += '<span class="ht" style="margin-top:6px">没事。都这样。明天再说。</span>';
     });
-    step(16000, () => {
+    step(9000, () => {
       $("cta2").classList.add("lit");
       $("ctaNote2").textContent = "它好像在等这一下";
       $("cta2").onclick = doBreak;
     });
   } else {
     /* 白天：日程的缝隙里渗东西 */
-    step(8000, () => {
+    step(4500, () => {
       $("dayBlank").textContent = "— 睡不着 —";
       $("dayBlank").classList.add("redded", "glitchy");
       $("dayBlank").parentElement.classList.remove("blank");
       $("dayBlank").parentElement.classList.add("noti");
     });
-    step(12000, () => {
+    step(6500, () => {
       $("dayBlank2").textContent = "其实今天也没有很好。";
       $("dayBlank2").classList.remove("blank-style");
       $("dayBlank2").style.color = "#8a4a44";
@@ -301,14 +443,14 @@ if (isReturning) {
       $("dayBlank2").parentElement.classList.add("noti");
       $("dayBlank2").scrollIntoView({ block: "center", behavior: "smooth" });
     });
-    step(14500, () => {
+    step(8000, () => {
       const r = document.createElement("div");
       r.className = "row noti";
       r.innerHTML = '<span class="tm">03:12</span><span class="what">你今天说了几次"还好"？</span>';
       document.querySelector(".sched").appendChild(r);
       r.scrollIntoView({ block: "center", behavior: "smooth" });
     });
-    step(16000, () => {
+    step(9000, () => {
       $("cta").classList.add("lit");
       $("ctaNote").textContent = "你的设备似乎有话想说";
       $("cta").onclick = doBreak;
