@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>第八楼 · 房间</title>
-<link rel="stylesheet" href="assets/style.css?v=34">
+<link rel="stylesheet" href="assets/style.css?v=35">
 <style>
   body{background:#05080f;overflow:hidden}
   .room{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
@@ -14,9 +14,29 @@
     min-height:72px;text-shadow:0 0 20px rgba(7,13,24,.9);transition:opacity .6s;white-space:pre-line;
   }
   #mono.fade{opacity:0}
-  #maskWrap{cursor:pointer;user-select:none;transition:transform .3s}
+  #maskWrap{cursor:pointer;user-select:none;transition:transform .3s;position:relative;z-index:2}
   #maskWrap:hover{transform:scale(1.02)}
   #maskWrap:active{transform:scale(.985)}
+  /* 面具身后的微光：像有月光从高处落下来 */
+  #maskGlow{
+    position:absolute;left:50%;top:50%;width:420px;height:420px;transform:translate(-50%,-52%);
+    background:radial-gradient(circle,rgba(174,191,216,.10) 0%,rgba(174,191,216,.035) 42%,transparent 70%);
+    border-radius:50%;pointer-events:none;z-index:-1;animation:glowbreath 5s ease-in-out infinite;
+  }
+  @keyframes glowbreath{0%,100%{opacity:.7}50%{opacity:1}}
+  /* 地面投影：把面具钉在"房间"里 */
+  #maskShadow{
+    position:absolute;left:50%;bottom:calc(50% - 178px);transform:translateX(-50%);
+    width:170px;height:26px;border-radius:50%;
+    background:radial-gradient(ellipse,rgba(0,0,0,.55) 0%,transparent 70%);
+    pointer-events:none;z-index:1;filter:blur(2px);
+  }
+  /* 地板线：一条极淡的地平线，让空间有纵深 */
+  .room::after{
+    content:"";position:absolute;left:0;right:0;bottom:26%;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(28,44,74,.5) 30%,rgba(28,44,74,.5) 70%,transparent);
+    pointer-events:none;
+  }
   #crackText{
     position:fixed;bottom:120px;left:50%;transform:translateX(-50%);
     color:#42536f;font-size:12px;letter-spacing:4px;transition:color .6s;
@@ -79,6 +99,8 @@
   <div id="mono"></div>
 
   <div id="maskWrap">
+    <div id="maskGlow"></div>
+    <div id="maskShadow"></div>
     <svg width="230" height="270" viewBox="0 0 230 270">
       <defs>
         <radialGradient id="mg" cx="40%" cy="35%">
@@ -115,7 +137,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=34"></script>
+<script src="assets/game.js?v=35"></script>
 <script>
 if (DJ.gate(5)) main();
 function main(){
@@ -137,7 +159,7 @@ function main(){
     "「哈哈哈。」\n这两个字我打得比呼吸还熟练。",
     "我不回复，不是没看见。\n是看了十七遍。",
     "（第四层。面具后面没有脸。）",
-    "我心软得没出息。\n别人随口一句好话，我记了三年。",
+    "我心软得没出息。\n别人随口一句好话，我记了三年。\n有人问，敏感是不是病。\n不是。那是把别人接不住的东西也接住了。重一点，正常。",
     "我试过用成绩、用掌声、用别人眼里的『过得好』去填。\n全漏了。一点没剩。",
     "我没有病。\n我只是……只是……",
     "（第八层。）"

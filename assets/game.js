@@ -155,7 +155,7 @@ const DJ = (() => {
   api.injectDivine = (hintPool) => {
     const root = document.createElement("div");
     root.innerHTML = `
-      <button class="corner" id="divbtn" style="top:56px">问 卦</button>
+      <button class="corner" id="divbtn">问 卦</button>
       <div id="divhint"><div class="divbox">
         <button class="divclose" id="divx">✕</button>
         <h3>青 云 观 · 问 己</h3>

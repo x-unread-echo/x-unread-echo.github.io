@@ -5,19 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>倒影小组 - Reflexion BBS - 2008</title>
 <!-- 你看到这里了。你看东西，总是越过表面。 -->
-<link rel="stylesheet" href="assets/style.css?v=34">
+<link rel="stylesheet" href="assets/style.css?v=35">
 <style>
   body{background:#0a0e14}
   .wrapf{max-width:780px;margin:0 auto;padding:20px 16px 100px}
-  .fhdr{border-bottom:2px solid #22304a;padding-bottom:12px;display:flex;align-items:baseline;gap:14px}
-  .fhdr h1{color:#dfe5ee;font-size:24px;letter-spacing:6px}
+  .fhdr{border-bottom:2px solid #22304a;padding-bottom:12px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .fhdr h1{color:#dfe5ee;font-size:24px;letter-spacing:6px;white-space:nowrap}
   .fhdr span{color:#42536f;font-size:11px;letter-spacing:2px}
-  .navbar{background:#0e141d;border:1px solid #1c2c4a;border-top:none;padding:7px 14px;font-size:12.5px;color:#5a6a84;display:flex;gap:18px;flex-wrap:wrap}
+  @media (max-width:560px){
+    .fhdr{flex-direction:column;gap:2px;align-items:flex-start}
+    .fhdr h1{font-size:21px;letter-spacing:5px}
+  }
+  .navbar{background:#0e141d;border:1px solid #1c2c4a;border-top:none;padding:7px 14px;font-size:12.5px;color:#5a6a84;display:flex;gap:16px;flex-wrap:wrap}
   .navbar a{color:#5a6a84;text-decoration:none;letter-spacing:2px}
   .navbar a:hover{color:#aebfd8}
-  .thread{border-bottom:1px solid #141f36;padding:11px 8px;display:flex;gap:10px;align-items:center;cursor:pointer}
+  .thread{border-bottom:1px solid #141f36;padding:14px 8px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:background .2s}
   .thread:hover{background:#0e141d}
-  .thread .tavatar{width:30px;height:30px;border-radius:3px;flex-shrink:0;background:#0d1626;overflow:hidden}
+  .thread .tavatar{width:34px;height:34px;border-radius:4px;flex-shrink:0;background:#0d1626;overflow:hidden;border:1px solid #1c2c4a}
   .thread .ttitle{color:#c9d6ea;font-size:14.5px;letter-spacing:1px;flex:1}
   .thread .tmeta{color:#33415e;font-size:11px;text-align:right;line-height:1.5;letter-spacing:1px}
   .pin{color:#4f8f8b;border:1px solid #1c3a38;font-size:10px;padding:0 6px;border-radius:2px;margin-right:6px}
@@ -155,7 +159,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=34"></script>
+<script src="assets/game.js?v=35"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -288,7 +292,10 @@ C. 不说话，等对方自己放弃
       "楼主文笔很好。好到不像来发帖，像来求救的。",
       "在的。",
       "第八个回复。不知道为什么就想占这个位置。",
-      "我一直都在啊。你怎么不回头。"
+      "我一直都在啊。你怎么不回头。",
+      "我做过同款测试。后来我把测试改了——改到我能拿满分为止。改完就不难受了。真的。",
+      "别人怎么样我不管。我是不允许自己输给这件事的。",
+      "跌疼了就叹口气。明天照常。叹气不算输。"
     ];
     let html = `<div class="floor">
       <div class="favatar">${bpart(i, fills[i])}</div>

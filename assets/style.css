@@ -48,11 +48,16 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14
 .mono{font-family:var(--mono)}
 .center{text-align:center}
 
-/* ---------- 月光 ---------- */
+/* ---------- 月光：永远在内容之后，只做氛围，不抢戏 ---------- */
 .moon{
-  position:fixed;top:7%;right:10%;width:110px;height:110px;border-radius:50%;
+  position:fixed;top:-38px;right:-26px;width:140px;height:140px;border-radius:50%;
   background:radial-gradient(circle at 38% 38%, #dfe7f2 0%, #b9c7dd 45%, #8fa2bd 100%);
-  opacity:.14;pointer-events:none;filter:blur(1px);
+  opacity:.13;pointer-events:none;filter:blur(1.5px);
+  box-shadow:0 0 90px 34px rgba(174,191,216,.06);
+  z-index:-1;
+}
+@media (max-width:560px){
+  .moon{width:96px;height:96px;top:-26px;right:-20px}
 }
 
 /* ---------- 提示浮层 ---------- */
@@ -85,13 +90,30 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14
 .divclose{position:absolute;top:10px;right:16px;background:none;border:none;color:var(--faint);font-size:18px}
 .divclose:hover{color:var(--white)}
 
-/* ---------- 页脚导航 ---------- */
+/* ---------- 顶部导航（各页右上角的跳转链接） ---------- */
 .corner{
-  position:fixed;top:18px;right:22px;z-index:40;
-  color:var(--faint);font-size:12px;letter-spacing:2px;
-  background:none;border:1px solid transparent;border-radius:4px;padding:4px 10px;
+  position:fixed;top:16px;right:20px;z-index:40;
+  color:var(--dim);font-size:12px;letter-spacing:2px;
+  background:rgba(12,21,38,.55);border:1px solid var(--line);border-radius:4px;padding:5px 12px;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  transition:all .25s;
 }
-.corner:hover{color:var(--dim);border-color:var(--line)}
+.corner:hover{color:var(--white);border-color:var(--blue)}
+/* 多个导航链接时横向排布（内联 top 偏移作废） */
+.corner[style]{top:16px}
+/* 右上角一排多个链接：用 .pagenav 包起来 */
+.pagenav{
+  position:fixed;top:16px;right:20px;z-index:40;display:flex;gap:8px;align-items:center;
+}
+.pagenav .corner{position:static}
+.pagenav .dot{color:var(--faint);font-size:11px}
+
+/* ---------- 问卦：固定右下角，所有页面同一个位置 ---------- */
+#divbtn.corner{
+  top:auto;right:20px;bottom:20px;
+  border-radius:20px;padding:7px 18px;
+}
+#divbtn.corner:hover{box-shadow:0 0 14px rgba(74,125,214,.2)}
 
 /* ---------- 蝴蝶 ---------- */
 .bfly{display:inline-block;animation:flap 4s ease-in-out infinite;transform-origin:center}
