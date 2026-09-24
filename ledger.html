@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生活组 — 【记账】三年，我给他转的每一笔</title>
+<link rel="stylesheet" href="assets/style.css?v=36">
+<style>
+  body{background:#e8e6e0;font-family:Georgia,"Songti SC","SimSun",serif;color:#33322e}
+  .l-wrap{max-width:680px;margin:0 auto;padding:5vh 20px 90px}
+  .l-board{font-size:11px;color:#8a887e;letter-spacing:2px;border-bottom:2px solid #b8b5aa;padding-bottom:8px}
+  .l-title{font-size:21px;font-weight:700;margin:18px 0 6px;line-height:1.5}
+  .l-meta{font-size:12px;color:#8a887e;margin-bottom:22px;letter-spacing:1px}
+  .l-meta b{color:#5a5850}
+  .ledger{background:#f6f4ee;border:1px solid #cfccc0;padding:6px 0}
+  .ledger .row{display:flex;gap:14px;padding:9px 16px;border-bottom:1px dashed #d8d5c8;font-size:13px;align-items:baseline}
+  .ledger .row:last-child{border-bottom:none}
+  .ledger .dt{width:92px;color:#8a887e;flex-shrink:0;font-size:12px}
+  .ledger .amt{width:74px;text-align:right;flex-shrink:0;font-weight:700}
+  .ledger .memo{flex:1;color:#5a5850;line-height:1.7}
+  .ledger .edit{background:#ece8db;margin:4px 12px;padding:8px 14px;font-size:12px;color:#6b5a2a;border-left:3px solid #b8a45a}
+  .l-body{font-size:14px;line-height:2.1;margin:24px 0;color:#3a3934}
+  .l-body p{margin:0 0 16px}
+  .l-body .cold{color:#8a887e;font-size:13px}
+  .replybox{background:#f6f4ee;border:1px solid #cfccc0;padding:16px;margin-top:30px}
+  .replybox .h{font-size:12px;color:#8a887e;letter-spacing:2px;margin-bottom:10px}
+  .replybox input{width:100%;box-sizing:border-box;border:1px solid #b8b5aa;background:#fff;padding:10px 12px;
+    font-family:inherit;font-size:14px;color:#33322e;outline:none;letter-spacing:2px}
+  .replybox input:focus{border-color:#7a6a3a}
+  .replybox button{margin-top:10px;background:#5a5850;color:#f6f4ee;border:none;padding:9px 26px;
+    font-family:inherit;font-size:13px;letter-spacing:3px;cursor:pointer}
+  .replybox button:hover{background:#3a3934}
+  .replybox .tip{font-size:12px;color:#8a887e;margin-top:10px;line-height:1.9}
+  .replybox .tip em{color:#8a4b3a;font-style:normal}
+  #dm{display:none;background:#f1efe6;border:1px solid #b8b5aa;padding:16px;margin-top:16px;animation:fadein 1.2s}
+  #dm.on{display:block}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  #dm .h{font-size:11px;color:#8a887e;letter-spacing:2px;margin-bottom:8px}
+  #dm .tx{font-size:13.5px;line-height:2;color:#3a3934}
+  #dm .go{display:inline-block;margin-top:12px;font-size:13px;color:#5a5850;border-bottom:1px solid #8a887e;cursor:pointer;letter-spacing:2px}
+</style>
+</head>
+<body>
+<div class="l-wrap">
+  <div class="l-board">生活组 · 亲子版 · 第 8 页</div>
+  <div class="l-title">【记账】从 2008 年起，我给他转的每一笔钱</div>
+  <div class="l-meta">楼主：<b>凑个整</b> · 2008-10-01 03:08 · 回复 8 · 只允许回复带密码</div>
+
+  <div class="l-body">
+    <p>先说明：我不是来卖惨的。卖惨需要听众，我不缺台账。</p>
+    <p>有人劝我记账能解气。不解气。但数字比人诚实，它们至少不装。</p>
+    <p class="cold">（以下为部分流水。完整台账共 8 页，其余 7 页仅自己可见。）</p>
+  </div>
+
+  <div class="ledger" id="ledger"></div>
+  <div class="ledger" style="margin-top:10px">
+    <div class="edit">更正：5 月 20 那笔记错了，是 1900，不是 1500。备注不变。账可以记错，钱不会记错。</div>
+  </div>
+
+  <div class="l-body" style="margin-top:22px">
+    <p>都看到这了。那你们替我算算吧。</p>
+    <p>我从来不算总账。一笔一笔都对，加在一起就不敢看了。</p>
+    <p class="cold">（本帖回复已上锁。密码：他没算过的那笔账。）</p>
+  </div>
+
+  <div class="replybox">
+    <div class="h">回复本帖 · 需要密码</div>
+    <input type="text" id="pw" placeholder="输入总账的数字" autocomplete="off">
+    <button id="go">解 锁 回 复</button>
+    <div class="tip" id="tip">提示：把每一笔加起来。包括更正的那笔。<em>账可以记错，钱不会记错。</em></div>
+  </div>
+
+  <div id="dm">
+    <div class="h">私信 · 来自 凑个整 · 刚刚</div>
+    <div class="tx">
+      你替我算了我自己都不敢算的账。<br>
+      八千四百零八。原来我值这个数。<br>
+      不贵。也不便宜。刚好够把一件事买断。<br><br>
+      钱的事就到这吧。我去看看猫。<br>
+      <span style="color:#8a887e;font-size:12px">——有只卷毛的，等我很久了。</span>
+    </div>
+    <span class="go" id="dmgo">看看他在看什么 →</span>
+  </div>
+</div>
+
+<div id="envhint" style="text-shadow:none"></div>
+<script src="assets/game.js?v=36"></script>
+<script>
+if (DJ.gate(6)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+  DJ.unlock(6);
+  DJ.revisit("ledger");
+
+  const rows = [
+    ["2008-02-14", 1500, "学费。别问。问就是应该的。"],
+    ["2008-03-01", 1000, "生活费。按月。不打折。"],
+    ["2008-04-05",  800, "电话换了。新号不用告诉他。"],
+    ["2008-05-20", 1500, "补上次的。"],
+    ["2008-06-30", 1000, "他说别人家孩子都有。"],
+    ["2008-08-08",  600, "（备注空着）"],
+    ["2008-09-10", 1200, "换季。衣服是自己买的，钱是替他给的。"],
+    ["2008-10-01",  408, "零头。凑个整。"]
+  ];
+  const box = $("ledger");
+  rows.forEach(r=>{
+    const d = document.createElement("div");
+    d.className = "row";
+    d.innerHTML = `<span class="dt">${r[0]}</span><span class="amt">¥${r[1]}</span><span class="memo">${r[2]}</span>`;
+    box.appendChild(d);
+  });
+
+  /* 总账：1500+1000+800+1900(更正)+1000+600+1200+408 = 8408 */
+  const PW = "8408";
+  let fails = 0;
+  function tryPw(){
+    const v = $("pw").value.replace(/[¥￥,\s]/g,"");
+    if (v === PW){
+      DJ.sfx.ok(); DJ.flag("ledger_done"); DJ.addIncense(2);
+      $("tip").innerHTML = "<em>密码正确。</em>回复已解锁——但你没有说话。有些账，看懂了就不用回。";
+      $("pw").disabled = true; $("go").disabled = true;
+      setTimeout(()=> $("dm").classList.add("on"), 1600);
+      $("dm").scrollIntoView({behavior:"smooth", block:"center"});
+    } else {
+      fails++;
+      DJ.sfx.err();
+      $("tip").innerHTML = fails >= 3
+        ? "提示：更正那笔按 <em>1900</em> 算。八笔。一分都不能少。"
+        : "<em>不对。</em>他没算过，不代表不能算。别忘了那条更正。";
+      DJ.addIncense(0);
+    }
+  }
+  $("go").onclick = tryPw;
+  $("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryPw(); });
+
+  $("dmgo").onclick = () => {
+    DJ.unlock(7); DJ.sfx.read();
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "adopt.html", 420);
+  };
+
+  /* 断点续玩 */
+  if (DJ.has("ledger_done")){
+    $("pw").value = PW; $("pw").disabled = true; $("go").disabled = true;
+    $("tip").innerHTML = "<em>密码正确。</em>回复已解锁。";
+    $("dm").classList.add("on");
+  }
+
+  DJ.envHint("账是冷的。记账的手不是。", "ld1", 140);
+  DJ.injectDivine({
+    clear:[ "上上签：一笔一笔加。别忘了更正的那一笔。",
+            "上上签：他没算过的账，你替他算。" ],
+    poetic:["中平签：钱是最诚实的经文。也是最疼的那种。" ],
+    empty:[ "下下签：这页账翻不过去。" ]
+  });
+}
+</script>
+</body>
+</html>

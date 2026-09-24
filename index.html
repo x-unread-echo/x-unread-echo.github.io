@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=35">
+<link rel="stylesheet" href="assets/style.css?v=36">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -291,7 +291,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=35"></script>
+<script src="assets/game.js?v=36"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -345,8 +345,8 @@ if (ub){ let uc = 0; ub.onclick = () => {
 }; }
 
 /* ---------- 老玩家 ---------- */
-const CHAPTER_PAGES = { 1:"chat.html", 2:"guanyun.html", 3:"forum.html", 4:"ruins.html", 5:"mask.html", 6:"archive.html", 7:"final.html" };
-const CHAPTER_NAMES = { 1:"未读", 2:"青云观", 3:"倒影小组", 4:"亥时", 5:"面具", 6:"档案室", 7:"顺其自然" };
+const CHAPTER_PAGES = { 1:"dial.html", 2:"chat.html", 3:"guanyun.html", 4:"oracle.html", 5:"forum.html", 6:"ledger.html", 7:"adopt.html", 8:"ruins.html", 9:"mask.html", 10:"archive.html", 11:"echo8.html", 12:"final.html" };
+const CHAPTER_NAMES = { 1:"错位的起源", 2:"未读", 3:"青云观", 4:"赛博仙人", 5:"倒影小组", 6:"流水账", 7:"卷毛猫", 8:"亥时", 9:"面具", 10:"档案室", 11:"镜中人", 12:"顺其自然" };
 const isReturning = DJ.state.name && !new URLSearchParams(location.search).get("restart");
 
 if (isReturning) {
@@ -354,14 +354,14 @@ if (isReturning) {
     const rvBoot = DJ.revisit("boot");
     setTimeout(() => {
       $("resume").classList.add("show");
-      const ch = Math.min(DJ.state.chapter || 1, 7);
+      const ch = Math.min(DJ.state.chapter || 1, 12);
       $("hiLine").textContent = "欢迎回来，" + DJ.state.name + "。"
         + (rvBoot >= 2 ? "（第 " + rvBoot + " 次唤醒）" : "");
       $("whereLine").textContent = DJ.state.done
         ? (rvBoot >= 3
             ? "上次，你已经走完了。但那台手机还开着。电量比上次少了一点。"
             : "上次，你已经走完了。但那台手机还开着。")
-        : "进度还停在原地 · 第" + "一二三四五六七"[ch-1] + "章「" + CHAPTER_NAMES[ch] + "」";
+        : "进度还停在原地 · " + (ch <= 9 ? "第" + "一二三四五六七八九"[ch-1] + "章" : "第 " + ch + " 章") + "「" + CHAPTER_NAMES[ch] + "」";
       if (new URLSearchParams(location.search).get("locked"))
         $("whereLine").textContent += " · 有些门，要先走完前面的路。";
       $("goOn").onclick = () => {
@@ -498,7 +498,7 @@ if (isReturning) {
           DJ.unlock(1);
           DJ.save();
           document.body.classList.add("flash");
-          setTimeout(() => location.href = "chat.html", 380);
+          setTimeout(() => location.href = "dial.html", 380);
         }, isNight ? 3400 : 1800);
       }
     };

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>猫屋 — 同城领养 · 银灰卷毛</title>
+<link rel="stylesheet" href="assets/style.css?v=36">
+<style>
+  body{background:#f2f4f7;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
+  .a-wrap{max-width:460px;margin:0 auto;padding:4vh 18px 90px}
+  .a-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .a-logo{font-size:20px;font-weight:700;letter-spacing:2px}
+  .a-logo b{color:#e0864f}
+  .a-city{font-size:12px;color:#8b93a3}
+  /* 卡片 */
+  .card{background:#fff;border-radius:14px;box-shadow:0 3px 16px rgba(30,50,90,.08);overflow:hidden;margin-bottom:16px}
+  .photo{height:190px;position:relative;
+    background:linear-gradient(140deg,#b9bfc9 0%,#9aa2af 45%,#7d8593 100%)}
+  .photo .cat{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);font-size:100px;filter:grayscale(.6) contrast(.9)}
+  .photo .un{position:absolute;top:12px;right:14px;background:rgba(0,0,0,.45);color:#eee;font-size:10px;
+    padding:4px 8px;border-radius:4px;letter-spacing:1px}
+  .c-body{padding:14px 16px}
+  .c-title{font-size:16px;font-weight:700;letter-spacing:1px}
+  .c-tags{margin:8px 0 10px}
+  .c-tags span{display:inline-block;font-size:11px;color:#6a7386;background:#eef1f5;border-radius:4px;padding:3px 8px;margin-right:6px}
+  .c-loc{font-size:12px;color:#8b93a3;display:flex;align-items:center;gap:5px}
+  .c-loc .moved{color:#c0564f;font-weight:700}
+  .c-btn{margin-top:12px;width:100%;border:none;background:#e0864f;color:#fff;border-radius:8px;
+    padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer}
+  .c-btn:hover{background:#c9713c}
+  /* 聊天记录 */
+  #chatcard{display:none}
+  #chatcard.on{display:block}
+  .cc-h{padding:12px 16px;border-bottom:1px solid #eef1f5;font-size:13px;letter-spacing:2px;color:#6a7386;
+    display:flex;justify-content:space-between}
+  .cc-h .warn{color:#c0564f;font-size:11px}
+  .cc-body{padding:14px 16px;max-height:420px;overflow-y:auto}
+  .bub{margin-bottom:12px;display:flex}
+  .bub .av{width:30px;height:30px;border-radius:6px;flex-shrink:0;font-size:10px;color:#fff;
+    display:flex;align-items:center;justify-content:center;letter-spacing:1px}
+  .bub.me{flex-direction:row-reverse}
+  .bub .tx{max-width:72%;background:#eef1f5;border-radius:4px 12px 12px 12px;padding:9px 12px;font-size:13px;line-height:1.8;word-break:break-all}
+  .bub.me .tx{background:#d8e8ff;border-radius:12px 4px 12px 12px}
+  .bub .tx em{color:#c0564f;font-style:normal;font-weight:700}
+  .bub .tx .tap{border-bottom:1px dashed #8b93a3;cursor:pointer}
+  .bub .tx .tap:hover{color:#4a7dd6}
+  .bub .time{font-size:10px;color:#b3bac7;align-self:flex-end;margin:0 6px}
+  /* 矛盾计数 */
+  .cbar{padding:0 16px 14px;font-size:12px;color:#6a7386;letter-spacing:1px}
+  .cbar b{color:#c0564f}
+  /* 举报→地图 */
+  #report{display:none;width:100%;border:none;background:#c0564f;color:#fff;border-radius:8px;
+    padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer;margin-top:4px}
+  #report.on{display:block}
+  #map{display:none;margin-top:16px}
+  #map.on{display:block;animation:fadein 1.2s}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .mapbox{height:230px;background:#060a12;border-radius:14px;position:relative;overflow:hidden}
+  .mapbox .grid{position:absolute;inset:0;
+    background-image:linear-gradient(#141c2c 1px,transparent 1px),linear-gradient(90deg,#141c2c 1px,transparent 1px);
+    background-size:34px 34px}
+  .mapbox .dot{position:absolute;left:38%;top:52%;width:10px;height:10px;border-radius:50%;background:#e05555;
+    box-shadow:0 0 0 6px rgba(224,85,85,.15),0 0 24px 8px rgba(224,85,85,.25);animation:pulse 2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 12px rgba(224,85,85,.08),0 0 30px 12px rgba(224,85,85,.18)}}
+  .mapbox .coord{position:absolute;left:16px;bottom:14px;color:#8a93a8;font-size:12px;letter-spacing:2px;font-family:"Courier New",monospace}
+  .mapbox .coord em{color:#e05555;font-style:normal}
+  .mapnote{margin-top:12px;font-size:12.5px;color:#5a6274;line-height:2;text-align:center}
+  .mapnote em{color:#c0564f;font-style:normal}
+  .mapgo{margin-top:12px;width:100%;border:1px solid #33415e;background:none;color:#2a2f3a;border-radius:8px;
+    padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer}
+  .mapgo:hover{border-color:#c0564f;color:#c0564f}
+</style>
+</head>
+<body>
+<div class="a-wrap">
+  <div class="a-head">
+    <div class="a-logo">猫屋<b>·</b>同城领养</div>
+    <div class="a-city">当前城市：自动定位失败</div>
+  </div>
+
+  <div class="card">
+    <div class="photo"><span class="cat">🐈‍⬛</span><span class="un">实拍 · 请勿转载</span></div>
+    <div class="c-body">
+      <div class="c-title">银灰卷毛 · 三个月 · 男孩</div>
+      <div class="c-tags"><span>已驱虫</span><span>性格粘人</span><span>只回消息不出镜</span></div>
+      <div class="c-loc">📍 定位：<span id="loc">豫北 · 某市</span></div>
+      <button class="c-btn" id="ask">联 系 卖 家</button>
+    </div>
+  </div>
+
+  <div class="card" id="chatcard">
+    <div class="cc-h"><span>与「北大王猫舍888」的对话</span><span class="warn">⚠ 该账号已更换 8 次昵称</span></div>
+    <div class="cc-body" id="ccbody"></div>
+    <div class="cbar">对不上的地方：<b id="cnum">0</b> / 3 &nbsp;<span style="color:#b3bac7">（点那些说不过去的字）</span></div>
+    <button id="report">举 报 该 用 户</button>
+  </div>
+
+  <div id="map">
+    <div class="mapbox">
+      <div class="grid"></div>
+      <div class="dot"></div>
+      <div class="coord">N 38°52′<em>08″</em>&nbsp; E 115°28′<em>08″</em><br><span style="color:#4a5568">此处没有路，没有门牌。图上是一块黑的。</span></div>
+    </div>
+    <div class="mapnote">
+      导航显示：目的地附近 <em>8 公里</em> 内没有任何参照物。<br>
+      那只猫从来不在这个人的定位里。他发的每张照片，背景都太干净了。
+    </div>
+    <button class="mapgo" id="mapgo">按这个坐标过去 →</button>
+  </div>
+</div>
+
+<div id="envhint" style="text-shadow:none"></div>
+<script src="assets/game.js?v=36"></script>
+<script>
+if (DJ.gate(7)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+  DJ.unlock(7);
+  DJ.revisit("adopt");
+
+  /* ---------- 对话记录：一个装出来的卖家，和一个起疑的买家 ---------- */
+  const chat = [
+    ["卖","在的。猫还在。最后一只，爱要不要。","22:14"],
+    ["买","图片能再发几张吗？这批背景怎么都一样","22:16"],
+    ["卖","猫舍大。墙多。都是同一堵墙。","22:16"],
+    ["买","你到底在哪？定位显示豫北，你昵称怎么叫北大王","22:18", 1],
+    ["卖","网名懂吗。北京户口的意思。猫在豫北。人不用在。","22:19"],
+    ["买","疫苗本呢？上一家买家怎么说的","22:21"],
+    ["卖","上一家？他啊。他后来不养了。人嘛。","22:22", 2],
+    ["买","他昨天还在别处夸你来着。你俩到底谁养谁","22:24"],
+    ["卖","……你为什么维护两个号？你先回答我。","22:25", 3],
+    ["买","我只用一个号。倒是你，大半夜发猫，凌晨三点发手串，四点发哲学。你到底是卖猫的还是卖惨的","22:26"],
+    ["卖","都卖。打包。","22:27"],
+    ["买","行。发个准确位置，我导航过去看猫。别再说同一条街了","22:29"],
+    ["卖","<span class='tap' data-c='4'>截图发你了。定位在角上，自己看</span>","22:31"]
+  ];
+  const body = $("ccbody");
+  let found = 0;
+  const FMAX = 4;
+  chat.forEach((m,i)=>{
+    const d = document.createElement("div");
+    d.className = "bub" + (m[0] === "买" ? " me" : "");
+    const who = m[0] === "买" ? "买" : "卖";
+    const avc = m[0] === "买" ? "#4a7dd6" : "#8a6ac6";
+    d.innerHTML = `<div class="av" style="background:${avc}">${who}</div><div class="tx">${m[1]}</div><div class="time">${m[2]}</div>`;
+    body.appendChild(d);
+    if (m[3] !== undefined){
+      const mark = m[3];
+      d.querySelector(".tx").onclick = () => {
+        if (d.dataset.done) return;
+        d.dataset.done = "1";
+        d.querySelector(".tx").style.outline = "1px solid #c0564f";
+        found++;
+        $("cnum").textContent = Math.min(found, 3);
+        DJ.sfx.type();
+        DJ.flag("lie_" + mark);
+        if (found === 1) DJ.envHintNow("定位在豫北，昵称在北京。这句他自己都圆不上。");
+        if (found === 2) DJ.envHintNow("上一家买家……这个说法好像哪里听过。");
+        if (found >= 3){
+          DJ.envHintNow("该举报了。举报信比聊天记录诚实。");
+          $("report").classList.add("on");
+        }
+      };
+    }
+  });
+
+  /* 点击气泡4（截图）：第一次点显示"打不开"，点3次出坐标 */
+  let tap4 = 0;
+  body.addEventListener("click", e => {
+    const t = e.target.closest("[data-c='4']");
+    if (!t) return;
+    tap4++;
+    if (tap4 === 1){ DJ.envHintNow("图打不开。加载失败。他那边的网好像一直是这个速度。"); }
+    else if (tap4 === 2){ DJ.envHintNow("还是打不开。试试举报通道，有时候管理员看得见你看不见的。"); }
+    else {
+      DJ.flag("got_coords");
+      $("loc").innerHTML = "<span class='moved'>定位已更正：N 38°52′08″ E 115°28′08″（无参照物）</span>";
+      $("map").classList.add("on");
+      $("map").scrollIntoView({behavior:"smooth", block:"center"});
+      DJ.sfx.read(); DJ.addIncense(2);
+    }
+  });
+
+  $("ask").onclick = () => {
+    $("chatcard").classList.add("on");
+    DJ.sfx.click();
+    $("chatcard").scrollIntoView({behavior:"smooth"});
+  };
+
+  $("report").onclick = () => {
+    if (!DJ.has("got_coords")){
+      DJ.envHintNow("举报要写地点。地点在哪？把那张截图点出来。");
+      return;
+    }
+  };
+
+  /* ---------- 出口：去废墟 ---------- */
+  $("mapgo").onclick = () => {
+    DJ.sfx.ok(); DJ.flag("adopt_done"); DJ.addIncense(1);
+    DJ.unlock(8);
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "ruins.html", 420);
+  };
+
+  /* 断点续玩 */
+  if (DJ.has("adopt_done")){
+    $("chatcard").classList.add("on");
+    $("report").classList.add("on");
+    $("map").classList.add("on");
+    $("cnum").textContent = "3";
+  }
+
+  DJ.envHint("卖猫的人不爱出镜。爱出镜的是猫。", "ad1", 140);
+  DJ.injectDivine({
+    clear:[ "上上签：两个号，一个人。谁在跟谁讲价。",
+            "上上签：假话对不上假话，就露出了真话的形状。" ],
+    poetic:["中平签：他在两个号码里轮流躲。躲了八年。" ],
+    empty:[ "下下签：这单生意成不了。" ]
+  });
+}
+</script>
+</body>
+</html>

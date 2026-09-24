@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>（无标题）</title>
+<link rel="stylesheet" href="assets/style.css?v=36">
+<style>
+  body{background:#000;color:#c7cedb;font-family:-apple-system,"PingFang SC",sans-serif;overflow:hidden}
+  .e-stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;
+    transition:opacity 2.5s}
+  .e-stage.hide{opacity:0;pointer-events:none}
+  /* 阶段一：月与蝶 */
+  #moon8{width:110px;height:110px;border-radius:50%;background:#f5f2e8;
+    box-shadow:0 0 40px 14px rgba(245,242,232,.25),0 0 120px 40px rgba(245,242,232,.08);
+    animation:breath 5s ease-in-out infinite}
+  @keyframes breath{50%{box-shadow:0 0 56px 20px rgba(245,242,232,.3),0 0 140px 50px rgba(245,242,232,.1)}}
+  .e-hint{margin-top:38px;font-size:13px;color:#5a667e;letter-spacing:4px;text-align:center;line-height:2.4}
+  .e-input{margin-top:26px;background:none;border:none;border-bottom:1px solid #33415e;color:#e8edf5;
+    font-size:22px;letter-spacing:10px;text-align:center;width:180px;padding:8px 0;outline:none;font-family:inherit}
+  .e-input:focus{border-bottom-color:#8a93a8}
+  /* 阶段二：未读瀑布 */
+  #flood{display:none;position:fixed;inset:0;flex-direction:column}
+  #flood.on{display:flex}
+  .f-head{padding:14px 18px;font-size:12px;color:#4a5568;letter-spacing:2px;border-bottom:1px solid #111826;
+    display:flex;justify-content:space-between;background:#04060b}
+  .f-head b{color:#8a93a8}
+  .f-body{flex:1;overflow-y:auto;padding:16px 18px}
+  .f-body .u{display:flex;justify-content:flex-end;margin-bottom:9px}
+  .f-body .u span{background:#101725;border:1px solid #1a2333;border-radius:12px 4px 12px 12px;
+    padding:8px 13px;font-size:13.5px;color:#c7cedb;max-width:78%;line-height:1.7;animation:fin .35s}
+  @keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .f-body .u span.gray{color:#4a5568}
+  .f-body .u span.long{color:#8a93a8}
+  .f-body .u em{color:#c96a6a;font-style:normal}
+  /* 阶段三：强制发送 */
+  #lastsend{display:none;position:fixed;inset:0;flex-direction:column;align-items:center;justify-content:center;
+    padding:30px;text-align:center;z-index:10;background:rgba(0,0,0,.55)}
+  #lastsend.on{display:flex;animation:fadein 1.5s}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  #lastsend .h{font-size:14px;color:#8a93a8;letter-spacing:3px;line-height:2.4;max-width:420px}
+  .ls-input{margin-top:30px;display:flex;gap:10px;width:100%;max-width:420px}
+  .ls-input input{flex:1;background:#0a0e16;border:1px solid #1a2333;border-radius:8px;color:#e8edf5;
+    padding:12px 14px;font-size:14px;outline:none;font-family:inherit}
+  .ls-input button{background:#101725;border:1px solid #223048;color:#8a93a8;border-radius:8px;
+    padding:0 22px;letter-spacing:2px;cursor:pointer;font-family:inherit}
+  #receipt{margin-top:22px;font-size:13px;letter-spacing:6px;color:#5a667e;min-height:20px}
+  /* 终句 */
+  #lastline{position:fixed;inset:0;background:#000;display:none;align-items:center;justify-content:center;
+    flex-direction:column;text-align:center;padding:36px;z-index:20}
+  #lastline.on{display:flex;animation:fadein 3s}
+  #lastline .t{font-size:17px;letter-spacing:4px;color:#c7cedb;line-height:2.6;max-width:460px}
+  #lastline .t em{color:#c96a6a;font-style:normal}
+  #lastline button{margin-top:44px;background:none;border:1px solid #33415e;color:#8a93a8;border-radius:8px;
+    padding:12px 34px;letter-spacing:4px;cursor:pointer;font-family:inherit}
+  #lastline button:hover{color:#e8edf5;border-color:#8a93a8}
+</style>
+</head>
+<body>
+<div class="e-stage" id="stage1">
+  <div id="moon8"></div>
+  <div class="e-hint">月是白的。蝶也是白的。<br>所有的开始，都是同一天。</div>
+  <input class="e-input" id="pw" maxlength="4" inputmode="numeric" autocomplete="off" placeholder="· · · ·">
+</div>
+
+<div id="flood">
+  <div class="f-head"><span>与 <b>（空白）</b> 的对话</span><span id="fcount">未读 0</span></div>
+  <div class="f-body" id="fbody"></div>
+</div>
+
+<div id="lastsend">
+  <div class="h" id="lsh">最后一条。<br>发给那个永远不会回的账号。发什么都行。<br>这是这里的规矩：说出口，才算数。</div>
+  <div class="ls-input">
+    <input type="text" id="lastmsg" placeholder="……" autocomplete="off" maxlength="60">
+    <button id="lsend">发 送</button>
+  </div>
+  <div id="receipt"></div>
+</div>
+
+<div id="lastline">
+  <div class="t">你找了一整夜的人，从来没丢过。<br>他一直在线。只是不敢跟你说话的人，<br><em>刚好也是你。</em><br><br>
+  你连自己要什么都不知道，<br>又怎么去爱别人。</div>
+  <button id="togo">回 去 睡 觉</button>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=36"></script>
+<script>
+if (DJ.gate(11)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+  DJ.unlock(11);
+  DJ.revisit("echo8");
+
+  /* ---------- 阶段一：0808 ---------- */
+  let fails = 0;
+  $("pw").addEventListener("input", e => {
+    const v = e.target.value.replace(/\D/g,"");
+    e.target.value = v;
+    if (v.length === 4) setTimeout(()=>tryPw(v), 300);
+  });
+  function tryPw(v){
+    if (v === "0808" || v === "8080"){
+      DJ.sfx.ok(); DJ.flag("echo_0808"); DJ.addIncense(3);
+      $("stage1").classList.add("hide");
+      setTimeout(startFlood, 2600);
+    } else {
+      fails++;
+      DJ.sfx.err();
+      $("pw").value = "";
+      if (fails === 2) DJ.envHintNow("2008 年 8 月 8 日。什么都是那天开始的。");
+      if (fails >= 4) DJ.envHintNow("0。8。0。8。");
+    }
+  }
+
+  /* ---------- 阶段二：几百条未读 ---------- */
+  const msgs = [
+    "在吗","我好难受","说不上来哪里难受","就是难受",
+    "你为什么不回我","你是不是在骗我",
+    "没事了。刚才是我没用好","真的没事","我很好。真的",
+    "今天又撑过去了","没人发现","挺好",
+    "你要是回了，我就把这句话删掉","你没回。我存下了",
+    "为什么别人都可以，就我不行","为什么是我",
+    "我不是难过。我是累。累也不行吗","算了",
+    "你今天吃饭了吗。我问的其实是我","晚安",
+    "又是晚安。第几次了","数不清了",
+    "我数过了。这里的每一条都只发一次。没有草稿","因为草稿在别的地方",
+    "你知道吗，关注列表里只有一个头像","头像是谁你清楚",
+    "别装了","你就是我。早就是了",
+    "我只是需要一个不会回话的地方","这里刚好",
+    "谢谢你一直不回","不回，就是稳稳地接住了",
+    "又赢了一次。就是不想输","这次算赢吗",
+    "算。你说了算",
+    "最后一条。","算了。你好。初次见面。","就当这是我们第一次说话。"
+  ];
+  let unread = 0, mi = 0, timer = null;
+  const fbody = $("fbody");
+  function startFlood(){
+    $("flood").classList.add("on");
+    DJ.sfx.read();
+    const batch = () => {
+      for (let k = 0; k < 3 && mi < msgs.length; k++, mi++){
+        const d = document.createElement("div");
+        d.className = "u";
+        const m = msgs[mi];
+        const cls = m.length > 18 ? " long" : (m === "算了" || m === "晚安" ? " gray" : "");
+        d.innerHTML = `<span class="${cls.trim()}">${m}</span>`;
+        fbody.appendChild(d);
+        fbody.scrollTop = fbody.scrollHeight;
+        unread++;
+        $("fcount").textContent = "未读 " + unread;
+        if (mi % 4 === 0) DJ.sfx.type();
+      }
+      if (mi < msgs.length){
+        timer = setTimeout(batch, 340);
+      } else {
+        $("fcount").textContent = "已读 " + unread;
+        setTimeout(()=>{ $("flood").classList.add("fade"); $("flood").style.opacity = 0; $("flood").style.transition = "opacity 2s"; }, 2600);
+        setTimeout(()=>{ $("flood").classList.remove("on"); startLast(); }, 4800);
+      }
+    };
+    batch();
+  }
+
+  /* ---------- 阶段三：强制发送 ---------- */
+  function startLast(){
+    $("lastsend").classList.add("on");
+    setTimeout(()=> $("lastmsg").focus(), 800);
+  }
+  function doSend(){
+    const v = $("lastmsg").value.trim();
+    if (!v){ DJ.envHintNow("随便说点什么。这里不评判。"); return; }
+    $("lastmsg").disabled = true; $("lsend").disabled = true;
+    DJ.sfx.click();
+    setTimeout(()=> $("receipt").textContent = "已 读", 1800);
+    setTimeout(()=> $("receipt").textContent = "已 读", 3600); /* 再刷一遍：它只做这一件事 */
+    setTimeout(()=>{
+      DJ.flag("last_sent"); DJ.addIncense(2);
+      $("lastsend").classList.remove("on");
+      $("lastline").classList.add("on");
+      DJ.sfx.read();
+    }, 6200);
+  }
+  $("lsend").onclick = doSend;
+  $("lastmsg").addEventListener("keydown", e => { if (e.key === "Enter") doSend(); });
+
+  /* ---------- 出口 ---------- */
+  $("togo").onclick = () => {
+    DJ.unlock(12); DJ.sfx.ok();
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "final.html", 420);
+  };
+
+  /* 断点续玩 */
+  if (DJ.has("last_sent")){
+    $("stage1").classList.add("hide");
+    $("lastline").classList.add("on");
+  } else if (DJ.has("echo_0808")){
+    $("stage1").classList.add("hide");
+    setTimeout(startLast, 800);
+  }
+
+  DJ.envHint("月亮只会这一种光。看了八年了。", "ec1", 120);
+  DJ.injectDivine({
+    clear:[ "上上签：所有开始都是同一天。0808。",
+            "上上签：发什么都行。规矩是：说出口才算数。" ],
+    poetic:["中平签：这里的未读永远是自己的。" ],
+    empty:[ "下下签：这一签不用抽了。你已经到了。" ]
+  });
+}
+</script>
+</body>
+</html>

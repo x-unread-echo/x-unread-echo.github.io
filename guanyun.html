@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=35">
+<link rel="stylesheet" href="assets/style.css?v=36">
 <style>
   body{background:#0b0f14;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
@@ -200,12 +200,12 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=35"></script>
+<script src="assets/game.js?v=36"></script>
 <script>
-if (DJ.gate(2)) main();
+if (DJ.gate(3)) main();
 function main(){
   DJ.revisit("guanyun");
-  DJ.unlock(2);
+  DJ.unlock(3);
   const $ = id => document.getElementById(id);
 
   /* ---------- C11：问缘问财问寿皆大吉，签文皆孤 ---------- */
@@ -366,9 +366,9 @@ function main(){
   $("keyBtn").onclick = () => {
     const v = $("keyInput").value.trim().toLowerCase().replace(/\s/g,"");
     if (["白蝶","baidie","白蝶为钥","baidieyaoyao"].includes(v) || v.includes("白蝶")){
-      DJ.sfx.ok(); DJ.unlock(3);
+      DJ.sfx.ok(); DJ.unlock(4);
       document.body.classList.add("flash");
-      setTimeout(() => location.href = "forum.html", 450);
+      setTimeout(() => location.href = "oracle.html", 450);
     } else {
       $("keyTip").textContent = "锁没动。";
       DJ.sfx.err();

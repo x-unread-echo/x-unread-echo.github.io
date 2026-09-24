@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>亥时 — 废墟</title>
 <!-- 亥时三刻。你自己挑的时间。 -->
-<link rel="stylesheet" href="assets/style.css?v=35">
+<link rel="stylesheet" href="assets/style.css?v=36">
 <style>
   body{background:#04070d;overflow:hidden}
   /* .scene 由 JS 按图片比例计算出"cover 矩形"，热点在里面按百分比定位——任何屏幕都和画面对得上 */
@@ -84,11 +84,11 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=35"></script>
+<script src="assets/game.js?v=36"></script>
 <script>
-if (DJ.gate(4)) main();
+if (DJ.gate(8)) main();
 function main(){
-  DJ.unlock(4);
+  DJ.unlock(8);
   const rvRuins = DJ.revisit("ruins");
   const $ = id => document.getElementById(id);
 
@@ -191,7 +191,7 @@ function main(){
 <span class="ehl">只是其中一行，比你的鞋，小八码。</span>${rvRuins >= 2 ? "\n\n这一次，雪地上比上次多了一行字，是用手指划出来的：\n<span class='ehl'>「别数了。你每次都会回来数。」</span>" : ""}`);
     $("nextBtn").style.display = "inline-block";
     $("nextBtn").onclick = () => {
-      DJ.sfx.ok(); DJ.unlock(5);
+      DJ.sfx.ok(); DJ.unlock(9);
       document.body.classList.add("flash");
       setTimeout(() => location.href = "mask.html", 400);
     };

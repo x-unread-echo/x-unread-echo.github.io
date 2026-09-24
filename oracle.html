@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第八茶室 — 在线 8 人</title>
+<link rel="stylesheet" href="assets/style.css?v=36">
+<style>
+  body{background:#05070c;font-family:"Courier New","PingFang SC",monospace;color:#b8c2d4;overflow-x:hidden}
+  .o-wrap{max-width:640px;margin:0 auto;padding:5vh 18px 90px;min-height:88vh}
+  .o-head{border:1px solid #1a2333;background:#0a0e16;border-radius:10px 10px 0 0;padding:12px 16px;
+    display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:2px}
+  .o-head .dot{color:#5fae6f}
+  .o-head .min{font-size:11px;color:#4a5568;cursor:pointer}
+  .o-body{display:flex;border:1px solid #1a2333;border-top:none;border-radius:0 0 10px 10px;min-height:52vh;background:#070a11}
+  .o-users{width:150px;border-right:1px solid #111826;padding:12px;font-size:11.5px;color:#5a667e;flex-shrink:0}
+  .o-users .h{color:#4a5568;letter-spacing:2px;margin-bottom:8px}
+  .o-users div{padding:3px 0;letter-spacing:1px}
+  .o-users div.dim{color:#333e52}
+  .o-chat{flex:1;padding:14px 16px;overflow-y:auto;max-height:60vh;font-size:13.5px;line-height:1.7}
+  .m{margin-bottom:12px;animation:fadeup .5s}
+  @keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .m .who{font-size:11px;color:#4a7dd6;letter-spacing:1px;margin-bottom:2px}
+  .m.sys .who{color:#4a5568}
+  .m .tx{color:#c7cedb;word-break:break-all}
+  .m.sys .tx{color:#5a667e;font-size:12px}
+  .m.host .who{color:#8a6ac6}
+  .m.me .who{color:#5fae6f}
+  .m .tx em{color:#c96a6a;font-style:normal}
+  /* 输入区 */
+  .o-input{display:flex;border:1px solid #1a2333;border-top:none;border-radius:0 0 10px 10px;background:#0a0e16}
+  .o-input input{flex:1;background:none;border:none;outline:none;color:#c7cedb;padding:12px 14px;font-family:inherit;font-size:13px}
+  .o-input button{background:#101725;border:none;border-left:1px solid #1a2333;color:#8a93a8;padding:0 22px;cursor:pointer;letter-spacing:2px}
+  /* 抉择浮层 */
+  #choose{display:none;position:fixed;inset:0;background:rgba(3,5,9,.9);z-index:50;
+    align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px}
+  #choose.on{display:flex;animation:fadein 1s}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  #choose .q{font-size:17px;letter-spacing:3px;color:#c7cedb;line-height:2.2;max-width:420px}
+  #choose .q em{color:#8a6ac6;font-style:normal}
+  .cbtns{display:flex;gap:20px;margin-top:34px}
+  .cbtns button{background:#0a0e16;border:1px solid #33415e;color:#c7cedb;border-radius:8px;
+    padding:14px 34px;font-size:15px;letter-spacing:4px;cursor:pointer;font-family:inherit}
+  .cbtns button:hover{border-color:#8a6ac6;color:#b9a3ea}
+  .loopnote{margin-top:26px;font-size:12px;color:#4a5568;letter-spacing:2px;min-height:18px}
+</style>
+</head>
+<body>
+<div class="o-wrap">
+  <div class="o-head">
+    <span><span class="dot">●</span> 第八茶室 · 深夜场</span>
+    <span class="min" id="minimal">— 收起名单</span>
+  </div>
+  <div class="o-body">
+    <div class="o-users" id="userlist">
+      <div class="h">在线 · 8</div>
+    </div>
+    <div class="o-chat" id="chat"></div>
+  </div>
+  <div class="o-input">
+    <input type="text" id="say" placeholder="说点什么……（这里的人不爱回话）" autocomplete="off">
+    <button id="send">发 送</button>
+  </div>
+</div>
+
+<div id="choose">
+  <div class="q" id="cq">他说：<em>「你真的想渡我？」</em><br>还是说——你想渡的，从头到尾都是别的什么人？</div>
+  <div class="cbtns">
+    <button id="cSave">渡 他</button>
+    <button id="cSelf">先 渡 自 己</button>
+  </div>
+  <div class="loopnote" id="loopnote"></div>
+</div>
+
+<div id="envhint"></div>
+<script src="assets/game.js?v=36"></script>
+<script>
+if (DJ.gate(4)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+  DJ.unlock(4);
+  DJ.revisit("oracle");
+  const chat = $("chat");
+
+  /* ---------- 在线名单：每次循环，名单悄悄变 ---------- */
+  const loopN = (DJ.state.rv && DJ.state.rv.oracleLoop) || 0;
+  const base = ["无量","青灯客","不渡","守观人","夜行员","白噪","亥时三刻","一尘"];
+  const list = $("userlist");
+  list.innerHTML = '<div class="h">在线 · 8</div>';
+  base.forEach((n,i)=>{
+    const d = document.createElement("div");
+    if (loopN > 0){
+      /* 循环越深，名单越像同一个人 */
+      d.textContent = i === 0 ? n : (loopN >= 2 ? n.slice(0,1) + "·" + "无量".slice(0,1) : n);
+      if (loopN >= 2 && i > 0 && i % 2 === 0) d.className = "dim";
+      if (loopN >= 3 && i > 0){ d.textContent = "无量"; d.className = i > 4 ? "dim" : ""; }
+    } else d.textContent = n;
+    list.appendChild(d);
+  });
+  $("minimal").onclick = () => { list.style.display = list.style.display === "none" ? "block" : "none"; };
+
+  /* ---------- 对白 ---------- */
+  const script = [
+    ["sys","你进入了房间。夜审通过了。"],
+    ["青灯客","这么晚还在线。睡不着的人又多了一个。"],
+    ["白噪","例行话题：今天说了几次「还好」？我先来。三次。全是在回答。"],
+    ["一尘","我最近在参一个字。着相的着。"],
+    ["无量","着相不是看见了假的东西。"],
+    ["无量","是看见了真的东西，还假装它是假的。"],
+    ["夜行员","无量又开始了。上周讲命，这周讲相，下周是不是要讲钱了。"],
+    ["无量","钱最不着相。钱是最诚实的经文。"],
+    ["守观人","楼上参透了吗。参透了就是守观人了。"],
+    ["sys","无量 私聊了你。"],
+    ["host","你身上有灰。"],
+    ["host","不是香灰。是走夜路蹭上的那种。你最近去过观里？"],
+    ["host","签都抽过了吧。抽到几张真的？"],
+    ["host","我看着这间茶室八年了。深夜来的人，嘴上说找东西，眼睛都在找出口。"],
+    ["host","有人想渡。有人想被渡。有人两样都想，结果一样没成。"],
+    ["host","我问过第八个人同样的问题。他到现在还没答。"],
+    ["host","轮到你了。"]
+  ];
+  let si = 0;
+  function push(role, who, tx){
+    const d = document.createElement("div");
+    d.className = "m " + role;
+    d.innerHTML = `<div class="who">${who}</div><div class="tx">${tx}</div>`;
+    chat.appendChild(d);
+    chat.scrollTop = chat.scrollHeight;
+  }
+  function next(){
+    if (si >= script.length){
+      setTimeout(()=> $("choose").classList.add("on"), 900);
+      return;
+    }
+    const [who, tx] = script[si];
+    const role = who === "sys" ? "sys" : (who === "无量" ? "host" : "");
+    push(role, who, tx);
+    if (who !== "sys") DJ.sfx.type();
+    si++;
+    const hold = who === "无量" ? 2100 : 1500;
+    setTimeout(next, hold + tx.length * 18);
+  }
+  /* 断点续玩：看过的直接到抉择 */
+  if (DJ.has("oracle_reached")){
+    push("sys","你回来晚了。他还在等。");
+    setTimeout(()=> $("choose").classList.add("on"), 1200);
+  } else {
+    setTimeout(next, 1200);
+    DJ.flag("oracle_reached");
+  }
+
+  /* 闲聊输入：这里的人不爱回话 */
+  function send(){
+    const v = $("say").value.trim();
+    if (!v) return;
+    $("say").value = "";
+    push("me", DJ.state.name || "X", v);
+    DJ.sfx.click();
+    setTimeout(()=>{
+      const replies = ["（没有回应。）","无量 看了一眼，没说话。","茶凉了。没人续。"];
+      push("sys", "系统", replies[Math.floor(Math.random()*replies.length)]);
+    }, 1600);
+  }
+  $("send").onclick = send;
+  $("say").addEventListener("keydown", e => { if (e.key === "Enter") send(); });
+
+  /* ---------- 抉择与软循环 ---------- */
+  let loops = loopN;
+  const notes = [
+    "循环 · 第二圈。名单上好像少了谁，又好像多了谁。",
+    "循环 · 第三圈。「无量」越来越多了。仔细看，全都是。",
+    "他不需要渡。这句话是提示，也是答案。"
+  ];
+  function fail(msg){
+    loops++;
+    DJ.state.rv = DJ.state.rv || {};
+    DJ.state.rv.oracleLoop = loops;
+    DJ.save();
+    DJ.sfx.err();
+    $("choose").classList.remove("on");
+    chat.innerHTML = "";
+    /* 循环只短放几句，不把玩家拖回完整剧本 */
+    const short = [
+      ["sys","你被送回了门口。茶还是那壶茶。"],
+      ["青灯客","又来了。"],
+      ["host", msg],
+      ["host","再答一遍。"]
+    ];
+    short.forEach((m,i)=> setTimeout(()=>{
+      push(m[0]==="sys"?"sys":"host", m[0], m[1]);
+    }, 600 + i * 1600));
+    if (loops >= 3){
+      /* 第四次：不再为难 */
+      setTimeout(()=>{
+        push("sys","系统","房间要关了。最后问一遍。");
+        setTimeout(()=> $("choose").classList.add("on"), 1400);
+      }, 600 + short.length * 1600);
+      setTimeout(()=>{
+        $("cq").innerHTML = "他最后说：<em>「别管我了。你自己呢。」</em><br>（这次没有别的选项。只有出口。）";
+        $("cSave").style.display = "none";
+        $("cSelf").textContent = "先 渡 自 己";
+      }, 2100);
+    } else {
+      setTimeout(()=>{
+        $("choose").classList.add("on");
+        $("loopnote").textContent = notes[loops - 1] || "";
+        $("cq").innerHTML = "他又问了一遍：<em>「你要渡我，还是先渡你自己？」</em><br>" + (loops >= 2 ? "<span style='font-size:12px;color:#4a5568'>（好像有哪里不一样了。名单……）</span>" : "");
+      }, 600 + short.length * 1600 + 1800);
+    }
+  }
+  $("cSave").onclick = () => fail("「渡我？」他说，「你不是来救人的。你是来躲的。」");
+  $("cSelf").onclick = () => {
+    DJ.sfx.ok(); DJ.flag("oracle_pass"); DJ.addIncense(2);
+    $("choose").classList.remove("on");
+    push("host","无量","……对了。");
+    push("host","无量","你懂那种歌吗。有人想拉我一把，可拉的人自己都没站稳。");
+    push("host","无量","先站稳的人，才配谈渡不渡。去吧。茶钱记你账上了。");
+    push("sys","系统","茶室打烊了。下一间房的灯还亮着。");
+    setTimeout(()=>{
+      DJ.unlock(5); DJ.sfx.read();
+      document.body.classList.add("flash");
+      setTimeout(() => location.href = "forum.html", 420);
+    }, 5200);
+  };
+
+  DJ.envHint("这间茶室八年没换过名字。也八年没换过人。", "or1", 130);
+  DJ.injectDivine({
+    clear:[ "上上签：救人的先救自己。这不是自私，是顺序。",
+            "上上签：名单要倒着看。" ],
+    poetic:["中平签：着相的人以为自己在救人。" ],
+    empty:[ "下下签：渡不了。谁也渡不了。" ]
+  });
+}
+</script>
+</body>
+</html>

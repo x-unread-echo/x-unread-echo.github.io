@@ -19,6 +19,17 @@ const DJ = (() => {
   catch (e) { s = def(); }
   const save = () => { s.ts = Date.now(); localStorage.setItem(KEY, JSON.stringify(s)); };
 
+  /* ---- 旧档迁移：七关时代的 chapter 值映射到十二关新链路 ----
+     旧1(未读)→新2  旧2(青云观)→新3  旧3(倒影小组)→新5  旧4(亥时)→新8
+     旧5(面具)→新9  旧6(档案室)→新10 旧7(顺其自然)→新11 */
+  (function migrate(){
+    const MAP = { 1:2, 2:3, 3:5, 4:8, 5:9, 6:10, 7:11 };
+    if (!s.flags._v12chain && s.chapter >= 1 && s.chapter <= 7){
+      s.chapter = MAP[s.chapter] || s.chapter;
+      s.flags._v12chain = true;
+    }
+  })();
+
   /* ---- 状态 API ---- */
   const toast = (text) => {
     try {
@@ -63,8 +74,12 @@ const DJ = (() => {
       if (s.chapter < ch) {
         s.chapter = ch; save();
         /* 自动存档提示：像老式单机游戏那样，轻轻浮一下 */
-        const names = { 1:"未 读", 2:"青 云 观", 3:"倒影小组", 4:"亥 时", 5:"面 具", 6:"档 案 室", 7:"顺其自然" };
-        toast("◈ 已存档 · 第" + "一二三四五六七"[ch-1] + "章「" + names[ch] + "」");
+        const names = { 1:"错位的起源", 2:"未 读", 3:"青 云 观", 4:"赛博仙人", 5:"倒影小组",
+                        6:"流水账", 7:"卷毛猫", 8:"亥 时", 9:"面 具", 10:"档 案 室",
+                        11:"镜中人", 12:"顺其自然" };
+        const cn = "一二三四五六七八九";
+        const chNum = ch <= 9 ? "第" + cn[ch-1] + "章" : "第 " + ch + " 章";
+        toast("◈ 已存档 · " + chNum + "「" + names[ch] + "」");
       }
     }
   };
