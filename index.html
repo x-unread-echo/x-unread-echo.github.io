@@ -3,174 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>寻人启事详情 - 今夜寻人</title>
+<title>X 的本周</title>
 <link rel="stylesheet" href="assets/style.css?v=34">
 <style>
-  /* ===== 伪装层：一个普通的寻人网站。全部浅色，和游戏本体彻底割裂 ===== */
+  /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  /* game.js 会给每页注入月亮和提示槽——伪装层里它们不存在 */
   .moon, #envhint, #djtoast { display:none !important; }
   body.fake {
-    background: #f5f6f7;
-    color: #333;
+    background: #fafafa; color: #333;
     font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     min-height: 100vh;
   }
-  .nvbar { background:#fff; border-bottom:1px solid #e5e5e5; padding:0 5vw; height:52px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
-  .nvlogo { font-size:19px; font-weight:700; color:#c0392b; letter-spacing:1px; }
-  .nvlogo em { font-style:normal; color:#999; font-size:11px; font-weight:400; margin-left:6px; }
-  .nvlinks { display:flex; gap:26px; font-size:14px; color:#666; flex-wrap:wrap; }
-  .nvlinks a { color:#666; text-decoration:none; }
-  .nvlinks a.on { color:#c0392b; }
-  .nightbar { background:#fff8e6; color:#8a6d3b; font-size:12px; text-align:center; padding:7px 10px; border-bottom:1px solid #f0e2bd; }
-  .wrap { max-width:720px; margin:24px auto 60px; padding:0 16px; }
-  .crumb { font-size:12px; color:#999; margin-bottom:12px; }
-  .card { background:#fff; border:1px solid #e8e8e8; border-radius:6px; padding:26px 28px; }
-  .meta-top { display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed #eee; padding-bottom:12px; margin-bottom:16px; font-size:12px; color:#999; flex-wrap:wrap; gap:6px;}
-  .meta-top .no { color:#c0392b; }
-  .card h1 { font-size:22px; color:#222; margin-bottom:14px; line-height:1.5; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; font-size:14px; margin-bottom:18px; }
-  .grid b { color:#999; font-weight:400; margin-right:8px; }
-  .grid .val { color:#333; }
-  .desc { font-size:14px; line-height:2; color:#444; margin-bottom:18px; }
-  .desc p { margin-bottom:6px; }
-  .publine { font-size:12px; color:#aaa; border-top:1px dashed #eee; padding-top:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;}
-  .pv b { color:#c0392b; font-weight:600; }
-  .cta-row { text-align:center; margin:30px 0 8px; }
+  body.night { background:#0b0e16; color:#aebad0; }
+  .nvbar { background:#fff; border-bottom:1px solid #ececec; padding:0 5vw; height:52px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
+  body.night .nvbar { background:#10141f; border-bottom:1px solid #1d2436; }
+  .nvlogo { font-size:16px; font-weight:600; color:#222; letter-spacing:.5px; }
+  body.night .nvlogo { color:#c9d4e8; }
+  .nvlogo em { font-style:normal; color:#aaa; font-size:11px; font-weight:400; margin-left:8px; }
+  body.night .nvlogo em { color:#4a5570; }
+  .nvlinks { display:flex; gap:20px; font-size:13px; }
+  .nvlinks a { color:#888; text-decoration:none; }
+  body.night .nvlinks a { color:#445072; }
+  .nvlinks a.on { color:#111; font-weight:600; }
+  body.night .nvlinks a.on { color:#dfe7f5; }
+  .wrap { max-width:620px; margin:30px auto 70px; padding:0 18px; }
+
+  .hero h1 { font-size:25px; color:#1a1a1a; font-weight:700; }
+  body.night .hero h1 { color:#dfe7f5; }
+  .hero .sub { color:#8a8a8a; font-size:13.5px; margin-top:8px; }
+  body.night .hero .sub { color:#4a5570; }
+  .statline { font-size:12px; color:#b5b5b5; border-top:1px solid #f0f0f0; border-bottom:1px solid #f0f0f0; padding:9px 2px; display:flex; gap:22px; margin:20px 0 24px; flex-wrap:wrap;}
+  body.night .statline { border-color:#1d2436; color:#3d4a68; }
+  .statline b { color:#7a7a7a; font-weight:500; }
+  body.night .statline b { color:#6c7ca3; }
+
+  /* ---- 白天：日程 ---- */
+  .sched { background:#fff; border:1px solid #ececec; border-radius:8px; padding:6px 0; }
+  .row { display:flex; gap:16px; padding:11px 20px; border-bottom:1px solid #f5f5f5; font-size:14px; align-items:baseline; }
+  .row:last-child { border-bottom:none; }
+  .row .tm { color:#b0b0b0; font-size:12.5px; min-width:52px; letter-spacing:.5px; }
+  .row .what { color:#333; }
+  .row .what small { color:#b8b8b8; font-size:12px; margin-left:8px; }
+  .row.blank { background:#fcfcfc; }
+  .row.blank .what { color:#d8d8d8; letter-spacing:3px; }
+  .row.noti .what { color:#8a4a44; letter-spacing:1px; }
+
+  /* ---- 夜晚：树洞 ---- */
+  .hole { display:flex; flex-direction:column; gap:14px; }
+  .hline { position:relative; padding:2px 0 2px 16px; font-size:14.5px; line-height:1.9; color:#aebad0; }
+  .hline::before { content:""; position:absolute; left:0; top:11px; width:6px; height:6px; border-radius:50%; background:#2c3a5c; }
+  .hline .ht { display:block; font-size:11px; color:#3d4a68; letter-spacing:1px; margin-bottom:3px; }
+  .hline.unread::before { background:#c0564f; }
+  .hline.unread .who { color:#c0564f; }
+  .hline .who { color:#6c7ca3; margin-right:8px; }
+  .hline.glow { color:#dfe7f5; }
+
+  /* ---- 共用 ---- */
+  .cta-row { text-align:center; margin:32px 0 8px; }
   .cta {
-    display:inline-block; background:#d8d8d8; color:#fff; font-size:16px;
-    padding:13px 58px; border:none; border-radius:4px; cursor:default;
+    display:inline-block; background:#dcdcdc; color:#fff; font-size:15px;
+    padding:12px 50px; border:none; border-radius:22px; cursor:default;
     letter-spacing:2px; transition:all .6s;
   }
-  .cta.lit {
-    background:#c0392b; cursor:pointer; 
-    animation:breath 1.6s ease-in-out infinite;
-    box-shadow:0 0 0 rgba(192,57,43,.4);
-  }
-  @keyframes breath {
-    0%,100% { box-shadow:0 0 0 0 rgba(192,57,43,.35); }
-    50% { box-shadow:0 0 22px 4px rgba(192,57,43,.35); }
-  }
+  body.night .cta { background:#1a2338; color:#3d4a68; border:1px solid #1d2436; }
+  .cta.lit, body.night .cta.lit { background:#c0392b; color:#fff; border-color:#c0392b; cursor:pointer; animation:breath 1.6s ease-in-out infinite; }
+  @keyframes breath { 0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.3)} 50%{box-shadow:0 0 20px 4px rgba(192,57,43,.3)} }
   .cta-note { font-size:12px; color:#bbb; text-align:center; margin-top:10px; letter-spacing:1px; }
-  .dateflip { transition:opacity .3s; }
-  .dateflip.glitch { color:#c0392b; animation:jit .12s linear 6; }
+  body.night .cta-note { color:#3d4a68; }
+
+  .glitchy { animation:jit .12s linear 6; }
   @keyframes jit { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
-  /* 评论区 */
-  .cm-head { font-size:15px; color:#333; margin:26px 0 12px; font-weight:600; }
-  .cm { background:#fff; border:1px solid #ececec; border-radius:6px; padding:12px 16px; margin-bottom:10px; font-size:13px; }
-  .cm .who { color:#6a8fbd; margin-right:10px; }
-  .cm .when { color:#c0c0c0; font-size:11px; float:right; }
-  .cm.ghost { background:#fdfdfd; }
-  .cm.ghost .who { color:#c8c8c8; }
-  .cm.ghost .txt { color:#9a3b34; }
-  .foot { text-align:center; color:#c2c2c2; font-size:11px; line-height:2; padding:30px 0 40px; }
-  .foot a { color:#c2c2c2; text-decoration:none; margin:0 8px; }
-  /* ===== 覆盖层：破功之后 ===== */
-  #veil {
-    position:fixed; inset:0; background:#000; z-index:50;
-    display:none; align-items:center; justify-content:center;
-    opacity:0; transition:opacity 1.4s;
-  }
+  .redded { color:#c0392b !important; }
+
+  .foot { text-align:center; color:#c8c8c8; font-size:11px; line-height:2; padding:34px 0 10px; }
+  body.night .foot { color:#2c3650; }
+
+  /* ---- veil ---- */
+  #veil { position:fixed; inset:0; background:#000; z-index:50; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 1.4s; }
   #veil.show { display:flex; }
   #veil.on { opacity:1; }
   #veil .inner { max-width:520px; padding:0 30px; text-align:center; }
-  #veil .vline {
-    font-family:"PingFang SC",sans-serif; color:#8b9ab5; font-size:16px;
-    letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s;
-  }
+  #veil .vline { color:#8b9ab5; font-size:16px; letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s; }
   #veil .vline.on { opacity:1; }
   #veil .vline.big { color:#dfe7f5; font-size:26px; letter-spacing:8px; }
-  /* ===== 老玩家的继续面板 ===== */
-  #resume {
-    position:fixed; inset:0; z-index:60; background:rgba(6,9,18,.9);
-    display:none; align-items:center; justify-content:center;
-  }
+
+  /* ---- 老玩家 ---- */
+  #resume { position:fixed; inset:0; z-index:60; background:rgba(6,9,18,.92); display:none; align-items:center; justify-content:center; }
   #resume.show { display:flex; }
   #resume .panel { text-align:center; padding:0 30px; }
   #resume .hi { color:#8b9ab5; letter-spacing:3px; font-size:15px; margin-bottom:10px; }
   #resume .where { color:#dfe7f5; letter-spacing:3px; font-size:17px; margin-bottom:44px; }
-  #resume button {
-    display:block; width:230px; margin:0 auto 16px; padding:13px 0;
-    background:#1a2338; color:#dfe7f5; border:1px solid #2c3a5c;
-    border-radius:4px; font-size:15px; letter-spacing:4px; cursor:pointer;
-    font-family:inherit;
-  }
+  #resume button { display:block; width:230px; margin:0 auto 16px; padding:13px 0; background:#1a2338; color:#dfe7f5; border:1px solid #2c3a5c; border-radius:4px; font-size:15px; letter-spacing:4px; cursor:pointer; font-family:inherit; }
   #resume button.ghostb { background:transparent; color:#8b9ab5; }
   #resume button:hover { border-color:#5a6f9e; }
+
   @media (max-width:560px){
-    .grid { grid-template-columns:1fr; }
-    .nvlinks { gap:14px; font-size:12px; }
-    .card { padding:20px 16px; }
+    .nvlinks { gap:13px; font-size:12px; }
     .nvlogo em { display:none; }
+    .hero h1 { font-size:21px; }
+    .row { padding:10px 14px; gap:10px; }
   }
 </style>
 </head>
 <body class="fake">
 
 <nav class="nvbar">
-  <div class="nvlogo">今夜寻人<em>让每一条启事都有回音</em></div>
-  <div class="nvlinks">
-    <a href="#">首页</a><a href="#" class="on">寻人启事</a><a href="#">寻物招领</a><a href="#">志愿者登记</a><a href="#">关于我们</a>
-  </div>
+  <div class="nvlogo" id="nvlogo">X<em id="nvtag"></em></div>
+  <div class="nvlinks" id="nvlinks"></div>
 </nav>
-<div class="nightbar" id="nightbar" style="display:none">夜间时段（23:00–5:00），长期浏览本站请留意休息。</div>
 
 <div class="wrap">
-  <div class="crumb">寻人启事 &gt; 启事详情</div>
-
-  <div class="card">
-    <div class="meta-top">
-      <span class="no">编号：JR-0808</span>
-      <span>状态：<span style="color:#c0392b">寻人中</span></span>
-      <span class="pv">浏览量：<b id="pv">3</b></span>
+  <!-- ======== 白天视图 ======== -->
+  <div id="dayView">
+    <div class="hero">
+      <h1>X 的本周</h1>
+      <div class="sub">与 <b>1</b> 人共享 · 最后编辑 今天</div>
+    </div>
+    <div class="statline">
+      <span>本周事项：<b>32</b></span>
+      <span>已完成：<b>29</b></span>
+      <span>未完成：<b>3</b></span>
+      <span>访客：<b id="pv">3</b></span>
     </div>
 
-    <h1>寻人：X（化名）</h1>
-
-    <div class="grid">
-      <span><b>性别</b><span class="val">女</span></span>
-      <span><b>年龄</b><span class="val">十七岁</span></span>
-      <span><b>最后出现时间</b><span class="val dateflip" id="lastSeen">—</span></span>
-      <span><b>最后出现地点</b><span class="val">青云观外，公交站</span></span>
-    </div>
-
-    <div class="desc">
-      <p>身高约一米六。走失时身穿蓝白色校服，左脚帆布鞋鞋头开胶，未修补。</p>
-      <p>随身携带：旧手机一部（屏幕左下角碎裂），内有未读消息八条，至今无法回复。</p>
-      <p>另有一支签，签纸折角，内容家属不愿透露。</p>
-      <p>如果您见过她，或者——收到过来自这部手机的消息，请点下方按钮告诉我们。她看到会回来的。</p>
-    </div>
-
-    <div class="publine">
-      <span>发布人：X***（应要求匿名）</span>
-      <span>发布时间：<span id="pubTime">—</span></span>
+    <div class="sched">
+      <div class="row"><span class="tm">06:40</span><span class="what">早起 · 拉伸</span></div>
+      <div class="row"><span class="tm">07:30</span><span class="what">练声<small>轮到我的就那么几句，也要练</small></span></div>
+      <div class="row"><span class="tm">09:00</span><span class="what">走位 · 分组</span></div>
+      <div class="row"><span class="tm">11:00</span><span class="what">单人镜头</span></div>
+      <div class="row"><span class="tm">14:00</span><span class="what">准备 · 等场<small>大部分时间是等</small></span></div>
+      <div class="row"><span class="tm">18:00</span><span class="what">体能 · 折返跑</span></div>
+      <div class="row"><span class="tm">20:00</span><span class="what">打坐 30min<small>剑不出鞘</small></span></div>
+      <div class="row"><span class="tm">22:00</span><span class="what">收工</span></div>
+      <div class="row blank"><span class="tm">23:00</span><span class="what" id="dayBlank">— 空白 —</span></div>
+      <div class="row blank"><span class="tm">03:12</span><span class="what" id="dayBlank2">— 空白 —</span></div>
     </div>
 
     <div class="cta-row">
-      <button class="cta" id="cta">提 供 线 索</button>
-      <div class="cta-note" id="ctaNote">线索将由系统转交家属</div>
+      <button class="cta" id="cta">添 加 备 注</button>
+      <div class="cta-note" id="ctaNote">备注只有自己能看到</div>
     </div>
+
+    <div class="foot">此日程由 X 维护 · 不接受协作邀请</div>
   </div>
 
-  <div class="cm-head">留言 <span style="color:#bbb;font-weight:400;font-size:12px">（3）</span></div>
-  <div id="cmBox">
-    <div class="cm"><span class="when" id="cm1d">—</span><span class="who">山南水北</span>希望平安。每年今天都来搜一次。</div>
-    <div class="cm"><span class="when" id="cm2d">—</span><span class="who">路人甲乙丙</span>转发给家里人了。八年了，还没找到吗。</div>
-    <div class="cm"><span class="when" id="cm3d">—</span><span class="who">本地人</span>青云观外那个公交站，站牌八年前就撤了。晚上根本没有车。</div>
-  </div>
+  <!-- ======== 夜晚视图 ======== -->
+  <div id="nightView" style="display:none">
+    <div class="hero">
+      <h1>X</h1>
+      <div class="sub">仅自己可见 · 共 8 条</div>
+    </div>
+    <div class="statline">
+      <span>最近登录：<b>今天</b></span>
+      <span>访客：<b id="pv2">3</b></span>
+    </div>
 
-  <div class="foot">
-    © 今夜寻人 · 本站已运行 <span id="days">2922</span> 天<br>
-    <a href="#">网站协议</a>|<a href="#">隐私政策</a>|<a href="#">举报不良信息</a>
+    <div class="hole">
+      <div class="hline"><span class="ht">01:14</span>又练了。反正轮到我的就那么几句。也要练。</div>
+      <div class="hline"><span class="ht">01:52</span>打坐半小时。剑没有出鞘。有些东西按得住。</div>
+      <div class="hline"><span class="ht">02:06</span>今天有人哭了。我第一个过去抱。抱人比说话容易。</div>
+      <div class="hline"><span class="ht">02:31</span>他们说我不合群。行吧。</div>
+      <div class="hline"><span class="ht">02:47</span>姐问我钱够不够。我说够。挂了才想起忘了问她。</div>
+      <div class="hline unread"><span class="ht">03:00 · 未读</span><span class="who">那个人</span>（你有一条未读消息，来自"那个人"。你不点开。你从来不点开。）</div>
+      <div class="hline"><span class="ht">03:12</span>药在抽屉最里面。今天也没吃。睡吧。</div>
+      <div class="hline"><span class="ht">03:58</span>梦里回到六岁。海很蓝。照片找不到了。</div>
+    </div>
+
+    <div class="cta-row">
+      <button class="cta" id="cta2">回 复</button>
+      <div class="cta-note" id="ctaNote2">回复只有自己能看到</div>
+    </div>
+
+    <div class="foot">这里很安静。一直都这么安静。</div>
   </div>
 </div>
 
 <!-- 破功覆盖层 -->
 <div id="veil">
   <div class="inner">
-    <div class="vline" id="v1">线索已收到。</div>
-    <div class="vline" id="v2">八年来，一共只有一条。就是你现在这条。</div>
-    <div class="vline" id="v3">你想找的人，也在找你。</div>
+    <div class="vline" id="v1">发送成功。</div>
+    <div class="vline" id="v2">这个页面只有一个访客。从来只有一个。</div>
+    <div class="vline" id="v3">你看它的时候，它也在看你。</div>
     <div class="vline big" id="v4">你是 X 吧。</div>
     <div class="vline" id="v5" style="font-size:13px;color:#5a6885"></div>
   </div>
@@ -190,25 +203,24 @@
 <script>
 const $ = id => document.getElementById(id);
 
-/* ---------- 真实日期：八年前的“今晚” ---------- */
 const now = new Date();
-const past = new Date(now); past.setFullYear(now.getFullYear() - 8);
-const fmt = d => d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
-const eightYearsTonight = fmt(past) + " 22:47";
-
-/* 页面加载时，日期先“正常”地显示成八年前——大多数访客不会注意。
-   异变不是把日期改错，而是让它开始闪烁，逼你看清它本来就是错的。 */
-$("lastSeen").textContent = eightYearsTonight;
-$("pubTime").textContent = eightYearsTonight;
-const cmtDate = fmt(past);
-$("cm1d").textContent = cmtDate; $("cm2d").textContent = cmtDate; $("cm3d").textContent = cmtDate;
-
-/* 深夜知现：真实时间 */
 const hr = now.getHours();
 const isNight = hr >= 23 || hr < 5;
-if (isNight) $("nightbar").style.display = "block";
 
-/* ---------- 老玩家：不走伪装流程，直接停在继续面板 ---------- */
+/* 白天/夜晚切换 */
+if (isNight) {
+  document.title = "X";
+  document.body.classList.add("night");
+  $("dayView").style.display = "none";
+  $("nightView").style.display = "block";
+  $("nvlogo").innerHTML = 'X<em style="font-style:normal;color:#4a5570;font-size:11px;font-weight:400;margin-left:8px">树洞</em>';
+  $("nvlinks").innerHTML = '<a href="#">条目</a><a href="#" style="color:#dfe7f5;font-weight:600">未读</a><a href="#">存档</a>';
+} else {
+  $("nvtag").textContent = "本周";
+  $("nvlinks").innerHTML = '<a href="#" style="color:#111;font-weight:600">日程</a><a href="#">待办</a><a href="#">归档</a><a href="#">共享设置</a>';
+}
+
+/* ---------- 老玩家 ---------- */
 const CHAPTER_PAGES = { 1:"chat.html", 2:"guanyun.html", 3:"forum.html", 4:"ruins.html", 5:"mask.html", 6:"archive.html", 7:"final.html" };
 const CHAPTER_NAMES = { 1:"未读", 2:"青云观", 3:"倒影小组", 4:"亥时", 5:"面具", 6:"档案室", 7:"顺其自然" };
 const isReturning = DJ.state.name && !new URLSearchParams(location.search).get("restart");
@@ -241,55 +253,88 @@ if (isReturning) {
     }, 2200);
   });
 } else {
-  /* ---------- 新玩家：伪装 → 龟裂 → 破功 ---------- */
+  /* ---------- 新玩家：龟裂时间线（白天/夜晚各自版本） ---------- */
   let started = false;
-
   const step = (ms, fn) => setTimeout(() => { if (!started) fn(); }, ms);
 
-  /* 4s：浏览量 3 → 8，然后永远卡住 */
+  /* 4s：访客数 3 → 8，然后永远卡住 */
   step(4000, () => {
-    $("pv").textContent = "8";
-    $("pv").parentElement.title = "为什么不再涨了？";
+    const pv = isNight ? $("pv2") : $("pv");
+    pv.textContent = "8";
+    pv.parentElement.title = "每天都是第 8 位。";
   });
 
-  /* 8s：日期开始闪烁——它八年前就是“今晚” */
-  step(8000, () => {
-    $("lastSeen").classList.add("glitch");
-    $("pubTime").classList.add("glitch");
-  });
-
-  /* 12s：第三条留言下面，多出一条不该存在的留言 */
-  step(12000, () => {
-    const g = document.createElement("div");
-    g.className = "cm ghost";
-    g.innerHTML = '<span class="when">08:08</span><span class="who">用户已注销</span><span class="txt">她回来了。</span>';
-    $("cmBox").appendChild(g);
-    const head = document.querySelector(".cm-head span");
-    if (head) head.textContent = "（4）";
-  });
-
-  /* 15s：按钮亮起来。像在等你。 */
-  step(15000, () => {
-    $("cta").classList.add("lit");
-    $("ctaNote").textContent = "你的设备似乎有话想说";
-    $("cta").onclick = doBreak;
-  });
-
-  /* 也允许 impatient 的玩家提前把按钮点爆（未亮时点： nothing，但5次后直接破功） */
-  let taps = 0;
-  $("cta").addEventListener("click", () => {
-    taps++;
-    if (taps >= 5 && !$("cta").classList.contains("lit")) {
+  if (isNight) {
+    /* 夜晚：树洞开始回应 */
+    step(8000, () => {
+      const hlines = document.querySelectorAll(".hline");
+      hlines[Math.floor(hlines.length / 2)].classList.add("glitchy", "redded");
+    });
+    step(12000, () => {
+      const g = document.createElement("div");
+      g.className = "hline glow";
+      g.innerHTML = '<span class="ht">' + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + ' · 刚刚</span>有人在看这个页面。是你吗。';
+      document.querySelector(".hole").appendChild(g);
+      g.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+    step(14500, () => {
+      const g = document.querySelector(".hline.glow");
+      if (g) g.innerHTML += '<span class="ht" style="margin-top:6px">别怕。压压帽檐。明天还长。</span>';
+    });
+    step(16000, () => {
+      $("cta2").classList.add("lit");
+      $("ctaNote2").textContent = "它好像在等这一下";
+      $("cta2").onclick = doBreak;
+    });
+  } else {
+    /* 白天：日程的缝隙里渗东西 */
+    step(8000, () => {
+      $("dayBlank").textContent = "— 睡不着 —";
+      $("dayBlank").classList.add("redded", "glitchy");
+      $("dayBlank").parentElement.classList.remove("blank");
+      $("dayBlank").parentElement.classList.add("noti");
+    });
+    step(12000, () => {
+      $("dayBlank2").textContent = "其实今天也没有很好。";
+      $("dayBlank2").classList.remove("blank-style");
+      $("dayBlank2").style.color = "#8a4a44";
+      $("dayBlank2").style.letterSpacing = "1px";
+      $("dayBlank2").parentElement.classList.remove("blank");
+      $("dayBlank2").parentElement.classList.add("noti");
+      $("dayBlank2").scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+    step(14500, () => {
+      const r = document.createElement("div");
+      r.className = "row noti";
+      r.innerHTML = '<span class="tm">03:12</span><span class="what">药在抽屉最里面。你今天也没吃吧。</span>';
+      document.querySelector(".sched").appendChild(r);
+      r.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+    step(16000, () => {
       $("cta").classList.add("lit");
+      $("ctaNote").textContent = "你的设备似乎有话想说";
       $("cta").onclick = doBreak;
-    }
+    });
+  }
+
+  /* 着急的玩家连点 5 次，也可以提前戳破 */
+  ["cta","cta2"].forEach(id => {
+    let taps = 0;
+    $(id) && $(id).addEventListener("click", () => {
+      taps++;
+      if (taps >= 5 && !$(id).classList.contains("lit")) {
+        $(id).classList.add("lit");
+        $(id).onclick = doBreak;
+      }
+    });
   });
 
   /* ---------- 破功 ---------- */
   function doBreak() {
     if (started) return;
     started = true;
-    $("cta").disabled = true;
+    const cta = isNight ? $("cta2") : $("cta");
+    cta.disabled = true;
     const veil = $("veil");
     veil.classList.add("show");
     requestAnimationFrame(() => veil.classList.add("on"));
@@ -308,7 +353,6 @@ if (isReturning) {
           $("v5").classList.add("on");
         }
         setTimeout(() => {
-          /* 名字定案：所有人都是 X。 */
           DJ.state.name = "X";
           DJ.flag("name_is_x");
           DJ.unlock(1);
@@ -321,8 +365,6 @@ if (isReturning) {
     setTimeout(show, 1400);
   }
 }
-
-/* 老玩家也会在后台数着：本站已运行的天数永远是 2922。没有人知道为什么。 */
 </script>
 </body>
 </html>
