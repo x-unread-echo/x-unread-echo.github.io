@@ -127,14 +127,12 @@
     </div>
 
     <div class="sched">
-      <div class="row"><span class="tm">06:40</span><span class="what">早起 · 拉伸</span></div>
-      <div class="row"><span class="tm">07:30</span><span class="what">练声<small>轮到我的就那么几句，也要练</small></span></div>
-      <div class="row"><span class="tm">09:00</span><span class="what">走位 · 分组</span></div>
-      <div class="row"><span class="tm">11:00</span><span class="what">单人镜头</span></div>
-      <div class="row"><span class="tm">14:00</span><span class="what">准备 · 等场<small>大部分时间是等</small></span></div>
-      <div class="row"><span class="tm">18:00</span><span class="what">体能 · 折返跑</span></div>
-      <div class="row"><span class="tm">20:00</span><span class="what">打坐 30min<small>剑不出鞘</small></span></div>
-      <div class="row"><span class="tm">22:00</span><span class="what">收工</span></div>
+      <div class="row"><span class="tm">07:50</span><span class="what">闹钟响了三遍<small>第三遍才是真的想起</small></span></div>
+      <div class="row"><span class="tm">09:30</span><span class="what">上午的会<small>大部分时间是等</small></span></div>
+      <div class="row"><span class="tm">12:00</span><span class="what">中午吃什么<small>这道题每天都没解出来</small></span></div>
+      <div class="row"><span class="tm">15:00</span><span class="what">回消息<small>回了三个字</small></span></div>
+      <div class="row"><span class="tm">18:30</span><span class="what">人多的饭<small>笑到脸酸</small></span></div>
+      <div class="row"><span class="tm">22:40</span><span class="what">洗澡<small>水声很大，想了很多</small></span></div>
       <div class="row blank"><span class="tm">23:00</span><span class="what" id="dayBlank">— 空白 —</span></div>
       <div class="row blank"><span class="tm">03:12</span><span class="what" id="dayBlank2">— 空白 —</span></div>
     </div>
@@ -159,14 +157,14 @@
     </div>
 
     <div class="hole">
-      <div class="hline"><span class="ht">01:14</span>又练了。反正轮到我的就那么几句。也要练。</div>
-      <div class="hline"><span class="ht">01:52</span>打坐半小时。剑没有出鞘。有些东西按得住。</div>
-      <div class="hline"><span class="ht">02:06</span>今天有人哭了。我第一个过去抱。抱人比说话容易。</div>
-      <div class="hline"><span class="ht">02:31</span>他们说我不合群。行吧。</div>
-      <div class="hline"><span class="ht">02:47</span>姐问我钱够不够。我说够。挂了才想起忘了问她。</div>
-      <div class="hline unread"><span class="ht">03:00 · 未读</span><span class="who">那个人</span>（你有一条未读消息，来自"那个人"。你不点开。你从来不点开。）</div>
-      <div class="hline"><span class="ht">03:12</span>药在抽屉最里面。今天也没吃。睡吧。</div>
-      <div class="hline"><span class="ht">03:58</span>梦里回到六岁。海很蓝。照片找不到了。</div>
+      <div class="hline"><span class="ht">00:40</span>朋友圈划了三遍。一个赞都没点。</div>
+      <div class="hline"><span class="ht">01:15</span>有人问我最近怎么样。我说挺好的。标准答案。</div>
+      <div class="hline"><span class="ht">01:52</span>已读不回也算回吧。那我回得可多了。</div>
+      <div class="hline"><span class="ht">02:06</span>笑了一整天。脸现在才下班。</div>
+      <div class="hline"><span class="ht">02:31</span>房间很安静。安静得不像我的。</div>
+      <div class="hline unread"><span class="ht">03:00 · 未读</span>有一条未读消息。你知道是谁的。你从来不点开。</div>
+      <div class="hline"><span class="ht">03:12</span>今天也没什么事。就是不想睡。睡了明天就来了。</div>
+      <div class="hline"><span class="ht">03:58</span>洗澡的时候差点哭了。出来就好了。真的。</div>
     </div>
 
     <div class="cta-row">
@@ -279,7 +277,7 @@ if (isReturning) {
     });
     step(14500, () => {
       const g = document.querySelector(".hline.glow");
-      if (g) g.innerHTML += '<span class="ht" style="margin-top:6px">别怕。压压帽檐。明天还长。</span>';
+      if (g) g.innerHTML += '<span class="ht" style="margin-top:6px">没事。都这样。明天再说。</span>';
     });
     step(16000, () => {
       $("cta2").classList.add("lit");
@@ -306,7 +304,7 @@ if (isReturning) {
     step(14500, () => {
       const r = document.createElement("div");
       r.className = "row noti";
-      r.innerHTML = '<span class="tm">03:12</span><span class="what">药在抽屉最里面。你今天也没吃吧。</span>';
+      r.innerHTML = '<span class="tm">03:12</span><span class="what">你今天说了几次"还好"？</span>';
       document.querySelector(".sched").appendChild(r);
       r.scrollIntoView({ block: "center", behavior: "smooth" });
     });
