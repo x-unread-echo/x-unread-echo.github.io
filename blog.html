@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>慢半拍 · 记录一些没什么用的事</title>
-<link rel="stylesheet" href="assets/style.css?v=65">
+<link rel="stylesheet" href="assets/style.css?v=66">
 <style>
   body{
     background:
@@ -67,8 +67,9 @@
   /* 正文里的链接：像普通文字，只是下面有点 */
   .lk{color:#b8352a;font-weight:600;cursor:pointer;border-bottom:1px dotted #b8352a;transition:background .2s}
   .lk:hover{background:#fdeedd}
-  .lk.dim{color:#b9a186;border-bottom-color:#c9ad8c;font-weight:400}
-  .lk.dim:hover{background:#f6ecd9}
+  /* 没玩到的入口：连点的感觉都不给，就是一段普通文字 */
+  .lk.dim{color:inherit;border-bottom:none;font-weight:inherit;cursor:default}
+  .lk.dim:hover{background:transparent}
 
   /* 侧栏小面板 */
   .sp .pb{padding:12px 14px;font-size:12.5px;line-height:1.95}
@@ -195,13 +196,13 @@ function main(){
   /* ---------- 渲染 ---------- */
   const yt = $("ytabs");
   let curYear = "2025";
-  YEARS.forEach(Y => {
+  /* 只渲染已经走到的年份。没走到的年份不存在——玩到哪，博客长到哪 */
+  YEARS.filter(Y => ch >= Y.lock).forEach(Y => {
     const t = document.createElement("span");
-    t.className = "ytab" + (Y.y === curYear ? " on" : "") + (ch >= Y.lock ? "" : " lock") + (ch + 1 === Y.lock ? " next" : "");
+    t.className = "ytab" + (Y.y === curYear ? " on" : "");
     t.textContent = Y.y;
     t.onclick = () => {
       DJ.sfx.click();
-      if (ch < Y.lock){ DJ.envHintNow("那一年的日记，还没有被你找到。先在别处留下痕迹。"); return; }
       curYear = Y.y;
       document.querySelectorAll(".ytab").forEach(x => x.classList.remove("on"));
       t.classList.add("on");
@@ -209,10 +210,6 @@ function main(){
     };
     yt.appendChild(t);
   });
-  const nx = document.createElement("span");
-  nx.className = "nextword";
-  nx.textContent = ch >= 12 ? "—— 全部年份已解锁 ——" : "有一年，还锁着";
-  yt.appendChild(nx);
 
   const bindLk = () => {
     document.querySelectorAll(".lk").forEach(a => {
@@ -247,20 +244,21 @@ function main(){
           : `<div class="gbitem"><span class="who">${g.w}</span><span class="tm">${g.t}</span><p>${g.m}</p></div>`).join("");
   bindLk();
 
-  /* 最近在听 → 电台（ch>=9） */
-  $("music").innerHTML = `<span class="lk ${ch>=9?"":"dim"}" data-go="radio.html" data-err="这个电台每天亥时开播。现在没有声音。">深夜电台 FM 08.8</span><br><span style="font-size:11px;color:#c9ad8c">—— 八年只播一句话</span>`;
+  /* 最近在听 → 电台（ch>=9，没到就整个板块不存在） */
+  if (ch < 9) $("musicpanel").style.display = "none";
+  else $("music").innerHTML = `<span class="lk" data-go="radio.html">深夜电台 FM 08.8</span><br><span style="font-size:11px;color:#c9ad8c">—— 八年只播一句话</span>`;
   bindLk();
 
-  /* 友情链接 */
+  /* 友情链接：只挂已经走到的。没走到的，连名字都不出现 */
   const FR = [
-    { t:"搜搜", go:"search.html", c:1, err:"" },
-    { t:"倒影小组", go:"forum.html", c:5, err:"那个论坛要审核。审核你的人还没点通过。" },
-    { t:"云屉网盘", go:"cloud.html", c:8, err:"网盘空间已满。" },
-    { t:"网上医院 · 内网", go:"hospital.html", c:10, err:"夜间门诊未开放。开放时间是八点零八分。" },
-    { t:"备忘 · 一面墙", go:"board.html", c:10, err:"你还没有捡到第一块碎片。" }
+    { t:"搜搜", go:"search.html", c:1 },
+    { t:"倒影小组", go:"forum.html", c:5 },
+    { t:"云屉网盘", go:"cloud.html", c:8 },
+    { t:"网上医院 · 内网", go:"hospital.html", c:10 },
+    { t:"备忘 · 一面墙", go:"board.html", c:10 }
   ];
-  $("friends").innerHTML = FR.map(f =>
-    `<div><span class="lk ${ch>=f.c?"":"dim"}" data-go="${f.go}" data-err="${f.err}">☆ ${f.t}</span></div>`).join("");
+  $("friends").innerHTML = FR.filter(f => ch >= f.c).map(f =>
+    `<div><span class="lk" data-go="${f.go}">☆ ${f.t}</span></div>`).join("");
   bindLk();
 
   /* 在线人数：死的社区细节，活的恐怖 */
