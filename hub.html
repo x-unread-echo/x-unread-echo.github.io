@@ -4,125 +4,133 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新标签页</title>
-<link rel="stylesheet" href="assets/style.css?v=57">
+<link rel="stylesheet" href="assets/style.css?v=58">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
-  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#04070d;color:#dfe5ee;
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f2efe9;color:#3a423c;
        -webkit-user-select:none;user-select:none}
 
+  /* ---------- 八卦图水印 ---------- */
+  #bagua{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;
+    color:rgba(58,74,66,.07);z-index:1}
+  #bagua i{font-size:34vmin;font-style:normal;line-height:1}
+  #bagua s{position:absolute;font-size:8vmin;text-decoration:none;line-height:1;
+    transform:rotate(var(--r)) translateY(-29vmin) rotate(calc(-1 * var(--r)))}
+
   /* ---------- 开机 ---------- */
-  #boot{position:fixed;inset:0;background:#000;z-index:900;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  #boot{position:fixed;inset:0;background:#f7f5f0;z-index:900;display:flex;align-items:center;justify-content:center;cursor:pointer}
   #boot.off{display:none}
-  #bootInner{font-family:var(--mono,monospace);font-size:13px;color:#7e90ad;line-height:2.2;letter-spacing:1px;min-width:280px}
-  #bootInner .ok{color:#4f8f6b}
-  #power{width:56px;height:56px;border:2px solid #2c3a52;border-radius:50%;margin:0 auto 26px;
-    display:flex;align-items:center;justify-content:center;color:#8fa0bd;font-size:22px;
-    animation:pulse 2.4s ease infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(143,160,189,.18)}50%{box-shadow:0 0 0 12px rgba(143,160,189,0)}}
-  #bootHint{text-align:center;color:#33415e;font-size:12px;letter-spacing:3px;margin-top:26px}
+  #bootInner{font-family:var(--mono,monospace);font-size:13px;color:#5c6b60;line-height:2.2;letter-spacing:1px;min-width:280px;position:relative;z-index:2}
+  #bootInner .ok{color:#3f7d5c}
+  #power{width:56px;height:56px;border:2px solid #b9c4ba;border-radius:50%;margin:0 auto 26px;
+    display:flex;align-items:center;justify-content:center;color:#5c6b60;font-size:22px;
+    animation:pulse 2.4s ease infinite;background:#fff}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(63,125,92,.16)}50%{box-shadow:0 0 0 12px rgba(63,125,92,0)}}
+  #bootHint{text-align:center;color:#9aa79c;font-size:12px;letter-spacing:3px;margin-top:26px}
 
   /* ---------- 锁屏 ---------- */
   #lock{position:fixed;inset:0;z-index:800;display:none;flex-direction:column;align-items:center;justify-content:center;
-    background:radial-gradient(1200px 700px at 30% 20%,#12203c 0%,#0a1226 45%,#050a16 100%)}
+    background:linear-gradient(160deg,#faf8f2 0%,#eef1ec 55%,#e6ece7 100%)}
   #lock.on{display:flex}
-  #lock::after{content:"X";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    font-size:44vmin;font-weight:700;color:rgba(143,160,189,.05);pointer-events:none;letter-spacing:0}
-  .lockTime{font-size:74px;font-weight:200;letter-spacing:4px;font-variant-numeric:tabular-nums}
-  .lockDate{color:#5a6a84;font-size:15px;letter-spacing:3px;margin-top:6px}
+  #lock::after{content:"X";position:absolute;right:5vmin;bottom:2vmin;font-size:16vmin;font-weight:700;
+    color:rgba(58,74,66,.06);pointer-events:none}
+  .lockTime{font-size:74px;font-weight:200;letter-spacing:4px;font-variant-numeric:tabular-nums;color:#2e3a33}
+  .lockDate{color:#7d8a80;font-size:15px;letter-spacing:3px;margin-top:6px}
   .lockAva{width:84px;height:84px;border-radius:50%;margin:56px 0 12px;
-    background:linear-gradient(150deg,#1a2b4d,#0c1730);border:1px solid #2c3a52;
-    display:flex;align-items:center;justify-content:center;font-size:30px;color:#8fa0bd;letter-spacing:4px}
-  .lockName{font-size:16px;letter-spacing:8px;color:#aebfd8}
+    background:linear-gradient(150deg,#ffffff,#e8ece6);border:1px solid #ccd6cc;
+    display:flex;align-items:center;justify-content:center;font-size:30px;color:#4f5d54;letter-spacing:4px;
+    box-shadow:0 6px 20px rgba(58,74,66,.12)}
+  .lockName{font-size:16px;letter-spacing:8px;color:#4f5d54}
   #pwRow{margin-top:22px;display:flex;gap:10px;align-items:center}
-  #pw{background:rgba(255,255,255,.06);border:1px solid #2c3a52;border-radius:99px;color:#dfe5ee;
-    padding:11px 20px;font-size:15px;letter-spacing:6px;width:210px;text-align:center;outline:none;font-family:var(--mono,monospace)}
-  #pw:focus{border-color:#4a7dd6}
+  #pw{background:#ffffff;border:1px solid #ccd6cc;border-radius:99px;color:#2e3a33;
+    padding:11px 20px;font-size:15px;letter-spacing:6px;width:210px;text-align:center;outline:none;font-family:var(--mono,monospace);
+    box-shadow:0 4px 16px rgba(58,74,66,.08)}
+  #pw:focus{border-color:#3f7d5c}
   #pw.shake{animation:shk .38s}
   @keyframes shk{0%,100%{transform:none}25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
-  #pwHint{margin-top:16px;color:#33415e;font-size:12.5px;letter-spacing:2px;min-height:18px}
+  #pwHint{margin-top:16px;color:#9aa79c;font-size:12.5px;letter-spacing:2px;min-height:18px}
   #pwHint.warn{color:#8a6d3a}
-  #pwHint.creep{color:#7a4040}
+  #pwHint.creep{color:#a05252}
 
   /* ---------- 桌面 ---------- */
   #desktop{position:fixed;inset:0;display:none;
-    background:radial-gradient(1300px 800px at 28% 18%,#152648 0%,#0c1730 48%,#060c1a 100%)}
+    background:linear-gradient(160deg,#faf8f2 0%,#eef1ec 55%,#e4ebe6 100%)}
   #desktop.on{display:block}
-  #desktop::after{content:"X";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    font-size:44vmin;font-weight:700;color:rgba(143,160,189,.045);pointer-events:none}
+  #desktop::after{content:"X";position:absolute;right:4vmin;bottom:1vmin;font-size:15vmin;font-weight:700;
+    color:rgba(58,74,66,.05);pointer-events:none;z-index:1}
 
-  .dicon{position:absolute;width:86px;padding:10px 4px 8px;border-radius:8px;text-align:center;cursor:pointer;
-    transition:background .15s}
-  .dicon:hover{background:rgba(143,160,189,.09)}
-  .dicon .tile{width:52px;height:52px;margin:0 auto 7px;border-radius:11px;display:flex;align-items:center;justify-content:center;
-    font-size:20px;font-weight:600;color:#eef2f9;box-shadow:0 4px 14px rgba(0,0,0,.35)}
-  .dicon b{display:block;font-size:12px;font-weight:400;letter-spacing:1px;color:#c9d6ea;line-height:1.5;
-    text-shadow:0 1px 3px rgba(0,0,0,.7);word-break:keep-all}
-  .dicon.lockd{opacity:.32;filter:grayscale(.6)}
-  .dicon.lockd b{color:#5a6a84}
+  .dicon{position:absolute;width:86px;padding:10px 4px 8px;border-radius:10px;text-align:center;cursor:pointer;
+    transition:background .15s;z-index:2}
+  .dicon:hover{background:rgba(58,74,66,.07)}
+  .dicon .tile{width:52px;height:52px;margin:0 auto 7px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+    font-size:20px;font-weight:600;color:#ffffff;box-shadow:0 4px 12px rgba(58,74,66,.18)}
+  .dicon b{display:block;font-size:12px;font-weight:500;letter-spacing:1px;color:#3a423c;line-height:1.5;word-break:keep-all}
+  .dicon.lockd{opacity:.38;filter:grayscale(.5)}
+  .dicon.lockd b{color:#9aa79c}
 
   /* 便利贴 */
-  #note{position:absolute;right:26px;top:30px;width:168px;padding:16px 14px 40px;background:#e9d788;color:#4a3f1d;
+  #note{position:absolute;right:26px;top:30px;width:168px;padding:16px 14px 40px;background:#f5e38e;color:#4a3f1d;
     font-size:13.5px;line-height:2;letter-spacing:1px;transform:rotate(-2.5deg);
-    box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:default;z-index:5}
+    box-shadow:0 8px 24px rgba(58,74,66,.22);cursor:default;z-index:3}
   #note::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(2deg);
-    width:70px;height:18px;background:rgba(255,255,255,.45)}
+    width:70px;height:18px;background:rgba(255,255,255,.6)}
   #note .sig{text-align:right;margin-top:8px;color:#6b5c28}
 
   /* ---------- 窗口 ---------- */
-  .win{position:fixed;min-width:300px;max-width:92vw;background:#0e1524;border:1px solid #24304a;border-radius:10px;
-    box-shadow:0 24px 70px rgba(0,0,0,.6);overflow:hidden;display:none;z-index:100}
+  .win{position:fixed;min-width:300px;max-width:92vw;background:#fdfcf9;border:1px solid #d8d2c4;border-radius:12px;
+    box-shadow:0 24px 70px rgba(58,74,66,.22);overflow:hidden;display:none;z-index:100}
   .win.show{display:block;animation:winIn .18s ease}
   @keyframes winIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
-  .win .wbar{background:#131c30;border-bottom:1px solid #24304a;padding:9px 12px;display:flex;align-items:center;gap:8px;cursor:move}
+  .win .wbar{background:#f4f1ea;border-bottom:1px solid #e4ded2;padding:9px 12px;display:flex;align-items:center;gap:8px;cursor:move}
   .win .wdots{display:flex;gap:6px}
   .win .wdots i{width:11px;height:11px;border-radius:50%}
-  .win .wdots i:nth-child(1){background:#c0564f;cursor:pointer}
-  .win .wdots i:nth-child(2){background:#b8a35a}
-  .win .wdots i:nth-child(3){background:#4f8f6b}
-  .win .wtitle{flex:1;text-align:center;font-size:12.5px;color:#8fa0bd;letter-spacing:2px}
-  .win .wbody{padding:18px 20px;max-height:56vh;overflow:auto;font-size:13.5px;line-height:2;color:#c9d6ea;letter-spacing:.5px}
+  .win .wdots i:nth-child(1){background:#e06a5a;cursor:pointer}
+  .win .wdots i:nth-child(2){background:#e5b84f}
+  .win .wdots i:nth-child(3){background:#5cb87a}
+  .win .wtitle{flex:1;text-align:center;font-size:12.5px;color:#5c6b60;letter-spacing:2px}
+  .win .wbody{padding:18px 20px;max-height:56vh;overflow:auto;font-size:13.5px;line-height:2;color:#3a423c;letter-spacing:.5px}
   .win .wbody::-webkit-scrollbar{width:8px}
-  .win .wbody::-webkit-scrollbar-thumb{background:#24304a;border-radius:4px}
-  .frow{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:8px;cursor:pointer;transition:background .15s}
-  .frow:hover{background:rgba(143,160,189,.08)}
-  .frow .fi{width:34px;height:34px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-    font-size:15px;font-weight:600}
-  .frow b{font-weight:400;font-size:13.5px;color:#dfe5ee;letter-spacing:1px}
-  .frow span{margin-left:auto;font-size:11px;color:#42536f;letter-spacing:1px}
-  .docTitle{color:#8fa0bd;font-size:12px;letter-spacing:3px;border-bottom:1px dashed #24304a;padding-bottom:8px;margin-bottom:12px}
+  .win .wbody::-webkit-scrollbar-thumb{background:#d8d2c4;border-radius:4px}
+  .frow{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:9px;cursor:pointer;transition:background .15s}
+  .frow:hover{background:#f2efe8}
+  .frow .fi{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:600;color:#fff}
+  .frow b{font-weight:500;font-size:13.5px;color:#2e3a33;letter-spacing:1px}
+  .frow span{margin-left:auto;font-size:11px;color:#9aa79c;letter-spacing:1px}
+  .docTitle{color:#5c6b60;font-size:12px;letter-spacing:3px;border-bottom:1px dashed #d8d2c4;padding-bottom:8px;margin-bottom:12px}
   .docBody{white-space:pre-wrap}
-  .docBody em{color:#7e90ad;font-style:normal}
-  .frow .fi, .dicon .tile{font-family:-apple-system,"PingFang SC",sans-serif}
+  .docBody em{color:#7d8a80;font-style:normal}
+  .dicon .tile,.frow .fi{font-family:-apple-system,"PingFang SC",sans-serif}
 
   /* ---------- 任务栏 ---------- */
   #taskbar{position:fixed;left:0;right:0;bottom:0;height:46px;z-index:600;display:none;
-    background:rgba(10,16,30,.82);backdrop-filter:blur(18px);border-top:1px solid rgba(36,48,74,.8);
+    background:rgba(255,255,255,.78);backdrop-filter:blur(18px);border-top:1px solid #e4ded2;
     align-items:center;padding:0 12px;gap:8px}
   #taskbar.on{display:flex}
-  #startBtn{padding:7px 14px;border-radius:7px;cursor:pointer;font-size:13.5px;letter-spacing:1px;color:#aebfd8}
-  #startBtn:hover{background:rgba(143,160,189,.12)}
+  #startBtn{padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13.5px;letter-spacing:1px;color:#3a423c}
+  #startBtn:hover{background:rgba(58,74,66,.08)}
   #taskWins{flex:1;display:flex;gap:6px;overflow:hidden}
-  .twin{padding:6px 12px;border-radius:7px;font-size:12px;color:#8fa0bd;background:rgba(143,160,189,.07);
+  .twin{padding:6px 12px;border-radius:8px;font-size:12px;color:#5c6b60;background:rgba(58,74,66,.06);
     cursor:pointer;letter-spacing:1px;white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
-  .twin.act{background:rgba(74,125,214,.22);color:#dfe5ee}
-  #tClock{text-align:right;font-size:12px;color:#8fa0bd;line-height:1.5;letter-spacing:1px;font-variant-numeric:tabular-nums}
-  #tClock b{display:block;font-weight:500;color:#c9d6ea}
+  .twin.act{background:rgba(63,125,92,.16);color:#2e3a33}
+  #tClock{text-align:right;font-size:12px;color:#5c6b60;line-height:1.5;letter-spacing:1px;font-variant-numeric:tabular-nums}
+  #tClock b{display:block;font-weight:600;color:#2e3a33}
 
   /* 开始菜单 */
-  #startmenu{position:fixed;left:10px;bottom:54px;width:250px;background:rgba(14,21,36,.96);backdrop-filter:blur(20px);
-    border:1px solid #24304a;border-radius:12px;padding:10px;z-index:700;display:none;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  #startmenu{position:fixed;left:10px;bottom:54px;width:250px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+    border:1px solid #d8d2c4;border-radius:12px;padding:10px;z-index:700;display:none;box-shadow:0 20px 60px rgba(58,74,66,.22)}
   #startmenu.show{display:block;animation:winIn .15s ease}
-  .smItem{padding:10px 12px;border-radius:8px;font-size:13px;color:#c9d6ea;letter-spacing:2px;cursor:pointer}
-  .smItem:hover{background:rgba(143,160,189,.1)}
-  .smSep{border-top:1px solid #1c2942;margin:6px 4px}
+  .smItem{padding:10px 12px;border-radius:9px;font-size:13px;color:#3a423c;letter-spacing:2px;cursor:pointer}
+  .smItem:hover{background:#f2efe8}
+  .smSep{border-top:1px solid #eee8dc;margin:6px 4px}
 
   /* 通知 */
-  #notif{position:fixed;right:14px;bottom:58px;width:280px;background:rgba(14,21,36,.97);border:1px solid #2c3a52;
-    border-radius:12px;padding:14px 16px;z-index:700;font-size:12.5px;line-height:1.9;letter-spacing:1px;color:#c9d6ea;
-    display:none;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+  #notif{position:fixed;right:14px;bottom:58px;width:280px;background:rgba(255,255,255,.97);border:1px solid #d8d2c4;
+    border-radius:12px;padding:14px 16px;z-index:700;font-size:12.5px;line-height:1.9;letter-spacing:1px;color:#3a423c;
+    display:none;box-shadow:0 18px 50px rgba(58,74,66,.22)}
   #notif.show{display:block;animation:winIn .25s ease}
-  #notif b{color:#8fa0bd;font-weight:400;font-size:11px;letter-spacing:2px;display:block;margin-bottom:6px}
+  #notif b{color:#5c6b60;font-weight:500;font-size:11px;letter-spacing:2px;display:block;margin-bottom:6px}
 
   @media (max-width:640px){
     .lockTime{font-size:52px}
@@ -136,6 +144,10 @@
 
 <!-- 开机 -->
 <div id="boot">
+  <div id="bagua"><i>☯</i>
+    <s style="--r:0deg">☰</s><s style="--r:45deg">☱</s><s style="--r:90deg">☲</s><s style="--r:135deg">☳</s>
+    <s style="--r:180deg">☴</s><s style="--r:225deg">☵</s><s style="--r:270deg">☶</s><s style="--r:315deg">☷</s>
+  </div>
   <div id="bootInner">
     <div id="power">⏻</div>
     <div id="bootHint">按任意键开机</div>
@@ -144,19 +156,28 @@
 
 <!-- 锁屏 -->
 <div id="lock">
+  <div id="bagua"><i>☯</i>
+    <s style="--r:0deg">☰</s><s style="--r:45deg">☱</s><s style="--r:90deg">☲</s><s style="--r:135deg">☳</s>
+    <s style="--r:180deg">☴</s><s style="--r:225deg">☵</s><s style="--r:270deg">☶</s><s style="--r:315deg">☷</s>
+  </div>
   <div class="lockTime" id="lkT">--:--</div>
   <div class="lockDate" id="lkD"></div>
   <div class="lockAva">X</div>
   <div class="lockName">X</div>
   <div id="pwRow">
     <input id="pw" type="password" maxlength="8" autocomplete="off" placeholder="密码">
-    <div style="color:#33415e;font-size:18px">→</div>
+    <div style="color:#9aa79c;font-size:18px">→</div>
   </div>
   <div id="pwHint"></div>
 </div>
 
 <!-- 桌面 -->
-<div id="desktop"></div>
+<div id="desktop">
+  <div id="bagua"><i>☯</i>
+    <s style="--r:0deg">☰</s><s style="--r:45deg">☱</s><s style="--r:90deg">☲</s><s style="--r:135deg">☳</s>
+    <s style="--r:180deg">☴</s><s style="--r:225deg">☵</s><s style="--r:270deg">☶</s><s style="--r:315deg">☷</s>
+  </div>
+</div>
 
 <!-- 便利贴 -->
 <div id="note" style="display:none">
@@ -182,7 +203,7 @@
 <!-- 通知 -->
 <div id="notif"><b>系统通知</b><span id="notifTxt"></span></div>
 
-<script src="assets/game.js?v=57"></script>
+<script src="assets/game.js?v=58"></script>
 <script>
   const $ = id => document.getElementById(id);
   const ch = DJ.state.chapter || 1;
@@ -259,8 +280,8 @@
   $("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryPw(); });
 
   /* ============ 图标数据 ============ */
-  const CN = ["#3b5a8f","#4f8f6b","#8a5a8f","#8f6b3b","#3b7a8f","#8f3b52","#5a8f3b","#6b6b8f",
-              "#8f7a3b","#3b6b8f","#7a3b6b","#4a8f7a","#8f5a3b","#44598f","#6f8f4a"];
+  const CN = ["#5b7fae","#5aa476","#9a6a9e","#b0885a","#5591a8","#c05a6e","#7ba558","#7d7daa",
+              "#b39a52","#5b8aa8","#a85b93","#5fa893","#b3705a","#6478b0","#8aa858"];
   const ICONS = [
     {id:"pc",   l:"此电脑",   act:()=>openPC()},
     {id:"bin",  l:"回收站",   act:()=>openBin()},
@@ -299,7 +320,7 @@
     const desk = $("desktop");
     desk.querySelectorAll(".dicon").forEach(n=>n.remove());
     const all = [];
-    ICONS.forEach((e,idx) => {
+    ICONS.forEach((e) => {
       const ok = !e.need || ch >= e.need;
       all.push({e, ok});
     });
@@ -331,7 +352,7 @@
   }
   window.addEventListener("resize", () => { if($("desktop").classList.contains("on")) positionIcons(); });
 
-  /* ============ 窗口管理器 ============ */
+  /* ============ 窗口管理器（含触屏拖动） ============ */
   let zTop = 100;
   const openWins = {};
   function makeWin(id, title, bodyHTML, w){
@@ -347,17 +368,18 @@
     document.body.appendChild(wEl);
     const bar = wEl.querySelector(".wbar");
     let sx,sy,ox,oy,drag=false;
-    bar.addEventListener("mousedown", e => {
-      drag=true; sx=e.clientX; sy=e.clientY;
-      ox=parseInt(wEl.style.left); oy=parseInt(wEl.style.top);
-      wEl.style.zIndex = ++zTop;
-    });
-    window.addEventListener("mousemove", e => {
+    const dStart = (x,y) => { drag=true; sx=x; sy=y; ox=parseInt(wEl.style.left); oy=parseInt(wEl.style.top); wEl.style.zIndex = ++zTop; };
+    const dMove  = (x,y) => {
       if (!drag) return;
-      wEl.style.left = Math.max(0, ox + e.clientX - sx) + "px";
-      wEl.style.top  = Math.max(0, oy + e.clientY - sy) + "px";
-    });
+      wEl.style.left = Math.max(0, ox + x - sx) + "px";
+      wEl.style.top  = Math.max(0, oy + y - sy) + "px";
+    };
+    bar.addEventListener("mousedown", e => dStart(e.clientX, e.clientY));
+    window.addEventListener("mousemove", e => dMove(e.clientX, e.clientY));
     window.addEventListener("mouseup", () => drag = false);
+    bar.addEventListener("touchstart", e => { dStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive:true});
+    bar.addEventListener("touchmove",  e => { dMove(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, {passive:false});
+    bar.addEventListener("touchend",   () => { drag = false; });
     wEl.addEventListener("mousedown", () => wEl.style.zIndex = ++zTop);
     wEl.querySelector(".wclose").onclick = e => {
       e.stopPropagation();
@@ -387,13 +409,13 @@
   function openPC(){
     makeWin("pc","此电脑",
       '<div class="docTitle">本地存储 · 3 个卷</div>' +
-      '<div class="frow" id="dDrive"><div class="fi" style="background:#3b5a8f">D:</div>' +
+      '<div class="frow" id="dDrive"><div class="fi" style="background:#5b7fae">D:</div>' +
         '<b>未命名 (D:)</b><span>8.08 GB 可用</span></div>' +
-      '<div class="frow" id="cDrive"><div class="fi" style="background:#44598f">C:</div>' +
+      '<div class="frow" id="cDrive"><div class="fi" style="background:#6478b0">C:</div>' +
         '<b>系统 (C:)</b><span>已用 8.08 GB</span></div>' +
-      '<div class="frow" id="eDrive"><div class="fi" style="background:#4a3b3b">E:</div>' +
+      '<div class="frow" id="eDrive"><div class="fi" style="background:#8a7a6a">E:</div>' +
         '<b>可移动磁盘 (E:)</b><span>无法访问</span></div>' +
-      '<div style="margin-top:12px;color:#42536f;font-size:12px;letter-spacing:1px" id="eMsg"></div>', 400);
+      '<div style="margin-top:12px;color:#9aa79c;font-size:12px;letter-spacing:1px" id="eMsg"></div>', 400);
     $("dDrive").onclick = () => openDocs();
     $("eDrive").onclick = () => {
       DJ.sfx.err();
@@ -412,7 +434,7 @@
   ];
   function openBin(){
     const rows = BIN.map((f,i) =>
-      '<div class="frow" onclick="showBinDoc(' + i + ')"><div class="fi" style="background:#4a3b3b">' +
+      '<div class="frow" onclick="showBinDoc(' + i + ')"><div class="fi" style="background:#8a7a6a">' +
       (f.t==="文本" ? "文" : "✕") + '</div><b>' + f.n + '</b><span>' + f.t + '</span></div>').join("");
     makeWin("bin","回收站",'<div class="docTitle">3 个项目 · 从未被清空</div>' + rows, 420);
   }
@@ -433,7 +455,7 @@
     if (DJ.has("board_done")) files.push({n:"一面墙.kb", b:"<em>（你已经把八块碎片钉上去了。）</em>\n\n他把能上锁的地方全部锁在了同一天。\n不是忘不了那天——\n是怕哪天，连这一天自己也忘了。"});
     if (!files.length) files.push({n:"（空）", b:"<em>（这个文件夹里还没有东西。你每查清一件事，这里就会多一份文件。）</em>"});
     const rows = files.map((f,i) =>
-      '<div class="frow" onclick="showKbDoc(' + i + ')"><div class="fi" style="background:#4f8f6b">文</div>' +
+      '<div class="frow" onclick="showKbDoc(' + i + ')"><div class="fi" style="background:#5aa476">文</div>' +
       '<b>' + f.n + '</b><span>刚刚同步</span></div>').join("");
     makeWin("docs","未命名 (D:)","<div class='docTitle'>D:\\未命名 · " + files.length + " 个文件</div>" + rows, 420);
     window._KB = files;
