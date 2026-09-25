@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=52">
+<link rel="stylesheet" href="assets/style.css?v=53">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,6 +122,11 @@
   #veil .vline { color:#8b9ab5; font-size:16px; letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s; }
   #veil .vline.on { opacity:1; }
   #veil .vline.big { color:#dfe7f5; font-size:26px; letter-spacing:8px; }
+  /* 原地异变：浮在树洞/日程里的那句话 */
+  .hline.redbig { color:#e8b5b0; font-size:19px; letter-spacing:5px;
+    text-shadow:0 0 18px rgba(192,86,79,.5); padding:6px 0; }
+  .row.redbig .what { color:#e8b5b0; font-size:16.5px; letter-spacing:4px;
+    text-shadow:0 0 14px rgba(192,86,79,.45); }
 
   /* ---- 老玩家 ---- */
   #resume { position:fixed; inset:0; z-index:60; background:rgba(6,9,18,.92); display:none; align-items:center; justify-content:center; }
@@ -291,7 +296,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=52"></script>
+<script src="assets/game.js?v=53"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -549,40 +554,66 @@ if (isReturning) {
     });
   });
 
-  /* ---------- 破功 ---------- */
+  /* ---------- 破功（树洞原地异变版） ---------- */
   function doBreak() {
     if (started) return;
     started = true;
     const cta = isNight ? $("cta2") : $("cta");
+    const note = isNight ? $("ctaNote2") : $("ctaNote");
     cta.disabled = true;
-    const veil = $("veil");
-    veil.classList.add("show");
-    requestAnimationFrame(() => veil.classList.add("on"));
+    cta.textContent = "已 发 送";
+    note.textContent = "发送成功。";
 
-    const lines = ["v1","v2","v3","v4"];
-    let i = 0;
-    const show = () => {
-      if (i < lines.length) {
-        $(lines[i]).classList.add("on");
-        if (i === 3) DJ.sfx.err();
-        i++;
-        setTimeout(show, i === 4 ? 2600 : 2000);
-      } else {
-        if (isNight) {
-          $("v5").textContent = "现在是凌晨" + now.getHours() + "点。你还没睡。";
-          $("v5").classList.add("on");
-        }
-        setTimeout(() => {
-          DJ.state.name = "X";
-          DJ.flag("name_is_x");
-          DJ.unlock(1);
-          DJ.save();
-          document.body.classList.add("flash");
-          setTimeout(() => location.href = "dial.html", 380);
-        }, isNight ? 3400 : 1800);
-      }
+    /* 条目容器：夜晚是树洞，白天是日程 */
+    const box = document.querySelector(isNight ? ".hole" : ".sched");
+    const mk = (ht, txt, cls) => {
+      const d = document.createElement("div");
+      d.className = cls || (isNight ? "hline glow" : "row noti");
+      d.innerHTML = isNight
+        ? '<span class="ht">' + ht + '</span>' + txt
+        : '<span class="tm">' + ht + '</span><span class="what">' + txt + '</span>';
+      box.appendChild(d);
+      d.scrollIntoView({ block: "center", behavior: "smooth" });
+      return d;
     };
-    setTimeout(show, 1400);
+    const tm = String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0");
+
+    /* ① 你那条回复，出现在树洞里 */
+    DJ.sfx.click();
+    mk(tm + " · 刚刚 · 我", "你回复了那条 03:00 的消息。发送成功。");
+
+    /* ② 访客数 8 → 1，然后永远卡住 */
+    setTimeout(() => {
+      const pv = isNight ? $("pv2") : $("pv");
+      pv.textContent = "1";
+      pv.parentElement.title = "从来都只有一个。";
+      DJ.sfx.type();
+    }, 1400);
+
+    /* ③ 浏览器标签页标题开始不对劲 */
+    ["已发送", "1 人正在查看这个页面", "X"].forEach((t, k) =>
+      setTimeout(() => { document.title = t; DJ.sfx.type(); }, 2300 + k * 1300));
+
+    /* ④ 三句话逐条浮现在树洞里（不再是黑屏） */
+    setTimeout(() => mk("刚刚", "这个页面只有一个访客。从来只有一个。"), 6100);
+    setTimeout(() => mk("刚刚", "你看它的时候，它也在看你。"), 7800);
+    setTimeout(() => {
+      mk("刚刚", "你是 X 吧。", isNight ? "hline glow redbig" : "row noti redbig");
+      DJ.sfx.err();
+    }, 9600);
+
+    /* ⑤ 收尾 */
+    setTimeout(() => {
+      if (isNight) mk("现在", "现在是凌晨" + now.getHours() + "点。你还没睡。");
+      setTimeout(() => {
+        DJ.state.name = "X";
+        DJ.flag("name_is_x");
+        DJ.unlock(1);
+        DJ.save();
+        document.body.classList.add("flash");
+        setTimeout(() => location.href = "dial.html", 380);
+      }, isNight ? 2300 : 900);
+    }, 11500);
   }
 }
 </script>
