@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>　</title>
-<link rel="stylesheet" href="assets/style.css?v=50">
+<link rel="stylesheet" href="assets/style.css?v=51">
 <style>
   body{background:#04070d}
   .stage{transition:opacity 1.2s}
@@ -82,7 +82,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=50"></script>
+<script src="assets/game.js?v=51"></script>
 <script>
 if (DJ.gate(12)) main();
 function main(){
@@ -225,8 +225,29 @@ function main(){
         mf.innerHTML = "镜中人：<span style='letter-spacing:10px'>" + (DJ.state.name || "X") + "</span>";
         mf.style.opacity = 1;
       }, after + 2600);
-      setTimeout(() => { $("credits").style.opacity = 1; }, after + 5200);
-      setTimeout(() => { $("saveCard").style.display = "inline-block"; }, after + 6800);
+      /* 最后一击：病历那道题，在这里答 */
+      setTimeout(() => {
+        const k2 = document.createElement("div");
+        k2.className = "readline kline";
+        k2.textContent = "病历上那道没人答上来的题，他其实早就答过了——「算好吗？」——他没有失约。他只是把约会地点，改成了这里。";
+        box.appendChild(k2);
+        requestAnimationFrame(() => k2.classList.add("on"));
+        DJ.sfx.read();
+      }, after + 3900);
+      /* 越过屏幕：它知道现在几点 */
+      setTimeout(() => {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        const k3 = document.createElement("div");
+        k3.className = "readline";
+        k3.textContent = "顺便说一句：现在是你的 " + hh + ":" + mm + "。它一直在看时间——从你打开第一页起。";
+        box.appendChild(k3);
+        requestAnimationFrame(() => k3.classList.add("on"));
+        DJ.sfx.type();
+      }, after + 5600);
+      setTimeout(() => { $("credits").style.opacity = 1; }, after + 7600);
+      setTimeout(() => { $("saveCard").style.display = "inline-block"; }, after + 9200);
     }
   }
 

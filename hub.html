@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新标签页</title>
-<link rel="stylesheet" href="assets/style.css?v=50">
+<link rel="stylesheet" href="assets/style.css?v=51">
 <style>
   body{background:#0b0f16;font-family:-apple-system,"PingFang SC",sans-serif;color:#c9d6ea}
   /* 浏览器窗框 */
@@ -87,7 +87,7 @@
   </div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=50"></script>
+<script src="assets/game.js?v=51"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -159,6 +159,14 @@ function main(){
       <div class="when">内网</div>`;
     r2.onclick = () => { DJ.sfx.click(); location.href = "hospital.html"; };
     hist.appendChild(r2);
+
+    const r3 = document.createElement("div");
+    r3.className = "row";
+    r3.innerHTML = `<div class="fav">🧷</div>
+      <div class="tt"><b>一面墙</b><span>备忘 · 你在每一个抽屉里都捡到过一块碎片</span></div>
+      <div class="when">待拼</div>`;
+    r3.onclick = () => { DJ.sfx.click(); location.href = "board.html"; };
+    hist.appendChild(r3);
   }
 
   /* 下一条：灰的，打不开，但它在动 */
