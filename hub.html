@@ -4,79 +4,117 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新标签页</title>
-<link rel="stylesheet" href="assets/style.css?v=62">
+<link rel="stylesheet" href="assets/style.css?v=63">
 <style>
-  body{background:#0b0f16;font-family:-apple-system,"PingFang SC",sans-serif;color:#c9d6ea}
-  /* 浏览器窗框 */
-  .chrome{max-width:860px;margin:18px auto 80px;border:1px solid #1c2c4a;border-radius:12px;
-    overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.5);background:#0d1420}
-  .bar{background:#111927;border-bottom:1px solid #1c2c4a;padding:10px 14px;display:flex;align-items:center;gap:12px}
+  /* 朱红古早 · 贴纸手账皮 —— 结构与内容不动，只做加法 */
+  body{
+    background:
+      radial-gradient(1000px 460px at 50% -8%, rgba(200,80,50,.10), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(168,60,38,.035) 0 1px, transparent 1px 26px),
+      repeating-linear-gradient(90deg, rgba(168,60,38,.035) 0 1px, transparent 1px 26px),
+      radial-gradient(circle at 20% 30%, rgba(200,120,60,.05) 0 2px, transparent 2px),
+      #f8eedb;
+    font-family:-apple-system,"PingFang SC",sans-serif;color:#53331f;
+    min-height:100vh;
+  }
+  ::selection{background:rgba(184,53,42,.25)}
+  .moon{display:none !important}
+  #envhint{color:#8a5038;text-shadow:none;opacity:0}
+  #envhint.show{opacity:.9}
+
+  /* 浏览器窗框：米纸上的朱红窗 */
+  .chrome{max-width:860px;margin:20px auto 90px;position:relative;
+    border:2px solid #b8352a;border-radius:14px;overflow:hidden;
+    outline:1px solid rgba(184,53,42,.25);outline-offset:5px;
+    box-shadow:0 24px 70px rgba(120,50,25,.28), 0 4px 16px rgba(120,50,25,.14);
+    background:#fdf6e8}
+  .bar{background:linear-gradient(180deg,#b13a2a,#92291d);border-bottom:2px solid #7d2118;
+    padding:10px 14px;display:flex;align-items:center;gap:12px}
   .dots{display:flex;gap:6px}
-  .dots i{width:11px;height:11px;border-radius:50%;display:block}
-  .dots i:nth-child(1){background:#c0564f}.dots i:nth-child(2){background:#b8a35a}.dots i:nth-child(3){background:#4f8f6b}
-  .tab{background:#0d1420;border:1px solid #1c2c4a;border-bottom:none;border-radius:6px 6px 0 0;
-    font-size:12px;color:#8fa0bd;padding:5px 16px;letter-spacing:1px;position:relative;top:1px}
-  .addr{flex:1;display:flex;align-items:center;gap:8px;background:#0a0e14;border:1px solid #1c2c4a;
-    border-radius:99px;padding:6px 16px;font-size:12.5px;color:#5a6a84;letter-spacing:1px;font-family:var(--mono)}
-  .addr .lock{color:#4f8f6b;font-size:11px}
-  .addr b{color:#8fa0bd;font-weight:400}
+  .dots i{width:11px;height:11px;border-radius:50%;display:block;box-shadow:inset 0 -1px 2px rgba(0,0,0,.25)}
+  .dots i:nth-child(1){background:#f3d9a4}.dots i:nth-child(2){background:#eec98a}.dots i:nth-child(3){background:#e6b877}
+  .tab{background:#fdf6e8;border:1px solid #7d2118;border-bottom:none;border-radius:8px 8px 0 0;
+    font-size:12px;color:#8a3222;padding:6px 18px;letter-spacing:1px;position:relative;top:1px;font-weight:600}
+  .addr{flex:1;display:flex;align-items:center;gap:8px;background:#fbf1dd;border:1px solid #d9a879;
+    border-radius:99px;padding:6px 16px;font-size:12.5px;color:#a06a4a;letter-spacing:1px;font-family:var(--mono)}
+  .addr .lock{color:#b8352a;font-size:11px}
+  .addr b{color:#6b4028;font-weight:400}
   .page{padding:30px 34px 40px;min-height:420px}
+
   .hello{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
-  .hello h1{font-size:20px;letter-spacing:3px;font-weight:600;color:#dfe5ee}
-  .hello h1 b{color:#8fa0bd;font-weight:400}
-  #clock{font-family:var(--mono);color:#42536f;font-size:12px;letter-spacing:2px}
+  .hello h1{font-size:21px;letter-spacing:3px;font-weight:700;color:#53331f}
+  .hello h1 b{color:#b8352a;font-weight:600}
+  #clock{font-family:var(--mono);color:#a06a4a;font-size:12px;letter-spacing:2px}
   .sect{margin-top:30px}
-  .sect h2{font-size:12px;color:#42536f;letter-spacing:4px;font-weight:400;margin-bottom:4px;
-    display:flex;justify-content:space-between}
-  .sect h2 span.r{color:#33415e}
-  .hist{border-top:1px solid #141f36}
-  .row{display:flex;align-items:center;gap:14px;padding:13px 6px;border-bottom:1px solid #141f36;
+  .sect h2{font-size:12px;color:#a04a32;letter-spacing:4px;font-weight:700;margin-bottom:6px;
+    display:flex;justify-content:space-between;align-items:baseline}
+  .sect h2::before{content:"❖ ";color:#b8352a}
+  .sect h2 span.r{color:#b8845c}
+  .hist{border-top:2px solid #b8352a}
+  .row{display:flex;align-items:center;gap:14px;padding:13px 8px;border-bottom:1px dashed #dcc094;
     cursor:pointer;transition:background .2s}
-  .row:hover{background:#0e1626}
-  .row .fav{width:30px;height:30px;border-radius:6px;background:#101c33;border:1px solid #1c2c4a;
-    display:flex;align-items:center;justify-content:center;font-size:13px;color:#6d80a0;flex-shrink:0}
+  .row:hover{background:#fdeedd}
+  .row .fav{width:30px;height:30px;border-radius:6px;background:#f6e7cd;border:1px solid #d9b98a;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:#a07448;flex-shrink:0}
   .row .fvc{width:32px;height:32px;border-radius:7px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    font-size:14.5px;font-weight:600;letter-spacing:0;
-    border:1px solid rgba(255,255,255,.06);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 3px 10px rgba(0,0,0,.35)}
-  .fvc.c1{background:#241520;color:#d09088}.fvc.c2{background:#16233c;color:#7fa3d8}
-  .fvc.c3{background:#132722;color:#7fbfa8}.fvc.c4{background:#1d2412;color:#b8bf7a}
-  .fvc.c5{background:#231a30;color:#ab8fd0}.fvc.c6{background:#2a2113;color:#d0b478}
-  .fvc.c7{background:#251a14;color:#cf9d72}.fvc.c8{background:#122330;color:#7fb8cf}
-  .fvc.c9{background:#1c1526;color:#b39ad8}.fvc.c10{background:#1a2130;color:#93a5c4}
-  .fvc.c11{background:#10262e;color:#8ec7d4}.fvc.c12{background:#26201a;color:#d8cbb2}
-  .gh{font-size:11px;color:#33415e;letter-spacing:4px;margin:20px 0 4px;padding-left:2px;font-weight:400}
+    font-size:15px;font-weight:700;letter-spacing:0;
+    color:#fdf2e0;border:1px solid rgba(0,0,0,.12);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25), 0 3px 8px rgba(140,60,30,.25);
+    text-shadow:0 1px 0 rgba(0,0,0,.15)}
+  /* 印章色板：朱红为主，掺赭石/黛绿/绛紫/金 */
+  .fvc.c1{background:#b8352a}.fvc.c2{background:#c14a36}
+  .fvc.c3{background:#3f6b4f}.fvc.c4{background:#8a6a24}
+  .fvc.c5{background:#6d3b56}.fvc.c6{background:#a8552f}
+  .fvc.c7{background:#b3552a}.fvc.c8{background:#2f5d70}
+  .fvc.c9{background:#7a3050}.fvc.c10{background:#5c4a6b}
+  .fvc.c11{background:#276b62}.fvc.c12{background:#92482f}
+  .gh{font-size:11px;color:#a8552f;letter-spacing:4px;margin:20px 0 4px;padding-left:2px;font-weight:700}
+  .gh::before{content:"— ";color:#d9a879}
   .gh:first-child{margin-top:0}
-  .row .tt .url{display:block;font-family:var(--mono);font-size:11px;color:#42536f;
+  .row .tt .url{display:block;font-family:var(--mono);font-size:11px;color:#b8845c;
     margin-top:3px;letter-spacing:0;transition:color .2s}
-  .row:hover .tt .url{color:#6f9de0}
+  .row:hover .tt .url{color:#b8352a}
   .row .tt{flex:1;min-width:0}
-  .row .tt b{display:block;font-size:14.5px;color:#c9d6ea;font-weight:500;letter-spacing:1px}
-  .row:hover .tt b{color:#fff}
-  .row .tt span{display:block;font-size:11.5px;color:#42536f;margin-top:3px;letter-spacing:1px}
-  .row .when{font-size:11px;color:#33415e;letter-spacing:1px;white-space:nowrap;font-family:var(--mono)}
-  .row.new .tt b::after{content:"刚刚更新";color:#4f8f8b;font-size:10px;margin-left:10px;letter-spacing:2px}
-  .row.hot{background:rgba(18,30,54,.4)}
-  .row.hot .tt b{color:#fff}
+  .row .tt b{display:block;font-size:14.5px;color:#53331f;font-weight:600;letter-spacing:1px}
+  .row:hover .tt b{color:#b8352a}
+  .row .tt span{display:block;font-size:11.5px;color:#a07448;margin-top:3px;letter-spacing:1px}
+  .row .when{font-size:11px;color:#b8845c;letter-spacing:1px;white-space:nowrap;font-family:var(--mono)}
+  .row.new .tt b::after{content:"刚刚更新";color:#b8352a;font-size:10px;margin-left:10px;letter-spacing:2px}
+  .row.hot{background:#fdf0e2;box-shadow:inset 3px 0 0 #b8352a;border-radius:0 6px 6px 0}
+  .row.hot .tt b{color:#8a3222}
   .row.dim{cursor:not-allowed}
-  .row.dim .tt b{color:#3a4a68}
-  .row.dim .tt span{color:#2c3a55;font-style:italic}
-  .row.dim .fav{background:#0c1322;color:#2c3a55}
+  .row.dim .tt b{color:#b9a186}
+  .row.dim .tt span{color:#c9ad8c;font-style:italic}
+  .row.dim .fav{background:#f3e6cf;color:#c9ad8c}
   .bmarks{display:flex;gap:10px;flex-wrap:wrap}
-  .bm{border:1px solid #1c2c4a;background:#0e1626;border-radius:8px;padding:9px 18px;font-size:13px;
-    color:#8fa0bd;cursor:pointer;letter-spacing:2px}
-  .bm:hover{border-color:#3a5080;color:#dfe5ee}
-  .foot{margin-top:36px;padding-top:16px;border-top:1px dashed #141f36;font-size:11px;color:#33415e;
+  .bm{border:1.5px solid #b8352a;background:#fdf6e8;border-radius:99px;padding:9px 20px;font-size:13px;
+    color:#8a3222;cursor:pointer;letter-spacing:2px;font-weight:600;transition:background .2s,color .2s}
+  .bm:hover{background:#b8352a;color:#fdf2e0}
+  .foot{margin-top:36px;padding-top:16px;border-top:2px dotted #d9a879;font-size:11px;color:#a07448;
     letter-spacing:2px;line-height:2.2}
-  .foot em{color:#4f8f8b;font-style:normal}
-  #sync{color:#4f8f8b;opacity:0;transition:opacity 2s;letter-spacing:2px;font-size:12px}
-  @media (max-width:600px){ .page{padding:22px 18px 30px} }
+  .foot em{color:#b8352a;font-style:normal;font-weight:600}
+  #sync{color:#b8352a;opacity:0;transition:opacity 2s;letter-spacing:2px;font-size:12px;font-weight:600}
+
+  /* 贴纸 */
+  .stk{position:absolute;font-size:26px;filter:drop-shadow(0 3px 4px rgba(120,50,25,.25));
+    animation:floaty 5s ease-in-out infinite;pointer-events:none;user-select:none}
+  .stk.s1{top:-14px;right:26px;font-size:32px;transform:rotate(12deg)}
+  .stk.s2{top:58px;right:-12px;font-size:22px;animation-delay:1.2s;transform:rotate(-10deg)}
+  .stk.s3{bottom:-6px;left:-10px;font-size:26px;animation-delay:2.1s;transform:rotate(8deg)}
+  .stk.s4{top:150px;left:-13px;font-size:21px;animation-delay:3s;transform:rotate(-14deg)}
+  @keyframes floaty{0%,100%{margin-top:0}50%{margin-top:-7px}}
+
+  @media (max-width:600px){ .page{padding:22px 18px 30px} .stk.s2,.stk.s4{display:none} }
 </style>
 </head>
 <body>
 <div class="moon"></div>
 <div class="chrome">
+  <span class="stk s1">🏮</span>
+  <span class="stk s2">✨</span>
+  <span class="stk s3">🦋</span>
+  <span class="stk s4">🐇</span>
   <div class="bar">
     <div class="dots"><i></i><i></i><i></i></div>
     <div class="tab">新标签页</div>
@@ -105,7 +143,7 @@
   </div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=62"></script>
+<script src="assets/game.js?v=63"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
