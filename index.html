@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=41">
+<link rel="stylesheet" href="assets/style.css?v=42">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -291,7 +291,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=41"></script>
+<script src="assets/game.js?v=42"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -407,16 +407,16 @@ if (isReturning) {
     ov.appendChild(hd); ov.appendChild(box);
     document.body.appendChild(ov);
     const MSGS = [
-      "在吗","你睡了吗","在吗","今天发生一件事，特别想告诉你",
-      "在吗在吗在吗","你怎么不回我","我数了，这是第 7 条","你上次回我是 8 天前",
-      "是不是我说错什么了","你说句话","说什么都行","骂我也行",
-      "我把聊天记录翻了一遍","上一次好好的还是上个月","到底哪里开始不对的","你是不是换了号",
-      "我问别人，别人说没有","那你为什么不回","算了","没事",
-      "我没事","你忙","是我不好","我把你发的都背下来了",
-      "这样显得没那么可怜","不用回","我就是这样的","对不起",
-      "那句话当我没说","哪句都当我没说","晚安","又是晚安",
-      "第几次了","数不清了","（对方撤回了一条消息）","我还在",
-      "在吗"
+      "早上好","今天也起来了","楼下那只三花又蹲在老地方","特别胖。我看了它一会儿，它看了我一会儿",
+      "今天天气很好","好到有点过分","我把窗台擦了一遍","玻璃还是花的，算了",
+      "中午吃了点热的","最近胃还行","下午说了很多话","都说得对",
+      "没一句想说的","回来路上买了花","养不活的，还是买了","放在窗台了",
+      "晚上练了很久","会的那一段，终于顺了","没人看，也练完了","今天有人夸我",
+      "我说谢谢","其实想说的是别的","算了","路灯坏了一盏",
+      "走到那一段，就特别黑","我走快了一点","手机亮了一下","是推送",
+      "我还是马上看了","不是你","回来把灯全打开了","也没什么事",
+      "就是亮着心里踏实一点","今天也过去了","记账了，这个月又超了一点","晚安",
+      "明天见"
     ];
     let sp = 1, i = 0, over = false;
     const bump = () => { sp = .35; };
@@ -438,7 +438,7 @@ if (isReturning) {
         hd.textContent = "未读（" + i + "）";
         if (i % 2 === 0) DJ.sfx.type();
         while (box.children.length > 9) box.removeChild(box.firstChild);
-        setTimeout(next, (i % 5 === 0 ? 620 : i % 3 === 0 ? 170 : 330) * sp);
+        setTimeout(next, (i % 5 === 0 ? 640 : i % 3 === 0 ? 300 : 430) * sp);
       } else if (!over){
         over = true;
         setTimeout(() => {
