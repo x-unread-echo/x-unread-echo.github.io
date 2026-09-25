@@ -102,15 +102,9 @@ const DJ = (() => {
     }
   };
 
-  /* ---- 智能返回：从哪来的回哪去，绝不把玩家扔回原点 ---- */
+  /* ---- 智能返回：不依赖 history（后退守卫会吃掉 back），直接回浏览器主页 ---- */
   api.back = (fallback) => {
-    try {
-      if (document.referrer) {
-        const u = new URL(document.referrer);
-        if (u.origin === location.origin && u.pathname !== location.pathname) { history.back(); return; }
-      }
-    } catch (e) {}
-    location.href = fallback || "chat.html";
+    location.href = fallback || "hub.html";
   };
 
   /* ---- 极简音效（WebAudio，无外部文件） ---- */

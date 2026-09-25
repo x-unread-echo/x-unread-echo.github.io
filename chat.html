@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=51">
+<link rel="stylesheet" href="assets/style.css?v=52">
 <style>
   body{background:#04070c;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -342,7 +342,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=51"></script>
+<script src="assets/game.js?v=52"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -528,7 +528,7 @@ function main(){
     naT = setTimeout(() => { $("noanswer").classList.remove("show"); $("noanswer").textContent = "无应答"; }, 3200);
     DJ.flag("saw_avatar");
   };
-  $("backBtn").onclick = () => { $("crowAvatar").onclick(); };
+  $("backBtn").onclick = () => { DJ.sfx.click(); document.body.classList.add("flash"); setTimeout(() => location.href = "hub.html", 380); };
 
   /* 搜索浮层 */
   $("camNav").onclick = noAnswer;
