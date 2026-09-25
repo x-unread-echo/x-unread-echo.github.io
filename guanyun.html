@@ -5,59 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=55">
-<link rel="stylesheet" href="assets/retro.css?v=55">
+<link rel="stylesheet" href="assets/style.css?v=54">
 <style>
   body{background:#0b0f14;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
   .oldhdr{
-    text-align:center;padding:26px 0 14px;border-bottom:3px double #b8a888;
+    text-align:center;padding:26px 0 14px;border-bottom:3px double #2c3a52;
   }
-  .oldhdr h1{color:#453c31;font-size:34px;letter-spacing:16px;font-weight:600}
-  .oldhdr .slogan{color:#998b78;font-size:12px;letter-spacing:5px;margin-top:8px}
+  .oldhdr h1{color:#dfe5ee;font-size:34px;letter-spacing:16px;font-weight:600}
+  .oldhdr .slogan{color:#5a6a84;font-size:12px;letter-spacing:5px;margin-top:8px}
   .marquee{
-    overflow:hidden;border:1px solid #d3c0a0;margin:14px 0;padding:6px 0;background:#f7f1e2;
+    overflow:hidden;border:1px solid #22304a;margin:14px 0;padding:6px 0;background:#0e141d;
   }
-  .marquee span{color:#998b78;font-size:12.5px;letter-spacing:3px;white-space:nowrap;display:inline-block;animation:mq 26s linear infinite}
+  .marquee span{color:#6d80a0;font-size:12.5px;letter-spacing:3px;white-space:nowrap;display:inline-block;animation:mq 26s linear infinite}
   @keyframes mq{from{transform:translateX(60vw)}to{transform:translateX(-100%)}}
-  .sect{border:1px solid #d3c0a0;background:#f7f1e2;margin:22px 0;padding:22px 26px;border-radius:4px}
-  .sect h2{color:#6f6353;font-size:17px;letter-spacing:6px;margin-bottom:10px;border-left:3px solid #3a5080;padding-left:12px}
+  .sect{border:1px solid #22304a;background:#0e141d;margin:22px 0;padding:22px 26px;border-radius:4px}
+  .sect h2{color:#aebfd8;font-size:17px;letter-spacing:6px;margin-bottom:10px;border-left:3px solid #3a5080;padding-left:12px}
   .askbtns{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
   .askbtn{
-    background:#fbf6ea;border:1px solid #b8a888;color:#4a4238;padding:10px 22px;
+    background:#141d2e;border:1px solid #2c3a52;color:#c9d6ea;padding:10px 22px;
     font-size:15px;letter-spacing:4px;border-radius:3px;
   }
   .askbtn:hover{border-color:#4a7dd6;color:#f2f5fa}
   #qianResult{margin-top:18px;min-height:96px}
   .qhead{color:#4f8f8b;font-size:20px;letter-spacing:8px}
-  .qtext{color:#6f6353;margin-top:10px;letter-spacing:2px;white-space:pre-line}
-  .qtext.bad{color:#6f6353}
+  .qtext{color:#aebfd8;margin-top:10px;letter-spacing:2px;white-space:pre-line}
+  .qtext.bad{color:#8b9ab5}
   #moji{
-    font-family:var(--mono);color:#998b78;font-size:14px;line-height:2;word-break:break-all;
-    cursor:pointer;user-select:none;margin-top:14px;padding:14px;border:1px dashed #d3c0a0;
+    font-family:var(--mono);color:#42536f;font-size:14px;line-height:2;word-break:break-all;
+    cursor:pointer;user-select:none;margin-top:14px;padding:14px;border:1px dashed #22304a;
   }
   #moji:hover{border-color:#3a5080}
-  #moji.clr{color:#453c31;border-color:#4f8f8b}
+  #moji.clr{color:#dfe5ee;border-color:#4f8f8b}
   .grid8{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-top:12px}
   .cell{
-    aspect-ratio:1;background:#fbf6ea;border:1px solid #d3c0a0;color:#998b78;
+    aspect-ratio:1;background:#101827;border:1px solid #1c2c4a;color:#42536f;
     font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:0;
   }
-  .cell.hi{border-color:#4a7dd6;color:#6f6353;cursor:pointer;box-shadow:inset 0 0 8px rgba(74,125,214,.12);position:relative}
+  .cell.hi{border-color:#4a7dd6;color:#aebfd8;cursor:pointer;box-shadow:inset 0 0 8px rgba(74,125,214,.12);position:relative}
   .cell.hi .num{
     position:absolute;right:2px;bottom:1px;font-size:8px;color:#3d4f73;
     font-family:var(--mono);line-height:1;
   }
   .cell.hi:hover .num{color:#7d94bb}
-  .cell.hi.done{background:#152543;color:#453c31;border-color:#4f8f8b}
+  .cell.hi.done{background:#152543;color:#dfe5ee;border-color:#4f8f8b}
   .cell.hi.done .num{color:#4f8f8b}
-  .lushu{color:#998b78;font-size:12.5px;letter-spacing:2px;margin-top:10px}
+  .lushu{color:#5a6a84;font-size:12.5px;letter-spacing:2px;margin-top:10px}
   .stickpit{text-align:center;margin-top:6px;position:relative;display:inline-block;padding:0 30px}
   /* 竹签：细、有竹节、高低错落 */
   .stick{
     display:inline-block;width:5px;background:linear-gradient(90deg,#9a7d55,#c9ab77 45%,#8a6f4d);
     border-radius:3px;margin:0 3px;position:relative;bottom:-2px;
-    box-shadow:0 2px 4px rgba(92,72,44,.5);vertical-align:bottom;
+    box-shadow:0 2px 4px rgba(0,0,0,.5);vertical-align:bottom;
   }
   .stick::before{ /* 竹节 */
     content:"";position:absolute;left:0;right:0;top:26%;height:1px;background:rgba(74,56,34,.55);
@@ -70,7 +69,7 @@
     width:120px;height:46px;margin:-8px auto 0;position:relative;
     background:linear-gradient(#6b4f30,#4a3620);
     border-radius:8px 8px 12px 12px;
-    box-shadow:inset 0 4px 8px rgba(92,72,44,.55), 0 6px 14px rgba(92,72,44,.5);
+    box-shadow:inset 0 4px 8px rgba(0,0,0,.55), 0 6px 14px rgba(0,0,0,.5);
     border:1px solid #3a2a16;
   }
   .pitcup::before{ /* 筒口沿 */
@@ -86,13 +85,13 @@
   }
   .censer-big .body{
     position:absolute;bottom:0;left:15px;width:90px;height:44px;background:#1a2334;
-    border:2px solid #b8a888;border-radius:0 0 40px 40px;
+    border:2px solid #2c3a52;border-radius:0 0 40px 40px;
   }
-  .censer-big .leg{position:absolute;bottom:-10px;width:10px;height:12px;background:#1a2334;border:1px solid #b8a888}
+  .censer-big .leg{position:absolute;bottom:-10px;width:10px;height:12px;background:#1a2334;border:1px solid #2c3a52}
   .censer-big .ash{position:absolute;bottom:44px;left:22px;width:76px;height:12px;background:#2b2f36;border-radius:4px}
   .censer-big .smoke{
     position:absolute;bottom:56px;left:58px;width:2px;height:40px;
-    background:linear-gradient(to top,rgba(255,252,245,.5),rgba(255,252,245,0));
+    background:linear-gradient(to top,rgba(174,191,216,.5),rgba(174,191,216,0));
     filter:blur(1px);animation:smoke 6s ease-in-out infinite;
   }
   @keyframes smoke{0%,100%{transform:translateX(-2px) scaleY(1)}50%{transform:translateX(4px) scaleY(1.2)}}
@@ -106,14 +105,14 @@
     color:#a03a32;border-bottom:1px solid #c9b8a8;padding-bottom:6px;margin-bottom:8px;
   }
   #paperSlip{
-    display:none;background:#453c31;color:#3a3f4a;padding:14px 20px;margin:14px auto;
+    display:none;background:#dfe5ee;color:#3a3f4a;padding:14px 20px;margin:14px auto;
     max-width:380px;font-size:14px;letter-spacing:3px;text-align:center;transform:rotate(-1.5deg);
-    box-shadow:0 8px 24px rgba(92,72,44,.5);border-radius:2px;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);border-radius:2px;
   }
   .gate{margin-top:8px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
   .gate input{max-width:220px;text-align:center}
-  .foot{color:#a2937e;font-size:11.5px;text-align:center;margin-top:44px;letter-spacing:2px}
-  .foot a{color:#a2937e}
+  .foot{color:#33415e;font-size:11.5px;text-align:center;margin-top:44px;letter-spacing:2px}
+  .foot a{color:#33415e}
 </style>
 </head>
 <body>
@@ -172,7 +171,7 @@
   <div class="sect">
     <h2>本 观 旧 照</h2>
     <div style="text-align:center">
-      <img src="assets/media/temple.png" alt="青云观旧照" style="max-width:100%;border-radius:4px;border:1px solid #d3c0a0;filter:saturate(.8)">
+      <img src="assets/media/temple.png" alt="青云观旧照" style="max-width:100%;border-radius:4px;border:1px solid #22304a;filter:saturate(.8)">
       <div class="small" style="margin-top:8px;letter-spacing:1px">摄于 2025-08-08 亥时三刻 · 最后一张有香灰的照片</div>
     </div>
   </div>
@@ -183,7 +182,7 @@
     <p class="small" style="letter-spacing:1px">方图之中，有八格微亮。旧年的刻痕还留在格角上——自一起，至九止（中五不用），按刻痕的数目依次点过去。</p>
     <div class="grid8" id="grid"></div>
     <div class="lushu">洛书曰：戴九履一，左三右七，二四为肩，六八为足。</div>
-    <div class="small" style="color:#998b78;margin-top:6px">规矩忘了？老规矩：拿去「搜搜」里查。</div>
+    <div class="small" style="color:#4a5568;margin-top:6px">规矩忘了？老规矩：拿去「搜搜」里查。</div>
     <div id="luoshuOut" class="qtext center" style="letter-spacing:10px;font-size:19px;margin-top:14px;min-height:28px"></div>
   </div>
 
@@ -202,7 +201,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=55"></script>
+<script src="assets/game.js?v=54"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -235,7 +234,7 @@ function main(){
     mojiText = new TextDecoder("gbk").decode(bytes);
   } catch(e){ mojiText = "锟斤拷锟斤拷锟斤拷锟届煡锟斤拷锟斤拷锟斤拷锟斤拷拷锟斤拷"; }
   function askJi(){
-    $("qianResult").innerHTML = `<div class="qhead" style="color:#998b78">？ ？ ？</div>`;
+    $("qianResult").innerHTML = `<div class="qhead" style="color:#42536f">？ ？ ？</div>`;
     const m = $("moji"); m.style.display = "block";
     m.classList.remove("clr");
     m.textContent = mojiText;
@@ -276,7 +275,7 @@ function main(){
       if (pulls === 6) out.textContent = "第七签：小吉。……这一次，真的不是第八签。";
     } else {
       out.innerHTML =
-`<span class="qhead" style="color:#4a4238">第 八 签</span>
+`<span class="qhead" style="color:#c9d6ea">第 八 签</span>
 签文：孩童持签，立于观前。
 　　　签上只余两字：大吉。
 　　　有人笑着说：大吉，往后的日子都是好的。
@@ -296,7 +295,7 @@ function main(){
       dug = true;
       $("paperSlip").style.display = "block";
       document.querySelector(".censer-big .ash").style.background = "#23262d";
-      document.querySelector(".censer-big .ash").style.boxShadow = "inset 0 2px 6px rgba(92,72,44,.7)";
+      document.querySelector(".censer-big .ash").style.boxShadow = "inset 0 2px 6px rgba(0,0,0,.7)";
       DJ.flag("found_slip"); DJ.addIncense(1);
       setTimeout(openGate, 800);
       /* 灰里的刻痕：拨开纸条的位置，八道，等宽，像数出来的 */
@@ -383,7 +382,7 @@ function main(){
   /* ---------- 断点续玩：离开再回来，进度原样恢复，绝不回到原点 ---------- */
   (function restore(){
     const R = DJ.state.flags;
-    const q8 = `<span class="qhead" style="color:#4a4238">第 八 签</span>
+    const q8 = `<span class="qhead" style="color:#c9d6ea">第 八 签</span>
 签文：孩童持签，立于观前。
 　　　签上只余两字：大吉。
 　　　有人笑着说：大吉，往后的日子都是好的。
