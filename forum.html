@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>倒影小组 - Reflexion BBS - 2008</title>
+<title>倒影小组 - Reflexion BBS - 2025</title>
 <!-- 你看到这里了。你看东西，总是越过表面。 -->
-<link rel="stylesheet" href="assets/style.css?v=43">
+<link rel="stylesheet" href="assets/style.css?v=44">
 <style>
   body{background:#0a0e14}
   .wrapf{max-width:780px;margin:0 auto;padding:20px 16px 100px}
@@ -57,7 +57,7 @@
 <div class="moon"></div>
 
 <div class="wrapf">
-  <div class="fhdr"><h1>倒影小组</h1><span>Reflexion BBS · since 2008 · 在线会员：1</span></div>
+  <div class="fhdr"><h1>倒影小组</h1><span>Reflexion BBS · since 2025 · 在线会员：1</span></div>
   <div class="navbar">
     <a href="#" data-view="list">首页</a>
     <a href="#" data-view="rules">版规</a>
@@ -100,10 +100,10 @@
       二、本组不设「回复」考核。已读，不回，是传统。请尊重传统。<br>
       三、发帖前请自检：你想说的这句话，上一个想说话的人是否已经说过。如果是，请照常发。<br>
       四、删帖不予通知。被删的帖子会进入回收站。回收站仅楼主本人可见——也就是说，只有你删得掉你的话。<br>
-      五、本组仅有一位管理员，注册于 2008-08-08。<br>
+      五、本组仅有一位管理员，注册于 2025-08-08。<br>
       六、版规共六条。第六条不存在。
     </div>
-    <div class="small" style="margin-top:14px;color:#33415e;letter-spacing:1px">最后修订：2008-08-08 · 修订人：（空白）</div>
+    <div class="small" style="margin-top:14px;color:#33415e;letter-spacing:1px">最后修订：2025-08-08 · 修订人：（空白）</div>
   </div>
 
   <!-- ===== 精华区 ===== -->
@@ -154,12 +154,12 @@
   </div>
 
   <div class="center" style="margin-top:40px;color:#33415e;font-size:11px;letter-spacing:2px">
-    倒影小组 Reflexion BBS · 服务器已于 2008-08-08 启动 · 当前在线 1 人
+    倒影小组 Reflexion BBS · 服务器已于 2025-08-08 启动 · 当前在线 1 人
   </div>
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=43"></script>
+<script src="assets/game.js?v=44"></script>
 <script>
 if (DJ.gate(5)) main();
 function main(){
@@ -300,7 +300,7 @@ C. 不说话，等对方自己放弃
     let html = `<div class="floor">
       <div class="favatar">${bpart(i, fills[i])}</div>
       <div style="flex:1">
-        <div class="fhead">${users[i]} · 楼主 · 注册于 2008-08-08</div>
+        <div class="fhead">${users[i]} · 楼主 · 注册于 2025-08-08</div>
         <div class="postbody">${titles[i]}
 
 ${bodies[i]}</div>
@@ -311,14 +311,15 @@ ${bodies[i]}</div>
       html += `<div class="floor">
         <div class="favatar">${bpart(ui, fills[ui])}</div>
         <div style="flex:1">
-          <div class="fhead">${users[ui]} · ${r+1}楼 · 注册于 2008-08-08</div>
+          <div class="fhead">${users[ui]} · ${r+1}楼 · 注册于 2025-08-08</div>
           <div class="reply">${replies[ri]}</div>
         </div></div>`;
     }
     $("threadBody").innerHTML = html;
     if (!DJ.has("noticed_same")){
       DJ.flag("noticed_same");
-      setTimeout(() => {}, 100);
+      try{ bijiLink.style.display = "inline"; }catch(_){}
+      $("threadBody").innerHTML += `<div class="small" style="color:#4f8f8b;margin-top:12px;letter-spacing:2px">（导航栏多了一样东西。）</div>`;
     }
     DJ.addIncense(1); // 只在第一次给？简单起见每帖+1，香火不设上限
     window.scrollTo(0,0);
@@ -364,7 +365,7 @@ ${bodies[i]}</div>
     show("v_thread");
     $("threadBody").innerHTML = `
       <div class="floor"><div class="favatar">${bpart(0,fills[0])}</div><div style="flex:1">
-      <div class="fhead">深水无鱼 · 楼主 · 注册于 2008-08-08</div>
+      <div class="fhead">深水无鱼 · 楼主 · 注册于 2025-08-08</div>
       <div class="postbody">今天在废墟里拍到的一只蝴蝶。黑白。本来想调色，后来觉得黑白更好。</div>
       <div style="text-align:center;margin:18px 0">
         <div id="butterflyBig">
@@ -511,7 +512,7 @@ ${bodies[i]}</div>
     }
     $("threadBody").innerHTML = `
       <div class="floor"><div class="favatar">${bpart(1,fills[1])}</div><div style="flex:1">
-      <div class="fhead">未命名文件夹 · 楼主 · 注册于 2008-08-08</div>
+      <div class="fhead">未命名文件夹 · 楼主 · 注册于 2025-08-08</div>
       <div class="postbody center">
         <div class="mirror8"></div>
         8 楼没有帖子。只有一面镜子。
