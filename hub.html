@@ -3,109 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>新标签页</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<title>我的小窝</title>
+<link rel="stylesheet" href="assets/style.css?v=59">
 <style>
-  body{background:#0b0f16;font-family:-apple-system,"PingFang SC",sans-serif;color:#c9d6ea}
-  /* 浏览器窗框 */
-  .chrome{max-width:860px;margin:18px auto 80px;border:1px solid #1c2c4a;border-radius:12px;
-    overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.5);background:#0d1420}
-  .bar{background:#111927;border-bottom:1px solid #1c2c4a;padding:10px 14px;display:flex;align-items:center;gap:12px}
-  .dots{display:flex;gap:6px}
-  .dots i{width:11px;height:11px;border-radius:50%;display:block}
-  .dots i:nth-child(1){background:#c0564f}.dots i:nth-child(2){background:#b8a35a}.dots i:nth-child(3){background:#4f8f6b}
-  .tab{background:#0d1420;border:1px solid #1c2c4a;border-bottom:none;border-radius:6px 6px 0 0;
-    font-size:12px;color:#8fa0bd;padding:5px 16px;letter-spacing:1px;position:relative;top:1px}
-  .addr{flex:1;display:flex;align-items:center;gap:8px;background:#0a0e14;border:1px solid #1c2c4a;
-    border-radius:99px;padding:6px 16px;font-size:12.5px;color:#5a6a84;letter-spacing:1px;font-family:var(--mono)}
-  .addr .lock{color:#4f8f6b;font-size:11px}
-  .addr b{color:#8fa0bd;font-weight:400}
-  .page{padding:30px 34px 40px;min-height:420px}
-  .hello{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
-  .hello h1{font-size:20px;letter-spacing:3px;font-weight:600;color:#dfe5ee}
-  .hello h1 b{color:#8fa0bd;font-weight:400}
-  #clock{font-family:var(--mono);color:#42536f;font-size:12px;letter-spacing:2px}
-  .sect{margin-top:30px}
-  .sect h2{font-size:12px;color:#42536f;letter-spacing:4px;font-weight:400;margin-bottom:4px;
-    display:flex;justify-content:space-between}
-  .sect h2 span.r{color:#33415e}
-  .hist{border-top:1px solid #141f36}
-  .row{display:flex;align-items:center;gap:14px;padding:13px 6px;border-bottom:1px solid #141f36;
-    cursor:pointer;transition:background .2s}
-  .row:hover{background:#0e1626}
-  .row .fav{width:30px;height:30px;border-radius:6px;background:#101c33;border:1px solid #1c2c4a;
-    display:flex;align-items:center;justify-content:center;font-size:13px;color:#6d80a0;flex-shrink:0}
-  .row .fvc{width:32px;height:32px;border-radius:7px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    font-size:14.5px;font-weight:600;letter-spacing:0;
-    border:1px solid rgba(255,255,255,.06);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 3px 10px rgba(0,0,0,.35)}
-  .fvc.c1{background:#241520;color:#d09088}.fvc.c2{background:#16233c;color:#7fa3d8}
-  .fvc.c3{background:#132722;color:#7fbfa8}.fvc.c4{background:#1d2412;color:#b8bf7a}
-  .fvc.c5{background:#231a30;color:#ab8fd0}.fvc.c6{background:#2a2113;color:#d0b478}
-  .fvc.c7{background:#251a14;color:#cf9d72}.fvc.c8{background:#122330;color:#7fb8cf}
-  .fvc.c9{background:#1c1526;color:#b39ad8}.fvc.c10{background:#1a2130;color:#93a5c4}
-  .fvc.c11{background:#10262e;color:#8ec7d4}.fvc.c12{background:#26201a;color:#d8cbb2}
-  .gh{font-size:11px;color:#33415e;letter-spacing:4px;margin:20px 0 4px;padding-left:2px;font-weight:400}
-  .gh:first-child{margin-top:0}
-  .row .tt .url{display:block;font-family:var(--mono);font-size:11px;color:#42536f;
-    margin-top:3px;letter-spacing:0;transition:color .2s}
-  .row:hover .tt .url{color:#6f9de0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:repeating-linear-gradient(0deg,#fdf4f1 0 26px,#f9e7e2 26px 27px),
+               repeating-linear-gradient(90deg,#fdf4f1 0 26px,#f9e7e2 26px 27px),#fdf4f1;
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#5c4a4e;
+    padding:22px 14px 60px;-webkit-user-select:none;user-select:none}
+  .moon{display:none !important}
+
+  /* 贴纸 */
+  .stk{position:fixed;font-size:30px;opacity:.85;z-index:1;pointer-events:none;
+    filter:drop-shadow(0 3px 6px rgba(180,120,130,.25))}
+  .stk.small{font-size:20px}
+
+  /* 论坛横幅 */
+  .wrap{max-width:760px;margin:0 auto;position:relative;z-index:2}
+  .banner{background:linear-gradient(135deg,#fbd9de 0%,#f7cdd6 55%,#f3c3cf 100%);
+    border:2px solid #eba9b6;border-bottom:none;border-radius:16px 16px 0 0;
+    padding:20px 24px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
+    box-shadow:0 10px 30px rgba(217,122,138,.18)}
+  .banner h1{font-family:"Yuanti SC","PingFang SC",sans-serif;font-size:24px;letter-spacing:4px;color:#b04a5e;font-weight:700}
+  .banner h1 i{font-style:normal;font-size:14px;color:#d98a98;margin-left:10px;letter-spacing:2px;font-weight:400}
+  #clock{font-size:11.5px;color:#c4798a;letter-spacing:1px;background:rgba(255,255,255,.55);
+    padding:5px 12px;border-radius:99px}
+
+  /* 论坛导航条 */
+  .fnav{background:#e9899b;padding:8px 18px;display:flex;gap:20px;flex-wrap:wrap;
+    border-left:2px solid #eba9b6;border-right:2px solid #eba9b6}
+  .fnav a{color:#fff8f0;font-size:12.5px;letter-spacing:2px;text-decoration:none;cursor:pointer}
+  .fnav a:hover{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.6)}
+
+  /* 主纸面 */
+  .page{background:#fffdf9;border:2px solid #eba9b6;border-top:none;border-radius:0 0 16px 16px;
+    padding:24px 26px 30px;box-shadow:0 14px 40px rgba(217,122,138,.16)}
+  .hello{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .hello h2{font-size:17px;letter-spacing:3px;color:#b04a5e;font-weight:600}
+  .hello h2 b{color:#d98a98;font-weight:400;font-size:13px;margin-left:8px}
+  #sync{color:#5aa476;font-size:12px;letter-spacing:2px;opacity:0;transition:opacity 2s}
+  .sect{margin-top:18px}
+  .gh{font-size:11.5px;color:#d98a98;letter-spacing:4px;margin:18px 0 8px;font-weight:400;
+    display:flex;align-items:center;gap:8px}
+  .gh::after{content:"♡ ♡ ♡";font-size:9px;color:#f0c3cc;letter-spacing:3px}
+
+  /* 条目卡片 */
+  .row{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid #f2d5da;
+    border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;
+    transition:transform .15s, box-shadow .15s, border-color .15s}
+  .row:hover{transform:translateY(-2px);border-color:#e9899b;box-shadow:0 8px 20px rgba(217,122,138,.2)}
+  .row .fvc{width:38px;height:38px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,.06)}
+  .fvc.c1{background:#fde3e7;color:#d97a8a}.fvc.c2{background:#e3f2fd;color:#6a9ec9}
+  .fvc.c3{background:#e5f4e8;color:#5aa476}.fvc.c4{background:#fff6de;color:#c9a23f}
+  .fvc.c5{background:#f3e8fa;color:#a06ac9}.fvc.c6{background:#ffeede;color:#d98a4a}
+  .fvc.c7{background:#ffe8dc;color:#d97a5a}.fvc.c8{background:#dff0f7;color:#5a9ab8}
+  .fvc.c9{background:#efe4fa;color:#9a6ac9}.fvc.c10{background:#e8ecf7;color:#7a8ac0}
+  .fvc.c11{background:#e0f4f1;color:#4fa898}.fvc.c12{background:#f5efe4;color:#a8986a}
   .row .tt{flex:1;min-width:0}
-  .row .tt b{display:block;font-size:14.5px;color:#c9d6ea;font-weight:500;letter-spacing:1px}
-  .row:hover .tt b{color:#fff}
-  .row .tt span{display:block;font-size:11.5px;color:#42536f;margin-top:3px;letter-spacing:1px}
-  .row .when{font-size:11px;color:#33415e;letter-spacing:1px;white-space:nowrap;font-family:var(--mono)}
-  .row.new .tt b::after{content:"刚刚更新";color:#4f8f8b;font-size:10px;margin-left:10px;letter-spacing:2px}
-  .row.hot{background:rgba(18,30,54,.4)}
-  .row.hot .tt b{color:#fff}
-  .row.dim{cursor:not-allowed}
-  .row.dim .tt b{color:#3a4a68}
-  .row.dim .tt span{color:#2c3a55;font-style:italic}
-  .row.dim .fav{background:#0c1322;color:#2c3a55}
+  .row .tt b{display:block;font-size:14.5px;color:#5c4a4e;font-weight:600;letter-spacing:1px}
+  .row:hover .tt b{color:#b04a5e}
+  .row .tt span{display:block;font-size:11.5px;color:#c0989f;margin-top:3px;letter-spacing:1px}
+  .row .when{font-size:11px;color:#d9a8b0;letter-spacing:1px;white-space:nowrap}
+  .row.new .tt b::after{content:"刚刚更新";color:#e9899b;font-size:10px;margin-left:10px;
+    letter-spacing:2px;background:#fdeef0;padding:2px 8px;border-radius:99px}
+  .row.hot{border-color:#e9899b;background:#fff8f8}
+  .row.dim{cursor:not-allowed;opacity:.55;border-style:dashed}
+  .row.dim .tt b{color:#b8a0a6;font-style:italic}
+  .row.dim:hover{transform:none;box-shadow:none;border-color:#f2d5da}
+
+  /* 书签 */
   .bmarks{display:flex;gap:10px;flex-wrap:wrap}
-  .bm{border:1px solid #1c2c4a;background:#0e1626;border-radius:8px;padding:9px 18px;font-size:13px;
-    color:#8fa0bd;cursor:pointer;letter-spacing:2px}
-  .bm:hover{border-color:#3a5080;color:#dfe5ee}
-  .foot{margin-top:36px;padding-top:16px;border-top:1px dashed #141f36;font-size:11px;color:#33415e;
+  .bm{border:1.5px solid #f2c7ce;background:#fff5f6;border-radius:99px;padding:9px 20px;font-size:13px;
+    color:#b04a5e;cursor:pointer;letter-spacing:2px}
+  .bm:hover{background:#fdeef0;transform:translateY(-1px)}
+
+  /* 页脚 */
+  .foot{margin-top:24px;padding-top:14px;border-top:2px dashed #f2d5da;font-size:11px;color:#c0989f;
     letter-spacing:2px;line-height:2.2}
-  .foot em{color:#4f8f8b;font-style:normal}
-  #sync{color:#4f8f8b;opacity:0;transition:opacity 2s;letter-spacing:2px;font-size:12px}
-  @media (max-width:600px){ .page{padding:22px 18px 30px} }
+  .foot em{color:#e9899b;font-style:normal}
+  .addrline{margin-top:10px;font-size:11px;color:#d9a8b0;letter-spacing:1px;
+    background:#fdf4f1;border-radius:8px;padding:7px 12px;display:inline-block}
+
+  @media (max-width:600px){ .page{padding:18px 14px 24px} .stk{display:none} }
 </style>
 </head>
 <body>
-<div class="moon"></div>
-<div class="chrome">
-  <div class="bar">
-    <div class="dots"><i></i><i></i><i></i></div>
-    <div class="tab">新标签页</div>
-    <div class="addr"><span class="lock">🔒</span><b>daji://</b>local/history</div>
+<div class="stk" style="top:18px;left:20px">🐰</div>
+<div class="stk small" style="top:64px;left:70px;transform:rotate(-10deg)">✨</div>
+<div class="stk" style="top:24px;right:26px;transform:rotate(8deg)">🌙</div>
+<div class="stk small" style="top:90px;right:80px">♡</div>
+
+<div class="wrap">
+  <div class="banner">
+    <h1>我的小窝<i>♡ 未读日记本</i></h1>
+    <div id="clock"></div>
+  </div>
+  <div class="fnav">
+    <a data-go="index.html">🏠 首页</a>
+    <a data-go="chat.html">💌 消息(38)</a>
+    <a data-go="search.html">🔍 搜搜</a>
+    <a data-go="board.html">🧷 一面墙</a>
+    <a data-go="radio.html">📻 电台</a>
   </div>
   <div class="page">
     <div class="hello">
-      <h1 id="hello">晚上好。</h1>
-      <div id="clock"></div>
+      <h2 id="hello">晚上好。</h2>
+      <span id="sync"></span>
     </div>
 
-    <div class="sect">
-      <h2>历史记录 <span class="r" id="sync"></span></h2>
-      <div class="hist" id="hist"></div>
-    </div>
+    <div class="sect" id="hist"></div>
 
-    <div class="sect">
-      <h2>书签</h2>
-      <div class="bmarks">
-        <div class="bm" data-go="search.html">🔍 搜搜</div>
-        <div class="bm" data-go="index.html">🏠 起始页</div>
-      </div>
-    </div>
+    <div class="addrline">🔒 <b>daji://</b>local/diary · 上次同步：刚刚</div>
 
     <div class="foot" id="foot"></div>
   </div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=59"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -120,24 +137,24 @@ function main(){
   else if (h < 11) greet = "早上好";
   else if (h < 14) greet = "中午好";
   else if (h < 18) greet = "下午好";
-  $("hello").innerHTML = greet + (name ? "，" + name : "") + "。";
-  const tick = () => $("clock").textContent = "本地时间 " + new Date().toLocaleTimeString("zh-CN", {hour12:false});
+  $("hello").innerHTML = greet + (name ? "，" + name : "") + " ♡";
+  const tick = () => $("clock").textContent = "📒 " + new Date().toLocaleTimeString("zh-CN", {hour12:false});
   tick(); setInterval(tick, 1000);
 
-  /* 历史记录：浏览痕迹，不是关卡（真浏览器历史风） */
+  /* 条目：浏览痕迹，不是关卡 */
   const ENTS = [
-    {c:1,  l:"电", k:"c1", t:"未接来电 · 8 次",       u:"daji://call/log",      s:"那个号码没有署名",     h:"dial.html",  when:"8 天前"},
-    {c:2,  l:"未", k:"c2", t:"未读（38）",            u:"daji://im/unread",     s:"从来只有你这边在说",   h:"chat.html",  when:"8 天前"},
-    {c:3,  l:"观", k:"c3", t:"青云观 · 线上问己",     u:"daji://temple/ask",    s:"香火还剩 " + DJ.state.incense + " 支", h:"guanyun.html", when:"8 天前"},
-    {c:4,  l:"茶", k:"c4", t:"第八茶室 · 深夜场",     u:"daji://tea/8th",       s:"营业时间：亥时",       h:"oracle.html", when:"8 天前"},
-    {c:5,  l:"影", k:"c5", t:"倒影小组 Reflexion BBS",u:"daji://bbs/reflexion", s:"当前在线 1 人",        h:"forum.html", when:"8 天前"},
-    {c:6,  l:"账", k:"c6", t:"流水账",                u:"daji://notes/ledger",  s:"记事本 · 共 8 笔",     h:"ledger.html",when:"8 天前"},
-    {c:7,  l:"猫", k:"c7", t:"猫屋 · 同城领养",       u:"daji://pets/adopt",    s:"分类信息 · 已举报",    h:"adopt.html", when:"8 天前"},
-    {c:8,  l:"云", k:"c8", t:"云屉",                  u:"daji://drive/yunti",   s:"网盘 · 剩余空间 8 GB", h:"cloud.html", when:"8 天前"},
-    {c:9,  l:"面", k:"c9", t:"面 具",                 u:"daji://files/mask",    s:"本机文件 · 别数错层数",h:"mask.html",  when:"8 天前"},
-    {c:10, l:"档", k:"c10",t:"档 案 室",              u:"daji://intranet/archive", s:"需要工牌",          h:"archive.html",when:"8 天前"},
-    {c:11, l:"镜", k:"c11",t:"镜 中 人",              u:"daji://im/echo",       s:"对面显示在线",         h:"echo8.html", when:"8 天前"},
-    {c:12, l:"终", k:"c12",t:"顺其自然",              u:"daji://final",         s:"没有标题",             h:"final.html", when:"8 天前"}
+    {c:1,  l:"电", k:"c1", t:"未接来电 · 8 次",       s:"那个号码没有署名",     h:"dial.html",  when:"8 天前"},
+    {c:2,  l:"未", k:"c2", t:"未读（38）",            s:"从来只有你这边在说",   h:"chat.html",  when:"8 天前"},
+    {c:3,  l:"观", k:"c3", t:"青云观 · 线上问己",     s:"香火还剩 " + DJ.state.incense + " 支", h:"guanyun.html", when:"8 天前"},
+    {c:4,  l:"茶", k:"c4", t:"第八茶室 · 深夜场",     s:"营业时间：亥时",       h:"oracle.html", when:"8 天前"},
+    {c:5,  l:"影", k:"c5", t:"倒影小组 Reflexion BBS",s:"当前在线 1 人",        h:"forum.html", when:"8 天前"},
+    {c:6,  l:"账", k:"c6", t:"流水账",                s:"记事本 · 共 8 笔",     h:"ledger.html",when:"8 天前"},
+    {c:7,  l:"猫", k:"c7", t:"猫屋 · 同城领养",       s:"分类信息 · 已举报",    h:"adopt.html", when:"8 天前"},
+    {c:8,  l:"云", k:"c8", t:"云屉",                  s:"网盘 · 剩余空间 8 GB", h:"cloud.html", when:"8 天前"},
+    {c:9,  l:"面", k:"c9", t:"面 具",                 s:"本机文件 · 别数错层数",h:"mask.html",  when:"8 天前"},
+    {c:10, l:"档", k:"c10",t:"档 案 室",              s:"需要工牌",             h:"archive.html",when:"8 天前"},
+    {c:11, l:"镜", k:"c11",t:"镜 中 人",              s:"对面显示在线",         h:"echo8.html", when:"8 天前"},
+    {c:12, l:"终", k:"c12",t:"顺其自然",              s:"没有标题",             h:"final.html", when:"8 天前"}
   ];
   const hist = $("hist");
   let curGroup = null;
@@ -146,15 +163,15 @@ function main(){
     curGroup = label;
     const g = document.createElement("div");
     g.className = "gh";
-    g.textContent = label;
+    g.textContent = "✿ " + label;
     hist.appendChild(g);
   };
   const mkrow = (e, opts) => {
     const r = document.createElement("div");
-    r.className = "row" + (opts && opts.hot ? " hot" : "") + (opts && opts.dim ? " dim" : "");
+    r.className = "row" + (opts && opts.hot ? " new hot" : "") + (opts && opts.dim ? " dim" : "");
     r.title = e.s || "";
     r.innerHTML = `<div class="fvc ${e.k}">${e.l}</div>
-      <div class="tt"><b>${e.t}</b><span class="url">${e.u}${e.s ? " · " + e.s : ""}</span></div>
+      <div class="tt"><b>${e.t}</b><span>${e.s}</span></div>
       <div class="when">${e.when}</div>`;
     r.onclick = opts && opts.dim
       ? () => { DJ.sfx.err(); DJ.envHintNow(e.err || "打不开。还不是时候——有些地方，要先在别处留下痕迹。"); }
@@ -168,19 +185,19 @@ function main(){
   const cur = ENTS.find(e => e.c === ch);
   if (cur) mkrow(Object.assign({}, cur, { when: "刚刚 · " + new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",hour12:false}) }), { hot: true });
 
-  /* 组二：8 天前（已走过的章节） */
+  /* 组二：8 天前 */
   const past = ENTS.filter(e => e.c < ch);
   if (past.length){
     group("8 天前");
     past.forEach(e => mkrow(e));
   }
 
-  /* 组三：更早（过场与氛围页） */
+  /* 组三：更早 */
   const early = [];
-  if (ch >= 9)  early.push({l:"台", k:"c8", t:"深夜电台 FM 08.8", u:"daji://fm/08.8", s:"这个频道八年只播一句话", h:"radio.html", when:"每天"});
-  if (ch >= 10) early.push({l:"相", k:"c7", t:"他的一晚", u:"daji://album/onenight", s:"8 张照片，和一句没发出去的话", h:"photos.html", when:"8 天前"});
-  if (ch >= 10) early.push({l:"医", k:"c1", t:"第八医院 · 网上服务平台", u:"daji://hospital/08", s:"心理睡眠中心 · 夜间门诊", h:"hospital.html", when:"内网"});
-  if (ch >= 10) early.push({l:"墙", k:"c6", t:"一面墙", u:"daji://notes/wall", s:"你在每一个抽屉里都捡到过一块碎片", h:"board.html", when:"待拼"});
+  if (ch >= 9)  early.push({l:"台", k:"c8", t:"深夜电台 FM 08.8", s:"这个频道八年只播一句话", h:"radio.html", when:"每天"});
+  if (ch >= 10) early.push({l:"相", k:"c7", t:"他的一晚", s:"8 张照片，和一句没发出去的话", h:"photos.html", when:"8 天前"});
+  if (ch >= 10) early.push({l:"医", k:"c1", t:"第八医院 · 网上服务平台", s:"心理睡眠中心 · 夜间门诊", h:"hospital.html", when:"内网"});
+  if (ch >= 10) early.push({l:"墙", k:"c6", t:"一面墙", s:"你在每一个抽屉里都捡到过一块碎片", h:"board.html", when:"待拼"});
   if (early.length){
     group("更早");
     early.forEach(e => mkrow(e));
@@ -190,8 +207,7 @@ function main(){
   if (ch < 12){
     const nx = ENTS.find(e => e.c === ch + 1);
     group("今天");
-    mkrow({t:"历史记录里有一条，不是你打开的。", u:"daji://" + (nx ? nx.h.replace(".html","") : "???"),
-           s:nx ? nx.s : "", l:"◌", k:"c10", when:"刚刚",
+    mkrow({t:"日记本里多了一页，不是你写的。", s:nx ? nx.s : "", l:"◌", k:"c10", when:"刚刚",
            err:"打不开。还不是时候——有些地方，要先在别处留下痕迹。"}, { dim: true });
   }
 
@@ -200,32 +216,32 @@ function main(){
   if (DJ.revisit("hub") >= 2){
     const r = document.createElement("div");
     r.className = "row dim";
-    r.innerHTML = `<div class="fav">◌</div>
-      <div class="tt"><b>欢迎回来。你是今天第 ${rv >= 4 ? "88" : "8"} 位访客。</b><span>本帖仅你可见</span></div>
+    r.innerHTML = `<div class="fvc c10">◌</div>
+      <div class="tt"><b>欢迎回来。你是今天第 ${rv >= 4 ? "88" : "8"} 位访客。</b><span>本页仅你可见</span></div>
       <div class="when">刚刚</div>`;
     r.onclick = () => { DJ.sfx.err(); DJ.envHintNow("这句话的另一个意思是——今天，一个访客都没有。"); };
     hist.appendChild(r);
   }
 
-  /* 书签 */
-  document.querySelectorAll(".bm").forEach(b => b.onclick = () => { DJ.sfx.click(); location.href = b.dataset.go; });
+  /* 导航 */
+  document.querySelectorAll(".fnav a").forEach(b => b.onclick = () => { DJ.sfx.click(); location.href = b.dataset.go; });
 
   /* 页脚：设备所有者 */
   $("foot").innerHTML =
-    `这台设备的所有者：${name ? name : "（没有留名字的人）"} · 上次在线：刚刚<br>` +
-    `同步状态：<em>历史记录在另一台设备上也会更新。你删不掉。</em>`;
+    `本日记本所有者：${name ? name : "（没有留名字的人）"} · 上次在线：刚刚 ♡<br>` +
+    `同步状态：<em>日记在另一台设备上也会更新。你删不掉。</em>`;
 
-  /* 新条目出现的一瞬：同步提示 */
+  /* 同步提示 */
   if (ch >= 1){
     setTimeout(() => {
-      $("sync").textContent = "◈ 刚刚同步了一条新记录";
+      $("sync").textContent = "✿ 刚刚同步了一条新记录";
       $("sync").style.opacity = 1;
       setTimeout(() => $("sync").style.opacity = 0, 6000);
     }, 900);
   }
 
-  DJ.envHint("后退是没用的。这台设备记得一切。", "hb1", 120);
-  DJ.envHint("有些记录，要你在别的地方留下痕迹之后，才会出现在这里。", "hb2", 260);
+  DJ.envHint("这本日记记得一切。包括你不记得的部分。", "hb1", 120);
+  DJ.envHint("有些页，要你在别的地方留下痕迹之后，才会写上。", "hb2", 260);
 }
 </script>
 </body>
