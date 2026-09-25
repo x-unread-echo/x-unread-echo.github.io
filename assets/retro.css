@@ -1,0 +1,22 @@
+/* ---------- retro.css · 古早纸感皮肤层（只挂在亮色页面） ---------- */
+
+/* 夜色月亮装饰在纸感页面上没有意义 */
+.moon{display:none !important}
+
+/* 米黄纸底 + 细密纸纹（纯 CSS，无外部图片） */
+body{
+  background-image:
+    radial-gradient(rgba(150,115,60,.06) 1px, transparent 1.4px),
+    radial-gradient(rgba(150,115,60,.035) 1px, transparent 1.4px);
+  background-size: 26px 26px, 17px 17px;
+  background-position: 0 0, 9px 13px;
+}
+
+/* 旧网页的链接就是该有下划线 */
+a.u, .u{text-decoration:underline}
+
+/* 选中文字：旧纸上的荧光笔 */
+::selection{background:#f3d98a;color:#5a4436}
+
+/* 表格感的分隔线统一成虚线（老网站味道） */
+hr{border:none;border-top:1px dashed #c9b691}

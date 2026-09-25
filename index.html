@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,24 +17,24 @@
   }
   body.night { background:#0b0e16; color:#aebad0; }
   .nvbar { background:#fff; border-bottom:1px solid #ececec; padding:0 5vw; height:52px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
-  body.night .nvbar { background:#10141f; border-bottom:1px solid #1d2436; }
+  body.night .nvbar { background:#10141f; border-bottom:1px solid #e2d4b8; }
   .nvlogo { font-size:16px; font-weight:600; color:#222; letter-spacing:.5px; }
   body.night .nvlogo { color:#c9d4e8; }
   .nvlogo em { font-style:normal; color:#aaa; font-size:11px; font-weight:400; margin-left:8px; }
-  body.night .nvlogo em { color:#4a5570; }
+  body.night .nvlogo em { color:#998b78; }
   .nvlinks { display:flex; gap:20px; font-size:13px; }
   .nvlinks a { color:#888; text-decoration:none; }
   body.night .nvlinks a { color:#445072; }
   .nvlinks a.on { color:#111; font-weight:600; }
-  body.night .nvlinks a.on { color:#dfe7f5; }
+  body.night .nvlinks a.on { color:#453c31; }
   .wrap { max-width:620px; margin:30px auto 70px; padding:0 18px; }
 
   .hero h1 { font-size:25px; color:#1a1a1a; font-weight:700; }
-  body.night .hero h1 { color:#dfe7f5; }
+  body.night .hero h1 { color:#453c31; }
   .hero .sub { color:#8a8a8a; font-size:13.5px; margin-top:8px; }
-  body.night .hero .sub { color:#4a5570; }
+  body.night .hero .sub { color:#998b78; }
   .statline { font-size:12px; color:#b5b5b5; border-top:1px solid #f0f0f0; border-bottom:1px solid #f0f0f0; padding:9px 2px; display:flex; gap:22px; margin:20px 0 24px; flex-wrap:wrap;}
-  body.night .statline { border-color:#1d2436; color:#3d4a68; }
+  body.night .statline { border-color:#e2d4b8; color:#3d4a68; }
   .statline b { color:#7a7a7a; font-weight:500; }
   body.night .statline b { color:#6c7ca3; }
 
@@ -56,7 +57,7 @@
   .hline.unread::before { background:#c0564f; }
   .hline.unread .who { color:#c0564f; }
   .hline .who { color:#6c7ca3; margin-right:8px; }
-  .hline.glow { color:#dfe7f5; }
+  .hline.glow { color:#453c31; }
 
   /* ---- 标签面板 ---- */
   .tabview { display:none; }
@@ -81,7 +82,7 @@
 
   /* 共享设置 */
   .sharebox { background:#fff; border:1px solid #ececec; border-radius:8px; padding:18px 20px; display:flex; align-items:center; gap:14px; }
-  body.night .sharebox { background:#10141f; border-color:#1d2436; }
+  body.night .sharebox { background:#10141f; border-color:#e2d4b8; }
   .sharebox .avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#e8e8e8,#d3d3d3); flex-shrink:0; position:relative; overflow:hidden; }
   body.night .sharebox .avatar { background:linear-gradient(135deg,#232c42,#161d30); }
   .sharebox .avatar::after { content:""; position:absolute; inset:0; background:linear-gradient(20deg,transparent 45%,rgba(255,255,255,.5) 50%,transparent 55%); }
@@ -101,7 +102,7 @@
     padding:12px 50px; border:none; border-radius:22px; cursor:default;
     letter-spacing:2px; transition:all .6s;
   }
-  body.night .cta { background:#1a2338; color:#3d4a68; border:1px solid #1d2436; }
+  body.night .cta { background:#1a2338; color:#3d4a68; border:1px solid #e2d4b8; }
   .cta.lit, body.night .cta.lit { background:#c0392b; color:#fff; border-color:#c0392b; cursor:pointer; animation:breath 1.6s ease-in-out infinite; }
   @keyframes breath { 0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.3)} 50%{box-shadow:0 0 20px 4px rgba(192,57,43,.3)} }
   .cta-note { font-size:12px; color:#bbb; text-align:center; margin-top:10px; letter-spacing:1px; }
@@ -119,23 +120,23 @@
   #veil.show { display:flex; }
   #veil.on { opacity:1; }
   #veil .inner { max-width:520px; padding:0 30px; text-align:center; }
-  #veil .vline { color:#8b9ab5; font-size:16px; letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s; }
+  #veil .vline { color:#6f6353; font-size:16px; letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s; }
   #veil .vline.on { opacity:1; }
-  #veil .vline.big { color:#dfe7f5; font-size:26px; letter-spacing:8px; }
+  #veil .vline.big { color:#453c31; font-size:26px; letter-spacing:8px; }
   /* 原地异变：浮在树洞/日程里的那句话 */
-  .hline.redbig { color:#e8b5b0; font-size:19px; letter-spacing:5px;
+  .hline.redbig { color:#b34a42; font-size:19px; letter-spacing:5px;
     text-shadow:0 0 18px rgba(192,86,79,.5); padding:6px 0; }
-  .row.redbig .what { color:#e8b5b0; font-size:16.5px; letter-spacing:4px;
+  .row.redbig .what { color:#b34a42; font-size:16.5px; letter-spacing:4px;
     text-shadow:0 0 14px rgba(192,86,79,.45); }
 
   /* ---- 老玩家 ---- */
   #resume { position:fixed; inset:0; z-index:60; background:rgba(6,9,18,.92); display:none; align-items:center; justify-content:center; }
   #resume.show { display:flex; }
   #resume .panel { text-align:center; padding:0 30px; }
-  #resume .hi { color:#8b9ab5; letter-spacing:3px; font-size:15px; margin-bottom:10px; }
-  #resume .where { color:#dfe7f5; letter-spacing:3px; font-size:17px; margin-bottom:44px; }
-  #resume button { display:block; width:230px; margin:0 auto 16px; padding:13px 0; background:#1a2338; color:#dfe7f5; border:1px solid #2c3a5c; border-radius:4px; font-size:15px; letter-spacing:4px; cursor:pointer; font-family:inherit; }
-  #resume button.ghostb { background:transparent; color:#8b9ab5; }
+  #resume .hi { color:#6f6353; letter-spacing:3px; font-size:15px; margin-bottom:10px; }
+  #resume .where { color:#453c31; letter-spacing:3px; font-size:17px; margin-bottom:44px; }
+  #resume button { display:block; width:230px; margin:0 auto 16px; padding:13px 0; background:#1a2338; color:#453c31; border:1px solid #2c3a5c; border-radius:4px; font-size:15px; letter-spacing:4px; cursor:pointer; font-family:inherit; }
+  #resume button.ghostb { background:transparent; color:#6f6353; }
   #resume button:hover { border-color:#5a6f9e; }
 
   @media (max-width:560px){
@@ -252,7 +253,7 @@
       <div class="sharebox" style="display:block">
         <div class="sname">发件人：<span style="color:#c0564f">（你没有备注过这个名字）</span></div>
         <div class="sperm" style="margin-top:8px">时间：03:00 · 状态：送达，未读</div>
-        <div style="margin-top:14px;padding:14px;background:#0d1420;border:1px solid #1d2436;border-radius:6px;color:#6c7ca3;font-size:13.5px;line-height:2" id="unreadBody">内容加载失败。已重试 8 次。</div>
+        <div style="margin-top:14px;padding:14px;background:#f7f1e2;border:1px solid #e2d4b8;border-radius:6px;color:#6c7ca3;font-size:13.5px;line-height:2" id="unreadBody">内容加载失败。已重试 8 次。</div>
       </div>
       <div class="todonote">你可以不点开。这本身也是一种回答。</div>
     </div>
@@ -296,7 +297,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -320,7 +321,7 @@ if (isNight) {
   document.body.classList.add("night");
   $("dayView").style.display = "none";
   $("nightView").style.display = "block";
-  $("nvlogo").innerHTML = 'X<em style="font-style:normal;color:#4a5570;font-size:11px;font-weight:400;margin-left:8px">树洞</em>';
+  $("nvlogo").innerHTML = 'X<em style="font-style:normal;color:#998b78;font-size:11px;font-weight:400;margin-left:8px">树洞</em>';
 } else {
   $("nvtag").textContent = "本周";
 }
@@ -329,7 +330,7 @@ $("nvlinks").innerHTML = TABS.map(([tid,label],i) =>
 $("nvlinks").querySelectorAll("a").forEach(a =>
   a.onclick = () => { DJ.sfx.click(); switchTab(a.dataset.tab); });
 $("nvlinks").firstChild.classList.add("on");
-$("nvlinks").firstChild.style.color = isNight ? "#dfe7f5" : "#111";
+$("nvlinks").firstChild.style.color = isNight ? "#453c31" : "#111";
 
 /* 共享设置：移除不掉的人 */
 const rm = $("rmShare");
@@ -405,7 +406,7 @@ if (isReturning) {
     const ov = document.createElement("div");
     ov.style.cssText = "position:fixed;inset:0;background:#030509;z-index:999;overflow:hidden;transition:opacity 1.2s";
     const hd = document.createElement("div");
-    hd.style.cssText = "position:absolute;top:16px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:4px;color:#4a5568";
+    hd.style.cssText = "position:absolute;top:16px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:4px;color:#998b78";
     const box = document.createElement("div");
     box.style.cssText = "position:absolute;left:0;right:0;bottom:0;max-height:78%;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 18px 90px";
     ov.appendChild(hd); ov.appendChild(box);
@@ -428,7 +429,7 @@ if (isReturning) {
     document.addEventListener("click", bump, { once:true });
     const mk = (txt, left) => {
       const b = document.createElement("div");
-      b.style.cssText = "align-self:" + (left ? "flex-start;background:#151d2e;border:1px solid #26314a;color:#e8edf5;border-radius:4px 12px 12px 12px" : "flex-end;background:#101725;border:1px solid #1a2333;color:#c7cedb;border-radius:12px 4px 12px 12px") + ";padding:8px 13px;font-size:13px;max-width:78%;margin-top:7px;opacity:0;transform:translateY(8px);transition:all .4s";
+      b.style.cssText = "align-self:" + (left ? "flex-start;background:#151d2e;border:1px solid #26314a;color:#453c31;border-radius:4px 12px 12px 12px" : "flex-end;background:#101725;border:1px solid #1a2333;color:#c7cedb;border-radius:12px 4px 12px 12px") + ";padding:8px 13px;font-size:13px;max-width:78%;margin-top:7px;opacity:0;transform:translateY(8px);transition:all .4s";
       b.textContent = txt;
       box.appendChild(b);
       requestAnimationFrame(()=>{ b.style.opacity = 1; b.style.transform = "none"; });

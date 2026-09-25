@@ -4,18 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>通话记录 — 无服务</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
-  body{background:#04060b;font-family:-apple-system,"PingFang SC",sans-serif;color:#c7cedb;overflow-x:hidden}
+  body{background:#efe5d2;font-family:-apple-system,"PingFang SC",sans-serif;color:#c7cedb;overflow-x:hidden}
   .p-wrap{max-width:420px;margin:0 auto;padding:6vh 22px 90px;min-height:88vh}
-  .p-status{display:flex;justify-content:space-between;font-size:11px;color:#4a5568;letter-spacing:1px}
+  .p-status{display:flex;justify-content:space-between;font-size:11px;color:#998b78;letter-spacing:1px}
   .p-status .noserv{color:#7a4b46}
-  .p-carrier{text-align:center;margin:26px 0 6px;font-size:12px;color:#4a5568;letter-spacing:4px}
+  .p-carrier{text-align:center;margin:26px 0 6px;font-size:12px;color:#998b78;letter-spacing:4px}
   .p-missed{background:#0a0e16;border:1px solid #1a2333;border-radius:14px;padding:16px 18px;margin-top:18px}
   .p-missed .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111826}
   .p-missed .row:last-child{border-bottom:none}
   .p-missed .num{font-size:15px;letter-spacing:2px;color:#c7cedb}
-  .p-missed .when{font-size:11px;color:#4a5568}
+  .p-missed .when{font-size:11px;color:#998b78}
   .p-missed .tag{font-size:10px;color:#8a4b46;border:1px solid #3a2020;border-radius:3px;padding:1px 5px;margin-left:8px;letter-spacing:2px}
   .p-missed .row .call{font-size:12px;color:#4a7dd6;cursor:pointer;letter-spacing:2px}
   .p-missed .row .call:hover{color:#7aa3ea}
@@ -23,13 +24,13 @@
   #callui{display:none;text-align:center;margin-top:30px}
   #callui.on{display:block;animation:fadein .8s}
   .callnum{font-size:19px;letter-spacing:3px;margin:8px 0 4px}
-  .callstate{font-size:12px;color:#4a5568;letter-spacing:3px;min-height:18px}
+  .callstate{font-size:12px;color:#998b78;letter-spacing:3px;min-height:18px}
   .wave{display:flex;justify-content:center;gap:4px;height:26px;align-items:center;margin:18px 0}
-  .wave i{width:3px;height:4px;background:#33415e;border-radius:2px;transition:height .12s}
+  .wave i{width:3px;height:4px;background:#a2937e;border-radius:2px;transition:height .12s}
   .wave.on i{animation:wave .7s infinite ease-in-out}
   .wave.on i:nth-child(2){animation-delay:.1s}.wave.on i:nth-child(3){animation-delay:.2s}
   .wave.on i:nth-child(4){animation-delay:.3s}.wave.on i:nth-child(5){animation-delay:.4s}
-  @keyframes wave{0%,100%{height:4px;background:#33415e}50%{height:20px;background:#4a7dd6}}
+  @keyframes wave{0%,100%{height:4px;background:#a2937e}50%{height:20px;background:#4a7dd6}}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   .hangup{display:inline-block;margin-top:14px;background:#2a1214;border:1px solid #58262a;color:#c96a6a;
     border-radius:99px;padding:11px 34px;font-size:14px;letter-spacing:4px;cursor:pointer}
@@ -37,7 +38,7 @@
   /* 语音信箱磁带机 */
   #vm{display:none;margin-top:30px;background:#0a0e16;border:1px solid #1a2333;border-radius:14px;padding:18px}
   #vm.on{display:block;animation:fadein 1.2s}
-  .vm-h{font-size:11px;color:#4a5568;letter-spacing:3px;margin-bottom:12px}
+  .vm-h{font-size:11px;color:#998b78;letter-spacing:3px;margin-bottom:12px}
   .tape{background:#0d121d;border-radius:8px;padding:14px;border:1px solid #141c2c}
   .reel{display:flex;justify-content:center;gap:26px;margin:8px 0 12px}
   .reel .r{width:44px;height:44px;border:2px solid #223048;border-radius:50%;position:relative}
@@ -48,12 +49,12 @@
   .vm-btns button{background:#101725;border:1px solid #223048;color:#c7cedb;border-radius:8px;
     padding:9px 20px;font-size:13px;letter-spacing:2px;cursor:pointer}
   .vm-btns button:hover{border-color:#4a7dd6;color:#7aa3ea}
-  .vm-note{font-size:11px;color:#4a5568;margin-top:10px;text-align:center;letter-spacing:1px}
+  .vm-note{font-size:11px;color:#998b78;margin-top:10px;text-align:center;letter-spacing:1px}
   /* 音阶台阶便签 */
   #ladder{display:none;margin-top:26px;transform:rotate(-1.6deg)}
   #ladder.on{display:block;animation:fadein 1.4s}
   .slip{background:#e8e2d2;color:#3a3527;border-radius:3px;padding:16px 18px;font-size:13px;line-height:1.9;
-    box-shadow:0 6px 24px rgba(0,0,0,.5);max-width:340px;margin:0 auto}
+    box-shadow:0 6px 24px rgba(92,72,44,.5);max-width:340px;margin:0 auto}
   .slip .tt{font-weight:700;letter-spacing:2px;margin-bottom:6px}
   .steps{display:flex;align-items:flex-end;gap:6px;height:74px;margin:10px 0 6px}
   .steps i{flex:1;background:#c9bfa4;border-radius:2px 2px 0 0;position:relative}
@@ -71,23 +72,23 @@
   .keys button{aspect-ratio:1;border-radius:50%;background:#0d121d;border:1px solid #1a2333;color:#c7cedb;
     font-size:20px;cursor:pointer;font-family:inherit}
   .keys button:active{background:#1a2333}
-  .keys button .sub{display:block;font-size:8px;color:#4a5568;letter-spacing:2px;margin-top:2px}
+  .keys button .sub{display:block;font-size:8px;color:#998b78;letter-spacing:2px;margin-top:2px}
   .padcall{display:block;margin:18px auto 0;background:#0e1a10;border:1px solid #1f4a28;color:#5fae6f;
     border-radius:99px;padding:11px 40px;font-size:14px;letter-spacing:4px;cursor:pointer}
   .padcall:hover{background:#13251a}
-  .padback{display:block;margin:12px auto 0;background:none;border:none;color:#4a5568;font-size:12px;letter-spacing:2px;cursor:pointer}
+  .padback{display:block;margin:12px auto 0;background:none;border:none;color:#998b78;font-size:12px;letter-spacing:2px;cursor:pointer}
   /* 乱码主页 */
   #profile{display:none;margin-top:30px;background:#0a0e16;border:1px solid #1a2333;border-radius:14px;padding:20px}
   #profile.on{display:block;animation:fadein 1.5s}
   .pf-id{font-size:17px;letter-spacing:2px;color:#c7cedb}
-  .pf-sub{font-size:11px;color:#4a5568;letter-spacing:2px;margin-top:4px}
+  .pf-sub{font-size:11px;color:#998b78;letter-spacing:2px;margin-top:4px}
   .pf-follow{margin-top:16px;padding-top:14px;border-top:1px solid #111826;font-size:12px;color:#8a93a8;letter-spacing:1px}
   .pf-empty{display:flex;align-items:center;gap:12px;margin-top:12px}
   .pf-avatar{width:52px;height:52px;border-radius:50%;background:#0d121d;border:1px solid #1a2333}
-  .pf-empty .nm{color:#4a5568;font-size:12px;letter-spacing:2px}
+  .pf-empty .nm{color:#998b78;font-size:12px;letter-spacing:2px}
   .pf-line{margin-top:16px;font-size:13px;color:#8a93a8;line-height:2}
   .pf-line em{color:#c96a6a;font-style:normal}
-  .pf-go{display:block;margin:18px auto 0;background:none;border:1px solid #33415e;color:#c7cedb;
+  .pf-go{display:block;margin:18px auto 0;background:none;border:1px solid #a2937e;color:#c7cedb;
     border-radius:8px;padding:10px 30px;font-size:13px;letter-spacing:3px;cursor:pointer}
   .pf-go:hover{border-color:#4a7dd6;color:#7aa3ea}
 </style>
@@ -103,19 +104,19 @@
       <div><span class="when">08月08日 03:08</span> <span class="call" id="cb">回拨</span></div>
     </div>
     <div class="row">
-      <div><span class="num" style="color:#4a5568">爸</span></div>
+      <div><span class="num" style="color:#998b78">爸</span></div>
       <div><span class="when">最重要的那天 · 未接。后来你赢了。</span></div>
     </div>
     <div class="row">
-      <div><span class="num" style="color:#4a5568">妈（已停机）</span></div>
+      <div><span class="num" style="color:#998b78">妈（已停机）</span></div>
       <div><span class="when">很多年前 · 最后一次</span></div>
     </div>
     <div class="row">
-      <div><span class="num" style="color:#4a5568">（存储后删除）</span></div>
+      <div><span class="num" style="color:#998b78">（存储后删除）</span></div>
       <div><span class="when">通话 8 分 08 秒 · 双方均未说话 · 有一方在听钢琴</span></div>
     </div>
     <div class="row">
-      <div><span class="num" style="color:#4a5568">（没有备注）</span></div>
+      <div><span class="num" style="color:#998b78">（没有备注）</span></div>
       <div><span class="when">已拨出 · 8 秒 · 没有说话</span></div>
     </div>
   </div>
@@ -186,7 +187,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){

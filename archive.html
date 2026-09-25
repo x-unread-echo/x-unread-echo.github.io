@@ -4,38 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>心理健康档案系统 v8.08</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
   body{background:#080b11}
   .wrapa{max-width:860px;margin:0 auto;padding:34px 20px 110px}
-  .sysbar{background:#101827;border:1px solid #1c2c4a;padding:8px 16px;font-size:12px;color:#5a6a84;letter-spacing:2px;display:flex;justify-content:space-between}
-  .panel{background:#0e141d;border:1px solid #1c2c4a;border-radius:6px;margin:22px 0;padding:24px 28px}
-  .panel h2{color:#aebfd8;font-size:16px;letter-spacing:6px;margin-bottom:16px;border-left:3px solid #3a5080;padding-left:12px}
+  .sysbar{background:#fbf6ea;border:1px solid #d3c0a0;padding:8px 16px;font-size:12px;color:#998b78;letter-spacing:2px;display:flex;justify-content:space-between}
+  .panel{background:#f7f1e2;border:1px solid #d3c0a0;border-radius:6px;margin:22px 0;padding:24px 28px}
+  .panel h2{color:#6f6353;font-size:16px;letter-spacing:6px;margin-bottom:16px;border-left:3px solid #3a5080;padding-left:12px}
   .file{display:flex;gap:26px;flex-wrap:wrap}
-  .photo-empty{width:120px;height:150px;flex-shrink:0;border:1px dashed #1c2c4a;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#2c3a55;font-size:11px;letter-spacing:3px}
+  .photo-empty{width:120px;height:150px;flex-shrink:0;border:1px dashed #d3c0a0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#a89a85;font-size:11px;letter-spacing:3px}
   .photo-empty::before{content:"📷";opacity:.25;font-size:22px;filter:grayscale(1)}
   .redact{background:#04060a;color:#04060a;padding:1px 10px;border-radius:2px;cursor:pointer;user-select:none;transition:all .4s}
   .redact:hover{background:#04060a}
   .kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14px}
-  .kv dt{color:#5a6a84;letter-spacing:2px;white-space:nowrap}
-  .kv dd{color:#c9d6ea}
-  .hw{color:#8b9ab5;font-family:"Kaiti SC","STKaiti",serif;background:#0d1626;padding:8px 14px;border-radius:4px;display:inline-block;transform:rotate(-1deg)}
-  .ecg{width:100%;height:110px;background:#0a0f18;border:1px solid #1c2c4a;border-radius:4px;position:relative;overflow:hidden}
+  .kv dt{color:#998b78;letter-spacing:2px;white-space:nowrap}
+  .kv dd{color:#4a4238}
+  .hw{color:#6f6353;font-family:"Kaiti SC","STKaiti",serif;background:#f7f1e2;padding:8px 14px;border-radius:4px;display:inline-block;transform:rotate(-1deg)}
+  .ecg{width:100%;height:110px;background:#0a0f18;border:1px solid #d3c0a0;border-radius:4px;position:relative;overflow:hidden}
   .ecg svg{width:100%;height:100%}
   .lamp{width:16px;height:16px;border-radius:50%;background:#13203a;border:1px solid #223356;transition:all .1s;display:inline-block;margin-right:10px;vertical-align:middle}
-  .lamp.on{background:#e8edf5;box-shadow:0 0 16px #aebfd8}
-  .strip{font-family:var(--mono);color:#aebfd8;letter-spacing:4px;min-height:24px;margin-top:10px;font-size:15px}
-  .morsechart{color:#5a6a84;font-size:12.5px;line-height:2.2;margin-top:12px;letter-spacing:1px}
-  .morsechart b{color:#8b9ab5;font-family:var(--mono)}
+  .lamp.on{background:#453c31;box-shadow:0 0 16px #6f6353}
+  .strip{font-family:var(--mono);color:#6f6353;letter-spacing:4px;min-height:24px;margin-top:10px;font-size:15px}
+  .morsechart{color:#998b78;font-size:12.5px;line-height:2.2;margin-top:12px;letter-spacing:1px}
+  .morsechart b{color:#6f6353;font-family:var(--mono)}
   .qbox{display:none}
   .qbox.show{display:block;animation:fadein .7s ease both}
-  .q{color:#c9d6ea;font-size:15px;margin:20px 0 12px;letter-spacing:1px}
-  .opts label{display:block;color:#9fb0ca;padding:8px 14px;border:1px solid #16233d;border-radius:4px;margin:7px 0;cursor:pointer;transition:all .2s;font-size:14px}
-  .opts label:hover{border-color:#3a5080;color:#dfe5ee}
+  .q{color:#4a4238;font-size:15px;margin:20px 0 12px;letter-spacing:1px}
+  .opts label{display:block;color:#6f6353;padding:8px 14px;border:1px solid #16233d;border-radius:4px;margin:7px 0;cursor:pointer;transition:all .2s;font-size:14px}
+  .opts label:hover{border-color:#3a5080;color:#453c31}
   .opts input{display:none}
-  .opts input:checked + span{color:#e8edf5}
+  .opts input:checked + span{color:#453c31}
   .opts label:has(input:checked){border-color:#4a7dd6;background:#101d38}
-  .result8{display:none;background:#0d1626;border:1px solid #1c3a38;border-radius:6px;padding:20px;margin-top:18px}
+  .result8{display:none;background:#f7f1e2;border:1px solid #c9d4c0;border-radius:6px;padding:20px;margin-top:18px}
   .result8.show{display:block;animation:fadein 1s ease both}
   .bignum{font-family:var(--mono);color:#4f8f8b;font-size:34px;letter-spacing:3px}
   #chatpop{
@@ -44,8 +45,8 @@
   }
   #chatpop.show{display:flex}
   .chatcard{background:#0c1526;border:1px solid #223356;border-radius:14px;padding:26px 30px;max-width:400px}
-  .chatcard .who{color:#8b9ab5;font-size:12px;letter-spacing:3px;margin-bottom:12px}
-  .chatcard .msg{color:#e8edf5;font-size:17px;letter-spacing:2px;line-height:2;min-height:60px}
+  .chatcard .who{color:#6f6353;font-size:12px;letter-spacing:3px;margin-bottom:12px}
+  .chatcard .msg{color:#453c31;font-size:17px;letter-spacing:2px;line-height:2;min-height:60px}
   .door{margin-top:26px;text-align:center;display:none}
   .door.show{display:block;animation:fadein 1s ease both}
 </style>
@@ -65,8 +66,8 @@
         <dt>姓名</dt><dd><span class="redact" id="redact" title="……">████████</span></dd>
         <dt>编号</dt><dd>08-0808</dd>
         <dt>主诉</dt><dd>「我一切正常。」（自述，微笑）</dd>
-        <dt>观察记录</dt><dd>就诊全程保持幽默感，且笑得很好看。<br><span class="small" style="color:#5a6a84">记录员备注：他熟练得让人心疼。这一项练过很多年。</span></dd>
-        <dt>评估</dt><dd>「未见明显异常。」<br><span class="small" style="color:#5a6a84">记录员备注：未见，不等于没有。有些屋子收拾得太干净，恰恰是因为里面东西最多。</span></dd>
+        <dt>观察记录</dt><dd>就诊全程保持幽默感，且笑得很好看。<br><span class="small" style="color:#998b78">记录员备注：他熟练得让人心疼。这一项练过很多年。</span></dd>
+        <dt>评估</dt><dd>「未见明显异常。」<br><span class="small" style="color:#998b78">记录员备注：未见，不等于没有。有些屋子收拾得太干净，恰恰是因为里面东西最多。</span></dd>
         <dt>危险备注</dt><dd>「他比谁都擅长让别人放心。」</dd>
         <dt>笔迹样本</dt><dd><span class="hw">我只是……只是……</span><div class="small" style="margin-top:6px">样本笔迹与本系统内所有档案批注笔迹一致。</div></dd>
       </dl>
@@ -121,7 +122,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 if (DJ.gate(10)) main();
 function main(){
@@ -217,7 +218,7 @@ function main(){
     const r = $("result8"); r.classList.add("show");
     r.innerHTML = `<div class="small">评分完成（24 分制）</div>
       <div class="bignum">${score} 分</div>
-      <div style="color:#c9d6ea;margin-top:8px;letter-spacing:1px">结论：${score >= 16 ? "抑郁状态（掩饰良好）。他答得太快了，像提前背好的。" : "状态起伏。注意第 8 题的作答用时——他犹豫了多久？"}
+      <div style="color:#4a4238;margin-top:8px;letter-spacing:1px">结论：${score >= 16 ? "抑郁状态（掩饰良好）。他答得太快了，像提前背好的。" : "状态起伏。注意第 8 题的作答用时——他犹豫了多久？"}
       <br><span class="small">系统提示：本卷成绩将作为 8 号房间的门禁码。门禁码从来不是数字，是有人愿意替他认真答完这一卷。</span></div>`;
     DJ.flag("quiz_done"); DJ.addIncense(2); DJ.sfx.ok();
     maybeFinish();

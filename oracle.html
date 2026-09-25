@@ -4,24 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>第八茶室 — 在线 8 人</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
   body{background:#05070c;font-family:"Courier New","PingFang SC",monospace;color:#b8c2d4;overflow-x:hidden}
   .o-wrap{max-width:640px;margin:0 auto;padding:5vh 18px 90px;min-height:88vh}
   .o-head{border:1px solid #1a2333;background:#0a0e16;border-radius:10px 10px 0 0;padding:12px 16px;
     display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:2px}
   .o-head .dot{color:#5fae6f}
-  .o-head .min{font-size:11px;color:#4a5568;cursor:pointer}
+  .o-head .min{font-size:11px;color:#998b78;cursor:pointer}
   .o-body{display:flex;border:1px solid #1a2333;border-top:none;border-radius:0 0 10px 10px;min-height:52vh;background:#070a11}
   .o-users{width:150px;border-right:1px solid #111826;padding:12px;font-size:11.5px;color:#5a667e;flex-shrink:0}
-  .o-users .h{color:#4a5568;letter-spacing:2px;margin-bottom:8px}
+  .o-users .h{color:#998b78;letter-spacing:2px;margin-bottom:8px}
   .o-users div{padding:3px 0;letter-spacing:1px}
   .o-users div.dim{color:#333e52}
   .o-chat{flex:1;padding:14px 16px;overflow-y:auto;max-height:60vh;font-size:13.5px;line-height:1.7}
   .m{margin-bottom:12px;animation:fadeup .5s}
   @keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .m .who{font-size:11px;color:#4a7dd6;letter-spacing:1px;margin-bottom:2px}
-  .m.sys .who{color:#4a5568}
+  .m.sys .who{color:#998b78}
   .m .tx{color:#c7cedb;word-break:break-all}
   .m.sys .tx{color:#5a667e;font-size:12px}
   .m.host .who{color:#8a6ac6}
@@ -39,10 +40,10 @@
   #choose .q{font-size:17px;letter-spacing:3px;color:#c7cedb;line-height:2.2;max-width:420px}
   #choose .q em{color:#8a6ac6;font-style:normal}
   .cbtns{display:flex;gap:20px;margin-top:34px}
-  .cbtns button{background:#0a0e16;border:1px solid #33415e;color:#c7cedb;border-radius:8px;
+  .cbtns button{background:#0a0e16;border:1px solid #a2937e;color:#c7cedb;border-radius:8px;
     padding:14px 34px;font-size:15px;letter-spacing:4px;cursor:pointer;font-family:inherit}
   .cbtns button:hover{border-color:#8a6ac6;color:#b9a3ea}
-  .loopnote{margin-top:26px;font-size:12px;color:#4a5568;letter-spacing:2px;min-height:18px}
+  .loopnote{margin-top:26px;font-size:12px;color:#998b78;letter-spacing:2px;min-height:18px}
 </style>
 </head>
 <body>
@@ -73,7 +74,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 if (DJ.gate(4)) main();
 function main(){
@@ -217,7 +218,7 @@ function main(){
       setTimeout(()=>{
         $("choose").classList.add("on");
         $("loopnote").textContent = notes[loops - 1] || "";
-        $("cq").innerHTML = "他又问了一遍：<em>「你要渡我，还是先渡你自己？」</em><br>" + (loops >= 2 ? "<span style='font-size:12px;color:#4a5568'>（好像有哪里不一样了。名单……）</span>" : "");
+        $("cq").innerHTML = "他又问了一遍：<em>「你要渡我，还是先渡你自己？」</em><br>" + (loops >= 2 ? "<span style='font-size:12px;color:#998b78'>（好像有哪里不一样了。名单……）</span>" : "");
       }, 600 + short.length * 1600 + 1800);
     }
   }

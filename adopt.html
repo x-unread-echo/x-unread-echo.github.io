@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>猫屋 — 同城领养 · 银灰卷毛</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
   body{background:#f2f4f7;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .a-wrap{max-width:460px;margin:0 auto;padding:4vh 18px 90px}
@@ -17,7 +18,7 @@
   .photo{height:190px;position:relative;
     background:linear-gradient(140deg,#b9bfc9 0%,#9aa2af 45%,#7d8593 100%)}
   .photo .cat{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);font-size:100px;filter:grayscale(.6) contrast(.9)}
-  .photo .un{position:absolute;top:12px;right:14px;background:rgba(0,0,0,.45);color:#eee;font-size:10px;
+  .photo .un{position:absolute;top:12px;right:14px;background:rgba(92,72,44,.45);color:#eee;font-size:10px;
     padding:4px 8px;border-radius:4px;letter-spacing:1px}
   .c-body{padding:14px 16px}
   .c-title{font-size:16px;font-weight:700;letter-spacing:1px}
@@ -55,7 +56,7 @@
   #map{display:none;margin-top:16px}
   #map.on{display:block;animation:fadein 1.2s}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
-  .mapbox{height:230px;background:#060a12;border-radius:14px;position:relative;overflow:hidden}
+  .mapbox{height:230px;background:#efe5d2;border-radius:14px;position:relative;overflow:hidden}
   .mapbox .grid{position:absolute;inset:0;
     background-image:linear-gradient(#141c2c 1px,transparent 1px),linear-gradient(90deg,#141c2c 1px,transparent 1px);
     background-size:34px 34px}
@@ -66,20 +67,20 @@
   .mapbox .coord em{color:#e05555;font-style:normal}
   .mapnote{margin-top:12px;font-size:12.5px;color:#5a6274;line-height:2;text-align:center}
   .mapnote em{color:#c0564f;font-style:normal}
-  .mapgo{margin-top:12px;width:100%;border:1px solid #33415e;background:none;color:#2a2f3a;border-radius:8px;
+  .mapgo{margin-top:12px;width:100%;border:1px solid #a2937e;background:none;color:#2a2f3a;border-radius:8px;
     padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer}
   .mapgo:hover{border-color:#c0564f;color:#c0564f}
   /* 卫星图三连放大 */
   #sat{display:none;margin-top:16px}
   #sat.on{display:block;animation:fadein 1.2s}
   .satbox{height:270px;background:#05080f;border-radius:14px;position:relative;overflow:hidden;
-    cursor:zoom-in;border:1px solid #1a2436}
+    cursor:zoom-in;border:1px solid #f7f1e2}
   .satbox .dunes{position:absolute;inset:-30%;transition:transform 1.4s ease;background:
     radial-gradient(ellipse 60% 16% at 30% 62%, #111826 0%, transparent 60%),
     radial-gradient(ellipse 50% 13% at 72% 38%, #0d1320 0%, transparent 60%),
     radial-gradient(ellipse 70% 18% at 48% 82%, #0a0f1a 0%, transparent 55%),
     radial-gradient(ellipse 40% 10% at 18% 30%, #0c1220 0%, transparent 60%),
-    #060a12}
+    #efe5d2}
   .satbox.z1 .dunes{transform:scale(1.7) translate(4%, -3%)}
   .satbox.z2 .dunes{transform:scale(2.7) translate(8%, -6%)}
   .track{position:absolute;left:6%;top:36%;width:112%;height:3px;
@@ -125,7 +126,7 @@
     <div class="mapbox">
       <div class="grid"></div>
       <div class="dot"></div>
-      <div class="coord">N 38°45′<em>08″</em>&nbsp; E 93°23′<em>08″</em><br><span style="color:#4a5568">此处没有路，没有门牌。图上是一块黑的。</span></div>
+      <div class="coord">N 38°45′<em>08″</em>&nbsp; E 93°23′<em>08″</em><br><span style="color:#998b78">此处没有路，没有门牌。图上是一块黑的。</span></div>
     </div>
     <div class="mapnote">
       导航显示：目的地附近 <em>8 公里</em> 内没有任何参照物。<br>
@@ -148,7 +149,7 @@
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 if (DJ.gate(7)) main();
 function main(){

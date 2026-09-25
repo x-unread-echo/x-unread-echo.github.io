@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>云屉 — 你的每一次回忆，都值得被妥善存放</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
   body{background:#101418;font-family:-apple-system,"PingFang SC",sans-serif;color:#d5dbe6}
   .c-wrap{max-width:900px;margin:0 auto;padding:0 18px 100px}
@@ -21,7 +22,7 @@
   .folder:hover{border-color:#3a5080}
   .folder .ficon{font-size:30px;color:#4a7dd6}
   .folder.locked .ficon{color:#5a6274}
-  .folder .fname{margin-top:8px;font-size:14px;color:#dfe5ee;letter-spacing:1px}
+  .folder .fname{margin-top:8px;font-size:14px;color:#453c31;letter-spacing:1px}
   .folder .fmeta{color:#4d586c;font-size:11px;margin-top:4px;letter-spacing:.5px}
   .folder.locked .fmeta{color:#6b5d4a}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
@@ -29,7 +30,7 @@
   .ph:hover{transform:translateY(-3px)}
   .ph img{width:100%;height:150px;object-fit:cover;display:block;filter:saturate(.85)}
   .ph .pc{padding:10px 12px}
-  .ph .pn{font-size:13px;color:#dfe5ee}
+  .ph .pn{font-size:13px;color:#453c31}
   .ph .pd{font-size:11px;color:#4d586c;margin-top:4px;line-height:1.7;letter-spacing:.3px}
   /* 大图 */
   #lightbox{position:fixed;inset:0;background:rgba(4,7,12,.94);display:none;z-index:50;
@@ -42,17 +43,17 @@
   #lockbox{position:fixed;inset:0;background:rgba(4,7,12,.9);display:none;z-index:60;align-items:center;justify-content:center}
   #lockbox.show{display:flex}
   .lockcard{background:#141b24;border:1px solid #2a3542;border-radius:12px;padding:34px 40px;text-align:center;width:min(360px,90vw)}
-  .lockcard h3{color:#dfe5ee;letter-spacing:4px;font-size:16px;font-weight:600}
+  .lockcard h3{color:#453c31;letter-spacing:4px;font-size:16px;font-weight:600}
   .lockcard .ltip{color:#4d586c;font-size:12px;margin:12px 0 18px;letter-spacing:1px;line-height:1.9}
   .lockcard input{text-align:center;letter-spacing:4px;margin-bottom:12px}
   .lockerr{color:#c0564f;font-size:12px;min-height:18px;letter-spacing:2px}
   .navlinks a{color:#4a7dd6;text-decoration:none;font-size:12.5px}
   /* 文件卡（亥时文件夹） */
-  .ph.doc .docbody{height:150px;overflow:auto;padding:14px;font-size:12.5px;color:#9fb0ca;
+  .ph.doc .docbody{height:150px;overflow:auto;padding:14px;font-size:12.5px;color:#6f6353;
     line-height:2;white-space:pre-wrap;background:#121826}
-  .docbody b{color:#dfe5ee}
-  .ehl{color:#dfe5ee;border-bottom:1px dotted #4f8f8b}
-  #hxview .ph.playing .docbody{color:#dfe5ee}
+  .docbody b{color:#453c31}
+  .ehl{color:#453c31;border-bottom:1px dotted #4f8f8b}
+  #hxview .ph.playing .docbody{color:#453c31}
   .wprogress{height:3px;background:#1c2740;border-radius:2px;margin-top:10px;overflow:hidden}
   .wprogress i{display:block;height:100%;width:0;background:#4f8f8b;transition:width 8s linear}
 </style>
@@ -126,7 +127,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 if (DJ.gate(8)) main();
 function main(){
@@ -139,7 +140,7 @@ function main(){
   document.querySelectorAll(".ph").forEach(p => {
     p.onclick = () => {
       $("lbImg").src = "assets/media/" + p.dataset.img;
-      $("lbMeta").innerHTML = "<b style='color:#dfe5ee'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
+      $("lbMeta").innerHTML = "<b style='color:#453c31'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
       $("lbBurn").style.opacity = 0;
       $("lightbox").classList.add("show");
       DJ.sfx.click();
@@ -169,7 +170,7 @@ function main(){
           <img src="assets/media/butterfly.png" alt="" style="filter:brightness(.35)"><div class="pc"><div class="pn">注意.txt</div><div class="pd">8月8日 · 加密相册</div></div></div>`;
       document.querySelectorAll(".ph").forEach(p => p.onclick = () => {
         $("lbImg").src = "assets/media/" + p.dataset.img;
-        $("lbMeta").innerHTML = "<b style='color:#dfe5ee'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
+        $("lbMeta").innerHTML = "<b style='color:#453c31'>" + p.dataset.name + "</b><br>" + esc(p.dataset.desc);
         $("lbBurn").style.opacity = 0;
         $("lightbox").classList.add("show");
       });
@@ -203,7 +204,7 @@ function main(){
   $("hx1").onclick = () => { if (!hxOpen.hx1){ DJ.sfx.type(); } hxMark("hx1"); };
   $("hx2").onclick = () => {
     $("lbImg").src = "assets/media/butterfly.png";
-    $("lbMeta").innerHTML = "<b style='color:#dfe5ee'>白蝶.jpg</b><br>趴在断墙上。黑白。<br>已经不动了。但翅膀是张开的，像随时准备飞。<br>你手机里那张照片，构图和它一模一样。<br>——不是他模仿了蝴蝶。是他把蝴蝶摆好，才拍的。";
+    $("lbMeta").innerHTML = "<b style='color:#453c31'>白蝶.jpg</b><br>趴在断墙上。黑白。<br>已经不动了。但翅膀是张开的，像随时准备飞。<br>你手机里那张照片，构图和它一模一样。<br>——不是他模仿了蝴蝶。是他把蝴蝶摆好，才拍的。";
     $("lbBurn").style.opacity = 0;
     $("lightbox").classList.add("show");
     hxMark("hx2");
@@ -214,7 +215,7 @@ function main(){
     if (radioPlayed) return;
     radioPlayed = true;
     $("hx3").classList.add("playing");
-    $("radioHint").innerHTML = `<span style="color:#dfe5ee">正在播放……</span><div class="wprogress"><i id="wpb"></i></div>`;
+    $("radioHint").innerHTML = `<span style="color:#453c31">正在播放……</span><div class="wprogress"><i id="wpb"></i></div>`;
     requestAnimationFrame(() => { const b = $("wpb"); if (b) b.style.width = "100%"; });
     DJ.sfx.read();
     setTimeout(() => {

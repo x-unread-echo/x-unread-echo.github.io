@@ -1,9 +1,9 @@
 /* 《大吉》共享样式 —— 深夜蓝体系 */
 :root{
-  --bg:#070d18; --bg2:#0a1220; --panel:#0c1526; --panel2:#101c33;
-  --line:#1c2c4a; --ink:#c9d6ea; --dim:#6d80a0; --faint:#42536f;
-  --blue:#4a7dd6; --moon:#aebfd8; --white:#f2f5fa; --teal:#4f8f8b;
-  --warn:#c0564f; --paper:#dfe5ee;
+  --bg:#efe5d2; --bg2:#0a1220; --panel:#0c1526; --panel2:#fbf6ea;
+  --line:#d3c0a0; --ink:#4a4238; --dim:#998b78; --faint:#998b78;
+  --blue:#4a7dd6; --moon:#6f6353; --white:#f2f5fa; --teal:#4f8f8b;
+  --warn:#c0564f; --paper:#453c31;
   --serif:"Songti SC","Noto Serif SC","STSong",serif;
   --mono:"SF Mono",Menlo,Consolas,monospace;
 }
@@ -53,7 +53,7 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14
   position:fixed;top:-38px;right:-26px;width:140px;height:140px;border-radius:50%;
   background:radial-gradient(circle at 38% 38%, #dfe7f2 0%, #b9c7dd 45%, #8fa2bd 100%);
   opacity:.13;pointer-events:none;filter:blur(1.5px);
-  box-shadow:0 0 90px 34px rgba(174,191,216,.06);
+  box-shadow:0 0 90px 34px rgba(255,252,245,.06);
   z-index:-1;
 }
 @media (max-width:560px){
@@ -123,17 +123,17 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14
 #djtoast{
   position:fixed;right:26px;bottom:26px;z-index:200;
   background:rgba(13,22,38,.92);border:1px solid #2c4468;border-radius:4px;
-  color:#aebfd8;font-size:12px;letter-spacing:3px;padding:10px 18px;
+  color:#6f6353;font-size:12px;letter-spacing:3px;padding:10px 18px;
   opacity:0;transform:translateY(8px);transition:all .9s ease;pointer-events:none;
-  box-shadow:0 4px 24px rgba(0,0,0,.5);
+  box-shadow:0 4px 24px rgba(92,72,44,.5);
 }
 #djtoast.show{opacity:1;transform:translateY(0)}
 
 /* ---------- v5.1 全站质感升级 ---------- */
 ::-webkit-scrollbar{width:10px}
-::-webkit-scrollbar-track{background:#070d18}
-::-webkit-scrollbar-thumb{background:#1c2c4a;border-radius:5px;border:2px solid #070d18}
-::-webkit-scrollbar-thumb:hover{background:#2c3a55}
+::-webkit-scrollbar-track{background:#efe5d2}
+::-webkit-scrollbar-thumb{background:#d3c0a0;border-radius:5px;border:2px solid #efe5d2}
+::-webkit-scrollbar-thumb:hover{background:#a89a85}
 .btn{position:relative}
 .btn:active{transform:translateY(1px)}
 @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -143,6 +143,6 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14
 .panel{
   background:linear-gradient(160deg,var(--panel) 0%,var(--bg2) 100%);
   border:1px solid var(--line);border-radius:10px;
-  box-shadow:0 10px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(174,191,216,.04);
+  box-shadow:0 10px 40px rgba(92,72,44,.35), inset 0 1px 0 rgba(255,252,245,.04);
 }
-.divbox{box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.divbox{box-shadow:0 20px 60px rgba(92,72,44,.5)}

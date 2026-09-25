@@ -4,22 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>　</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=55">
+<link rel="stylesheet" href="assets/retro.css?v=55">
 <style>
-  body{background:#04070d}
+  body{background:#efe5d2}
   .stage{transition:opacity 1.2s}
   .stage.hide{opacity:0;pointer-events:none}
 
   /* 密码框 */
-  #pLabel{color:#aebfd8;letter-spacing:14px;font-size:20px;margin-bottom:30px}
+  #pLabel{color:#6f6353;letter-spacing:14px;font-size:20px;margin-bottom:30px}
   #pw{max-width:320px;text-align:center;font-size:17px;letter-spacing:6px}
-  #pwTip{color:#42536f;font-size:12px;letter-spacing:3px;margin-top:16px;min-height:20px}
-  #failCount{color:#33415e;font-size:11px;letter-spacing:2px;margin-top:8px}
+  #pwTip{color:#998b78;font-size:12px;letter-spacing:3px;margin-top:16px;min-height:20px}
+  #failCount{color:#a2937e;font-size:11px;letter-spacing:2px;margin-top:8px}
 
   /* 留白 */
   #paper{
-    width:min(480px,90vw);height:340px;background:#dfe5ee;border-radius:3px;
-    box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative;padding:30px;
+    width:min(480px,90vw);height:340px;background:#453c31;border-radius:3px;
+    box-shadow:0 20px 60px rgba(92,72,44,.6);position:relative;padding:30px;
     display:flex;align-items:center;justify-content:center;transform:rotate(-.6deg);
   }
   #paper input{background:transparent;border:none;border-bottom:1px solid #b9c2d2;border-radius:0;
@@ -30,15 +31,15 @@
     align-items:center;justify-content:center;z-index:100}
   #endo.show{display:flex;animation:fadein 2.5s ease both}
   #bflyLogo{margin-bottom:40px}
-  #readlog{color:#6d80a0;font-size:13px;letter-spacing:3px;line-height:2.4;text-align:center;min-height:120px}
+  #readlog{color:#998b78;font-size:13px;letter-spacing:3px;line-height:2.4;text-align:center;min-height:120px}
   .readline{opacity:0;transition:opacity .8s}
   .readline.on{opacity:1}
-  #synth{margin-top:22px;color:#8b9ab5;font-size:13.5px;letter-spacing:3px;line-height:2.6;text-align:center;min-height:20px}
-  #synth .kline{color:#aebfd8}
-  #mirrorFinal{margin-top:30px;color:#e8edf5;font-size:17px;letter-spacing:6px;opacity:0;transition:opacity 2.5s}
-  #credits{margin-top:46px;color:#33415e;font-size:11.5px;letter-spacing:4px;opacity:0;transition:opacity 2s;text-align:center;line-height:2.4}
-  #credits a{color:#5a6a84;text-decoration:none;letter-spacing:4px}
-  #credits a:hover{color:#aebfd8}
+  #synth{margin-top:22px;color:#6f6353;font-size:13.5px;letter-spacing:3px;line-height:2.6;text-align:center;min-height:20px}
+  #synth .kline{color:#6f6353}
+  #mirrorFinal{margin-top:30px;color:#453c31;font-size:17px;letter-spacing:6px;opacity:0;transition:opacity 2.5s}
+  #credits{margin-top:46px;color:#a2937e;font-size:11.5px;letter-spacing:4px;opacity:0;transition:opacity 2s;text-align:center;line-height:2.4}
+  #credits a{color:#998b78;text-decoration:none;letter-spacing:4px}
+  #credits a:hover{color:#6f6353}
 </style>
 </head>
 <body>
@@ -76,13 +77,13 @@
     <br>
     <a href="chat.html">回到未读</a><br>
     <br>
-    <span id="saveCard" style="display:none;color:#aebfd8;border:1px solid #2c3a52;border-radius:3px;
+    <span id="saveCard" style="display:none;color:#6f6353;border:1px solid #b8a888;border-radius:3px;
       padding:7px 22px;cursor:pointer;letter-spacing:4px">◈ 保存一张卡片，替他发出去</span>
   </div>
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=55"></script>
 <script>
 if (DJ.gate(12)) main();
 function main(){
@@ -139,7 +140,7 @@ function main(){
       $("blankInput").value = "";
       $("blankInput").placeholder = v ? "「" + v + "」" : "（空白也是答案）";
       $("blankTip").textContent = "你终于不再试图寻找标准答案了。";
-      $("blankTip").style.color = "#aebfd8";
+      $("blankTip").style.color = "#6f6353";
       DJ.sfx.ok();
       setTimeout(endo, 3200);
     }
@@ -171,7 +172,7 @@ function main(){
           setTimeout(() => {
             const last = document.createElement("div");
             last.className = "readline";
-            last.innerHTML = "<span style='color:#aebfd8'>已读 08:08</span>";
+            last.innerHTML = "<span style='color:#6f6353'>已读 08:08</span>";
             log.appendChild(last);
             requestAnimationFrame(() => last.classList.add("on"));
             DJ.sfx.read();
@@ -257,9 +258,9 @@ function main(){
     c.width = 720; c.height = 960;
     const x = c.getContext("2d");
     /* 底 */
-    x.fillStyle = "#04070d"; x.fillRect(0, 0, 720, 960);
+    x.fillStyle = "#efe5d2"; x.fillRect(0, 0, 720, 960);
     /* 边框 */
-    x.strokeStyle = "#1c2c4a"; x.lineWidth = 1;
+    x.strokeStyle = "#d3c0a0"; x.lineWidth = 1;
     x.strokeRect(28, 28, 664, 904);
     /* 白蝴蝶（与游戏 LOGO 同一笔迹） */
     const wing = new Path2D("M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z");
@@ -267,38 +268,38 @@ function main(){
     const body = new Path2D("M12 11.4 a1.2 3.2 0 1 0 0.001 0 Z");
     x.save();
     x.translate(360 - 150, 150); x.scale(14.3, 14.3);
-    x.fillStyle = "#dfe5ee";
+    x.fillStyle = "#453c31";
     x.fill(wing); x.fill(wing2); x.fill(body);
     x.restore();
     /* 名字 */
     x.textAlign = "center";
-    x.fillStyle = "#e8edf5";
+    x.fillStyle = "#453c31";
     x.font = "300 44px 'Songti SC','STSong',serif";
     x.fillText((DJ.state.name || "X").split("").join(" "), 360, 470);
     /* 已读 */
-    x.fillStyle = "#6d80a0";
+    x.fillStyle = "#998b78";
     x.font = "300 22px 'PingFang SC',sans-serif";
     x.fillText("已 读  0 8 : 0 8", 360, 560);
     /* 留白答案（若有） */
     const blank = (DJ.state.blank || "").trim();
     if (blank){
-      x.fillStyle = "#8b9ab5";
+      x.fillStyle = "#6f6353";
       x.font = "300 19px 'Songti SC','STSong',serif";
       x.fillText("「" + blank.slice(0, 12) + "」", 360, 620);
     } else {
-      x.fillStyle = "#33415e";
+      x.fillStyle = "#a2937e";
       x.font = "300 17px 'Songti SC','STSong',serif";
       x.fillText("（空白也是答案）", 360, 620);
     }
     /* 大吉印 */
     x.fillStyle = "#9e3f39";
     x.fillRect(312, 700, 96, 96);
-    x.fillStyle = "#f4e9e4";
+    x.fillStyle = "#5a4436";
     x.font = "600 34px 'Songti SC','STSong',serif";
     x.fillText("大", 360, 740);
     x.fillText("吉", 360, 782);
     /* 落款 */
-    x.fillStyle = "#33415e";
+    x.fillStyle = "#a2937e";
     x.font = "300 15px 'PingFang SC',sans-serif";
     x.fillText("《 大 吉 》 · 通 关 纪 念 · 黑 底 白 蝴 蝶", 360, 880);
     /* 下载 */
