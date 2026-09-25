@@ -41,6 +41,24 @@ const DJ = (() => {
       setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 900); }, 3400);
     } catch (e) {}
   };
+  /* ---- 浏览器后退守卫：按后退 = 回到上一章，而不是被扔回序章 ---- */
+  const CH_PAGES = { 1:"dial.html", 2:"chat.html", 3:"guanyun.html", 4:"oracle.html", 5:"forum.html", 6:"ledger.html", 7:"adopt.html", 8:"ruins.html", 9:"mask.html", 10:"archive.html", 11:"echo8.html", 12:"final.html" };
+  function installBackGuard(ch){
+    if (ch <= 1 || window.__dajiBackGuard) return;
+    window.__dajiBackGuard = ch;
+    try {
+      history.replaceState({ daji: ch, cur: 1 }, "");
+      history.pushState({ daji: ch, open: 1 }, "");
+      window.addEventListener("popstate", (e) => {
+        /* 只响应我们自己埋的状态位；页面内 # 锚点跳转 state 为 null，不会误触 */
+        if (e.state && e.state.cur){
+          const prev = CH_PAGES[ch - 1];
+          if (prev) location.replace(prev);
+        }
+      });
+    } catch (err) {}
+  }
+
   const api = {
     state: s,
     save,
@@ -65,9 +83,10 @@ const DJ = (() => {
     },
     rvOf(key) { return (s.rv && s.rv[key]) || 0; },
     addIncense(n) { s.incense = Math.max(0, s.incense + n); save(); },
-    /** 页面门禁：未解锁则踢回序章 */
+    /** 页面门禁：未解锁则踢回序章；通过则装上"后退=上一章"守卫 */
     gate(ch) {
       if (s.chapter < ch) { location.href = "index.html?locked=1"; return false; }
+      installBackGuard(ch);
       return true;
     },
     unlock(ch) {
