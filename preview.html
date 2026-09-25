@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主页样式菜单 · 选一个</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#efece6;color:#2e3a33;padding:26px 18px 60px}
+  h1{text-align:center;font-size:19px;letter-spacing:5px;font-weight:600;margin-bottom:6px}
+  .sub{text-align:center;color:#8a8578;font-size:12.5px;letter-spacing:2px;margin-bottom:26px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px;max-width:1200px;margin:0 auto}
+  .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 34px rgba(60,55,40,.14);cursor:pointer;
+    transition:transform .18s, box-shadow .18s;position:relative}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(60,55,40,.2)}
+  .card.picked{outline:3px solid #3f7d5c}
+  .shot{height:300px;overflow:hidden;position:relative}
+  .shot .inner{width:460px;transform:scale(.78);transform-origin:0 0}
+  .tag{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;
+    letter-spacing:2px;padding:5px 12px;border-radius:99px;backdrop-filter:blur(4px)}
+  .pickbar{padding:13px 16px;display:flex;align-items:center;justify-content:space-between}
+  .pickbar b{font-size:14.5px;letter-spacing:2px}
+  .pickbar span{font-size:11.5px;color:#9a958a;letter-spacing:1px}
+  .done{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(63,125,92,.9);color:#fff;font-size:17px;letter-spacing:4px;z-index:5}
+  .card.picked .done{display:flex}
+
+  /* ===== 样式1 · 极简信纸 ===== */
+  .s1{background:#fdfcf8;width:460px;height:390px;padding:40px 44px;position:relative}
+  .s1 .v{text-align:center}
+  .s1 .v h2{font-family:"Songti SC","SimSun",serif;font-size:44px;letter-spacing:14px;font-weight:500;color:#232323}
+  .s1 .v p{font-size:12px;color:#b5b0a2;letter-spacing:6px;margin-top:10px}
+  .s1 .hr{width:44px;height:2px;background:#232323;margin:26px auto}
+  .s1 .ln{border-bottom:1px solid #eceada;margin-top:16px;height:22px}
+  .s1 .num{position:absolute;top:36px;right:40px;font-family:Georgia,serif;font-size:52px;color:#e8e2d2}
+  .s1 .foot{position:absolute;bottom:22px;left:44px;font-size:10.5px;color:#c5c0b2;letter-spacing:3px}
+
+  /* ===== 样式2 · 深夜星球 ===== */
+  .s2{width:460px;height:390px;background:radial-gradient(300px 200px at 70% 20%,#2b3f6e 0%,#141d38 55%,#0a0f22 100%);position:relative;overflow:hidden}
+  .s2 .st{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.7}
+  .s2 .moon{position:absolute;top:44px;right:64px;width:74px;height:74px;border-radius:50%;
+    background:radial-gradient(circle at 34% 34%,#fdf6dd,#e8d9a8 70%,#d4c48f);box-shadow:0 0 44px rgba(248,236,190,.4)}
+  .s2 h2{position:absolute;left:40px;top:150px;color:#eef1fb;font-size:30px;letter-spacing:10px;font-weight:300}
+  .s2 p{position:absolute;left:42px;top:206px;color:#67729c;font-size:12px;letter-spacing:4px}
+  .s2 .rows{position:absolute;left:42px;top:246px;right:42px}
+  .s2 .r{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.09);padding:9px 2px;
+    color:#aeb6d8;font-size:12px;letter-spacing:2px}
+  .s2 .r b{color:#eef1fb;font-weight:400}
+
+  /* ===== 样式3 · 旧时光论坛 ===== */
+  .s3{width:460px;height:390px;background:#f1e9d6;font-family:"Songti SC","SimSun",serif;padding:0}
+  .s3 .hd{background:#274a6e;color:#f5eedd;padding:12px 18px;font-size:16px;letter-spacing:4px}
+  .s3 .nav{background:#37618c;color:#d9e4ef;padding:6px 18px;font-size:11px;letter-spacing:2px}
+  .s3 .bd{padding:12px 18px}
+  .s3 .tb{width:100%;border-collapse:collapse;background:#fbf6ea;border:1px solid #d8cba8}
+  .s3 .tb td{padding:9px 10px;font-size:12.5px;border-bottom:1px dotted #d8cba8;color:#4a4433}
+  .s3 .tb a{color:#1a4f9c;text-decoration:underline}
+  .s3 .tb .c{color:#8a8060;font-size:11px}
+  .s3 .st{color:#a03b30;font-size:11px;border:1px solid #a03b30;padding:0 4px;margin-right:5px}
+
+  /* ===== 样式4 · 粉彩日记 ===== */
+  .s4{width:460px;height:390px;background:repeating-linear-gradient(0deg,#fdf3f0 0 26px,#f7e8e4 26px 27px),#fdf3f0;padding:24px 30px}
+  .s4 h2{font-size:24px;letter-spacing:3px;color:#d97a8a;font-weight:700}
+  .s4 h2 i{font-style:normal;font-size:15px;color:#e8b0ba;margin-left:8px}
+  .s4 .cards{display:flex;gap:12px;margin-top:16px}
+  .s4 .pc{flex:1;background:#fff;border-radius:12px;padding:12px;box-shadow:0 4px 12px rgba(180,120,130,.16)}
+  .s4 .pc .ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:8px}
+  .s4 .pc b{font-size:12.5px;color:#5c4a4e;letter-spacing:1px;display:block}
+  .s4 .pc span{font-size:10.5px;color:#c0a8ad}
+  .s4 .line{margin-top:16px;background:#fff;border-radius:12px;padding:12px 14px;box-shadow:0 4px 12px rgba(180,120,130,.16);
+    font-size:12px;color:#8a6a70;letter-spacing:1px}
+  .s4 .stk{position:absolute;font-size:26px}
+</style>
+</head>
+<body>
+  <h1>主页样式菜单</h1>
+  <div class="sub">点卡片选它 · 选中的会变绿 · 然后告诉 AI 你选的几号</div>
+  <div class="grid">
+
+    <div class="card" onclick="pick(this,1)">
+      <div class="shot"><div class="inner"><div class="s1">
+        <div class="num">08</div>
+        <div class="v"><h2>未 读</h2><p>UNS READ · 三十八则</p><div class="hr"></div></div>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="foot">最后更新于 8 天前 · 访客 1 人</div>
+      </div></div></div>
+      <div class="tag">1 号</div>
+      <div class="pickbar"><b>极简信纸</b><span>大留白 · 衬线字 · 杂志感</span></div>
+      <div class="done">✓ 选了 1 号</div>
+    </div>
+
+    <div class="card" onclick="pick(this,2)">
+      <div class="shot"><div class="inner"><div class="s2">
+        <div class="st" style="top:30px;left:50px"></div><div class="st" style="top:90px;left:180px;opacity:.4"></div>
+        <div class="st" style="top:60px;left:300px"></div><div class="st" style="top:150px;left:90px;opacity:.5"></div>
+        <div class="st" style="top:40px;left:390px"></div><div class="st" style="top:210px;left:340px;opacity:.6"></div>
+        <div class="st" style="top:300px;left:60px;opacity:.5"></div><div class="st" style="top:330px;left:420px"></div>
+        <div class="moon"></div>
+        <h2>未 读</h2><p>月亮不会说话 · 但它一直在</p>
+        <div class="rows">
+          <div class="r"><b>未读（38）</b><span>8 天前</span></div>
+          <div class="r"><b>未接来电 · 8 次</b><span>8 天前</span></div>
+          <div class="r"><b>一面墙</b><span>待拼</span></div>
+        </div>
+      </div></div></div>
+      <div class="tag">2 号</div>
+      <div class="pickbar"><b>深夜星球</b><span>星空月亮 · 梦幻氛围</span></div>
+      <div class="done">✓ 选了 2 号</div>
+    </div>
+
+    <div class="card" onclick="pick(this,3)">
+      <div class="shot"><div class="inner"><div class="s3">
+        <div class="hd">倒影小组 · Reflexion BBS</div>
+        <div class="nav">首页 | 收藏 | 消息(38) | 搜索 | 帮助 | 退出</div>
+        <div class="bd">
+          <table class="tb">
+            <tr><td><span class="st">置顶</span><a>关于那个从来不在线的人</a></td><td class="c">8/8</td></tr>
+            <tr><td><a>有人和我一样失眠吗</a></td><td class="c">回复 8</td></tr>
+            <tr><td><a>整理了一些旧照片</a></td><td class="c">回复 38</td></tr>
+            <tr><td><a>测试帖（勿回）</a></td><td class="c">回复 1</td></tr>
+            <tr><td><a>深夜电台歌单分享</a></td><td class="c">回复 8</td></tr>
+          </table>
+        </div>
+      </div></div></div>
+      <div class="tag">3 号</div>
+      <div class="pickbar"><b>旧时光论坛</b><span>米黄纸 · 宋体 · 老论坛</span></div>
+      <div class="done">✓ 选了 3 号</div>
+    </div>
+
+    <div class="card" onclick="pick(this,4)">
+      <div class="shot"><div class="inner"><div class="s4" style="position:relative">
+        <h2>我的小窝<i>♡ 记录每一天</i></h2>
+        <div class="cards">
+          <div class="pc"><div class="ic" style="background:#fde3e7">💌</div><b>未读（38）</b><span>8 天前</span></div>
+          <div class="pc"><div class="ic" style="background:#e3f2fd">☎️</div><b>通话记录</b><span>8 次</span></div>
+          <div class="pc"><div class="ic" style="background:#fff6de">🌙</div><b>深夜电台</b><span>每天</span></div>
+        </div>
+        <div class="line">✿ 今天也是想你的一天 ✿ 访客：1 人 · 从来只有 1 人</div>
+        <div class="stk" style="right:26px;top:16px">🐰</div>
+        <div class="stk" style="right:60px;top:120px;transform:rotate(12deg)">✨</div>
+      </div></div></div>
+      <div class="tag">4 号</div>
+      <div class="pickbar"><b>粉彩日记本</b><span>可爱贴纸 · 手账感</span></div>
+      <div class="done">✓ 选了 4 号</div>
+    </div>
+
+  </div>
+<script>
+  function pick(el, n){
+    document.querySelectorAll(".card").forEach(c=>c.classList.remove("picked"));
+    el.classList.add("picked");
+    document.querySelector(".sub").textContent = "你选了 " + n + " 号 —— 去告诉 AI「我要 " + n + " 号」";
+  }
+</script>
+</body>
+</html>
