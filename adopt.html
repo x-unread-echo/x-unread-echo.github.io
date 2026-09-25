@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>猫屋 — 同城领养 · 银灰卷毛</title>
-<link rel="stylesheet" href="assets/style.css?v=47">
+<link rel="stylesheet" href="assets/style.css?v=48">
 <style>
   body{background:#f2f4f7;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .a-wrap{max-width:460px;margin:0 auto;padding:4vh 18px 90px}
@@ -69,6 +69,32 @@
   .mapgo{margin-top:12px;width:100%;border:1px solid #33415e;background:none;color:#2a2f3a;border-radius:8px;
     padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer}
   .mapgo:hover{border-color:#c0564f;color:#c0564f}
+  /* 卫星图三连放大 */
+  #sat{display:none;margin-top:16px}
+  #sat.on{display:block;animation:fadein 1.2s}
+  .satbox{height:270px;background:#05080f;border-radius:14px;position:relative;overflow:hidden;
+    cursor:zoom-in;border:1px solid #1a2436}
+  .satbox .dunes{position:absolute;inset:-30%;transition:transform 1.4s ease;background:
+    radial-gradient(ellipse 60% 16% at 30% 62%, #111826 0%, transparent 60%),
+    radial-gradient(ellipse 50% 13% at 72% 38%, #0d1320 0%, transparent 60%),
+    radial-gradient(ellipse 70% 18% at 48% 82%, #0a0f1a 0%, transparent 55%),
+    radial-gradient(ellipse 40% 10% at 18% 30%, #0c1220 0%, transparent 60%),
+    #060a12}
+  .satbox.z1 .dunes{transform:scale(1.7) translate(4%, -3%)}
+  .satbox.z2 .dunes{transform:scale(2.7) translate(8%, -6%)}
+  .track{position:absolute;left:6%;top:36%;width:112%;height:3px;
+    background:linear-gradient(90deg,transparent,#232f45 18%,#2e3d59 50%,#232f45 82%,transparent);
+    transform:rotate(18deg);box-shadow:0 1px 0 #10161f}
+  .ruin{position:absolute;background:#10182a;border:1px solid #1c2740}
+  .satbox .r1{left:30%;top:38%;width:62px;height:44px;transform:rotate(-6deg)}
+  .satbox .r2{left:58%;top:52%;width:84px;height:30px;transform:rotate(3deg)}
+  .satbox .r3{left:44%;top:60%;width:36px;height:54px;transform:rotate(10deg)}
+  .satcap{position:absolute;left:0;right:0;bottom:12px;text-align:center;color:#8a93a8;
+    font-size:12.5px;letter-spacing:2px;line-height:1.9;padding:0 20px;text-shadow:0 1px 4px #000}
+  .satcap em{color:#e05555;font-style:normal}
+  .satdot{position:absolute;left:52%;top:45%;width:9px;height:9px;border-radius:50%;background:#f5f2e8;
+    cursor:pointer;display:none;
+    box-shadow:0 0 0 5px rgba(245,242,232,.12),0 0 18px 6px rgba(245,242,232,.35);animation:pulse 2s infinite}
 </style>
 </head>
 <body>
@@ -104,16 +130,25 @@
     <div class="mapnote">
       导航显示：目的地附近 <em>8 公里</em> 内没有任何参照物。<br>
       那只猫从来不在这个人的定位里。他发的每张照片，背景都太干净了。<br>
-      <em>这个坐标是真的。</em>不信，现在就打开你自己的地图，把它输进去——<br>
-      图上会给你看一片荒漠。一个号称「地球上最像月球的地方」的小镇边上。<br>
-      没有路牌，没有人烟，夜里月亮很大。<em>他把自己藏在一个看月亮最清楚的地方。</em>
+      <em>这个坐标是真的。</em>地球上最像月球的地方——没有路牌，没有人烟，夜里月亮很大。<br>
+      <em>他把自己藏在一个看月亮最清楚的地方。</em>
     </div>
     <button class="mapgo" id="mapgo">按这个坐标过去 →</button>
+  </div>
+
+  <!-- 卫星图三连放大：荒漠 → 车辙 → 废墟白点 -->
+  <div id="sat">
+    <div class="satbox" id="satbox">
+      <div class="dunes"></div>
+      <div class="satcap" id="satcap">×0 —— 卫星已锁定。点击放大。</div>
+      <div class="satdot" id="satdot"></div>
+    </div>
+    <div class="mapnote" id="satnote">那张截图打不开的东西，原来一直存在天上。</div>
   </div>
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=47"></script>
+<script src="assets/game.js?v=48"></script>
 <script>
 if (DJ.gate(7)) main();
 function main(){
@@ -131,10 +166,10 @@ function main(){
     ["买","疫苗本呢？上一家买家怎么说的","22:21"],
     ["卖","上一家？他啊。他后来不养了。人嘛。","22:22", 2],
     ["买","他昨天还在别处夸你来着。你俩到底谁养谁","22:24"],
-    ["卖","……你为什么维护两个号？你先回答我。","22:25", 3],
+    ["卖","……你就是昨晚问手串的那个。别装了。","22:25", 3],
     ["买","我只用一个号。倒是你，大半夜发猫，凌晨三点发手串，四点发哲学。你到底是卖猫的还是卖惨的","22:26"],
     ["卖","都卖。打包。","22:27"],
-    ["买","你签名写的什么。「挺没意思的，也就一般吧」。卖猫的挂这个？","22:28"],
+    ["买","你签名写的什么。卖猫的挂这个？","22:28"],
     ["卖","改过一次。之前那个太吵。","22:29"],
     ["买","行。发个准确位置，我导航过去看猫。别再说同一条街了","22:30"],
     ["卖","<span class='tap' data-c='4'>截图发你了。定位在角上，自己看</span>","22:31"]
@@ -199,12 +234,49 @@ function main(){
     }
   };
 
-  /* ---------- 出口：去废墟 ---------- */
-  $("mapgo").onclick = () => {
+  /* ---------- 卫星图三连放大：荒漠 → 车辙 → 废墟白点 ---------- */
+  const SATCAPS = [
+    "×1 —— 一片灰。什么都没有。除了灰。",
+    "×2 —— 等等。有条线。车辙。八年了，风没把它抹平。",
+    "×3 —— <em>废墟。</em>和一点小小的、白的。<br>它在动。"
+  ];
+  let zoomLv = 0;
+  $("satbox").addEventListener("click", e => {
+    if (e.target.id === "satdot") return;
+    if (zoomLv >= 2){ DJ.envHintNow("不能再近了。剩下的路，要用脚走。"); return; }
+    zoomLv++;
+    DJ.sfx.type();
+    if (zoomLv === 1){
+      $("satbox").classList.add("z1");
+      const tr = document.createElement("div"); tr.className = "track";
+      $("satbox").insertBefore(tr, $("satcap"));
+    }
+    if (zoomLv === 2){
+      $("satbox").classList.add("z2");
+      ["r1","r2","r3"].forEach(c => {
+        const r = document.createElement("div"); r.className = "ruin " + c;
+        $("satbox").insertBefore(r, $("satcap"));
+      });
+      $("satdot").style.display = "block";
+      $("satbox").style.cursor = "default";
+      DJ.sfx.read();
+    }
+    $("satcap").innerHTML = SATCAPS[zoomLv];
+  });
+  $("satdot").onclick = e => {
+    e.stopPropagation();
     DJ.sfx.ok(); DJ.flag("adopt_done"); DJ.addIncense(1);
     DJ.unlock(8);
     document.body.classList.add("flash");
     setTimeout(() => location.href = "ruins.html", 420);
+  };
+
+  /* ---------- 出口：打开卫星图 ---------- */
+  $("mapgo").onclick = () => {
+    DJ.sfx.click();
+    $("sat").classList.add("on");
+    $("mapgo").style.display = "none";
+    $("sat").scrollIntoView({behavior:"smooth", block:"center"});
   };
 
   /* 断点续玩 */
@@ -212,6 +284,8 @@ function main(){
     $("chatcard").classList.add("on");
     $("report").classList.add("on");
     $("map").classList.add("on");
+    $("sat").classList.add("on");
+    $("mapgo").style.display = "none";
     $("cnum").textContent = "3";
   }
 
