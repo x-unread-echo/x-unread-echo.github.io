@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=45">
+<link rel="stylesheet" href="assets/style.css?v=46">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -291,7 +291,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=45"></script>
+<script src="assets/game.js?v=46"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -481,6 +481,12 @@ if (isReturning) {
       const g = document.querySelector(".hline.glow");
       if (g) g.innerHTML += '<span class="ht" style="margin-top:6px">没事。都这样。明天再说。</span>';
     });
+    step(8600, () => {
+      const g = document.createElement("div");
+      g.className = "hline";
+      g.innerHTML = '<span class="ht">08:08 · 三年前</span>洞里最底下那句话，是三年前发的。没人回。也没删。';
+      document.querySelector(".hole").appendChild(g);
+    });
     step(9000, () => {
       const light = () => {
         $("cta2").classList.add("lit");
@@ -513,6 +519,12 @@ if (isReturning) {
       r.innerHTML = '<span class="tm">03:12</span><span class="what">你今天说了几次"还好"？</span>';
       document.querySelector(".sched").appendChild(r);
       r.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+    step(8600, () => {
+      const r = document.createElement("div");
+      r.className = "row noti";
+      r.innerHTML = '<span class="tm">08:08</span><span class="what">那条没发出去的，还躺在草稿箱里。</span>';
+      document.querySelector(".sched").appendChild(r);
     });
     step(9000, () => {
       const light = () => {

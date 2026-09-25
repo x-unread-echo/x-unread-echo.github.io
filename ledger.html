@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生活组 — 【记账】三年，我给他转的每一笔</title>
-<link rel="stylesheet" href="assets/style.css?v=45">
+<link rel="stylesheet" href="assets/style.css?v=46">
 <style>
   body{background:#e8e6e0;font-family:Georgia,"Songti SC","SimSun",serif;color:#33322e}
   .l-wrap{max-width:680px;margin:0 auto;padding:5vh 20px 90px}
@@ -57,7 +57,7 @@
 
   <div class="ledger" id="ledger"></div>
   <div class="ledger" style="margin-top:10px">
-    <div class="edit">更正：5 月 20 那笔记错了，是 1900，不是 1500。备注不变。账可以记错，钱不会记错。</div>
+    <div class="edit">更正：5 月 20 那笔记错了，是 16000，不是 12000。备注不变。账可以记错，钱不会记错。</div>
   </div>
 
   <div class="l-body" style="margin-top:22px">
@@ -87,7 +87,7 @@
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=45"></script>
+<script src="assets/game.js?v=46"></script>
 <script>
 if (DJ.gate(6)) main();
 function main(){
@@ -96,14 +96,14 @@ function main(){
   DJ.revisit("ledger");
 
   const rows = [
-    ["2025-02-14", 1500, "学费。别问。问就是应该的。"],
-    ["2025-03-01", 1000, "生活费。按月。不打折。"],
-    ["2025-04-05",  800, "电话换了。新号不用告诉他。"],
-    ["2025-05-20", 1500, "补上次的。"],
-    ["2025-06-30", 1000, "他说别人家孩子都有。"],
-    ["2025-08-08",  600, "（备注空着）"],
-    ["2025-09-10", 1200, "换季。衣服是自己买的，钱是替他给的。"],
-    ["2025-10-01",  408, "零头。凑个整。"]
+    ["2025-02-14", 20000, "学费。一年的。整笔。别问。问就是应该的。"],
+    ["2025-03-01", 12000, "生活费。按月。不打折。"],
+    ["2025-04-05",  6800, "电话换了。新号不用告诉他。"],
+    ["2025-05-20", 12000, "补上次的。"],
+    ["2025-06-30",  8000, "他说别人家孩子都有。"],
+    ["2025-08-08",  8080, "（备注空着）"],
+    ["2025-09-10",  8008, "换季。衣服是自己买的，钱是替他给的。"],
+    ["2025-10-01",  1920, "零头。凑个整。"]
   ];
   const box = $("ledger");
   rows.forEach(r=>{
@@ -113,8 +113,8 @@ function main(){
     box.appendChild(d);
   });
 
-  /* 总账：1500+1000+800+1900(更正)+1000+600+1200+408 = 8408 */
-  const PW = "8408";
+  /* 总账：20000+12000+6800+16000(更正)+8000+8080+8008+1920 = 80808 */
+  const PW = "80808";
   let fails = 0;
   function tryPw(){
     const v = $("pw").value.replace(/[¥￥,\s]/g,"");
@@ -128,7 +128,7 @@ function main(){
       fails++;
       DJ.sfx.err();
       $("tip").innerHTML = fails >= 3
-        ? "提示：更正那笔按 <em>1900</em> 算。八笔。一分都不能少。"
+        ? "提示：更正那笔按 <em>16000</em> 算。八笔。一分都不能少。"
         : "<em>不对。</em>他没算过，不代表不能算。别忘了那条更正。";
       DJ.addIncense(0);
     }

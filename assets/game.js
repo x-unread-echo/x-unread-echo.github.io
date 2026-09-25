@@ -227,6 +227,20 @@ const DJ = (() => {
       const h = document.createElement("div"); h.id = "envhint";
       document.body.appendChild(h);
     }
+    /* ---- 全局氛围：胶片颗粒（全站）+ 暗角（仅深色页） ---- */
+    if (!document.getElementById("atmo")) {
+      const c = (getComputedStyle(document.body).backgroundColor.match(/\d+/g) || [4]).map(Number);
+      const dark = (c[0]*0.299 + c[1]*0.587 + c[2]*0.114) < 120;
+      const a = document.createElement("div"); a.id = "atmo";
+      a.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.05;mix-blend-mode:overlay;" +
+        "background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E\")";
+      document.body.appendChild(a);
+      if (dark) {
+        const v = document.createElement("div"); v.id = "atmoV";
+        v.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:9997;background:radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.45) 100%)";
+        document.body.appendChild(v);
+      }
+    }
   });
 
   return api;

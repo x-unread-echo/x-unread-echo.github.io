@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>搜搜 — 搜点正经的</title>
-<link rel="stylesheet" href="assets/style.css?v=45">
+<link rel="stylesheet" href="assets/style.css?v=46">
 <style>
   body{background:#f4f6fa;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .s-wrap{max-width:640px;margin:0 auto;padding:8vh 20px 80px}
@@ -53,7 +53,7 @@
 
 <button class="corner" style="color:#8b93a3;border-color:#d8dee9" id="backChat">‹ 未 读</button>
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=45"></script>
+<script src="assets/game.js?v=46"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -62,13 +62,21 @@ function main(){
   const light = {envhint:"rgba(90,98,116,.8)"};
 
   const DB = [
-    { kw:["倒影","论坛"], html:`
+    { kw:["倒影","论坛","潮汐","八天"], html:`
       <div class="r"><a class="t" href="forum.html">倒影小组 Reflexion BBS — 寻找一个和我说一样话的人</a>
       <div class="u">reflexion-bbs.2025 › 板块 › 树洞</div>
       <div class="d">…有人也觉得，热闹是一群人的孤单吗。我数过了，我和熟络的朋友大概每<em>八天</em>聊一次，很规律，像潮汐…</div></div>
       <div class="r"><a class="t" href="forum.html">倒影小组：8 楼为什么打不开？</a>
       <div class="u">reflexion-bbs.2025 › 站务</div>
       <div class="d">…页码只到 8 就没有了。有人说 8 楼住着<em>镜子</em>。谣言。一定是谣言…</div></div>` },
+    { kw:["洛书","九宫"], html:`
+      <div class="r"><div class="t" style="cursor:default">洛书的规矩是什么？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">九宫纵横斜，三数之和皆为十五。戴九履一，左三右七，二四为肩，六八为足。<em>唯独中间那个五，从来不参与任何一条路。</em>古人叫它「居中不动」。守规矩的人，都不会去碰它。</div></div>` },
+    { kw:["冷湖","坐标","38","93"], html:`
+      <div class="r"><div class="t" style="cursor:default">北纬 38°45′ 东经 93°23′ 是哪里？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">青海，海西，冷湖。曾因石油而兴，曾因石油而空。如今是全中国夜空最干净的地方之一，人称<em>「地球上最像月球的地方」</em>。夜比别处黑，月亮比别处大。有人问那里有什么。<em>有「什么都没有」。</em>不信就打开你自己的地图，把它输进去。</div></div>` },
     { kw:["青云观","道观","算命"], html:`
       <div class="r"><a class="t" href="guanyun.html">青云观 — 有求必应（在线问签 第 8 版）</a>
       <div class="u">qingyun-guan.web › 首页</div>
@@ -167,6 +175,8 @@ function main(){
   if (DJ.has("video_hai")) suggPool.push({ w:"空耳" });
   if (DJ.has("heard_track8")) suggPool.push({ w:"空房间" });
   if (DJ.has("read_bin")) suggPool.push({ w:"未送达" });
+  if (DJ.state.chapter >= 4) suggPool.push({ w:"洛书" });
+  if (DJ.state.chapter >= 8) suggPool.push({ w:"冷湖" });
   if (DJ.state.done) suggPool.push({ w:"第八日" });
   const suggBox = $("sugg");
   suggBox.innerHTML = `<div class="sg-h">搜索联想 · 都是你在别处见过的话（见得越多，这里越懂你）</div>` +
