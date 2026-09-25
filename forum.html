@@ -5,52 +5,73 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>倒影小组 - Reflexion BBS - 2025</title>
 <!-- 你看到这里了。你看东西，总是越过表面。 -->
-<link rel="stylesheet" href="assets/style.css?v=46">
+<link rel="stylesheet" href="assets/style.css?v=47">
 <style>
-  body{background:#0a0e14}
-  .wrapf{max-width:780px;margin:0 auto;padding:20px 16px 100px}
-  .fhdr{border-bottom:2px solid #22304a;padding-bottom:12px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  .fhdr h1{color:#dfe5ee;font-size:24px;letter-spacing:6px;white-space:nowrap}
-  .fhdr span{color:#42536f;font-size:11px;letter-spacing:2px}
+  /* ===== 老旧中文论坛风（2000 年代末 · 宋体 · 蓝链接 · 白底表格） ===== */
+  body{background:#cdd3db;color:#000}
+  .wrapf{max-width:800px;margin:14px auto 90px;background:#fff;border:1px solid #7f9db9;
+    box-shadow:2px 2px 0 rgba(0,0,0,.18);padding:0 14px 46px;font-family:"SimSun","宋体",serif}
+  .moon{display:none}
+  #envhint{color:#555;text-shadow:none}
+  #divbtn.corner{background:#fff;color:#555;border:1px solid #9aa7b8}
+  #divbtn.corner:hover{color:#000;border-color:#33589b;box-shadow:none}
+  /* 表头：老论坛的蓝色横幅 */
+  .fhdr{background:linear-gradient(#e9f0f9,#cfdeef);border-bottom:2px solid #33589b;
+    padding:14px 14px 10px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 -14px}
+  .fhdr h1{color:#1c3d7c;font-family:"SimHei","黑体","Microsoft YaHei",sans-serif;
+    font-size:27px;font-weight:700;letter-spacing:5px;white-space:nowrap}
+  .fhdr span{color:#5a6b84;font-size:12px;letter-spacing:1px}
   @media (max-width:560px){
     .fhdr{flex-direction:column;gap:2px;align-items:flex-start}
-    .fhdr h1{font-size:21px;letter-spacing:5px}
+    .fhdr h1{font-size:22px;letter-spacing:4px}
   }
-  .navbar{background:#0e141d;border:1px solid #1c2c4a;border-top:none;padding:7px 14px;font-size:12.5px;color:#5a6a84;display:flex;gap:16px;flex-wrap:wrap}
-  .navbar a{color:#5a6a84;text-decoration:none;letter-spacing:2px}
-  .navbar a:hover{color:#aebfd8}
-  .thread{border-bottom:1px solid #141f36;padding:14px 8px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:background .2s}
-  .thread:hover{background:#0e141d}
-  .thread .tavatar{width:34px;height:34px;border-radius:4px;flex-shrink:0;background:#0d1626;overflow:hidden;border:1px solid #1c2c4a}
-  .thread .ttitle{color:#c9d6ea;font-size:14.5px;letter-spacing:1px;flex:1}
-  .thread .tmeta{color:#33415e;font-size:11px;text-align:right;line-height:1.5;letter-spacing:1px}
-  .pin{color:#4f8f8b;border:1px solid #1c3a38;font-size:10px;padding:0 6px;border-radius:2px;margin-right:6px}
+  .navbar{background:linear-gradient(#4a79c2,#33589b);border-bottom:2px solid #22447e;
+    padding:7px 12px;font-size:13px;color:#dce6f5;display:flex;gap:16px;flex-wrap:wrap;margin:0 -14px}
+  .navbar a{color:#fff;text-decoration:none;letter-spacing:2px;font-weight:700}
+  .navbar a:hover{color:#ffe37a;text-decoration:underline}
+  /* 帖子列表：加粗大标题 · 虚线分隔 · 经典蓝链接 */
+  .thread{border-bottom:1px dashed #c9c9c9;padding:11px 6px;display:flex;gap:12px;
+    align-items:center;cursor:pointer;transition:background .15s;background:#fff}
+  .thread:hover{background:#f2f6fc}
+  .thread .tavatar{width:32px;height:32px;border-radius:0;flex-shrink:0;background:#eef1f6;
+    overflow:hidden;border:1px solid #b9c3d2}
+  .thread .ttitle{color:#2440b3;font-size:15.5px;font-weight:700;letter-spacing:0;flex:1;line-height:1.7}
+  .thread:hover .ttitle{text-decoration:underline;color:#c00}
+  .thread .tmeta{color:#8a8a8a;font-size:11px;text-align:right;line-height:1.6;letter-spacing:0;font-family:"SimSun","宋体",serif}
+  .pin{color:#c00;border:1px solid #d9a1a1;background:#fdf3f3;font-size:11px;padding:0 5px;
+    border-radius:0;margin-right:6px;font-weight:400}
   .searchrow{display:flex;gap:8px;margin:14px 0;align-items:center}
-  .searchrow input{max-width:300px;font-size:13px;padding:7px 12px;border-radius:99px}
+  .searchrow input{max-width:300px;font-size:13px;padding:6px 10px;border-radius:0;
+    border:1px solid #7f9db9;background:#fff;color:#000;box-shadow:inset 1px 1px 2px rgba(0,0,0,.08)}
   .pager{display:flex;gap:6px;justify-content:center;margin:20px 0;font-size:13px}
-  .pager a{color:#5a6a84;text-decoration:none;border:1px solid #1c2c4a;padding:2px 10px;border-radius:3px}
-  .pager a:hover{color:#aebfd8;border-color:#4a7dd6}
+  .pager a{color:#2440b3;text-decoration:underline;border:1px solid #7f9db9;background:#fff;padding:2px 10px;border-radius:0}
+  .pager a:hover{color:#c00;background:#fdf3f3}
   .view{display:none}
   .view.show{display:block;animation:fadein .8s ease both}
-  .backlist{display:inline-block;margin:14px 0 4px;color:#5a6a84;font-size:12.5px;letter-spacing:2px;text-decoration:none;cursor:pointer}
-  .backlist:hover{color:#aebfd8}
-  .postbody{color:#c9d6ea;line-height:2;white-space:pre-wrap;font-size:14.5px}
-  .postmeta{color:#42536f;font-size:11.5px;letter-spacing:1px;margin-bottom:14px}
-  .floor{border-top:1px solid #141f36;padding:14px 4px;display:flex;gap:14px}
-  .floor .favatar{width:44px;height:44px;border-radius:4px;background:#0d1626;flex-shrink:0;overflow:hidden}
-  .floor .fhead{font-size:12px;color:#5a6a84;margin-bottom:6px;letter-spacing:1px}
-  .reply{font-size:14px;color:#9fb0ca;line-height:1.9;white-space:pre-wrap}
-  .btn88{display:inline-block;background:#141d2e;border:1px solid #2c3a52;color:#aebfd8;padding:6px 18px;border-radius:3px;cursor:pointer;letter-spacing:3px;font-size:13px;margin-top:10px}
-  .btn88:hover{border-color:#4a7dd6;color:#fff}
+  .backlist{display:inline-block;margin:14px 0 4px;color:#2440b3;font-size:13px;letter-spacing:1px;
+    text-decoration:underline;cursor:pointer}
+  .backlist:hover{color:#c00}
+  .postbody{color:#111;line-height:2.1;white-space:pre-wrap;font-size:15px}
+  .postmeta{color:#666;font-size:12px;letter-spacing:1px;margin-bottom:14px}
+  .floor{border-top:1px solid #e2e2e2;padding:14px 4px;display:flex;gap:14px}
+  .floor .favatar{width:44px;height:44px;border-radius:0;background:#eef1f6;flex-shrink:0;
+    overflow:hidden;border:1px solid #b9c3d2}
+  .floor .fhead{font-size:12px;color:#666;margin-bottom:6px;letter-spacing:1px;
+    border-bottom:1px dotted #ddd;padding-bottom:4px}
+  .reply{font-size:14px;color:#333;line-height:2;white-space:pre-wrap}
+  .btn88{display:inline-block;background:linear-gradient(#fdfdfd,#e4e4e4);border:1px solid #8c8c8c;
+    color:#000;padding:6px 20px;border-radius:0;cursor:pointer;letter-spacing:3px;font-size:13px;margin-top:10px}
+  .btn88:hover{background:linear-gradient(#fffbe8,#f5e9c0);border-color:#b8a35a}
   #butterflyBig{width:200px;cursor:pointer;user-select:none;transition:filter .4s}
-  #butterflyBig:hover{filter:drop-shadow(0 0 12px rgba(174,191,216,.25))}
-  #burnWord{color:#c0564f;opacity:0;transition:opacity 2s;letter-spacing:6px;font-size:15px;margin-top:10px}
-  .mirror8{width:150px;height:190px;border:4px solid #2c3a52;border-radius:6px;margin:16px auto;
+  #butterflyBig:hover{filter:drop-shadow(0 0 8px rgba(0,0,0,.3))}
+  #burnWord{color:#c00;opacity:0;transition:opacity 2s;letter-spacing:6px;font-size:16px;margin-top:10px;font-weight:700}
+  .mirror8{width:150px;height:190px;border:4px solid #4a4a4a;border-radius:0;margin:16px auto;
     background:linear-gradient(135deg,#1a2436 0%,#0d1420 60%,#22314d 100%);position:relative;overflow:hidden}
-  .mirror8::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(174,191,216,.12) 45%,transparent 60%)}
-  .verdict{background:#0e141d;border:1px solid #1c3a38;padding:18px;margin-top:12px}
-  .verdict .num{font-family:var(--mono);color:#4f8f8b;font-size:30px;letter-spacing:2px}
-  .trashlink{color:#33415e;font-size:11px;letter-spacing:2px;cursor:pointer;text-decoration:underline dotted}
+  .mirror8::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 45%,transparent 60%)}
+  .verdict{background:#fffbe8;border:1px dashed #b8a35a;padding:18px;margin-top:12px}
+  .verdict .num{font-family:var(--mono);color:#a03028;font-size:32px;letter-spacing:2px;font-weight:700}
+  .trashlink{color:#999;font-size:11px;letter-spacing:2px;cursor:pointer;text-decoration:underline dotted}
+  .center{color:#555}
 </style>
 </head>
 <body>
@@ -80,7 +101,7 @@
 
     <div class="pager" id="pager">
       <a href="#" style="color:#33415e">‹</a>
-      <a href="#" style="color:#aebfd8">1</a>
+      <a href="#" style="color:#000;font-weight:700;background:#e9f0f9">1</a>
       <a href="#" id="nextPage">下一页 ›</a>
     </div>
     <div class="center small" style="letter-spacing:2px">页码直达：<span id="pagerNums"></span></div>
@@ -95,7 +116,7 @@
   <!-- ===== 版规 ===== -->
   <div class="view" id="v_rules">
     <h3 class="sub" style="margin:20px 0;letter-spacing:4px">倒影小组 · 版规</h3>
-    <div class="verdict" style="line-height:2.2;color:#c9d6ea;font-size:14px;letter-spacing:1px">
+    <div class="verdict" style="line-height:2.2;color:#111;font-size:14px;letter-spacing:1px">
       一、本组只讨论一个话题：自己。<br>
       二、本组不设「回复」考核。已读，不回，是传统。请尊重传统。<br>
       三、发帖前请自检：你想说的这句话，上一个想说话的人是否已经说过。如果是，请照常发。<br>
@@ -159,7 +180,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=46"></script>
+<script src="assets/game.js?v=47"></script>
 <script>
 if (DJ.gate(5)) main();
 function main(){
@@ -168,7 +189,7 @@ function main(){
 
   /* 蝴蝶局部头像（八块拼图） */
   const bpart = (r,fill) => `<svg width="30" height="30" viewBox="0 0 24 24"><g transform="translate(${-r*6},0)"><g fill="${fill}"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></g></svg>`;
-  const fills = ["#c9d6ea","#8b9ab5","#5a6a84","#aebfd8","#6d80a0","#7e90ad","#9fb0ca","#42536f"];
+  const fills = ["#3f5378","#5a6a84","#33415e","#4a6285","#2c3a52","#55647e","#45526b","#243550"];
 
   const users = ["深水无鱼","静音模式","北岛以北","倒影先生","未命名文件夹","凌晨四点的鲸","无人接听","白噪"];
   const titles = [
@@ -188,13 +209,13 @@ function main(){
   if (rvForum >= 2){
     /* 异变：多出一篇只对你可见的系统帖。它在数你。 */
     const st = document.createElement("div"); st.className = "thread";
-    st.innerHTML = `<div class="tavatar" style="background:#0a0e14"></div>
+    st.innerHTML = `<div class="tavatar" style="background:#e6eaf2"></div>
       <div class="ttitle"><span class="pin">系统</span>欢迎回来。你是今天第 ${rvForum >= 4 ? "88" : "8"} 位访客。</div>
       <div class="tmeta">未命名文件夹 · 刚刚<br>本帖仅你可见</div>`;
     st.onclick = () => {
       show("v_thread");
       $("threadBody").innerHTML = `
-        <div class="floor"><div class="favatar" style="background:#0a0e14"></div><div style="flex:1">
+        <div class="floor"><div class="favatar" style="background:#e6eaf2"></div><div style="flex:1">
         <div class="fhead">未命名文件夹 · 刚刚 · 本帖仅你可见</div>
         <div class="postbody">这里没有新内容。
 只是想让你知道：你在数这个论坛的时候，<span style="color:#4f8f8b">这个论坛也在数你。</span>
@@ -369,7 +390,7 @@ ${bodies[i]}</div>
       <div class="postbody">今天在废墟里拍到的一只蝴蝶。黑白。本来想调色，后来觉得黑白更好。</div>
       <div style="text-align:center;margin:18px 0">
         <div id="butterflyBig">
-          <svg width="200" height="160" viewBox="0 0 24 24"><g fill="#dfe5ee"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></svg>
+          <svg width="200" height="160" viewBox="0 0 24 24"><g fill="#3a3a3a"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></svg>
         </div>
         <div id="burnWord">三刻</div>
       </div></div></div>`;
@@ -498,9 +519,9 @@ ${bodies[i]}</div>
         <div class="fhead">系统 · 第 8 页</div>
         <div class="postbody">第 8 页有 8 个楼层。</div></div></div>`;
       for (let r = 0; r < 8; r++){
-        html += `<div class="floor"><div class="favatar" style="background:#0a0e14"></div>
+        html += `<div class="floor"><div class="favatar" style="background:#e6eaf2"></div>
           <div style="flex:1"><div class="fhead">${71+r}楼 · 匿名</div>
-          <div class="reply" style="color:#33415e">该楼层仅对特定成员可见。</div></div></div>`;
+          <div class="reply" style="color:#a8a8a8">该楼层仅对特定成员可见。</div></div></div>`;
       }
       html += `<div class="verdict"><div class="small" style="letter-spacing:1px">
         这一页不看陌生人。它数过你身上的证据——还差 ${missing.length} 样。<br><br>
@@ -521,7 +542,7 @@ ${bodies[i]}</div>
       <div class="verdict"><div class="small" style="letter-spacing:1px">
         镜沿刻着一行小字：时辰对的人，才进得来。<br>
         时辰这种东西，散落在你走过的地方——纸条说过一半，蝴蝶烧出过一半。</div>
-        <input type="text" id="whenInput" autocomplete="off" placeholder="什么时辰？" style="margin-top:10px;background:#0a0e14;color:#dfe5ee;border:1px solid #33415e;padding:9px 14px;width:240px;letter-spacing:3px;font-size:14px;text-align:center">
+        <input type="text" id="whenInput" autocomplete="off" placeholder="什么时辰？" style="margin-top:10px;background:#fff;color:#000;border:1px solid #7f9db9;padding:9px 14px;width:240px;letter-spacing:3px;font-size:14px;text-align:center">
         <div class="small" id="whenErr" style="color:#8a4b46;margin-top:6px;min-height:16px"></div>
       </div>
       <div class="center"><span class="btn88" id="toMask" style="display:none">推门进去 →</span></div>

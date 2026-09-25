@@ -50,10 +50,11 @@ const DJ = (() => {
       history.replaceState({ daji: ch, cur: 1 }, "");
       history.pushState({ daji: ch, open: 1 }, "");
       window.addEventListener("popstate", (e) => {
-        /* 只响应我们自己埋的状态位；页面内 # 锚点跳转 state 为 null，不会误触 */
+        /* 只响应我们自己埋的状态位；页面内 # 锚点跳转 state 为 null，不会误触。
+           后退 = 留在原地：把刚退掉的状态推回去，页面不跳、进度不丢。
+           想回味旧章节，用各页自己的返回按钮和导航。 */
         if (e.state && e.state.cur){
-          const prev = CH_PAGES[ch - 1];
-          if (prev) location.replace(prev);
+          try { history.pushState({ daji: ch, open: 1 }, ""); } catch (err) {}
         }
       });
     } catch (err) {}
