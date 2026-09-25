@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=40">
+<link rel="stylesheet" href="assets/style.css?v=41">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -291,7 +291,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=40"></script>
+<script src="assets/game.js?v=41"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -395,7 +395,68 @@ if (isReturning) {
   ["scroll","touchstart","keydown"].forEach(ev =>
     window.addEventListener(ev, accel, { once:true, passive:true }));
   document.addEventListener("click", accel, { once:true });
-  schedule();
+
+  /* ---------- 冷开场：未读爆（前 5 秒的震撼，之后才进入日程页） ---------- */
+  function runFlood(done){
+    const ov = document.createElement("div");
+    ov.style.cssText = "position:fixed;inset:0;background:#030509;z-index:999;overflow:hidden;transition:opacity 1.2s";
+    const hd = document.createElement("div");
+    hd.style.cssText = "position:absolute;top:16px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:4px;color:#4a5568";
+    const box = document.createElement("div");
+    box.style.cssText = "position:absolute;left:0;right:0;bottom:0;max-height:78%;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 18px 90px";
+    ov.appendChild(hd); ov.appendChild(box);
+    document.body.appendChild(ov);
+    const MSGS = [
+      "在吗","你睡了吗","在吗","今天发生一件事，特别想告诉你",
+      "在吗在吗在吗","你怎么不回我","我数了，这是第 7 条","你上次回我是 8 天前",
+      "是不是我说错什么了","你说句话","说什么都行","骂我也行",
+      "我把聊天记录翻了一遍","上一次好好的还是上个月","到底哪里开始不对的","你是不是换了号",
+      "我问别人，别人说没有","那你为什么不回","算了","没事",
+      "我没事","你忙","是我不好","我把你发的都背下来了",
+      "这样显得没那么可怜","不用回","我就是这样的","对不起",
+      "那句话当我没说","哪句都当我没说","晚安","又是晚安",
+      "第几次了","数不清了","（对方撤回了一条消息）","我还在",
+      "在吗"
+    ];
+    let sp = 1, i = 0, over = false;
+    const bump = () => { sp = .35; };
+    ["touchstart","keydown"].forEach(ev => window.addEventListener(ev, bump, { once:true, passive:true }));
+    document.addEventListener("click", bump, { once:true });
+    const mk = (txt, left) => {
+      const b = document.createElement("div");
+      b.style.cssText = "align-self:" + (left ? "flex-start;background:#151d2e;border:1px solid #26314a;color:#e8edf5;border-radius:4px 12px 12px 12px" : "flex-end;background:#101725;border:1px solid #1a2333;color:#c7cedb;border-radius:12px 4px 12px 12px") + ";padding:8px 13px;font-size:13px;max-width:78%;margin-top:7px;opacity:0;transform:translateY(8px);transition:all .4s";
+      b.textContent = txt;
+      box.appendChild(b);
+      requestAnimationFrame(()=>{ b.style.opacity = 1; b.style.transform = "none"; });
+      return b;
+    };
+    hd.textContent = "未读（0）";
+    function next(){
+      if (i < MSGS.length){
+        mk(MSGS[i], false);
+        i++;
+        hd.textContent = "未读（" + i + "）";
+        if (i % 2 === 0) DJ.sfx.type();
+        while (box.children.length > 9) box.removeChild(box.firstChild);
+        setTimeout(next, (i % 5 === 0 ? 620 : i % 3 === 0 ? 170 : 330) * sp);
+      } else if (!over){
+        over = true;
+        setTimeout(() => {
+          [...box.children].forEach(b => { b.style.opacity = .25; b.style.filter = "grayscale(1)"; });
+          hd.textContent = "已读（" + MSGS.length + "）";
+          DJ.sfx.read();
+        }, 1400 * sp);
+        setTimeout(() => { mk("你好。", true); DJ.sfx.type(); }, 3600 * sp);
+        setTimeout(() => { mk("初次见面。", true); DJ.sfx.type(); }, 5200 * sp);
+        setTimeout(() => {
+          ov.style.opacity = 0;
+          setTimeout(() => { ov.remove(); done(); }, 1300);
+        }, 7600 * sp);
+      }
+    }
+    setTimeout(next, 1100);
+  }
+  runFlood(schedule);
 
   /* 2.5s：访客数 3 → 8，然后永远卡住 */
   step(2500, () => {
