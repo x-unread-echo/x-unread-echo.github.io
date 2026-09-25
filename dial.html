@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>通话记录 — 无服务</title>
-<link rel="stylesheet" href="assets/style.css?v=36">
+<link rel="stylesheet" href="assets/style.css?v=37">
 <style>
   body{background:#04060b;font-family:-apple-system,"PingFang SC",sans-serif;color:#c7cedb;overflow-x:hidden}
   .p-wrap{max-width:420px;margin:0 auto;padding:6vh 22px 90px;min-height:88vh}
@@ -60,6 +60,9 @@
   .steps i b{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:11px;color:#3a3527}
   .steps i span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10px;color:#6b6350}
   .steps{margin-bottom:24px}
+  .steps i{transition:background .15s, box-shadow .15s}
+  .steps i.lit{background:#e8cf7d;box-shadow:0 0 14px rgba(232,207,125,.85)}
+  .steps i.lit b{color:#6b5410;font-weight:700}
   /* 拨号键盘 */
   #pad{display:none;margin-top:26px}
   #pad.on{display:block;animation:fadein .8s}
@@ -174,7 +177,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=36"></script>
+<script src="assets/game.js?v=37"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -205,17 +208,24 @@ function main(){
       });
     }catch(e){}
   };
-  /* 正放的旋律：3 6 5 2 8 8 2 1 —— 倒过来听，才是能拨的号 */
-  const MELODY = [3,6,5,2,8,8,2,1];
-  const PASSWORD = MELODY.slice().reverse().join("");   // 12882563
+  /* 正放的旋律：3 6 5 2 8 —— 倒过来听，才是能拨的号 */
+  const MELODY = [3,6,5,2,8];
+  const PASSWORD = MELODY.slice().reverse().join("");   // 82563
 
   function playTape(rev){
     const seq = rev ? MELODY.slice().reverse() : MELODY;
     $("tape").classList.add("spin");
     setTimeout(()=> $("tape").classList.remove("spin"), 3200);
+    const stepEls = document.querySelectorAll(".steps i");
+    const flash = d => {
+      const el = stepEls[d-1];
+      if (!el) return;
+      el.classList.add("lit");
+      setTimeout(()=> el.classList.remove("lit"), 340);
+    };
     seq.forEach((d,i)=>{
       piano(NOTES[d-1], i * 0.42, rev);
-      setTimeout(()=>{ DJ.sfx.type(); }, i*420);
+      setTimeout(()=>{ DJ.sfx.type(); flash(d); }, i*420);
     });
     DJ.flag("heard_tape");
     if (rev && DJ.rvOf("dialrev") < 2){ DJ.envHintNow("倒着的台阶。一级一级记下来。"); DJ.state.rv = DJ.state.rv || {}; DJ.state.rv.dialrev = 2; DJ.save(); }
@@ -233,10 +243,17 @@ function main(){
     setTimeout(()=> $("callstate").textContent = "已接通 · 没有人说话", 1800);
     setTimeout(()=>{
       $("callsub").innerHTML = "听筒里有钢琴声。很远，像隔着水。<br>它在弹同一句。弹了八遍。";
-      MELODY.forEach((d,i)=> piano(NOTES[d-1], i * 0.42, false));
+      const stepEls = document.querySelectorAll(".steps i");
+      MELODY.forEach((d,i)=>{
+        piano(NOTES[d-1], i * 0.42, false);
+        setTimeout(()=>{
+          const el = stepEls[d-1];
+          if (el){ el.classList.add("lit"); setTimeout(()=> el.classList.remove("lit"), 340); }
+        }, i*420);
+      });
     }, 3200);
-    setTimeout(()=> $("vm").classList.add("on"), 6800);
-    setTimeout(()=> $("ladder").classList.add("on"), 8200);
+    setTimeout(()=> $("vm").classList.add("on"), 3400);
+    setTimeout(()=> $("ladder").classList.add("on"), 3300);
     setTimeout(()=>{ $("pad").classList.add("on"); $("hangbtn").textContent = "挂 断（但它没停）"; }, 9600);
   };
   $("hangbtn").onclick = () => {
@@ -255,9 +272,9 @@ function main(){
     b.onclick = () => {
       DJ.sfx.click();
       if (k === "✕"){ typed = typed.slice(0,-1); }
-      else if (typed.length < 8){ typed += k; }
+      else if (typed.length < 5){ typed += k; }
       $("dialout").textContent = typed || " ";
-      if (typed.length === 8) setTimeout(tryCall, 350);
+      if (typed.length === 5) setTimeout(tryCall, 350);
     };
     keysBox.appendChild(b);
   });
@@ -280,7 +297,7 @@ function main(){
       if (fails >= 5) DJ.envHintNow("倒放。最低 1，最高 8。一个音一个数字。");
     }
   }
-  $("padgo").onclick = () => { if (typed.length === 8) tryCall(); else { DJ.sfx.err(); $("dialout").textContent = "号码不满八位"; setTimeout(()=> $("dialout").textContent = typed || " ", 700);} };
+  $("padgo").onclick = () => { if (typed.length === 5) tryCall(); else { DJ.sfx.err(); $("dialout").textContent = "号码不满五位"; setTimeout(()=> $("dialout").textContent = typed || " ", 700);} };
   $("padback").onclick = () => { $("pad").classList.remove("on"); $("vm").classList.add("on"); };
 
   /* ---------- 出口 ---------- */
