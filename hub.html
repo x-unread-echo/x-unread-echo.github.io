@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
 <title>新标签页</title>
-<link rel="stylesheet" href="assets/style.css?v=60">
+<link rel="stylesheet" href="assets/style.css?v=61">
 <style>
   body{
     background:
@@ -88,10 +88,7 @@
   .tile.breathe{border-color:rgba(120,150,210,.25)}
   .tile.breathe .fvc{animation:brt 2.8s ease-in-out infinite}
   @keyframes brt{0%,100%{opacity:.45}50%{opacity:1}}
-  /* NEW 角标 */
-  .newbadge{position:absolute;top:8px;right:8px;font-size:9px;letter-spacing:1px;color:#0b1018;
-    background:#7fd0ac;border-radius:99px;padding:2px 7px;font-weight:700;animation:pop .5s ease both}
-  @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+  /* NEW 角标已废弃：新网站不汇报，它只是亮着 */
 
   /* 最近访问：永远只有一条 */
   .recent{border:1px solid rgba(120,150,210,.13);border-radius:12px;background:rgba(16,24,40,.55);
@@ -169,7 +166,7 @@
 </div>
 <div class="ntf" id="ntf"></div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=60"></script>
+<script src="assets/game.js?v=61"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -232,7 +229,6 @@ function main(){
     12:"404。这个页面还不存在。"
   };
   const seen = parseInt(localStorage.getItem("daji_hub_seen_ch") || "0", 10);
-  let newCount = 0;
 
   const grid = $("grid");
   SITES.forEach(s => {
@@ -241,10 +237,6 @@ function main(){
     const isNext = !open && !s.atmo && (s.c === ch + 1);
     const tile = document.createElement("div");
     tile.className = "tile" + (open ? "" : " dim") + (isNext ? " breathe" : "");
-    if (open && s.c > seen) {
-      tile.insertAdjacentHTML("beforeend", `<div class="newbadge">NEW</div>`);
-      newCount++;
-    }
     tile.innerHTML = `<div class="fvc ${open ? s.k : ""}">${open ? s.l : "◌"}</div>
       <div class="nm">${open ? s.t : (isNext ? "……" : "&nbsp;")}</div>
       <div class="u">${open ? s.u : "&nbsp;"}</div>`;
@@ -259,15 +251,7 @@ function main(){
     grid.appendChild(tile);
   });
 
-  /* 新解锁 → 浏览器通知自己冒出来 */
-  if (newCount > 0) {
-    setTimeout(() => {
-      notify("浏览器",
-        newCount === 1
-          ? "发现一个新网站，已添加到你的快捷方式。"
-          : "发现 " + newCount + " 个新网站，已添加到你的快捷方式。", 8000);
-    }, 1200);
-  }
+  /* 新解锁的网站不说话。它只是安静地亮在那里。 */
   localStorage.setItem("daji_hub_seen_ch", String(Math.max(seen, ch)));
 
   /* 最近访问：永远只显示当前这一条 */
