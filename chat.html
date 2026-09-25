@@ -528,7 +528,7 @@ function main(){
     naT = setTimeout(() => { $("noanswer").classList.remove("show"); $("noanswer").textContent = "无应答"; }, 3200);
     DJ.flag("saw_avatar");
   };
-  $("backBtn").onclick = () => { DJ.sfx.click(); document.body.classList.add("flash"); setTimeout(() => location.href = "hub.html", 380); };
+  $("backBtn").onclick = () => { DJ.sfx.click(); document.body.classList.add("flash"); setTimeout(() => location.href = "index.html", 380); };
 
   /* 搜索浮层 */
   $("camNav").onclick = noAnswer;
@@ -555,7 +555,7 @@ function main(){
     if (e.target.id === "toGuan" || e.currentTarget.classList.contains("key")){
       DJ.unlock(3); DJ.sfx.ok();
       document.body.classList.add("flash");
-      setTimeout(() => location.href = "hub.html", 400);
+      setTimeout(() => location.href = "guanyun.html", 400);
     }
   };
 

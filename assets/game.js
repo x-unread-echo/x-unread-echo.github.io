@@ -104,7 +104,7 @@ const DJ = (() => {
 
   /* ---- 智能返回：不依赖 history（后退守卫会吃掉 back），直接回浏览器主页 ---- */
   api.back = (fallback) => {
-    location.href = fallback || "hub.html";
+    location.href = fallback || "index.html";
   };
 
   /* ---- 极简音效（WebAudio，无外部文件） ---- */

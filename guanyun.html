@@ -369,7 +369,7 @@ function main(){
     if (["白蝶","baidie","白蝶为钥","baidieyaoyao"].includes(v) || v.includes("白蝶")){
       DJ.sfx.ok(); DJ.unlock(4);
       document.body.classList.add("flash");
-      setTimeout(() => location.href = "hub.html", 450);
+      setTimeout(() => location.href = "oracle.html", 450);
     } else {
       $("keyTip").textContent = "锁没动。";
       DJ.sfx.err();
