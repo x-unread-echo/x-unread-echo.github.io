@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=44">
+<link rel="stylesheet" href="assets/style.css?v=45">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -291,7 +291,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=44"></script>
+<script src="assets/game.js?v=45"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -391,10 +391,9 @@ if (isReturning) {
       handles.push(setTimeout(() => { s.done = true; if (!started) s.fn(); }, Math.max(0, (s.ms - el) * factor)));
     });
   }
-  function accel(){ if (factor === 1){ factor = .35; booted = Date.now() - 0; schedule(); } }
-  ["scroll","touchstart","keydown"].forEach(ev =>
+  function accel(){ if (factor === 1){ factor = .55; booted = Date.now() - 0; schedule(); } }
+  ["scroll","keydown","wheel"].forEach(ev =>
     window.addEventListener(ev, accel, { once:true, passive:true }));
-  document.addEventListener("click", accel, { once:true });
 
   /* ---------- 冷开场：未读爆（前 5 秒的震撼，之后才进入日程页） ---------- */
   function runFlood(done){
@@ -407,7 +406,7 @@ if (isReturning) {
     ov.appendChild(hd); ov.appendChild(box);
     document.body.appendChild(ov);
     const MSGS = [
-      "早上好","今天也起来了","楼下那只三花又蹲在老地方","特别胖。我看了它一会儿，它看了我一会儿",
+      "跟你说几句话。不用回。","我数过，你一次也没回过","就当这里是个树洞","楼下那只三花又蹲在老地方","特别胖。我看了它一会儿，它看了我一会儿",
       "今天天气很好","好到有点过分","我把窗台擦了一遍","玻璃还是花的，算了",
       "中午吃了点热的","最近胃还行","下午说了很多话","都说得对",
       "没一句想说的","回来路上买了花","养不活的，还是买了","放在窗台了",
@@ -416,7 +415,7 @@ if (isReturning) {
       "走到那一段，就特别黑","我走快了一点","手机亮了一下","是推送",
       "我还是马上看了","不是你","回来把灯全打开了","也没什么事",
       "就是亮着心里踏实一点","今天也过去了","记账了，这个月又超了一点","晚安",
-      "明天见"
+      "明天接着说"
     ];
     let sp = 1, i = 0, over = false;
     const bump = () => { sp = .35; };
@@ -456,7 +455,7 @@ if (isReturning) {
     }
     setTimeout(next, 1100);
   }
-  runFlood(schedule);
+  runFlood(() => { booted = Date.now(); schedule(); });
 
   /* 2.5s：访客数 3 → 8，然后永远卡住 */
   step(2500, () => {
@@ -483,9 +482,13 @@ if (isReturning) {
       if (g) g.innerHTML += '<span class="ht" style="margin-top:6px">没事。都这样。明天再说。</span>';
     });
     step(9000, () => {
-      $("cta2").classList.add("lit");
-      $("ctaNote2").textContent = "它好像在等这一下";
-      $("cta2").onclick = doBreak;
+      const light = () => {
+        $("cta2").classList.add("lit");
+        $("ctaNote2").textContent = "它好像在等这一下";
+        $("cta2").onclick = doBreak;
+      };
+      const left = 9000 - (Date.now() - booted);
+      left > 0 ? setTimeout(light, left) : light();
     });
   } else {
     /* 白天：日程的缝隙里渗东西 */
@@ -512,9 +515,13 @@ if (isReturning) {
       r.scrollIntoView({ block: "center", behavior: "smooth" });
     });
     step(9000, () => {
-      $("cta").classList.add("lit");
-      $("ctaNote").textContent = "你的设备似乎有话想说";
-      $("cta").onclick = doBreak;
+      const light = () => {
+        $("cta").classList.add("lit");
+        $("ctaNote").textContent = "你的设备似乎有话想说";
+        $("cta").onclick = doBreak;
+      };
+      const left = 9000 - (Date.now() - booted);
+      left > 0 ? setTimeout(light, left) : light();
     });
   }
 
