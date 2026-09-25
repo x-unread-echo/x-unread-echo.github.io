@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>心理健康档案系统 v8.08</title>
-<link rel="stylesheet" href="assets/style.css?v=39">
+<link rel="stylesheet" href="assets/style.css?v=40">
 <style>
   body{background:#080b11}
   .wrapa{max-width:860px;margin:0 auto;padding:34px 20px 110px}
@@ -121,7 +121,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=39"></script>
+<script src="assets/game.js?v=40"></script>
 <script>
 if (DJ.gate(10)) main();
 function main(){
@@ -217,7 +217,7 @@ function main(){
     const r = $("result8"); r.classList.add("show");
     r.innerHTML = `<div class="small">评分完成（24 分制）</div>
       <div class="bignum">${score} 分</div>
-      <div style="color:#c9d6ea;margin-top:8px;letter-spacing:1px">结论：${score >= 16 ? "抑郁状态（掩饰良好）。他答得太快了，像是排练过。" : "状态起伏。注意第 8 题的作答用时——他犹豫了多久？"}
+      <div style="color:#c9d6ea;margin-top:8px;letter-spacing:1px">结论：${score >= 16 ? "抑郁状态（掩饰良好）。他答得太快了，像提前背好的。" : "状态起伏。注意第 8 题的作答用时——他犹豫了多久？"}
       <br><span class="small">系统提示：本卷成绩将作为 8 号房间的门禁码。门禁码从来不是数字，是有人愿意替他认真答完这一卷。</span></div>`;
     DJ.flag("quiz_done"); DJ.addIncense(2); DJ.sfx.ok();
     maybeFinish();
