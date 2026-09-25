@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新标签页</title>
-<link rel="stylesheet" href="assets/style.css?v=49">
+<link rel="stylesheet" href="assets/style.css?v=50">
 <style>
   body{background:#0b0f16;font-family:-apple-system,"PingFang SC",sans-serif;color:#c9d6ea}
   /* 浏览器窗框 */
@@ -87,7 +87,7 @@
   </div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=49"></script>
+<script src="assets/game.js?v=50"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -151,6 +151,14 @@ function main(){
       <div class="when">8 天前</div>`;
     r.onclick = () => { DJ.sfx.click(); location.href = "photos.html"; };
     hist.appendChild(r);
+
+    const r2 = document.createElement("div");
+    r2.className = "row";
+    r2.innerHTML = `<div class="fav">🏥</div>
+      <div class="tt"><b>第八医院 · 网上服务平台</b><span>医院官网 · 心理睡眠中心 · 夜间门诊</span></div>
+      <div class="when">内网</div>`;
+    r2.onclick = () => { DJ.sfx.click(); location.href = "hospital.html"; };
+    hist.appendChild(r2);
   }
 
   /* 下一条：灰的，打不开，但它在动 */

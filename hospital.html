@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北岭市第八医院 · 心理睡眠医学中心 · 网上服务平台</title>
+<link rel="stylesheet" href="assets/style.css?v=50">
+<style>
+  body{background:#eef1f4;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a3340}
+  .hwrap{max-width:880px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(30,50,90,.12)}
+  /* 院徽头 */
+  .htop{background:linear-gradient(135deg,#1d5fa8 0%,#123c6e 100%);color:#fff;padding:18px 26px;
+    display:flex;align-items:center;gap:14px}
+  .hcross{width:40px;height:40px;background:#fff;border-radius:8px;position:relative;flex-shrink:0}
+  .hcross::before,.hcross::after{content:"";position:absolute;background:#1d5fa8}
+  .hcross::before{left:16px;top:6px;width:8px;height:28px}
+  .hcross::after{left:6px;top:16px;width:28px;height:8px}
+  .htop h1{font-size:19px;letter-spacing:2px;font-weight:600}
+  .htop .sub1{font-size:11px;opacity:.75;letter-spacing:3px;margin-top:3px}
+  .htop .r{text-align:right;margin-left:auto;font-size:11px;opacity:.8;line-height:1.9}
+  /* 导航 */
+  .hnav{background:#f5f8fb;border-bottom:2px solid #1d5fa8;display:flex;gap:0;flex-wrap:wrap}
+  .hnav span{padding:10px 22px;font-size:13.5px;color:#3c5570;letter-spacing:2px;cursor:pointer;
+    border-right:1px solid #e2e9f2}
+  .hnav span:hover,.hnav span.on{background:#fff;color:#1d5fa8;font-weight:600}
+  /* 轮播位 */
+  .banner{background:linear-gradient(120deg,#28486e,#3a6ea8);color:#fff;padding:34px 30px;position:relative;overflow:hidden}
+  .banner h2{font-size:24px;letter-spacing:4px;font-weight:600;margin-bottom:10px}
+  .banner p{font-size:13px;opacity:.85;letter-spacing:2px;line-height:2}
+  .banner .deco{position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;
+    background:rgba(255,255,255,.06)}
+  .banner .deco2{position:absolute;right:60px;bottom:-50px;width:120px;height:120px;border-radius:50%;
+    background:rgba(255,255,255,.05)}
+  /* 通知栏 */
+  .notice{border-bottom:1px solid #e2e9f2;padding:10px 26px;font-size:12px;color:#8a94a4;display:flex;gap:20px}
+  .notice b{color:#c0392b;font-weight:600}
+  /* 主体 */
+  .hbody{padding:26px;display:grid;grid-template-columns:1fr 250px;gap:26px}
+  @media (max-width:700px){.hbody{grid-template-columns:1fr}}
+  .card2{border:1px solid #e2e9f2;border-radius:8px;overflow:hidden;margin-bottom:22px}
+  .card2 h3{background:#f5f8fb;border-bottom:1px solid #e2e9f2;padding:11px 18px;font-size:14px;
+    color:#1d5fa8;letter-spacing:3px;font-weight:600}
+  .card2 .inner{padding:18px;font-size:13.5px;color:#3c4a5c;line-height:2.1}
+  /* 挂号查询 */
+  .qrow{display:flex;gap:10px;flex-wrap:wrap}
+  .qrow input{flex:1;min-width:180px;border:1px solid #c6d2e0;border-radius:6px;padding:10px 14px;
+    font-size:14px;letter-spacing:2px;outline:none}
+  .qrow input:focus{border-color:#1d5fa8}
+  .qrow button{background:#1d5fa8;color:#fff;border:none;border-radius:6px;padding:10px 26px;
+    font-size:14px;letter-spacing:3px;cursor:pointer}
+  .qrow button:hover{background:#123c6e}
+  .qhint{font-size:11.5px;color:#a4aebc;margin-top:8px;letter-spacing:1px}
+  .qerr{color:#c0392b;font-size:12px;min-height:18px;margin-top:6px;letter-spacing:1px}
+  /* 就诊记录 */
+  #recs{display:none}
+  .rec{border-left:3px solid #1d5fa8;background:#f8fafc;border-radius:0 6px 6px 0;
+    padding:13px 16px;margin-bottom:12px;animation:fadein .8s ease both}
+  .rec .rdate{font-family:var(--mono);font-size:12px;color:#1d5fa8;letter-spacing:1px;margin-bottom:5px}
+  .rec .rdate b{color:#c0392b}
+  .rec p{font-size:13px;line-height:2;margin:2px 0}
+  .rec .label{color:#8a94a4;font-size:11.5px;letter-spacing:1px}
+  .rec.miss{border-left-color:#c0392b;background:#fdf6f5}
+  /* 手写备注 */
+  .hand{font-family:"Kaiti SC","STKaiti","KaiTi",serif;color:#26466e;font-size:14px}
+  .lastword{margin-top:18px;border-top:1px dashed #d5dde8;padding-top:16px;font-size:13.5px;
+    color:#3c4a5c;line-height:2.3;letter-spacing:1px}
+  .lastword em{color:#c0392b;font-style:normal;font-weight:600}
+  .goecho{display:none;margin-top:16px;text-align:center}
+  .goecho button{background:none;border:1px solid #1d5fa8;color:#1d5fa8;border-radius:6px;
+    padding:11px 30px;font-size:14px;letter-spacing:4px;cursor:pointer}
+  .goecho button:hover{background:#1d5fa8;color:#fff}
+  /* 侧栏 */
+  .side .card2 .inner{font-size:12.5px;line-height:2.2;color:#6a7686;padding:14px 18px}
+  .side b{color:#1d5fa8}
+  .hfoot{border-top:1px solid #e2e9f2;padding:16px 26px;font-size:11px;color:#a4aebc;letter-spacing:1.5px;line-height:2}
+</style>
+</head>
+<body>
+<div class="hwrap">
+  <div class="htop">
+    <div class="hcross"></div>
+    <div>
+      <h1>北岭市第八医院 · 心理睡眠医学中心</h1>
+      <div class="sub1">NORTHRIDGE NO.8 HOSPITAL · 在线服务平台</div>
+    </div>
+    <div class="r">今日挂号余号：<b>8</b><br>当前在线：1 人</div>
+  </div>
+
+  <div class="hnav">
+    <span>首页</span>
+    <span>科室介绍</span>
+    <span>医生团队</span>
+    <span class="on">网上挂号</span>
+    <span>就诊须知</span>
+  </div>
+
+  <div class="banner">
+    <div class="deco"></div><div class="deco2"></div>
+    <h2>把说不出口的，先说给医生听。</h2>
+    <p>心理睡眠医学中心 · 开设夜间门诊（21:00 起）<br>支持历史就诊记录在线查询 · 查询不会通知本人</p>
+  </div>
+
+  <div class="notice">
+    <span><b>通知</b> 夜间门诊变更：08-08 起固定为亥时段接诊</span>
+    <span>系统版本 v8.0.8</span>
+  </div>
+
+  <div class="hbody">
+    <div>
+      <div class="card2">
+        <h3>就诊记录查询</h3>
+        <div class="inner">
+          <div class="qrow">
+            <input type="text" id="mrn" autocomplete="off" placeholder="输入病历号，如：08-0000">
+            <button id="qgo">查 询</button>
+          </div>
+          <div class="qhint">提示：病历号格式为「年份后两位-月日」 repeating。你在一个内网档案里见过它。</div>
+          <div class="qerr" id="qerr"></div>
+        </div>
+      </div>
+
+      <div id="recs">
+        <div class="card2">
+          <h3>查询结果 · 病历号 08-0808 · 共 8 次就诊</h3>
+          <div class="inner" id="recList"></div>
+          <div class="lastword" id="lastword" style="display:none">
+            八年，八次，都挂同一个医生的号，都选 08:08 这个时段——夜间门诊最冷清的时段。<br>
+            他不是不想好起来。<em>他是怕真的好了以后，就再也没有理由，每周跟一个人说说话了。</em><br>
+            <span class="hand">最后一页医生手写：「他没有失约。他只是觉得，不需要了。请勿电话随访。他会不高兴。」</span>
+            <div class="goecho" id="goecho"><button id="toEcho">这句话……好像还没说完 →</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card2">
+        <h3>出诊专家</h3>
+        <div class="inner">
+          <b>沈知远 主任医师</b><br>
+          心理睡眠医学中心<br>
+          出诊：每周三 夜间诊<br>
+          患者评价：「问得很少，听得多。」<br>
+          <span style="color:#a4aebc">（评价共 1 条）</span>
+        </div>
+      </div>
+      <div class="card2">
+        <h3>就诊须知</h3>
+        <div class="inner">
+          一、夜间门诊就诊时，请保持安静。<br>
+          二、本院不设候诊椅。<b>来的人都不喜欢坐着等。</b><br>
+          三、病历默认对本人保密——<br>对家属，也是。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hfoot">
+    北岭市第八医院 版权所有 · 推荐使用 1280×800 分辨率访问 · 您是第 000008 位访客<br>
+    如果您现在正想拨通页面下方的心理援助热线——号码是 8 位的。打吧。他没打过，你可以打。
+  </div>
+</div>
+<div id="envhint"></div>
+<script src="assets/game.js?v=50"></script>
+<script>
+if (DJ.gate(10)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+  const esc = s => s.replace(/\\n/g,"<br>");
+
+  const RECS = [
+    { d:"2018-08-08 · 08:08 · 初诊", z:"「睡不好。」",
+      b:"（医生手写）话很少。问到家里人时，把袖子往下拉了拉。观察力很好，观察自己更狠。" },
+    { d:"2019-08-08 · 08:08 · 复诊", z:"「没什么。就是来做个体检。」",
+      b:"（医生手写）挂的是心理科。体检科室在隔壁。他坐了一小时，聊了楼下的猫。" },
+    { d:"2020-08-08 · 08:08 · 复诊", z:"「睡不着。」",
+      b:"（医生手写）问诊 40 分钟，患者反问 38 个问题，全部关于「别人」：别人失眠怎么办，别人怎么睡着的，别人是不是也这样。" },
+    { d:"2021-08-08 · 08:08 · 复诊", z:"「我没事。」",
+      b:"（医生手写）这是本次唯一主动说的一句话。写了三页病历，其实只用记这一句。" },
+    { d:"2022-08-08 · 08:08 · 复诊", z:"「老样子。」",
+      b:"（医生手写）带来一沓自己写的字，问「帮我看看这个人还正常吗」。字迹与病历签名完全一致。我说是同一只手，他说：那就好。" },
+    { d:"2023-08-08 · 08:08 · 复诊", z:"「医生，如果一个人装作很好装了八年，算好吗？」",
+      b:"（医生手写）我没有马上回答。答快了是骗他，答慢了他会收回这个问题。本次未开药。聊了很久。" },
+    { d:"2024-08-08 · 08:08 · 复诊", z:"（主诉空白）",
+      b:"（医生手写）全程 08 分钟。他只问了一句：如果哪天我不来了，这个号会留给谁。离开时说「明年不用来了」。我建议继续随访，他点头，我知他不会来。" },
+    { d:"2025-08-08 · 08:08 · 预约成功", z:"——", miss:true,
+      b:"状态：失约。系统自动记录。此后该病历号再未登录本平台。" }
+  ];
+
+  const rvHos = DJ.revisit("hospital");
+  $("qgo").onclick = () => {
+    const v = $("mrn").value.replace(/[\s-]/g,"");
+    if (v === "080808" || v === "088" || v === "0808"){
+      if ($("recs").style.display === "block"){ DJ.envHintNow("记录不会变。变的是看记录的人。"); return; }
+      $("recs").style.display = "block";
+      const list = $("recList");
+      let html = "";
+      RECS.forEach((r,i) => {
+        html += `<div class="rec${r.miss ? " miss" : ""}" style="animation-delay:${i*0.22}s">
+          <div class="rdate">${r.d}${r.miss ? " · <b>失约</b>" : ""}</div>
+          <p><span class="label">主诉：</span>${r.z}</p>
+          <p><span class="label">备注：</span><span class="hand">${esc(r.b)}</span></p>
+        </div>`;
+      });
+      list.innerHTML = html;
+      $("qerr").textContent = "";
+      DJ.sfx.read(); DJ.flag("hospital_read"); DJ.addIncense(2);
+      setTimeout(() => {
+        $("lastword").style.display = "block";
+        $("lastword").scrollIntoView({behavior:"smooth", block:"center"});
+        if (rvHos >= 2) DJ.envHintNow("你又来查了一遍。他还是没有来。");
+      }, 4200);
+      $("recs").scrollIntoView({behavior:"smooth", block:"start"});
+    } else {
+      $("qerr").textContent = "查无此人。……不对，是查无此号。病历号你不陌生。档案室里，编号那一栏。";
+      DJ.sfx.err();
+    }
+  };
+  $("mrn").addEventListener("keydown", e => { if (e.key === "Enter") $("qgo").onclick(); });
+
+  $("toEcho").onclick = () => {
+    DJ.sfx.click();
+    location.href = "hub.html";
+  };
+
+  DJ.envHint("查询不会通知本人。——这句话是写给谁看的？", "hs1", 90);
+  DJ.envHint("病历号。档案室的编号栏，08-0808。", "hs2", 200);
+  DJ.envHint("这个医院网站，只有一个人在用。八年。", "hs3", 320);
+}
+</script>
+</body>
+</html>

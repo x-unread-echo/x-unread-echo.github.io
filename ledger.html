@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生活组 — 【记账】三年，我给他转的每一笔</title>
-<link rel="stylesheet" href="assets/style.css?v=49">
+<link rel="stylesheet" href="assets/style.css?v=50">
 <style>
   body{background:#e8e6e0;font-family:Georgia,"Songti SC","SimSun",serif;color:#33322e}
   .l-wrap{max-width:680px;margin:0 auto;padding:5vh 20px 90px}
@@ -87,7 +87,7 @@
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=49"></script>
+<script src="assets/game.js?v=50"></script>
 <script>
 if (DJ.gate(6)) main();
 function main(){
@@ -120,7 +120,7 @@ function main(){
     const v = $("pw").value.replace(/[¥￥,\s]/g,"");
     if (v === PW){
       DJ.sfx.ok(); DJ.flag("ledger_done"); DJ.addIncense(2);
-      $("tip").innerHTML = "<em>密码正确。</em>回复已解锁——但你没有说话。有些账，看懂了就不用回。";
+      $("tip").innerHTML = "<em>密码正确。</em>回复已解锁——但你没有说话。有些账，看懂了就不用回。<br><span class='small' style='display:block;margin-top:8px;line-height:2'>80808。这个数不是钱。是八年，按天记的。他把每一天都过成了可报销的样子——发票齐全，事由空白。</span>";
       $("pw").disabled = true; $("go").disabled = true;
       setTimeout(()=> $("dm").classList.add("on"), 1600);
       $("dm").scrollIntoView({behavior:"smooth", block:"center"});

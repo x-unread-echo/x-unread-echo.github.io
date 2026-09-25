@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>通话记录 — 无服务</title>
-<link rel="stylesheet" href="assets/style.css?v=49">
+<link rel="stylesheet" href="assets/style.css?v=50">
 <style>
   body{background:#04060b;font-family:-apple-system,"PingFang SC",sans-serif;color:#c7cedb;overflow-x:hidden}
   .p-wrap{max-width:420px;margin:0 auto;padding:6vh 22px 90px;min-height:88vh}
@@ -111,6 +111,10 @@
       <div><span class="when">很多年前 · 最后一次</span></div>
     </div>
     <div class="row">
+      <div><span class="num" style="color:#4a5568">（存储后删除）</span></div>
+      <div><span class="when">通话 8 分 08 秒 · 双方均未说话 · 有一方在听钢琴</span></div>
+    </div>
+    <div class="row">
       <div><span class="num" style="color:#4a5568">（没有备注）</span></div>
       <div><span class="when">已拨出 · 8 秒 · 没有说话</span></div>
     </div>
@@ -132,7 +136,8 @@
         <button id="playFwd">▶ 正 放</button>
         <button id="playRev">◀ 倒 放</button>
       </div>
-      <div class="vm-note">这段录音没有人说话。只有钢琴。</div>
+      <div class="vm-note">这段录音没有人说话。只有钢琴。<br>
+      钢琴停了之后，还有 8 秒空白——空白结尾，有一声很轻的琴盖合上的声音。<span style="color:#6b7688">怕吵醒谁似的。</span></div>
     </div>
   </div>
 
@@ -181,7 +186,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=49"></script>
+<script src="assets/game.js?v=50"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){

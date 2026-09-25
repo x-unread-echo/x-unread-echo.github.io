@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>　</title>
-<link rel="stylesheet" href="assets/style.css?v=49">
+<link rel="stylesheet" href="assets/style.css?v=50">
 <style>
   body{background:#04070d}
   .stage{transition:opacity 1.2s}
@@ -82,7 +82,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=49"></script>
+<script src="assets/game.js?v=50"></script>
 <script>
 if (DJ.gate(12)) main();
 function main(){
@@ -157,7 +157,7 @@ function main(){
     const msgs = [
       "「今天也是元气满满的一天！！」", "「在吗」", "「问你个事，特严肃的」",
       "「你也会吗」", "「算了。你好。初次见面。」",
-      "「其实我一直都在。」", "「我没事。」", "「晚安。」"
+      "「其实我一直都在。」", "「我没事。」", "「其实我」", "「晚安。」"
     ];
     msgs.forEach((m, i) => {
       setTimeout(() => {
@@ -193,6 +193,12 @@ function main(){
       if (DJ.has("read_bin"))     synth.push("你读过那些被删掉的话。删掉，不等于没说过。");
       if (DJ.has("quiz_done"))    synth.push("那份卷子你是替他答的。可你答得那么顺。");
       if (DJ.has("found_floor8")) synth.push("第 8 页你进去了。你知道那扇门为什么为你开。");
+      if (DJ.has("butterfly_8"))  synth.push("那只黑白蝴蝶你点了八下。第八下，是它替你数的。");
+      if (DJ.has("biji_997"))     synth.push("99.7%。剩下的 0.3%，是他说不出口的部分。");
+      if (DJ.has("cloud_done"))   synth.push("云屉里那段 8 秒的录音，你听完了整段空白。");
+      if (DJ.has("radio_listened")) synth.push("八年只播一句话的电台，第八夜之后对你说了实话。");
+      if (DJ.has("photos_done"))  synth.push("那条草稿你看见了。两个字，存了 2920 天。");
+      if (DJ.has("hospital_read")) synth.push("病历上那道没答的题，他一直等到最后一页。");
       if (!synth.length)          synth.push("你走到了这里。一步没少。");
       const box = $("synth");
       synth.forEach((s, i) => {

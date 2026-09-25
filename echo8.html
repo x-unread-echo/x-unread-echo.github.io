@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>（无标题）</title>
-<link rel="stylesheet" href="assets/style.css?v=49">
+<link rel="stylesheet" href="assets/style.css?v=50">
 <style>
   body{background:#000;color:#c7cedb;font-family:-apple-system,"PingFang SC",sans-serif;overflow:hidden}
   .e-stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;
@@ -84,7 +84,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=49"></script>
+<script src="assets/game.js?v=50"></script>
 <script>
 if (DJ.gate(11)) main();
 function main(){
@@ -206,6 +206,10 @@ function main(){
   }
 
   DJ.envHint("月亮只会这一种光。看了八年了。", "ec1", 120);
+  if (DJ.has("hospital_read")){
+    setTimeout(() => DJ.envHintNow("病历最后一页的问题，医生到现在还没答上来：「算好吗？」"), 2600);
+    setTimeout(() => DJ.envHintNow("他在这里等你。等的不只是密码。"), 9000);
+  }
   DJ.injectDivine({
     clear:[ "上上签：所有开始都是同一天。0808。",
             "上上签：发什么都行。规矩是：说出口才算数。" ],
