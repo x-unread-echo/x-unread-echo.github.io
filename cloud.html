@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>云屉 — 你的每一次回忆，都值得被妥善存放</title>
-<link rel="stylesheet" href="assets/style.css?v=48">
+<link rel="stylesheet" href="assets/style.css?v=49">
 <style>
   body{background:#101418;font-family:-apple-system,"PingFang SC",sans-serif;color:#d5dbe6}
   .c-wrap{max-width:900px;margin:0 auto;padding:0 18px 100px}
@@ -47,6 +47,14 @@
   .lockcard input{text-align:center;letter-spacing:4px;margin-bottom:12px}
   .lockerr{color:#c0564f;font-size:12px;min-height:18px;letter-spacing:2px}
   .navlinks a{color:#4a7dd6;text-decoration:none;font-size:12.5px}
+  /* 文件卡（亥时文件夹） */
+  .ph.doc .docbody{height:150px;overflow:auto;padding:14px;font-size:12.5px;color:#9fb0ca;
+    line-height:2;white-space:pre-wrap;background:#121826}
+  .docbody b{color:#dfe5ee}
+  .ehl{color:#dfe5ee;border-bottom:1px dotted #4f8f8b}
+  #hxview .ph.playing .docbody{color:#dfe5ee}
+  .wprogress{height:3px;background:#1c2740;border-radius:2px;margin-top:10px;overflow:hidden}
+  .wprogress i{display:block;height:100%;width:0;background:#4f8f8b;transition:width 8s linear}
 </style>
 </head>
 <body>
@@ -61,10 +69,33 @@
 
   <div class="folders">
     <div class="folder" id="f1"><div class="ficon">▣</div><div class="fname">废墟</div><div class="fmeta">3 张照片 · 2025-08-08</div></div>
+    <div class="folder" id="fHX"><div class="ficon">▤</div><div class="fname">亥时</div><div class="fmeta">3 个文件 · 全部在 21:45 之后</div></div>
     <div class="folder locked" id="fLock"><div class="ficon">▤</div><div class="fname">散步</div><div class="fmeta">加密 · 密码提示：他最喜欢的那首歌</div></div>
   </div>
 
-  <div class="grid">
+  <!-- 亥时文件夹：三样东西的照片/录音 -->
+  <div id="hxview" style="display:none">
+    <div class="crumb">全部文件 › 亥时 · 共 3 个文件 · 这些就是废墟里的那三样</div>
+    <div class="grid">
+      <div class="ph doc" id="hx1">
+        <div class="docbody"><b>刻痕.jpg</b><br><br>刻得很深，一笔一划，像描过很多遍：<span class="ehl">倒影自渡</span>。<br><br>落款处有几个被抹掉的字母，看不清。<br>但笔画的停顿位置，你在哪里见过——<span class="ehl">论坛里。每一篇帖子。每一次回复。</span></div>
+        <div class="pc"><div class="pn">刻痕.jpg</div><div class="pd">21:47 · 断墙</div></div>
+      </div>
+      <div class="ph" id="hx2">
+        <img src="assets/media/butterfly.png" alt=""><div class="pc"><div class="pn">白蝶.jpg</div><div class="pd">21:52 · 断墙上</div></div>
+      </div>
+      <div class="ph doc" id="hx3">
+        <div class="docbody" id="radioDoc"><b>空房间.wav</b> · 0:08<br><br><span id="radioHint">双击播放。注意听它在哪里断掉。</span></div>
+        <div class="pc"><div class="pn">空房间.wav</div><div class="pd">21:45 · 屋内 · 时长 8 秒</div></div>
+      </div>
+    </div>
+    <div id="goRuins" style="display:none;margin:26px 0 10px">
+      <div class="crumb" style="color:#8b93a3">照片定位已同步：<b style="color:#c0564f;letter-spacing:2px">N 38°45′08″ E 93°23′08″</b> · 亥时还剩一会儿</div>
+      <button class="btn" id="ruinsGo" style="margin-top:10px">开车去那里 →</button>
+    </div>
+  </div>
+
+  <div class="grid" id="photoGrid">
     <div class="ph" data-img="temple.png" data-name="IMG_0808.jpg" data-desc="上传于 8 月 8 日 21:45（亥时三刻）\n\n青云观。灰还是温的。签纸烧到一半，剩下的那一半写着什么，风替我收走了。">
       <img src="assets/media/temple.png" alt=""><div class="pc"><div class="pn">IMG_0808.jpg</div><div class="pd">2025-08-08 · 青云观</div></div></div>
     <div class="ph" data-img="room.png" data-name="IMG_0808_2.jpg" data-desc="上传于 8 月 8 日 03:08\n\n凌晨三点。屏幕亮着，人没亮。这张拍完我删了三次，又从回收站恢复了三次。">
@@ -95,11 +126,11 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=48"></script>
+<script src="assets/game.js?v=49"></script>
 <script>
-if (DJ.gate(3)) main();
+if (DJ.gate(8)) main();
 function main(){
-  DJ.unlock(3);
+  DJ.unlock(8);
   const $ = id => document.getElementById(id);
   const esc = s => s.replace(/\\n/g,"<br>");
 
@@ -150,9 +181,60 @@ function main(){
   $("lockGo").onclick = tryLock;
   $("lockInput").addEventListener("keydown", e => { if (e.key === "Enter") tryLock(); });
 
-  $("toSearch").onclick = () => location.href="search.html";
-  $("toMusic").onclick = () => location.href="music.html";
-  $("toChat").onclick = () => location.href="chat.html";
+  $("toSearch").onclick = () => location.href="hub.html";
+  $("toChat").onclick = () => location.href="hub.html";
+
+  /* ---------- 亥时文件夹：三样东西 ---------- */
+  const hxOpen = { hx1:false, hx2:false, hx3:false };
+  const hxMark = id => {
+    hxOpen[id] = true;
+    if (hxOpen.hx1 && hxOpen.hx2 && hxOpen.hx3 && $("goRuins").style.display !== "block"){
+      DJ.flag("cloud_done"); DJ.addIncense(2); DJ.sfx.read();
+      $("goRuins").style.display = "block";
+      setTimeout(() => $("goRuins").scrollIntoView({behavior:"smooth", block:"center"}), 400);
+    }
+  };
+  $("fHX").onclick = () => {
+    const v = $("hxview");
+    v.style.display = v.style.display === "none" ? "block" : "none";
+    DJ.sfx.click();
+    if (v.style.display === "block") v.scrollIntoView({behavior:"smooth", block:"start"});
+  };
+  $("hx1").onclick = () => { if (!hxOpen.hx1){ DJ.sfx.type(); } hxMark("hx1"); };
+  $("hx2").onclick = () => {
+    $("lbImg").src = "assets/media/butterfly.png";
+    $("lbMeta").innerHTML = "<b style='color:#dfe5ee'>白蝶.jpg</b><br>趴在断墙上。黑白。<br>已经不动了。但翅膀是张开的，像随时准备飞。<br>你手机里那张照片，构图和它一模一样。<br>——不是他模仿了蝴蝶。是他把蝴蝶摆好，才拍的。";
+    $("lbBurn").style.opacity = 0;
+    $("lightbox").classList.add("show");
+    hxMark("hx2");
+  };
+  $("lightbox").onclick = () => $("lightbox").classList.remove("show");
+  let radioPlayed = false;
+  $("hx3").onclick = () => {
+    if (radioPlayed) return;
+    radioPlayed = true;
+    $("hx3").classList.add("playing");
+    $("radioHint").innerHTML = `<span style="color:#dfe5ee">正在播放……</span><div class="wprogress"><i id="wpb"></i></div>`;
+    requestAnimationFrame(() => { const b = $("wpb"); if (b) b.style.width = "100%"; });
+    DJ.sfx.read();
+    setTimeout(() => {
+      $("radioHint").innerHTML = `放的是一首没有词的歌。0:08，然后从头再来。<br><span class="ehl">是空耳FM 的第八首。是空房间。</span><br><br>电是哪来的？没有人问。<br>它就这么在这废墟里，替一个人，把房间空着的声音，放了一遍又一遍。`;
+      hxMark("hx3");
+    }, 8200);
+  };
+  $("ruinsGo").onclick = () => {
+    DJ.sfx.ok();
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "ruins.html", 420);
+  };
+
+  /* 断点续玩：来过就直接亮出来 */
+  if (DJ.has("cloud_done")){
+    $("hxview").style.display = "block";
+    hxOpen.hx1 = hxOpen.hx2 = hxOpen.hx3 = true;
+    $("goRuins").style.display = "block";
+    $("radioHint").innerHTML = `放的是一首没有词的歌。0:08，然后从头再来。<br><span class="ehl">是空耳FM 的第八首。是空房间。</span><br><br>电是哪来的？没有人问。<br>它就这么在这废墟里，替一个人，把房间空着的声音，放了一遍又一遍。`;
+  }
 
   DJ.envHint("照片的拍摄时间，全是同一天。同一座废墟，同一间屋子。", "cl1", 70);
   DJ.envHint("锁的提示：那首歌有多长，密码就有多长。长，是用秒数量的。", "cl2", 170);

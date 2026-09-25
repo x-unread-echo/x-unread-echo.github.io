@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新标签页</title>
+<link rel="stylesheet" href="assets/style.css?v=49">
+<style>
+  body{background:#0b0f16;font-family:-apple-system,"PingFang SC",sans-serif;color:#c9d6ea}
+  /* 浏览器窗框 */
+  .chrome{max-width:860px;margin:18px auto 80px;border:1px solid #1c2c4a;border-radius:12px;
+    overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.5);background:#0d1420}
+  .bar{background:#111927;border-bottom:1px solid #1c2c4a;padding:10px 14px;display:flex;align-items:center;gap:12px}
+  .dots{display:flex;gap:6px}
+  .dots i{width:11px;height:11px;border-radius:50%;display:block}
+  .dots i:nth-child(1){background:#c0564f}.dots i:nth-child(2){background:#b8a35a}.dots i:nth-child(3){background:#4f8f6b}
+  .tab{background:#0d1420;border:1px solid #1c2c4a;border-bottom:none;border-radius:6px 6px 0 0;
+    font-size:12px;color:#8fa0bd;padding:5px 16px;letter-spacing:1px;position:relative;top:1px}
+  .addr{flex:1;display:flex;align-items:center;gap:8px;background:#0a0e14;border:1px solid #1c2c4a;
+    border-radius:99px;padding:6px 16px;font-size:12.5px;color:#5a6a84;letter-spacing:1px;font-family:var(--mono)}
+  .addr .lock{color:#4f8f6b;font-size:11px}
+  .addr b{color:#8fa0bd;font-weight:400}
+  .page{padding:30px 34px 40px;min-height:420px}
+  .hello{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+  .hello h1{font-size:20px;letter-spacing:3px;font-weight:600;color:#dfe5ee}
+  .hello h1 b{color:#8fa0bd;font-weight:400}
+  #clock{font-family:var(--mono);color:#42536f;font-size:12px;letter-spacing:2px}
+  .sect{margin-top:30px}
+  .sect h2{font-size:12px;color:#42536f;letter-spacing:4px;font-weight:400;margin-bottom:4px;
+    display:flex;justify-content:space-between}
+  .sect h2 span.r{color:#33415e}
+  .hist{border-top:1px solid #141f36}
+  .row{display:flex;align-items:center;gap:14px;padding:13px 6px;border-bottom:1px solid #141f36;
+    cursor:pointer;transition:background .2s}
+  .row:hover{background:#0e1626}
+  .row .fav{width:30px;height:30px;border-radius:6px;background:#101c33;border:1px solid #1c2c4a;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:#6d80a0;flex-shrink:0}
+  .row .tt{flex:1;min-width:0}
+  .row .tt b{display:block;font-size:14.5px;color:#c9d6ea;font-weight:500;letter-spacing:1px}
+  .row:hover .tt b{color:#fff}
+  .row .tt span{display:block;font-size:11.5px;color:#42536f;margin-top:3px;letter-spacing:1px}
+  .row .when{font-size:11px;color:#33415e;letter-spacing:1px;white-space:nowrap;font-family:var(--mono)}
+  .row.new .tt b::after{content:"刚刚更新";color:#4f8f8b;font-size:10px;margin-left:10px;letter-spacing:2px}
+  .row.dim{cursor:not-allowed}
+  .row.dim .tt b{color:#3a4a68}
+  .row.dim .tt span{color:#2c3a55;font-style:italic}
+  .row.dim .fav{background:#0c1322;color:#2c3a55}
+  .bmarks{display:flex;gap:10px;flex-wrap:wrap}
+  .bm{border:1px solid #1c2c4a;background:#0e1626;border-radius:8px;padding:9px 18px;font-size:13px;
+    color:#8fa0bd;cursor:pointer;letter-spacing:2px}
+  .bm:hover{border-color:#3a5080;color:#dfe5ee}
+  .foot{margin-top:36px;padding-top:16px;border-top:1px dashed #141f36;font-size:11px;color:#33415e;
+    letter-spacing:2px;line-height:2.2}
+  .foot em{color:#4f8f8b;font-style:normal}
+  #sync{color:#4f8f8b;opacity:0;transition:opacity 2s;letter-spacing:2px;font-size:12px}
+  @media (max-width:600px){ .page{padding:22px 18px 30px} }
+</style>
+</head>
+<body>
+<div class="moon"></div>
+<div class="chrome">
+  <div class="bar">
+    <div class="dots"><i></i><i></i><i></i></div>
+    <div class="tab">新标签页</div>
+    <div class="addr"><span class="lock">🔒</span><b>daji://</b>local/history</div>
+  </div>
+  <div class="page">
+    <div class="hello">
+      <h1 id="hello">晚上好。</h1>
+      <div id="clock"></div>
+    </div>
+
+    <div class="sect">
+      <h2>历史记录 <span class="r" id="sync"></span></h2>
+      <div class="hist" id="hist"></div>
+    </div>
+
+    <div class="sect">
+      <h2>书签</h2>
+      <div class="bmarks">
+        <div class="bm" data-go="search.html">🔍 搜搜</div>
+        <div class="bm" data-go="index.html">🏠 起始页</div>
+      </div>
+    </div>
+
+    <div class="foot" id="foot"></div>
+  </div>
+</div>
+<div id="envhint"></div>
+<script src="assets/game.js?v=49"></script>
+<script>
+if (DJ.gate(1)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+  const ch = DJ.state.chapter;
+  const name = DJ.state.name || "";
+
+  /* 问候：跟着你的真实时间走 */
+  const h = new Date().getHours();
+  let greet = "晚上好";
+  if (h < 5) greet = "这个点，还在线";
+  else if (h < 11) greet = "早上好";
+  else if (h < 14) greet = "中午好";
+  else if (h < 18) greet = "下午好";
+  $("hello").innerHTML = greet + (name ? "，" + name : "") + "。";
+  const tick = () => $("clock").textContent = "本地时间 " + new Date().toLocaleTimeString("zh-CN", {hour12:false});
+  tick(); setInterval(tick, 1000);
+
+  /* 历史记录：浏览痕迹，不是关卡 */
+  const ENTS = [
+    {c:1,  t:"未接来电 · 8 次",            s:"通话记录 · 那个号码没有署名",     h:"dial.html",   f:"📞"},
+    {c:2,  t:"未读（38）",                  s:"即时消息 · 从来只有你这边在说",   h:"chat.html",   f:"✉"},
+    {c:3,  t:"青云观 · 线上问己",           s:"网页 · 香火还剩 " + DJ.state.incense + " 支", h:"guanyun.html", f:"⛩"},
+    {c:4,  t:"第八茶室 · 深夜场",           s:"网页 · 营业时间：亥时",           h:"oracle.html", f:" 茶"},
+    {c:5,  t:"倒影小组 Reflexion BBS",      s:"论坛 · 当前在线 1 人",            h:"forum.html",  f:"🜃"},
+    {c:6,  t:"流水账",                      s:"记事本 · 共 8 笔",                h:"ledger.html", f:"▤"},
+    {c:7,  t:"猫屋 · 同城领养",             s:"分类信息 · 已举报",               h:"adopt.html",  f:"🐈"},
+    {c:8,  t:"云屉",                        s:"网盘 · 剩余空间 8 GB",            h:"cloud.html",  f:"☁"},
+    {c:9,  t:"面 具",                       s:"本机文件 · 别数错层数",           h:"mask.html",   f:"🎭"},
+    {c:10, t:"档 案 室",                    s:"内网 · 需要工牌",                 h:"archive.html",f:"🗄"},
+    {c:11, t:"镜 中 人",                    s:"对话框 · 对面显示在线",           h:"echo8.html",  f:"🜄"},
+    {c:12, t:"顺其自然",                    s:"没有标题",                        h:"final.html",  f:"🜁"}
+  ];
+  const hist = $("hist");
+  ENTS.forEach(e => {
+    if (e.c > ch) return;
+    const r = document.createElement("div");
+    r.className = "row" + (e.c === ch ? " new" : "");
+    r.innerHTML = `<div class="fav">${e.f}</div>
+      <div class="tt"><b>${e.t}</b><span>${e.s}</span></div>
+      <div class="when">${e.c === ch ? "刚刚" : "8 天前"}</div>`;
+    r.onclick = () => { DJ.sfx.click(); location.href = e.h; };
+    hist.appendChild(r);
+  });
+
+  /* 过场：氛围页，不是谜题 */
+  if (ch >= 9){
+    const r = document.createElement("div");
+    r.className = "row";
+    r.innerHTML = `<div class="fav">📻</div>
+      <div class="tt"><b>深夜电台 FM 08.8</b><span>收音 · 这个频道八年只播一句话</span></div>
+      <div class="when">每天</div>`;
+    r.onclick = () => { DJ.sfx.click(); location.href = "radio.html"; };
+    hist.appendChild(r);
+  }
+  if (ch >= 10){
+    const r = document.createElement("div");
+    r.className = "row";
+    r.innerHTML = `<div class="fav">📷</div>
+      <div class="tt"><b>他的一晚</b><span>相册 · 8 张照片，和一句没发出去的话</span></div>
+      <div class="when">8 天前</div>`;
+    r.onclick = () => { DJ.sfx.click(); location.href = "photos.html"; };
+    hist.appendChild(r);
+  }
+
+  /* 下一条：灰的，打不开，但它在动 */
+  if (ch < 12){
+    const nx = ENTS.find(e => e.c === ch + 1);
+    const r = document.createElement("div");
+    r.className = "row dim";
+    r.innerHTML = `<div class="fav">◌</div>
+      <div class="tt"><b>历史记录里有一条，不是你打开的。</b><span>${nx ? nx.s : ""}</span></div>
+      <div class="when">刚刚</div>`;
+    r.onclick = () => { DJ.sfx.err(); DJ.envHintNow("打不开。还不是时候——有些地方，要先在别处留下痕迹。"); };
+    hist.appendChild(r);
+  }
+
+  /* 现实入侵：它知道你回来过几次 */
+  const rv = DJ.rvOf("hub") || 0;
+  if (DJ.revisit("hub") >= 2){
+    const r = document.createElement("div");
+    r.className = "row dim";
+    r.innerHTML = `<div class="fav">◌</div>
+      <div class="tt"><b>欢迎回来。你是今天第 ${rv >= 4 ? "88" : "8"} 位访客。</b><span>本帖仅你可见</span></div>
+      <div class="when">刚刚</div>`;
+    r.onclick = () => { DJ.sfx.err(); DJ.envHintNow("这句话的另一个意思是——今天，一个访客都没有。"); };
+    hist.appendChild(r);
+  }
+
+  /* 书签 */
+  document.querySelectorAll(".bm").forEach(b => b.onclick = () => { DJ.sfx.click(); location.href = b.dataset.go; });
+
+  /* 页脚：设备所有者 */
+  $("foot").innerHTML =
+    `这台设备的所有者：${name ? name : "（没有留名字的人）"} · 上次在线：刚刚<br>` +
+    `同步状态：<em>历史记录在另一台设备上也会更新。你删不掉。</em>`;
+
+  /* 新条目出现的一瞬：同步提示 */
+  if (ch >= 1){
+    setTimeout(() => {
+      $("sync").textContent = "◈ 刚刚同步了一条新记录";
+      $("sync").style.opacity = 1;
+      setTimeout(() => $("sync").style.opacity = 0, 6000);
+    }, 900);
+  }
+
+  DJ.envHint("后退是没用的。这台设备记得一切。", "hb1", 120);
+  DJ.envHint("有些记录，要你在别的地方留下痕迹之后，才会出现在这里。", "hb2", 260);
+}
+</script>
+</body>
+</html>

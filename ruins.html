@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>亥时 — 废墟</title>
 <!-- 亥时三刻。你自己挑的时间。 -->
-<link rel="stylesheet" href="assets/style.css?v=48">
+<link rel="stylesheet" href="assets/style.css?v=49">
 <style>
   body{background:#04070d;overflow:hidden}
   /* .scene 由 JS 按图片比例计算出"cover 矩形"，热点在里面按百分比定位——任何屏幕都和画面对得上 */
@@ -84,7 +84,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=48"></script>
+<script src="assets/game.js?v=49"></script>
 <script>
 if (DJ.gate(8)) main();
 function main(){
@@ -121,6 +121,11 @@ function main(){
   document.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY), {passive:true});
 
   const found = { wall:false, bfly:false, radio:false };
+  /* 云屉里看过亥时文件夹的人，一眼认得路：三处微光常亮，直接点就是 */
+  if (DJ.has("cloud_done")){
+    ["spWall","spBfly","spRadio"].forEach(id => { const el = $(id); if (el) el.classList.add("found"); });
+    setTimeout(() => DJ.envHintNow("照片里见过的东西，黑暗里也认得出来。"), 800);
+  }
   const foundCount = () => Object.values(found).filter(Boolean).length;
   const updHud = () => {
     $("foundN").textContent = foundCount();
@@ -193,7 +198,7 @@ function main(){
     $("nextBtn").onclick = () => {
       DJ.sfx.ok(); DJ.unlock(9);
       document.body.classList.add("flash");
-      setTimeout(() => location.href = "mask.html", 400);
+      setTimeout(() => location.href = "hub.html", 400);
     };
   }
 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FM 08.8 · 深夜电台</title>
+<link rel="stylesheet" href="assets/style.css?v=49">
+<style>
+  body{background:#06090f;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .radioBox{width:min(520px,92vw);text-align:center;position:relative;padding:20px 0 60px}
+  .dial{display:flex;justify-content:space-between;align-items:center;border:1px solid #1c2c4a;
+    background:#0b1220;border-radius:12px;padding:14px 22px;margin-bottom:34px}
+  .dial .freq{font-family:var(--mono);font-size:26px;color:#dfe5ee;letter-spacing:4px}
+  .dial .freq em{color:#4f8f8b;font-style:normal}
+  .dial .on-air{font-size:10px;color:#c0564f;letter-spacing:4px;border:1px solid #3a2226;
+    padding:3px 10px;border-radius:3px;animation:air 2.4s infinite}
+  @keyframes air{50%{opacity:.35}}
+  .scale{height:26px;background:repeating-linear-gradient(90deg,#1c2c4a 0 1px,transparent 1px 14px);
+    border-radius:3px;position:relative;margin-top:12px}
+  .scale i{position:absolute;top:-4px;left:88%;width:2px;height:12px;background:#4f8f8b;
+    box-shadow:0 0 8px rgba(79,143,139,.6)}
+  .stage{min-height:180px;display:flex;flex-direction:column;justify-content:center}
+  #night{font-size:11px;color:#42536f;letter-spacing:4px;margin-bottom:16px}
+  #line{font-size:17px;color:#c9d6ea;letter-spacing:2px;line-height:2.1;min-height:76px;
+    white-space:pre-wrap;font-family:"Songti SC","SimSun",serif}
+  #line.glitch{animation:gl .5s steps(2) infinite}
+  #line.speaking{color:#dfe5ee;text-shadow:0 0 18px rgba(174,191,216,.25)}
+  @keyframes gl{50%{opacity:.55;transform:translateX(1px)}}
+  #static{font-size:10px;color:#2c3a55;letter-spacing:6px;margin-top:14px;min-height:16px}
+  .ctl{margin-top:30px;display:flex;gap:14px;justify-content:center}
+  .knob{border:1px solid #2c3a52;background:#0b1220;color:#8fa0bd;border-radius:99px;
+    padding:10px 26px;font-size:13px;letter-spacing:4px;cursor:pointer;transition:all .25s}
+  .knob:hover{border-color:#4f8f8b;color:#dfe5ee}
+  .knob.off{display:none}
+  #offBtn{border-color:#3a2226;color:#c0564f}
+  #offBtn:hover{border-color:#c0564f}
+</style>
+</head>
+<body>
+<div class="moon"></div>
+<div class="radioBox">
+  <div class="dial">
+    <div><div class="freq">FM <em>08.8</em></div><div class="scale"><i></i></div></div>
+    <div class="on-air">ON AIR</div>
+  </div>
+  <div class="stage">
+    <div id="night">— 调频中 —</div>
+    <div id="line"></div>
+    <div id="static">· · · 滋 · · ·</div>
+  </div>
+  <div class="ctl">
+    <button class="knob" id="nextBtn">下 一 段</button>
+    <button class="knob off" id="offBtn">关 掉 收 音 机</button>
+  </div>
+</div>
+<div id="envhint"></div>
+<script src="assets/game.js?v=49"></script>
+<script>
+if (DJ.gate(9)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+
+  /* 八个夜晚的存档：论坛那句晚安的源头 */
+  const SHOWS = [
+    { n:"存档 · 第 1 夜", l:"「晚安。今天也没有发生任何事。」" },
+    { n:"存档 · 第 2 夜", l:"「晚安。冰箱的声音，比昨天轻了一度。」" },
+    { n:"存档 · 第 3 夜", l:"「晚安。有人在楼下按了很久的车锁。哔，哔，哔。像在跟什么道别。」" },
+    { n:"存档 · 第 4 夜", l:"「晚安。今天把『在吗』打出来，又删掉了。晚安算说了吗。」" },
+    { n:"存档 · 第 5 夜", l:"「晚安。失眠的人晚上好。睡得着的人，也晚上好。」" },
+    { n:"存档 · 第 6 夜", l:"「晚安。今天没有想说的。但不播，就断了。」" },
+    { n:"存档 · 第 7 夜", l:"「晚安。如果这段话从来没有听众——那它算说给谁听的呢。」" },
+    { n:"存档 · 第 8 夜", l:"「晚安。」", g:true }
+  ];
+  const AFTER = [
+    { n:"现在 · 实时", l:"……" },
+    { n:"现在 · 实时", l:"（电流声停了。这个频道八年来第一次，没有放晚安。）" },
+    { n:"现在 · 实时", l:"「……你也听着呢。」", s:true },
+    { n:"现在 · 实时", l:"（它知道现在有人。它一直知道。）" }
+  ];
+  const ALL = SHOWS.concat(AFTER);
+  let i = 0, done = false;
+
+  function play(){
+    const seg = ALL[i];
+    $("night").textContent = "— " + seg.n + " —";
+    const L = $("line");
+    L.classList.remove("glitch","speaking"); void L.offsetWidth;
+    if (seg.g) L.classList.add("glitch");
+    if (seg.s) L.classList.add("speaking");
+    L.textContent = seg.l;
+    $("static").textContent = i < SHOWS.length ? "· · · 滋 · · ·" : "· · ·";
+    DJ.sfx.type();
+    if (i === ALL.length - 1){
+      done = true;
+      $("nextBtn").classList.add("off");
+      $("offBtn").classList.remove("off");
+      DJ.flag("radio_listened"); DJ.addIncense(1); DJ.sfx.read();
+    }
+    i++;
+  }
+  $("nextBtn").onclick = () => { if (!done) play(); else DJ.envHintNow("最后一段，还没有播完。"); };
+  $("offBtn").onclick = () => {
+    DJ.sfx.click();
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "hub.html", 420);
+  };
+
+  DJ.envHint("这个台八年只有一句话。你不觉得，一句话能撑八年吗。", "rd1", 90);
+  DJ.envHint("第八夜之后，还有一个「现在」。", "rd2", 220);
+}
+</script>
+</body>
+</html>

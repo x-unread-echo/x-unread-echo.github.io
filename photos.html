@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相册 · 他的一晚</title>
+<link rel="stylesheet" href="assets/style.css?v=49">
+<style>
+  body{background:#05070c;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .phone{width:min(340px,92vw);background:#0b0f16;border:1px solid #1c2c4a;border-radius:34px;
+    padding:14px 12px 20px;box-shadow:0 20px 70px rgba(0,0,0,.6)}
+  .notch{width:110px;height:18px;background:#060a12;border-radius:99px;margin:0 auto 10px;
+    border:1px solid #141f36}
+  .scr{border-radius:18px;overflow:hidden;background:#0d1420;border:1px solid #141f36;min-height:520px;
+    display:flex;flex-direction:column}
+  .scrhead{padding:14px 18px 10px;display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid #141f36}
+  .scrhead b{font-size:14px;color:#dfe5ee;letter-spacing:2px;font-weight:500}
+  .scrhead span{font-size:10.5px;color:#42536f;letter-spacing:1px;font-family:var(--mono)}
+  .shot{flex:1;position:relative;min-height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .shot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;filter:brightness(.85) saturate(.8);
+    animation:fadein 1s ease both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .cap{position:relative;z-index:2;margin:210px 16px 14px;background:rgba(6,10,18,.82);border:1px solid #1c2c4a;
+    border-radius:10px;padding:12px 14px;font-size:12.5px;color:#c9d6ea;line-height:2;white-space:pre-wrap;
+    backdrop-filter:blur(4px)}
+  .cap em{color:#4f8f8b;font-style:normal}
+  .time{position:relative;z-index:2;text-align:center;font-family:var(--mono);font-size:11px;color:#42536f;
+    letter-spacing:3px;padding-bottom:12px}
+  .draft{flex:1;padding:22px 18px;display:flex;flex-direction:column}
+  .draft .to{font-size:11px;color:#42536f;letter-spacing:2px;margin-bottom:16px}
+  .draft .box{background:#101c33;border:1px solid #1c2c4a;border-radius:12px;padding:14px;
+    font-size:15px;color:#dfe5ee;letter-spacing:2px;min-height:52px;font-family:"Songti SC","SimSun",serif}
+  .draft .meta{font-size:10.5px;color:#c0564f;letter-spacing:2px;margin-top:10px}
+  .draft .note{margin-top:auto;font-size:12px;color:#5a6a84;line-height:2.2;letter-spacing:1px;
+    white-space:pre-wrap;font-family:"Songti SC","SimSun",serif}
+  .footnav{display:flex;gap:10px;margin-top:12px}
+  .navb{flex:1;border:1px solid #2c3a52;background:#0b1220;color:#8fa0bd;border-radius:99px;
+    padding:10px;font-size:13px;letter-spacing:4px;cursor:pointer}
+  .navb:hover{border-color:#4f8f8b;color:#dfe5ee}
+  .navb.off{display:none}
+</style>
+</head>
+<body>
+<div class="moon"></div>
+<div class="phone">
+  <div class="notch"></div>
+  <div class="scr">
+    <div class="scrhead"><b id="phTitle">相册 · 最近项目</b><span id="phCount">1 / 8</span></div>
+    <div id="stage" class="shot"></div>
+    <div class="footnav">
+      <button class="navb" id="prevB">‹ 上一张</button>
+      <button class="navb" id="nextB">下一张 ›</button>
+      <button class="navb off" id="exitB">放 下 手 机</button>
+    </div>
+  </div>
+</div>
+<div id="envhint"></div>
+<script src="assets/game.js?v=49"></script>
+<script>
+if (DJ.gate(10)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+
+  /* 一晚，八张。最后一"张"不是照片。 */
+  const SHOTS = [
+    { img:"snowstreet.png", t:"22:14", c:"路上。雪停了。\n灯是唯一一个等我的人。" },
+    { img:"reflection.png", t:"23:08", c:"屏幕黑着。总觉得里面有人。\n放大看，那个人的坐姿和我一模一样。" },
+    { img:"room.png",       t:"00:48", c:"出租屋。茶凉到第三遍。\n没有开灯——开了灯，房间就承认只有一个人了。" },
+    { img:"temple.png",     t:"02:08", c:"又走到这里。灰还是温的。\n这个点不该有人的。守观的老人说，永远只有一个年轻人来。" },
+    { img:"butterfly.png",  t:"02:31", c:"白蝶。黑底。\n它停在屏幕上不走，我就把它拍下来了。" },
+    { img:"room.png",       t:"03:08", c:"凌晨三点。屏幕亮着，人没亮。\n这张拍完我删了三次，又从回收站恢复了三次。" },
+    { img:"snowstreet.png", t:"04:08", c:"回家的路。来时的脚印已经被雪盖掉一半。\n走夜路的人不怕黑，怕的是回头。" },
+    { draft:true,           t:"04:08", c:"" }
+  ];
+  let i = 0;
+
+  function render(){
+    const s = SHOTS[i], st = $("stage");
+    $("phCount").textContent = (i+1) + " / 8";
+    if (s.draft){
+      $("phTitle").textContent = "草稿 · 未发送";
+      st.innerHTML = `<div class="draft">
+        <div class="to">收件人：那个号码（无备注）</div>
+        <div class="box">其实我<span style="opacity:.4">|</span></div>
+        <div class="meta">草稿 · 保存于 04:08 · 未发送 · 已保存 2920 天</div>
+        <div class="note">写了八年，只有两个字。\n后面那些，每次都在发送键之前，被删掉了。\n\n——这条草稿，比这个相册里所有照片都旧。</div>
+      </div>`;
+      DJ.sfx.read();
+      $("nextB").classList.add("off");
+      $("exitB").classList.remove("off");
+      $("prevB").classList.remove("off");
+      DJ.flag("photos_done"); DJ.addIncense(1);
+      return;
+    }
+    $("phTitle").textContent = "相册 · 最近项目";
+    $("nextB").classList.remove("off");
+    $("exitB").classList.add("off");
+    if (i === 0) $("prevB").classList.add("off"); else $("prevB").classList.remove("off");
+    st.innerHTML = `<img src="assets/media/${s.img}" alt="">
+      <div class="cap">${s.c}</div>
+      <div class="time">— ${s.t} —</div>`;
+    DJ.sfx.click();
+  }
+  $("nextB").onclick = () => { if (i < SHOTS.length - 1){ i++; render(); } };
+  $("prevB").onclick = () => { if (i > 0){ i--; render(); } };
+  $("exitB").onclick = () => {
+    DJ.sfx.ok();
+    document.body.classList.add("flash");
+    setTimeout(() => location.href = "hub.html", 420);
+  };
+  render();
+
+  DJ.envHint("这些照片的时间，和云屉里的对得上。", "ph1", 100);
+  DJ.envHint("最后一张，不是照片。", "ph2", 240);
+}
+</script>
+</body>
+</html>

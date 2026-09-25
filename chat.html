@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=48">
+<link rel="stylesheet" href="assets/style.css?v=49">
 <style>
   body{background:#04070c;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -342,7 +342,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=48"></script>
+<script src="assets/game.js?v=49"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -555,7 +555,7 @@ function main(){
     if (e.target.id === "toGuan" || e.currentTarget.classList.contains("key")){
       DJ.unlock(3); DJ.sfx.ok();
       document.body.classList.add("flash");
-      setTimeout(() => location.href = "guanyun.html", 400);
+      setTimeout(() => location.href = "hub.html", 400);
     }
   };
 
