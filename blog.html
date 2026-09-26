@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>慢半拍 · 记录一些没什么用的事</title>
-<link rel="stylesheet" href="assets/style.css?v=67">
+<title>北屋 · 仅自己可见</title>
+<link rel="stylesheet" href="assets/style.css?v=69">
 <style>
   body{
     background:
@@ -16,68 +16,23 @@
   }
   ::selection{background:rgba(184,53,42,.25)}
   .moon{display:none !important}
-  #envhint{color:#8a5038;text-shadow:none;opacity:0}
-  #envhint.show{opacity:.9}
-
+  #envhint{display:none !important}
   .wrap{max-width:900px;margin:0 auto;padding:18px 14px 90px;position:relative}
 
-  /* 顶部横幅 */
-  .banner{margin-top:12px;border:2px solid #b8352a;border-radius:12px;overflow:hidden;
+  .banner{border:2px solid #b8352a;border-radius:12px;overflow:hidden;
     background:linear-gradient(180deg,#fffdf7,#faedd7);
     box-shadow:0 10px 34px rgba(120,50,25,.18);text-align:center;padding:26px 16px 20px;position:relative}
-  .banner h1{font-size:30px;letter-spacing:8px;color:#8a3222;font-weight:800;margin:0}
-  .banner h1::before,.banner h1::after{content:" ★ ";color:#d9a879;font-size:20px;letter-spacing:0}
+  .banner h1{font-size:26px;letter-spacing:10px;color:#8a3222;font-weight:800;margin:0}
+  .banner h1::before,.banner h1::after{content:" · ";color:#d9a879;letter-spacing:0}
   .banner .sub{font-size:12.5px;color:#a07448;letter-spacing:3px;margin-top:8px}
   .banner .upd{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;margin-top:10px;font-family:var(--mono)}
-  .bnav{margin-top:16px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;
-    font-size:13px;letter-spacing:2px;color:#8a3222}
-  .bnav span{color:#d9a879;margin:0 4px}
-  .bnav b{cursor:pointer;font-weight:400;transition:color .2s}
-  .bnav b:hover{color:#d9552f;text-decoration:underline}
 
-  /* 日记底部的 meta 行：真博客都有的 阅读/评论 */
-  .pmeta{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
-    display:flex;gap:14px;border-top:1px dashed #e8cba0;padding-top:8px;margin-top:4px}
-  .pmeta span{cursor:pointer;transition:color .2s}
-  .pmeta span:hover{color:#b8352a}
-  .cmts{margin-top:8px;background:#fdf6e8;border:1px solid #ecd9b0;border-radius:8px;
-    padding:10px 12px;font-size:12px;line-height:1.9;color:#7a5236}
-  .cmts .cwho{color:#a8552f;font-weight:700;margin-right:6px}
-
-  /* 相册：拍立得墙 */
-  .alb{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px}
-  .alb img{width:100%;height:74px;object-fit:cover;border:3px solid #fffdf7;outline:1px solid #d9b98a;
-    box-shadow:0 3px 8px rgba(120,50,25,.2);cursor:zoom-in;transform:rotate(-1.5deg);transition:transform .2s}
-  .alb img:nth-child(2n){transform:rotate(1.5deg)}
-  .alb img:hover{transform:rotate(0) scale(1.04)}
-  .alb .none{grid-column:1/-1;font-size:11px;color:#c9ad8c;letter-spacing:2px;text-align:center;padding:6px 0}
-  .albname{font-size:10px;color:#8a6a4a;text-align:center;margin-top:2px;letter-spacing:1px}
-
-  /* 灯箱：点图片放大 */
-  .lbx{position:fixed;inset:0;background:rgba(40,20,10,.75);display:none;
-    align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
-  .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .lbx.show{display:flex}
-
-  /* 注销提示：点留言人的名字 */
-  .gx{position:fixed;inset:0;background:rgba(40,20,10,.55);display:none;
-    align-items:center;justify-content:center;z-index:98;cursor:pointer}
-  .gx.show{display:flex}
-  .gxbox{background:#fffdf7;border:2px solid #b8352a;border-radius:10px;padding:26px 40px;
-    text-align:center;color:#5a3a28;box-shadow:0 18px 50px rgba(0,0,0,.4)}
-  .gxbox b{display:block;font-size:16px;letter-spacing:3px;color:#8a3222;margin-bottom:8px}
-  .gxbox small{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px}
-  .who{cursor:pointer}
-  .who:hover{text-decoration:underline}
-
-  /* 布局：侧栏 + 正文 */
   .cols{display:flex;gap:14px;margin-top:14px;align-items:flex-start}
   @media (max-width:700px){ .cols{flex-direction:column} }
-  .side{width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
+  .side{width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
   @media (max-width:700px){ .side{width:100%} }
   .main{flex:1;min-width:0}
 
-  /* Web2.0 光泽白面板 */
   .panel{background:linear-gradient(180deg,#fffef9 0%,#fbf3e4 100%);
     border:1.5px solid #d9b98a;border-radius:11px;overflow:hidden;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 8px 24px rgba(120,50,25,.14)}
@@ -87,40 +42,48 @@
   .pb{padding:14px 16px;font-size:13.5px;line-height:2.1;letter-spacing:1px;color:#5a3a28}
   .pb p{margin:0 0 12px}
   .pb p:last-child{margin-bottom:0}
-
-  /* 正文里的链接：像普通文字，只是下面有点 */
-  .lk{color:#b8352a;font-weight:600;cursor:pointer;border-bottom:1px dotted #b8352a;transition:background .2s}
-  .lk:hover{background:#fdeedd}
-  /* 没玩到的入口：连点的感觉都不给，就是一段普通文字 */
-  .lk.dim{color:inherit;border-bottom:none;font-weight:inherit;cursor:default}
-  .lk.dim:hover{background:transparent}
-
-  /* 侧栏小面板 */
   .sp .pb{padding:12px 14px;font-size:12.5px;line-height:1.95}
+
   .avatar{width:64px;height:64px;border-radius:8px;background:#b8352a;color:#fdf2e0;
     display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px;
-    border:3px solid #fdf2e0;outline:2px solid #d9b98a;box-shadow:0 4px 12px rgba(120,50,25,.25)}
+    border:3px solid #fdf2e0;outline:2px solid #d9b98a;box-shadow:0 4px 12px rgba(120,50,25,.25);cursor:zoom-in}
   .kv{display:flex;gap:8px;font-size:12px;line-height:2;color:#7a5236}
   .kv b{color:#a8552f;font-weight:600;flex-shrink:0}
-  .gbitem{border-bottom:1px dashed #e0c49a;padding:8px 0}
-  .gbitem:last-child{border-bottom:none}
-  .gbitem .who{color:#a8552f;font-weight:700;font-size:12px}
-  .gbitem .tm{color:#c9ad8c;font-size:10.5px;font-family:var(--mono);margin-left:6px}
-  .gbitem p{margin:4px 0 0;font-size:12.5px;color:#6b4a32;line-height:1.9}
 
-  /* 贴纸：每一个都有出处 */
-  .stk{position:absolute;pointer-events:none;user-select:none;filter:drop-shadow(0 3px 4px rgba(120,50,25,.22))}
-  .butterfly{top:-10px;right:18px;width:44px;animation:fl 6s ease-in-out infinite}
-  @keyframes fl{0%,100%{transform:translateY(0) rotate(6deg)}50%{transform:translateY(-9px) rotate(-4deg)}}
-  .catstk{font-size:22px;bottom:-8px;left:-8px;transform:rotate(-10deg);animation:fl 7s ease-in-out infinite}
-  .radiostk{font-size:20px;top:-9px;right:-6px;transform:rotate(10deg)}
+  /* 年份分隔：不是标签，就是日记本里的分页纸 */
+  .yhead{margin:26px 0 14px;display:flex;align-items:center;gap:12px}
+  .yhead:first-child{margin-top:4px}
+  .yhead b{font-size:17px;color:#8a3222;letter-spacing:4px;font-family:var(--mono)}
+  .yhead i{flex:1;border-top:2px dashed #d9b98a}
+  .yhead small{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;font-family:var(--mono)}
 
-  .online{margin-top:16px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
-  .online b{color:#b8352a}
+  /* 一条碎碎念 */
+  .post{background:#fffdf7;border:1px solid #ecd9b0;border-radius:10px;
+    padding:14px 16px;margin-bottom:14px;box-shadow:0 4px 12px rgba(120,50,25,.08);position:relative}
+  .post .pdate{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .post .lock{font-size:10px;color:#b8352a;border:1px solid #e4b8ad;border-radius:4px;
+    padding:1px 7px;letter-spacing:2px;background:#fdf0ea}
+  .post .ptext{font-size:13px;line-height:2.15;color:#5a3a28;letter-spacing:.8px;white-space:pre-line}
+  .post .pself{margin-top:10px;border-top:1px dashed #e8cba0;padding-top:8px;
+    font-size:12px;line-height:1.95;color:#8a6a4a}
+  .post .pself b{color:#a8552f;font-weight:700;margin-right:6px}
+  .code{font-family:var(--mono);color:#b8352a;background:#fdf0ea;border-radius:4px;padding:0 5px}
 
-  .dayhead{font-size:14px;font-weight:800;color:#8a3222;letter-spacing:2px;
-    border-bottom:2px solid #e8cba0;padding-bottom:8px;margin-bottom:12px}
-  .dayhead small{font-weight:400;color:#c9ad8c;font-family:var(--mono);margin-left:10px;letter-spacing:1px}
+  /* 歌单 */
+  .song{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed #e8cba0}
+  .song:last-child{border-bottom:none}
+  .song .no{color:#c9ad8c;font-family:var(--mono);font-size:11px;flex-shrink:0}
+  .song .st{color:#7a4a30;font-weight:600;font-size:12.5px;letter-spacing:1px}
+  .song .hot{font-size:11px;color:#a8886a;line-height:1.8;margin-top:2px}
+
+  .lbx{position:fixed;inset:0;background:rgba(40,20,10,.75);display:none;
+    align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
+  .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lbx.show{display:flex}
+
+  .foot{margin-top:16px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
+  .foot b{color:#b8352a}
 </style>
 </head>
 <body>
@@ -128,220 +91,173 @@
 <div class="wrap">
 
   <div class="banner">
-    <svg class="stk butterfly" viewBox="0 0 24 24"><g fill="#fdf6e8" stroke="#b8352a" stroke-width="1"><path d="M12 12 C9 5, 2.5 4, 3 9.5 C3.4 13.5, 8.5 14, 11 12.6 Z"/><path d="M12 12 C15 5, 21.5 4, 21 9.5 C20.6 13.5, 15.5 14, 13 12.6 Z"/><ellipse cx="12" cy="13" rx="1.1" ry="3.4" fill="#b8352a" stroke="none"/></g></svg>
-    <h1>慢半拍</h1>
-    <div class="sub">～ 记录一些没什么用的事 ～</div>
-    <div class="upd" id="upd">最后更新于：2025 年 8 月 7 日 23:58</div>
-    <div class="bnav">首页<span>☆</span>日记<span>☆</span>相册<span>☆</span>留言板<span>☆</span>关于我</div>
+    <h1>北 屋</h1>
+    <div class="sub">～ 说了也没人听，就记在这里 ～</div>
+    <div class="upd">访问量：8 · 粉丝：0 · 最后更新：今天</div>
   </div>
 
   <div class="cols">
     <div class="side">
-      <div class="panel sp" id="aboutPanel">
-        <div class="ph">关于我</div>
+      <div class="panel sp">
+        <div class="ph">关于这个号</div>
         <div class="pb">
-          <div class="avatar" id="avatar" style="cursor:zoom-in">?</div>
-          <div class="kv"><b>昵称：</b><span>（没有填）</span></div>
-          <div class="kv"><b>星座：</b><span>（不想说）</span></div>
-          <div class="kv"><b>座右铭：</b><span>先渡自己。</span></div>
+          <div class="avatar" id="avatar">?</div>
+          <div class="kv"><b>昵称：</b><span>北屋</span></div>
+          <div class="kv"><b>注册：</b><span>2022-08-08</span></div>
+          <div class="kv"><b>简介：</b><span>先渡自己。</span></div>
+          <div class="kv"><b>访问：</b><span>8 次。都是我自己。</span></div>
         </div>
       </div>
 
-      <div class="panel sp" id="albumPanel">
-        <div class="ph">相册</div>
-        <div class="alb" id="album"></div>
-      </div>
-
-      <div class="panel sp" id="gbPanel">
-        <div class="ph">留言板</div>
-        <div class="pb" id="gb"></div>
-      </div>
-
-      <div class="panel sp" style="position:relative" id="musicpanel">
-        <span class="stk radiostk">📻</span>
-        <div class="ph">最近在听</div>
-        <div class="pb" id="music"></div>
-      </div>
-
       <div class="panel sp">
-        <div class="ph">友情链接</div>
-        <div class="pb" id="friends"></div>
+        <div class="ph">他的歌单 · 仅自己可见</div>
+        <div class="pb" id="songs"></div>
       </div>
     </div>
 
     <div class="main">
-      <div class="panel" id="diaryPanel">
-        <div class="ph" id="ytitle">日记</div>
-        <div class="pb" id="diary"></div>
+      <div class="panel">
+        <div class="ph">碎碎念</div>
+        <div class="pb" id="feed"></div>
       </div>
     </div>
   </div>
 
-  <div class="online" id="online"></div>
+  <div class="foot">这个号没有告诉过任何人。包括<span style="color:#b8352a">你</span>。</div>
 </div>
-<div id="envhint"></div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
-<div class="gx" id="gx"><div class="gxbox"><b>该用户已注销</b><small>注销时间：2025-08-08 23:58</small></div></div>
 <script src="assets/game.js?v=69"></script>
 <script>
-if (DJ.gate(1)) main();
+if (DJ.gate(2)) main();
 function main(){
   const $ = id => document.getElementById(id);
   const ch = DJ.state.chapter;
 
-  /* ---------- 日记：八年，一年一页，从第一秒起全部都在 ---------- */
-  /* lk = 正文里的入口。锁住的渲染成灰色虚线，点了给剧情内的话，页面永远不长 */
+  /* ---------- 碎碎念：超长、仅自己可见、2022-2026 ---------- */
   const YEARS = [
-    { y:"2017", lock:3, title:"日记 · 2017", upd:"最后更新于：2017 年的某个冬天", posts:[
-      { d:"3 月 12 日", html:`搬进来的第一天。房间朝北，正好，晒不到太阳。<p>楼下阿婆问我在哪里上班。我说，在网上。</p><p><span class="lk ${ch>=3?"":"dim"}" data-go="guanyun.html" data-err="你还没有找到那座观。它不在地图上，在别人的一句闲话里。">陪人去了一趟青云观</span>。香灰落在我手背上，没有烫。奇怪。</p>` }
+    { y:"2026", tag:"还在更新", posts:[
+      { d:"09-26", lock:true, t:`凌晨三点十七分醒的。没有闹钟，是自己醒的。
+
+躺了一会儿，习惯性拿起手机看后台。这个号我四年没告诉过任何人，访问量一直是 8——我自己登一次算一次。
+
+今天显示 9。
+
+我把手机扣在床头，坐了很久。窗外一辆车都没有，安静得能听见冰箱的声音。可能是系统坏了。系统经常坏。
+
+又拿起来看了一遍。还是 9。
+
+我把灯关了，假装不在。` },
+      { d:"08-08", lock:true, t:`一年了。
+
+备忘录里那条"明天回电"还挂着，我一直没删，也不敢点开。点开它就会问我：现在回吗？
+
+有时候我想，如果那天我赢的是另一场，是不是电话就会响。后来不这么想了。赢不赢，电话都不会响的。电话响的时候，你永远不会想到是这一天。` },
+      { d:"03-02", lock:true, t:`楼下有只卷毛的猫，蹲在门口，像没睡醒。
+
+我隔着玻璃看了它十分钟，没敢开窗。
+
+我怕开了窗，它就要进来了。它进来了，家里就有第二个心跳了。有第二个心跳，夜晚就会短一点。夜晚短一点，人就软一点。
+
+我还是没开窗。明天再看看它在不在。` }
     ]},
-    { y:"2018", lock:4, title:"日记 · 2018", upd:"最后更新于：2018 年秋", posts:[
-      { d:"10 月 2 日", html:`巷子深处有家茶室，招牌上写<b>第八茶室</b>。<p>老板说，亥时以后是深夜场，只接待一个人。</p><p><span class="lk ${ch>=4?"":"dim"}" data-go="oracle.html" data-err="茶室的门只在亥时开。你还没走到那条巷子。">我去过一次</span>。之后再没找到过那条巷子。</p>` }
+    { y:"2025", tag:"", posts:[
+      { d:"08-07 · 23:58", lock:true, t:`把这八年的东西都整理好了，放在 <span class="code">yunti.cloud</span>，提取码 <span class="code">0808</span>。
+
+有些是截屏，有些是录音，有些是我半夜写的没人会看的东西。放在一起比我想象中重。
+
+要是哪天我不在了，看到的人替我删掉。`, self:{ w:"北屋", m:"补：别删。留着。总有一天用得上。另外提取码改了——改成那四个字了。你们懂。" } },
+      { d:"07-19", lock:true, t:`年度报告出来了，说我今年的关键词是"等"。
+
+等一个电话，等一句夸，等一个结果。报告还会看下一个年度的关键词是什么。我很想提前剧透给它：不会变的。
+
+好几年了，关键词没换过。换人可以，换关键词不行。` },
+      { d:"04-01", lock:true, t:`今天是愚人节，最适合说真话。
+
+我想说我其实输不起。表面上说"重在参与"，回房间能把那一局复盘到凌晨四点。
+
+今天有一只白蝶停在纱窗上，停了很久。我没赶它。外婆说过，蝶是引路的，别跟着走丢。我没跟。我就在原地。` }
     ]},
-    { y:"2019", lock:5, title:"日记 · 2019", upd:"最后更新于：2019 年夏", posts:[
-      { d:"7 月 22 日", html:`<span class="lk ${ch>=5?"":"dim"}" data-go="forum.html" data-err="那个论坛要审核。审核你的人还没点通过。">注册了一个论坛的号</span>。ID 就不说了。<p>在里面认识一个小组，讨论的问题都很怪。我喜欢怪的问题。</p><p>他们说我发帖像在自言自语。我删了又发，发了又删。</p>` }
+    { y:"2024", tag:"", posts:[
+      { d:"11-08", lock:true, t:`又赢了一次。
+
+他们说我这届最稳，问我有什么诀窍。我说睡得好。
+
+其实我每天晚上都在重算。把输的那些局一遍一遍重新打，打到赢为止，手机烫得像块烙铁。赢回来的那一刻也没有开心，就是松一口气，像还了一笔债。
+
+第二天接着欠。` },
+      { d:"06-18", lock:true, t:`把"输"改了个名字，叫"先攒着"。
+
+攒着攒着，攒了 108 次。这个数字我记在本子上，本子放在枕头底下。
+
+小时候家里人说，攒着攒着就没了。说得对，说得都对，每一句我都记得。就是没人问过我记不记得。` },
+      { d:"01-01", lock:true, t:`新年愿望：接电话的手不要抖。
+
+去年就许的这个。前年也是。
+
+许愿这个东西吧，许一次没实现，许两次没实现，第三次你就会换个愿望。我不换。我固执起来连自己都怕。` }
     ]},
-    { y:"2020", lock:6, title:"日记 · 2020", upd:"最后更新于：2020 年冬", posts:[
-      { d:"12 月 8 日", html:`开始<span class="lk ${ch>=6?"":"dim"}" data-go="ledger.html" data-err="记事本被另一个窗口占用了。">记账</span>。<p>记到第 8 笔的时候对不上账。差的那笔钱去了哪里，我想了很久。想不起来。</p><p>后来就不想了。有些账，平不了就算了。</p>` }
+    { y:"2023", tag:"", posts:[
+      { d:"10-31", lock:true, t:`画了一个面具。本来只想画一层，回过神来已经画了七层。
+
+第八层没画完，笔没水了。
+
+也许是天意。也许第八层下面什么都没有，就像那家茶室的深夜场——你排到了，才发现接待的只有你自己。` },
+      { d:"06-14", lock:true, t:`通讯录里 412 个人。
+
+今天闲着，从头翻到尾，试着找出五个"凌晨三点能打"的。挑来挑去挑出两个，再挑就挑不下去了。
+
+"家"那个备注，去年改成了一串数字。这样它看起来就跟别的未接来电一样，不会特别疼。` },
+      { d:"02-14", lock:true, t:`今天全世界都在过节。
+
+我在排队，赢了八把。第八把赢完，我看着战报想，这话说给谁听呢。
+
+后来发在了只有我一个人看的群里。系统提示：发送成功。
+
+你看，至少系统是站在我这边的。` }
     ]},
-    { y:"2021", lock:7, title:"日记 · 2021", upd:"最后更新于：2021 年春", posts:[
-      { d:"4 月 1 日", html:`<span class="stk catstk">🐈</span>想养猫。<p>在同城看了很久，有一只<span class="lk ${ch>=7?"":"dim"}" data-go="adopt.html" data-err="那条领养信息已经过期了。过期不代表被领养。">卷毛的，有点像没睡醒</span>。我都填好表了。</p><p>最后没交。怕它等的人不是我。</p>` }
-    ]},
-    { y:"2022", lock:8, title:"日记 · 2022", upd:"最后更新于：2022 年 8 月", posts:[
-      { d:"8 月 8 日", html:`把八年的照片都传去了<span class="lk ${ch>=8?"":"dim"}" data-go="cloud.html" data-err="网盘空间已满。你要先往里面放点东西。">网盘</span>。<p>设了密码。密码提示写的是一个问题，答案我谁都没告诉。</p><p>这样挺好的。有些东西放在看得见的地方，又谁也拿不到。</p>` }
-    ]},
-    { y:"2023", lock:9, title:"日记 · 2023", upd:"最后更新于：2023 年万圣节", posts:[
-      { d:"10 月 31 日", html:`画了一个<span class="lk ${ch>=9?"":"dim"}" data-go="mask.html" data-err="文件损坏。双击没有反应。">面具</span>，存在本机文件里。<p>本来只想画一层的。回过神来，画了八层。</p><p>第几层是真的？我不数了。数到最后一层的人会睡不着。</p>` }
-    ]},
-    { y:"2024", lock:10, title:"日记 · 2024", upd:"最后更新于：2024 年冬", posts:[
-      { d:"11 月 8 日", html:`复诊。还是那个医生，还是 8 点的号。<p>她问我：这些话，你有没有告诉过任何人。</p><p>我说了谎。我说告诉过<span class="lk ${ch>=10?"":"dim"}" data-go="archive.html" data-err="内网地址。你需要一张工牌。">病历上不会写</span>的东西。</p>` }
-    ]},
-    { y:"2025", lock:1, title:"日记 · 2025（最新）", upd:"最后更新于：2025 年 8 月 7 日 23:58", posts:[
-      { d:"8 月 7 日 · 深夜", html:`<span class="lk ${ch>=1?"":"dim"}" data-go="dial.html" data-err="这串号码没有主人。你打不开别人的通话记录。">今天有一个未接来电</span>。<p>凌晨打来的。响了一下就挂了，像试探，又像道歉。</p><p><span class="lk ${ch>=2?"":"dim"}" data-go="chat.html" data-err="你登不进去。这台设备只认一个账号。">短信里躺着 38 条未读</span>，都是我发的。对面一条都没回。</p><p>明天……算了。没有明天了。晚安。</p>` },
-      { d:"8 月 1 日", html:`有人问我还写不写日记。<p>写。只是都写在<span class="lk ${ch>=11?"":"dim"}" data-err="对面没有在线。" data-go="echo8.html" data-err2="1">一个不会说话的地方</span>。</p>` }
+    { y:"2022", tag:"这个号的开始", posts:[
+      { d:"12-31", lock:true, t:`今年打了 1,208 场，胜率 81%。
+
+唯一输的那场，我到现在还记得对方的 ID。不是记仇。是我总在想，那天要是我再多睡一个小时，是不是就赢了。
+
+睡得多，输得少。这是这几年学会的唯一一件事。` },
+      { d:"08-08", lock:true, t:`注册了这个号。
+
+大的那个号太多人看了，说什么都要想三遍，说到一半像在工作。这里说点真的。
+
+……想了半天，也没什么真的可说。
+
+就这样。晚安。` }
     ]}
   ];
 
-  const bindLk = () => {
-    document.querySelectorAll(".lk").forEach(a => {
-      a.onclick = () => {
-        if (a.classList.contains("dim")) return; /* 没玩到的：就是普通文字 */
-        DJ.sfx.click(); location.href = a.dataset.go;
-      };
-    });
-  };
-
-  /* ---------- 每篇日记的网友评论（固定不变，像博客该有的样子） ---------- */
-  const CMTS = {
-    "8 月 7 日 · 深夜":[{w:"路人甲",m:"沙发。这么晚还没睡？"},{w:"momo",m:"抱抱。"}],
-    "8 月 1 日":[{w:"路过的人",m:"写日记的人也要好好吃饭。"},{w:"momo",m:"蹲一个更新。"}],
-    "11 月 8 日":[{w:"同路人",m:"八点的号要早点去排队。"},{w:"匿名",m:"医生说的话别全信。"}],
-    "10 月 31 日":[{w:"匿名",m:"第一层就很好看了。"},{w:"路过的人",m:"万圣节快乐。"}],
-    "8 月 8 日":[{w:"momo",m:"网盘会跑路的，还是存硬盘吧。"},{w:"同好",m:"八年才传一次照片？"}],
-    "4 月 1 日":[{w:"路过的人",m:"四月一日不是愚人节吗，别骗我们。"},{w:"momo",m:"卷毛猫很乖的。"}],
-    "12 月 8 日":[{w:"同好",m:"差的那笔可能是手续费。"},{w:"匿名",m:"账平不了就算了吧。"}],
-    "7 月 22 日":[{w:"同好",m:"哪个小组？带带我。"},{w:"momo",m:"自言自语也是一种发帖。"}],
-    "10 月 2 日":[{w:"路人甲",m:"亥时是几点？"},{w:"匿名",m:"深夜场听着就瘆得慌。"}],
-    "3 月 12 日":[{w:"路过的人",m:"香灰不烫是好事。"},{w:"momo",m:"朝北的房间冬天冷吧。"}]
-  };
-  const VIEWS = { "8 月 7 日 · 深夜":"3", "8 月 1 日":"156", "11 月 8 日":"89", "10 月 31 日":"2077",
-    "8 月 8 日":"443", "4 月 1 日":"826", "12 月 8 日":"312", "7 月 22 日":"508", "10 月 2 日":"964", "3 月 12 日":"8" };
-
-  /* ---------- 渲染：就是一篇篇日记，按时间倒序往下排。玩到哪，哪一篇出现 ---------- */
-  const render = () => {
-    let html = "";
-    for (const Y of YEARS.slice().reverse()){   /* 最新的年份在最上面 */
-      if (ch < Y.lock) continue;
-      for (const p of Y.posts){
-        const cs = CMTS[p.d] || [];
-        const cm = cs.map(c => `<div><span class="cwho">${c.w}：</span>${c.m}</div>`).join("");
-        html += `<div class="dayhead">${Y.y} 年 ${p.d}</div>${p.html}` +
-          `<div class="pmeta"><span>阅读(${VIEWS[p.d] || "233"})</span><span class="pcmt">评论(${cs.length}) ▾</span></div>` +
-          `<div class="cmts" hidden>${cm}</div><div style="height:14px"></div>`;
-      }
-    }
-    $("diary").innerHTML = html;
-    document.querySelectorAll(".pcmt").forEach(s => {
-      s.onclick = () => {
-        DJ.sfx.click();
-        const box = s.parentElement.nextElementSibling;
-        box.hidden = !box.hidden;
-        s.textContent = s.textContent.replace(/▾|▴/, box.hidden ? "▾" : "▴");
-      };
-    });
-    bindLk();
-  };
-  render();
-
-  /* ---------- 顶部导航：真锚点，滚到对应板块 ---------- */
-  document.querySelectorAll(".bnav b").forEach(b => {
-    b.onclick = () => {
-      DJ.sfx.click();
-      const el = document.getElementById(b.dataset.nav);
-      if (el) el.scrollIntoView({behavior:"smooth", block:"start"});
-    };
-  });
-
-  /* ---------- 相册：走过的章节照片才挂出来 ---------- */
-  const PHOTOS = [
-    { src:"assets/media/temple.png",     name:"青云观外", c:3 },
-    { src:"assets/media/snowstreet.png", name:"雪夜的街", c:8 },
-    { src:"assets/media/room.png",       name:"房间",     c:8 },
-    { src:"assets/media/reflection.png", name:"倒影",     c:8 }
+  /* ---------- 他的歌单：歌是编的，心事是真的 ---------- */
+  const SONGS = [
+    { t:"八点零八", hot:"这个时间打来的电话，我从来不敢不接。" },
+    { t:"白蝶",    hot:"蝶是引路的。别跟着走丢。" },
+    { t:"亥时",    hot:"亥时以后，夜场只接待一个人。" },
+    { t:"朝北",    hot:"晒不到太阳，正好。反正我也怕被看清楚。" },
+    { t:"先攒着",  hot:"攒了 108 次了。本子在枕头底下。" }
   ];
-  const got = PHOTOS.filter(p => ch >= p.c);
-  $("album").innerHTML = got.length
-    ? got.map(p => `<div><img src="${p.src}" data-big="${p.src}" alt="${p.name}"><div class="albname">${p.name}</div></div>`).join("")
-    : `<div class="none">（胶卷还没洗出来）</div>`;
-  document.querySelectorAll("#album img").forEach(img => {
-    img.onclick = () => { DJ.sfx.click(); $("lbximg").src = img.dataset.big; $("lbx").classList.add("show"); };
-  });
+  $("songs").innerHTML = SONGS.map((s,i) =>
+    `<div class="song"><span class="no">0${i+1}</span><div><div class="st">${s.t}</div><div class="hot">— ${s.hot}</div></div></div>`
+  ).join("") + (ch >= 9 ? `<div class="song" style="margin-top:8px"><span class="no">▸</span><div><div class="st" style="color:#b8352a;cursor:pointer" id="radioLink">深夜电台 FM 08.8</div><div class="hot">—— 八年只播一句话</div></div></div>` : "");
+
+  if (ch >= 9) $("radioLink").onclick = () => { DJ.sfx.click(); location.href = "radio.html"; };
+
+  /* ---------- 渲染 ---------- */
+  $("feed").innerHTML = YEARS.map(Y =>
+    `<div class="yhead"><b>${Y.y}</b><i></i><small>${Y.tag || ""}</small></div>` +
+    Y.posts.map(p =>
+      `<div class="post"><div class="pdate"><span>${Y.y}-${p.d}</span><span class="lock">仅自己可见</span></div>` +
+      `<div class="ptext">${p.t}</div>` +
+      (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>` : "") +
+      `</div>`
+    ).join("")
+  ).join("");
+
   $("avatar").onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
   $("lbx").onclick = () => $("lbx").classList.remove("show");
-
-  /* ---------- 点留言人的名字：全部都是同一个注销时间 ---------- */
-  document.querySelectorAll("#gb .who").forEach(w => {
-    w.classList.add("who");
-    w.onclick = () => { DJ.sfx.click(); $("gx").classList.add("show"); };
-  });
-  $("gx").onclick = () => $("gx").classList.remove("show");
-
-  /* 留言板：陌生人一条条留的话（全部固定，永远不长） */
-  const GB = [
-    { w:"路过的人", t:"2019-06-14", m:"你头像那只白蝶是真的吗？我在青云观见过一只一模一样的。" },
-    { w:"同好", t:"2021-09-08", m:"你推荐的那台收音机我听了。为什么这个频道只有一句话？" },
-    { w:"匿名", t:"2023-10-31", m:"面具画得真好。就是别画第八层，会被看见的。" },
-    { w:"访客", t:"2025-08-08", m:"<span class=\"lk " + (ch>=11?"":"dim") + "\" data-go=\"echo8.html\" data-err=\"对面没有在线。\">你今天也在啊。</span>", raw:1 }
-  ];
-  $("gb").innerHTML = GB.map(g =>
-    g.raw ? `<div class="gbitem"><span class="who">${g.w}</span><span class="tm">${g.t}</span><p>${g.m}</p></div>`
-          : `<div class="gbitem"><span class="who">${g.w}</span><span class="tm">${g.t}</span><p>${g.m}</p></div>`).join("");
-  bindLk();
-
-  /* 最近在听 → 电台（ch>=9，没到就整个板块不存在） */
-  if (ch < 9) $("musicpanel").style.display = "none";
-  else $("music").innerHTML = `<span class="lk" data-go="radio.html">深夜电台 FM 08.8</span><br><span style="font-size:11px;color:#c9ad8c">—— 八年只播一句话</span>`;
-  bindLk();
-
-  /* 友情链接：只挂已经走到的。没走到的，连名字都不出现 */
-  const FR = [
-    { t:"搜搜", go:"search.html", c:1 },
-    { t:"倒影小组", go:"forum.html", c:5 },
-    { t:"云屉网盘", go:"cloud.html", c:8 },
-    { t:"网上医院 · 内网", go:"hospital.html", c:10 },
-    { t:"备忘 · 一面墙", go:"board.html", c:10 }
-  ];
-  $("friends").innerHTML = FR.filter(f => ch >= f.c).map(f =>
-    `<div><span class="lk" data-go="${f.go}">☆ ${f.t}</span></div>`).join("");
-  bindLk();
-
-  /* 在线人数：死的社区细节，活的恐怖 */
-  const rv = DJ.rvOf("blog") || 0;
-  $("online").innerHTML =
-    `在线：<b>1 人</b> · 历史最高：6242 人 · 本站总访问量：${rv >= 3 ? "8888" : "8"}<br>` +
-    `Copyright © 2017-2025 慢半拍 · <span style="color:#b8352a">你删不掉</span>`;
-
-  /* 浮字提示全部撤掉：ARG 不解释自己 */
 }
 </script>
 </body>
