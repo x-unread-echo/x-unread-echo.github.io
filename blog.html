@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>北屋 · 仅自己可见</title>
-<link rel="stylesheet" href="assets/style.css?v=69">
+<link rel="stylesheet" href="assets/style.css?v=71">
 <style>
   body{
     background:
@@ -19,15 +19,25 @@
   #envhint{display:none !important}
   .wrap{max-width:900px;margin:0 auto;padding:18px 14px 90px;position:relative}
 
-  .banner{border:2px solid #b8352a;border-radius:12px;overflow:hidden;
+  /* ---------- 横幅：贴了胶带的木牌 ---------- */
+  .banner{border:2px solid #b8352a;border-radius:12px;overflow:hidden;position:relative;
     background:linear-gradient(180deg,#fffdf7,#faedd7);
-    box-shadow:0 10px 34px rgba(120,50,25,.18);text-align:center;padding:26px 16px 20px;position:relative}
-  .banner h1{font-size:26px;letter-spacing:10px;color:#8a3222;font-weight:800;margin:0}
+    box-shadow:0 10px 34px rgba(120,50,25,.18);text-align:center;padding:30px 16px 22px}
+  .banner h1{font-size:27px;letter-spacing:10px;color:#8a3222;font-weight:800;margin:0;position:relative;z-index:1}
   .banner h1::before,.banner h1::after{content:" · ";color:#d9a879;letter-spacing:0}
-  .banner .sub{font-size:12.5px;color:#a07448;letter-spacing:3px;margin-top:8px}
-  .banner .upd{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;margin-top:10px;font-family:var(--mono)}
+  .banner .sub{font-size:12.5px;color:#a07448;letter-spacing:3px;margin-top:8px;position:relative;z-index:1}
+  .banner .upd{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;margin-top:10px;font-family:var(--mono);position:relative;z-index:1}
+  /* 蝶印水印：外婆说蝶是引路的 */
+  .bfly{position:absolute;top:8px;right:16px;width:52px;opacity:.35;transform:rotate(14deg);pointer-events:none}
+  .bfly2{position:absolute;bottom:10px;left:14px;width:34px;opacity:.22;transform:rotate(-18deg);pointer-events:none}
+  /* 胶带 */
+  .tape{position:absolute;width:86px;height:26px;background:rgba(217,168,121,.38);
+    border-left:1px dashed rgba(168,60,38,.3);border-right:1px dashed rgba(168,60,38,.3);
+    box-shadow:0 1px 3px rgba(120,50,25,.12)}
+  .tape.tl{top:-9px;left:26px;transform:rotate(-7deg)}
+  .tape.tr{top:-9px;right:26px;transform:rotate(6deg)}
 
-  .cols{display:flex;gap:14px;margin-top:14px;align-items:flex-start}
+  .cols{display:flex;gap:14px;margin-top:18px;align-items:flex-start}
   @media (max-width:700px){ .cols{flex-direction:column} }
   .side{width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
   @media (max-width:700px){ .side{width:100%} }
@@ -50,6 +60,16 @@
   .kv{display:flex;gap:8px;font-size:12px;line-height:2;color:#7a5236}
   .kv b{color:#a8552f;font-weight:600;flex-shrink:0}
 
+  /* 天气卡：他只记阴天 */
+  .weather{text-align:center;padding:12px 10px}
+  .weather .wday{font-size:11px;color:#c9ad8c;letter-spacing:2px;font-family:var(--mono)}
+  .weather .wico{font-size:24px;margin:4px 0;color:#a8552f}
+  .weather .wnote{font-size:11.5px;color:#8a6a4a;line-height:1.9}
+
+  /* 留言板：空着的位置 */
+  .gb-empty{font-size:12px;color:#b8845c;text-align:center;line-height:2;padding:4px 0}
+  .gb-empty b{color:#b8352a;font-weight:600}
+
   /* 年份分隔：不是标签，就是日记本里的分页纸 */
   .yhead{margin:26px 0 14px;display:flex;align-items:center;gap:12px}
   .yhead:first-child{margin-top:4px}
@@ -57,18 +77,27 @@
   .yhead i{flex:1;border-top:2px dashed #d9b98a}
   .yhead small{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;font-family:var(--mono)}
 
-  /* 一条碎碎念 */
+  /* 一条碎碎念：贴着一小条胶带，右下角有淡淡的爪印或蝶印 */
   .post{background:#fffdf7;border:1px solid #ecd9b0;border-radius:10px;
-    padding:14px 16px;margin-bottom:14px;box-shadow:0 4px 12px rgba(120,50,25,.08);position:relative}
+    padding:16px 18px 12px;margin-bottom:15px;box-shadow:0 4px 12px rgba(120,50,25,.08);position:relative}
+  .post::before{content:"";position:absolute;top:-8px;left:34px;width:58px;height:18px;
+    background:rgba(217,168,121,.34);border-left:1px dashed rgba(168,60,38,.28);
+    border-right:1px dashed rgba(168,60,38,.28);transform:rotate(-2.5deg);
+    box-shadow:0 1px 2px rgba(120,50,25,.1)}
+  .post:hover{box-shadow:0 6px 18px rgba(120,50,25,.14)}
   .post .pdate{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
-    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap}
   .post .lock{font-size:10px;color:#b8352a;border:1px solid #e4b8ad;border-radius:4px;
-    padding:1px 7px;letter-spacing:2px;background:#fdf0ea}
+    padding:1px 7px;letter-spacing:2px;background:#fdf0ea;flex-shrink:0}
+  .post .mood{font-size:10px;color:#a8886a;letter-spacing:1px;border-bottom:1px dotted #d9b98a;margin-left:auto}
   .post .ptext{font-size:13px;line-height:2.15;color:#5a3a28;letter-spacing:.8px;white-space:pre-line}
   .post .pself{margin-top:10px;border-top:1px dashed #e8cba0;padding-top:8px;
     font-size:12px;line-height:1.95;color:#8a6a4a}
   .post .pself b{color:#a8552f;font-weight:700;margin-right:6px}
+  .post .pself .none{color:#c9ad8c;font-size:11px;letter-spacing:1px}
   .code{font-family:var(--mono);color:#b8352a;background:#fdf0ea;border-radius:4px;padding:0 5px}
+  /* 帖子角落的淡爪印：楼下那只卷毛猫来过 */
+  .paw{position:absolute;bottom:8px;right:12px;font-size:15px;opacity:.14;pointer-events:none}
 
   /* 歌单 */
   .song{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed #e8cba0}
@@ -82,8 +111,11 @@
   .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .lbx.show{display:flex}
 
-  .foot{margin-top:16px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
+  .foot{margin-top:18px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
   .foot b{color:#b8352a}
+  .counter{margin-top:6px;font-family:var(--mono);font-size:10.5px;color:#c9ad8c;letter-spacing:3px}
+  .counter i{display:inline-block;background:#5a3a28;color:#fdf2e0;border-radius:2px;
+    padding:1px 4px;margin:0 1px;font-style:normal}
 </style>
 </head>
 <body>
@@ -91,6 +123,19 @@
 <div class="wrap">
 
   <div class="banner">
+    <span class="tape tl"></span><span class="tape tr"></span>
+    <svg class="bfly" viewBox="0 0 60 48" fill="none">
+      <path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#b8352a"/>
+      <path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#b8352a"/>
+      <path d="M30 24 C20 34, 12 44, 18 46 C23 47, 28 38, 30 26 Z" fill="#c96a4a"/>
+      <path d="M30 24 C40 34, 48 44, 42 46 C37 47, 32 38, 30 26 Z" fill="#c96a4a"/>
+      <rect x="28.6" y="16" width="2.8" height="16" rx="1.4" fill="#5a3a28"/>
+    </svg>
+    <svg class="bfly2" viewBox="0 0 60 48" fill="none">
+      <path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#b8352a"/>
+      <path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#b8352a"/>
+      <rect x="28.6" y="16" width="2.8" height="16" rx="1.4" fill="#5a3a28"/>
+    </svg>
     <h1>北 屋</h1>
     <div class="sub">～ 说了也没人听，就记在这里 ～</div>
     <div class="upd">访问量：8 · 粉丝：0 · 最后更新：今天</div>
@@ -104,8 +149,19 @@
           <div class="avatar" id="avatar">?</div>
           <div class="kv"><b>昵称：</b><span>北屋</span></div>
           <div class="kv"><b>注册：</b><span>2022-08-08</span></div>
+          <div class="kv"><b>地区：</b><span>（不填）</span></div>
+          <div class="kv"><b>生日：</b><span>08-08</span></div>
           <div class="kv"><b>简介：</b><span>先渡自己。</span></div>
           <div class="kv"><b>访问：</b><span>8 次。都是我自己。</span></div>
+        </div>
+      </div>
+
+      <div class="panel sp">
+        <div class="ph">我的天气</div>
+        <div class="pb weather">
+          <div class="wday">TODAY</div>
+          <div class="wico">☁ ☁</div>
+          <div class="wnote">今天：阴<br>明天：阴<br>后天：懒得看</div>
         </div>
       </div>
 
@@ -118,6 +174,13 @@
         <div class="ph">他的歌单 · 仅自己可见</div>
         <div class="pb" id="songs"></div>
       </div>
+
+      <div class="panel sp">
+        <div class="ph">留言板</div>
+        <div class="pb">
+          <div class="gb-empty">还没有人留言。<br><b>第一条</b>的位置，一直空着。</div>
+        </div>
+      </div>
     </div>
 
     <div class="main">
@@ -129,9 +192,10 @@
   </div>
 
   <div class="foot">这个号没有告诉过任何人。包括<span style="color:#b8352a">你</span>。</div>
+  <div class="counter">访客计数 <i>0</i><i>0</i><i>0</i><i>0</i><i>0</i><i>9</i></div>
 </div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
-<script src="assets/game.js?v=70"></script>
+<script src="assets/game.js?v=71"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -141,7 +205,7 @@ function main(){
   /* ---------- 碎碎念：超长、仅自己可见、2022-2026 ---------- */
   const YEARS = [
     { y:"2026", tag:"还在更新", posts:[
-      { d:"09-26", lock:true, t:`凌晨三点十七分醒的。没有闹钟，是自己醒的。
+      { d:"09-26", mood:"心情：醒着", paw:"🐾", lock:true, t:`凌晨三点十七分醒的。没有闹钟，是自己醒的。
 
 躺了一会儿，习惯性拿起手机看后台。这个号我四年没告诉过任何人，访问量一直是 8——我自己登一次算一次。
 
@@ -152,67 +216,116 @@ function main(){
 又拿起来看了一遍。还是 9。
 
 我把灯关了，假装不在。` },
-      { d:"08-08", lock:true, t:`一年了。
+      { d:"08-08", mood:"心情：照旧", paw:"🐾", lock:true, t:`一年了。
 
 备忘录里那条"明天回电"还挂着，我一直没删，也不敢点开。点开它就会问我：现在回吗？
 
-有时候我想，如果那天我赢的是另一场，是不是电话就会响。后来不这么想了。赢不赢，电话都不会响的。电话响的时候，你永远不会想到是这一天。` },
-      { d:"03-02", lock:true, t:`楼下有只卷毛的猫，蹲在门口，像没睡醒。
+有时候我想，如果那天我赢的是另一场，是不是电话就会响。后来不这么想了。赢不赢，电话都不会响的。电话响的时候，你永远不会想到是这一天。
+
+今天楼道的声控灯坏了一盏，我上去的时候在黑里站了几秒。也没觉得害怕。黑的地方我熟。`,
+        self:{ w:"北屋", m:"补：声控灯今天修好了。踩上去「啪」一声，我居然吓了一跳。呵。" } },
+      { d:"05-20", mood:"心情：没劲", lock:true, t:`今天满世界都是 520。
+
+我的手机安安静静。挺好。省得我练接电话。
+
+说到这个，我这半年有个进步：手机铃声响起来的时候，手已经不那么抖了。先看是谁，再决定接不接——你看，排序了。排序就是进步。
+
+备注是"家"的那个，还是不接。不是不想。是怕一接，就得说话；一说话，就得解释；一解释，就得承认这八年。
+
+算了。明天再说。明天的我一向比我勇敢。` },
+      { d:"03-02", mood:"心情：软的", paw:"🐾", lock:true, t:`楼下有只卷毛的猫，蹲在门口，像没睡醒。
 
 我隔着玻璃看了它十分钟，没敢开窗。
 
 我怕开了窗，它就要进来了。它进来了，家里就有第二个心跳了。有第二个心跳，夜晚就会短一点。夜晚短一点，人就软一点。
 
-我还是没开窗。明天再看看它在不在。` }
+我还是没开窗。明天再看看它在不在。`,
+        self:{ w:"北屋", m:"补：在。还带了只蝴蝶，逗着玩。猫都比我过得好。" } }
     ]},
     { y:"2025", tag:"", posts:[
-      { d:"08-07 · 23:58", lock:true, t:`把这八年的东西都整理好了，放在 <span class="code">yunti.cloud</span>，提取码 <span class="code">0808</span>。
+      { d:"08-07 · 23:58", mood:"心情：收尾", lock:true, t:`把这八年的东西都整理好了，放在 <span class="code">yunti.cloud</span>，提取码 <span class="code">0808</span>。
 
 有些是截屏，有些是录音，有些是我半夜写的没人会看的东西。放在一起比我想象中重。
 
 要是哪天我不在了，看到的人替我删掉。`, self:{ w:"北屋", m:"补：别删。留着。总有一天用得上。另外提取码改了——改成那四个字了。你们懂。" } },
-      { d:"07-19", lock:true, t:`年度报告出来了，说我今年的关键词是"等"。
+      { d:"12-24", mood:"心情：静", lock:true, t:`平安夜。楼下的餐厅在放歌，隔着墙都听得见热闹。
+
+我戴上耳机，听一个很冷门的电台。亥时开播，一晚上就一句话。播完就没了，像烧完的火柴。
+
+别人跨年倒数，我跨年等一句话。一句话等了一年，明年还等。
+
+你问我图什么。图它准时。八年了，它比我认识的所有人都准时。` },
+      { d:"07-19", mood:"心情：等", lock:true, t:`年度报告出来了，说我今年的关键词是"等"。
 
 等一个电话，等一句夸，等一个结果。报告还会看下一个年度的关键词是什么。我很想提前剧透给它：不会变的。
 
 好几年了，关键词没换过。换人可以，换关键词不行。` },
-      { d:"04-01", lock:true, t:`今天是愚人节，最适合说真话。
+      { d:"04-05", mood:"心情：回家的那种", paw:"🐾", lock:true, t:`清明回去了一趟。
+
+老房子的纱窗破了个洞，一只白蝶从那儿进来的，停在窗台上，停了很久。我没赶它。
+
+小时候外婆说，蝶是引路的，别跟着走丢。她说话的时候手里总在剥豆子，豆子落进盆里，一颗一声。
+
+我坐到天黑才走。走之前把纱窗的洞按了按，没补。万一她还要来呢。` },
+      { d:"04-01", mood:"心情：真话日", lock:true, t:`今天是愚人节，最适合说真话。
 
 我想说我其实输不起。表面上说"重在参与"，回房间能把那一局复盘到凌晨四点。
 
-今天有一只白蝶停在纱窗上，停了很久。我没赶它。外婆说过，蝶是引路的，别跟着走丢。我没跟。我就在原地。` }
+今天也有一只白蝶，停在纱窗外面。不知道是不是上次那只。我没跟。我就在原地。` }
     ]},
     { y:"2024", tag:"", posts:[
-      { d:"11-08", lock:true, t:`又赢了一次。
+      { d:"11-08", mood:"心情：松了一口气", lock:true, t:`又赢了一次。
 
 他们说我这届最稳，问我有什么诀窍。我说睡得好。
 
-其实我每天晚上都在重算。把输的那些局一遍一遍重新打，打到赢为止，手机烫得像块烙铁。赢回来的那一刻也没有开心，就是松一口气，像还了一笔债。
+其实我每天晚上都在重算。把输的那些局一遍一遍重新打，打到赢为止，手机烫得像块烙铁。
+
+赛后有人问，站上去什么感觉。说实话，也就一般吧。没有想象中那个劲儿，就是松了一口气，像还了一笔债。
 
 第二天接着欠。` },
-      { d:"06-18", lock:true, t:`把"输"改了个名字，叫"先攒着"。
+      { d:"08-08", mood:"心情：不吃蛋糕", lock:true, t:`今天是我的生日。也是这个号的生日。我故意选的，省得记两个日子。
+
+给自己买了个小蛋糕，吃到一半觉得没意思，剩下的放冰箱了。
+
+关冰箱门的时候听见它"嗡"了一声。行吧，至少它回应我。` },
+      { d:"06-18", mood:"心情：记账中", lock:true, t:`把"输"改了个名字，叫"先攒着"。
 
 攒着攒着，攒了 108 次。这个数字我记在本子上，本子放在枕头底下。
 
 小时候家里人说，攒着攒着就没了。说得对，说得都对，每一句我都记得。就是没人问过我记不记得。` },
-      { d:"01-01", lock:true, t:`新年愿望：接电话的手不要抖。
+      { d:"01-01", mood:"心情：老愿望", lock:true, t:`新年愿望：接电话的手不要抖。
 
 去年就许的这个。前年也是。
 
 许愿这个东西吧，许一次没实现，许两次没实现，第三次你就会换个愿望。我不换。我固执起来连自己都怕。` }
     ]},
     { y:"2023", tag:"", posts:[
-      { d:"10-31", lock:true, t:`画了一个面具。本来只想画一层，回过神来已经画了七层。
+      { d:"10-31", mood:"心情：第七层", lock:true, t:`画了一个面具。本来只想画一层，回过神来已经画了七层。
 
 第八层没画完，笔没水了。
 
-也许是天意。也许第八层下面什么都没有，就像那家茶室的深夜场——你排到了，才发现接待的只有你自己。` },
-      { d:"06-14", lock:true, t:`通讯录里 412 个人。
+也许是天意。也许第八层下面什么都没有，就像那家茶室的深夜场——你排到了，才发现接待的只有你自己。`,
+        self:{ w:"北屋", m:"补：后来找到笔了。还是没画第八层。有些层留着，万一以后用得上。" } },
+      { d:"08-08", mood:"心情：一个人过", lock:true, t:`生日。自我注册这个号起，今天是两岁。
+
+给自己定的规矩：这一天不打排位，不复盘，不重算。就坐着。
+
+坐到晚上十一点，没忍住，开了两把。都赢了。
+
+赢了也没开心。你看，规矩就是用来输给自己的。` },
+      { d:"06-14", mood:"心情：412 分之一", lock:true, t:`通讯录里 412 个人。
 
 今天闲着，从头翻到尾，试着找出五个"凌晨三点能打"的。挑来挑去挑出两个，再挑就挑不下去了。
 
 "家"那个备注，去年改成了一串数字。这样它看起来就跟别的未接来电一样，不会特别疼。` },
-      { d:"02-14", lock:true, t:`今天全世界都在过节。
+      { d:"05-01", mood:"心情：啪", lock:true, t:`搬了家。朝北，晒不到太阳，房租便宜两百。
+
+楼道的声控灯特别灵，跺一下脚就亮。我上楼从来不跺脚，就站在黑里等它自己亮。
+
+它一般不亮。我一般就摸黑上去。
+
+住我楼下的大爷说：小伙子，灯是给人照的，你捂着干嘛。我说习惯了。` },
+      { d:"02-14", mood:"心情：第八把", lock:true, t:`今天全世界都在过节。
 
 我在排队，赢了八把。第八把赢完，我看着战报想，这话说给谁听呢。
 
@@ -221,18 +334,26 @@ function main(){
 你看，至少系统是站在我这边的。` }
     ]},
     { y:"2022", tag:"这个号的开始", posts:[
-      { d:"12-31", lock:true, t:`今年打了 1,208 场，胜率 81%。
+      { d:"12-31", mood:"心情：盘点", lock:true, t:`今年打了 1,208 场，胜率 81%。
 
 唯一输的那场，我到现在还记得对方的 ID。不是记仇。是我总在想，那天要是我再多睡一个小时，是不是就赢了。
 
 睡得多，输得少。这是这几年学会的唯一一件事。` },
-      { d:"08-08", lock:true, t:`注册了这个号。
+      { d:"09-15", mood:"心情：新本子", lock:true, t:`买了个新本子，横线的，深红色皮。
+
+本来想记点正经事，写了三行，全是别人听不懂的。字倒是写得比以前认真。
+
+这个本子现在放在枕头底下。枕头底下放本子，是从外婆那儿学的——她说重要的事要压在头底下睡，睡着睡着就长进脑子里了。
+
+这个号也一样。写在这儿，睡着睡着，就长进这儿了。` },
+      { d:"08-08", mood:"心情：新号", lock:true, t:`注册了这个号。
 
 大的那个号太多人看了，说什么都要想三遍，说到一半像在工作。这里说点真的。
 
 ……想了半天，也没什么真的可说。
 
-就这样。晚安。` }
+就这样。晚安。`,
+        self:{ w:"北屋", m:"补：改主意了，不删。有的话写给谁不重要，写下来才重要。" } }
     ]}
   ];
 
@@ -242,7 +363,8 @@ function main(){
     { t:"白蝶",    hot:"蝶是引路的。别跟着走丢。" },
     { t:"亥时",    hot:"亥时以后，夜场只接待一个人。" },
     { t:"朝北",    hot:"晒不到太阳，正好。反正我也怕被看清楚。" },
-    { t:"先攒着",  hot:"攒了 108 次了。本子在枕头底下。" }
+    { t:"先攒着",  hot:"攒了 108 次了。本子在枕头底下。" },
+    { t:"声控灯",  hot:"站在黑里等它自己亮。它一般不亮。" }
   ];
   $("songs").innerHTML = SONGS.map((s,i) =>
     `<div class="song"><span class="no">0${i+1}</span><div><div class="st">${s.t}</div><div class="hot">— ${s.hot}</div></div></div>`
@@ -263,9 +385,11 @@ function main(){
   $("feed").innerHTML = YEARS.map(Y =>
     `<div class="yhead"><b>${Y.y}</b><i></i><small>${Y.tag || ""}</small></div>` +
     Y.posts.map(p =>
-      `<div class="post"><div class="pdate"><span>${Y.y}-${p.d}</span><span class="lock">仅自己可见</span></div>` +
+      `<div class="post"><div class="pdate"><span>${Y.y}-${p.d}</span><span class="mood">${p.mood || ""}</span><span class="lock">仅自己可见</span></div>` +
       `<div class="ptext">${p.t}</div>` +
-      (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>` : "") +
+      (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>`
+              : `<div class="pself"><span class="none">— 暂无补充。他还没想好要说给谁听。</span></div>`) +
+      (p.paw ? `<span class="paw">${p.paw}</span>` : "") +
       `</div>`
     ).join("")
   ).join("");
