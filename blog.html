@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>北屋 · 仅自己可见</title>
-<link rel="stylesheet" href="assets/style.css?v=74">
+<link rel="stylesheet" href="assets/style.css?v=75">
 <style>
   body{
     background:
@@ -118,13 +118,14 @@
   .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .lbx.show{display:flex}
 
-  /* 顶部导航：真博客都有的那一排 */
-  .bnav{margin:14px auto 0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-  .bnav a{font-size:12.5px;letter-spacing:3px;color:#8a3222;text-decoration:none;
-    background:linear-gradient(180deg,#fffdf7,#f7e9cf);border:1.5px solid #d9b98a;border-radius:20px;
-    padding:5px 16px;cursor:pointer;box-shadow:0 2px 6px rgba(120,50,25,.10), inset 0 1px 0 rgba(255,255,255,.9);
-    transition:all .2s}
-  .bnav a:hover{background:#fdf0ea;border-color:#c96a4a;transform:translateY(-1px)}
+  /* 顶部导航：老博客那种横条式站内导航 */
+  .bnav{margin:16px 0 0;display:flex;justify-content:center;gap:0;flex-wrap:wrap;
+    border-top:2px solid #b8352a;border-bottom:2px solid #b8352a;
+    padding:8px 0;background:linear-gradient(180deg,#fffdf7,#f9efdb)}
+  .bnav a{font-size:12.5px;letter-spacing:3px;color:#7a4a30;padding:4px 18px;cursor:pointer;
+    border-right:1px dotted #d9b98a;transition:all .15s}
+  .bnav a:last-child{border-right:none}
+  .bnav a:hover{color:#b8352a;background:#fdf0ea}
 
   /* 归档：真人博客都有的那一列 */
   .arch{display:flex;justify-content:space-between;align-items:baseline;padding:5px 4px;
@@ -145,6 +146,21 @@
     box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
   .gbinput button:hover{filter:brightness(1.08)}
   .gbnote{font-size:11px;color:#b8845c;letter-spacing:1px;margin-top:6px;line-height:1.8;min-height:1.8em}
+
+  /* 友情链接：他常去的地方 */
+  .flink{padding:4px 2px;border-bottom:1px dotted #e8cba0;font-size:12.5px;letter-spacing:1px}
+  .flink:last-child{border-bottom:none}
+  .flink a{color:#7a4a30;cursor:pointer;text-decoration:none}
+  .flink a:hover{color:#b8352a;text-decoration:underline}
+  .flink .fd{display:block;font-size:10.5px;color:#c9ad8c;letter-spacing:1px;margin-top:1px}
+
+  /* 碎碎念里提到的地方：走到过的才点得动 */
+  .deep{color:#b8352a;border-bottom:1px dashed #b8352a;cursor:pointer}
+  .deep:hover{background:#fdf0ea}
+
+  /* 帖子页脚：真博客都有的那行小字 */
+  .pmeta{margin-top:9px;font-size:10.5px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
+    border-top:1px dotted #e8cba0;padding-top:6px;display:flex;justify-content:space-between}
 
   .foot{margin-top:18px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
   .foot b{color:#b8352a}
@@ -210,6 +226,11 @@
         <div class="pb" id="arch"></div>
       </div>
 
+      <div class="panel sp" id="frPanel">
+        <div class="ph">友情链接</div>
+        <div class="pb" id="friends"></div>
+      </div>
+
       <div class="panel sp" id="songsPanel">
         <div class="ph">他的歌单 · 仅自己可见</div>
         <div class="pb" id="songs"></div>
@@ -237,7 +258,7 @@
   <div class="counter">访客计数 <i>0</i><i>0</i><i>0</i><i>0</i><i>0</i><i>9</i></div>
 </div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
-<script src="assets/game.js?v=74"></script>
+<script src="assets/game.js?v=75"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -424,9 +445,27 @@ function main(){
         (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>`
                 : `<div class="pself"><span class="none">— 暂无补充。他还没想好要说给谁听。</span></div>`) +
         (p.paw ? `<span class="paw">${p.paw}</span>` : "") +
-        `</div>`
+        `<div class="pmeta"><span>阅读 8</span><span>评论 0</span></div></div>`
       ).join("")
     ).join("");
+    /* 碎碎念里提到的地方：走到过的，字就活了，能点进去 */
+    const DEEP = [
+      { w:"未接来电", go:"dial.html", c:1 },
+      { w:"茶室的深夜场", go:"oracle.html", c:4 },
+      { w:"卷毛的猫", go:"adopt.html", c:7 },
+      { w:"画了一个面具", go:"mask.html", c:9 },
+      { w:"亥时开播", go:"radio.html", c:9 }
+    ];
+    document.querySelectorAll("#feed .ptext").forEach(el => {
+      for (const d of DEEP) {
+        if (ch >= d.c && el.textContent.indexOf(d.w) !== -1) {
+          el.innerHTML = el.innerHTML.replace(d.w, `<span class="deep" data-go="${d.go}">${d.w}</span>`);
+        }
+      }
+    });
+    document.querySelectorAll("#feed .deep").forEach(s => {
+      s.onclick = () => { DJ.sfx.click(); location.href = s.dataset.go; };
+    });
     /* yunti.cloud：走到云屉那章后，碎碎念里的链接就能点进去了 */
     if (ch >= 8) {
       document.querySelectorAll("#feed .code").forEach(c => {
@@ -454,6 +493,23 @@ function main(){
   };
   renderArch(null);
   renderFeed(null);
+
+  /* ---------- 友情链接：他常去的地方。走进过的站，列表里才有它 ---------- */
+  const FR = [
+    { t:"搜搜", d:"什么都搜不到的搜索引擎", go:"search.html", c:3 },
+    { t:"倒影小组", d:"审了三年还没审完", go:"forum.html", c:5 },
+    { t:"云屉网盘", d:"八年的东西都在里面", go:"cloud.html", c:8 },
+    { t:"空耳FM", d:"听见没人在听的声音", go:"music.html", c:3 },
+    { t:"深夜电台 FM 08.8", d:"每天亥时开播", go:"radio.html", c:9 },
+    { t:"网上医院 · 夜间门诊", d:"八点零八分开放", go:"hospital.html", c:10 },
+    { t:"备忘 · 一面墙", d:"写满了别人的心事", go:"board.html", c:10 }
+  ];
+  $("friends").innerHTML = FR.filter(f => ch >= f.c).map(f =>
+    `<div class="flink"><a data-go="${f.go}">☆ ${f.t}</a><span class="fd">${f.d}</span></div>`
+  ).join("") || `<div class="flink" style="color:#c9ad8c;font-size:11.5px">（还没有可以交换的链接。）</div>`;
+  document.querySelectorAll("#friends a").forEach(a => {
+    a.onclick = () => { DJ.sfx.click(); location.href = a.dataset.go; };
+  });
 
   /* ---------- 顶部导航：锚点滚动 ---------- */
   document.querySelectorAll(".bnav a").forEach(a => {
