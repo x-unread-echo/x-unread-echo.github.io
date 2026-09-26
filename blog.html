@@ -3,272 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>北屋 · 仅自己可见</title>
-<link rel="stylesheet" href="assets/style.css?v=76">
+<title>北屋的微博 · 微博</title>
+<link rel="stylesheet" href="assets/style.css?v=77">
 <style>
-  body{
-    background:
-      radial-gradient(1000px 460px at 50% -8%, rgba(80,100,120,.08), transparent 60%),
-      repeating-linear-gradient(0deg, rgba(96,88,64,.04) 0 1px, transparent 1px 26px),
-      repeating-linear-gradient(90deg, rgba(96,88,64,.04) 0 1px, transparent 1px 26px),
-      #f4f1e8;
-    font-family:-apple-system,"PingFang SC",sans-serif;color:#53331f;min-height:100vh;
-  }
-  ::selection{background:rgba(65,86,107,.18)}
+  body{background:#ededed;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333;min-height:100vh}
+  ::selection{background:rgba(255,130,0,.18)}
   .moon{display:none !important}
   #envhint{display:none !important}
-  .wrap{max-width:900px;margin:0 auto;padding:18px 14px 90px;position:relative}
 
-  /* ---------- 横幅：贴了胶带的木牌 ---------- */
-  .banner{border:2px solid #41566b;border-radius:12px;overflow:hidden;position:relative;
-    background:linear-gradient(180deg,#fffdf7,#faedd7);
-    box-shadow:0 10px 34px rgba(120,50,25,.18);text-align:center;padding:30px 16px 22px}
-  .banner h1{font-size:27px;letter-spacing:10px;color:#3f5a75;font-weight:800;margin:0;position:relative;z-index:1}
-  .banner h1::before,.banner h1::after{content:" · ";color:#a89a78;letter-spacing:0}
-  .banner .sub{font-size:12.5px;color:#a07448;letter-spacing:3px;margin-top:8px;position:relative;z-index:1}
-  .banner .upd{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;margin-top:10px;font-family:var(--mono);position:relative;z-index:1}
-  /* 印章：先渡自己 */
-  .seal{position:absolute;right:18px;bottom:14px;width:44px;height:44px;border:2.5px solid rgba(184,53,42,.55);
-    border-radius:6px;display:flex;align-items:center;justify-content:center;
-    font-size:22px;color:rgba(184,53,42,.6);font-weight:800;transform:rotate(-8deg);
-    font-family:"Songti SC",serif;pointer-events:none;z-index:1;
-    box-shadow:inset 0 0 8px rgba(184,53,42,.12)}
-  /* 蝶印水印：外婆说蝶是引路的 */
-  .bfly{position:absolute;top:8px;right:16px;width:52px;opacity:.35;transform:rotate(14deg);pointer-events:none}
-  .bfly2{position:absolute;bottom:10px;left:14px;width:34px;opacity:.22;transform:rotate(-18deg);pointer-events:none}
-  /* 胶带 */
-  .tape{position:absolute;width:86px;height:26px;background:rgba(217,168,121,.38);
-    border-left:1px dashed rgba(96,100,110,.3);border-right:1px dashed rgba(96,100,110,.3);
-    box-shadow:0 1px 3px rgba(120,50,25,.12)}
-  .tape.tl{top:-9px;left:26px;transform:rotate(-7deg)}
-  .tape.tr{top:-9px;right:26px;transform:rotate(6deg)}
+  /* ---------- 顶部导航条：微博原味 ---------- */
+  .topbar{background:#fff;border-bottom:1px solid #e6e6e6;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .topbar .in{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:0 16px;height:52px}
+  .logo{display:flex;align-items:center;gap:7px;cursor:pointer;flex-shrink:0}
+  .logo b{font-size:22px;color:#ff8200;font-weight:800;letter-spacing:1px}
+  .tsearch{flex:1;max-width:300px;background:#f2f2f5;border:1px solid #ededed;border-radius:18px;
+    height:32px;display:flex;align-items:center;padding:0 14px;gap:8px;color:#939393;font-size:13px}
+  .tnav{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:14px;color:#333}
+  .tnav span{cursor:pointer}
+  .tnav span:hover{color:#ff8200}
+  .tnav .me{width:30px;height:30px;border-radius:4px;background:linear-gradient(180deg,#ffd9b0,#ffb26b);
+    display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer}
 
-  .cols{display:flex;gap:14px;margin-top:18px;align-items:flex-start}
-  @media (max-width:700px){ .cols{flex-direction:column} }
-  .side{width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
-  @media (max-width:700px){ .side{width:100%} }
+  .cols{max-width:1000px;margin:16px auto 0;display:flex;gap:16px;padding:0 16px 80px;align-items:flex-start}
+  @media (max-width:760px){ .cols{flex-direction:column} .sideL{width:100% !important} }
+  .sideL{width:250px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
   .main{flex:1;min-width:0}
 
-  .panel{background:linear-gradient(180deg,#fffef9 0%,#fbf3e4 100%);
-    border:1.5px solid #d9b98a;border-radius:11px;overflow:hidden;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 8px 24px rgba(120,50,25,.14)}
-  .ph{background:linear-gradient(180deg,#52687f,#41566b);color:#fdf2e0;
-    font-size:12.5px;font-weight:700;letter-spacing:3px;padding:8px 14px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.28);text-shadow:0 1px 0 rgba(0,0,0,.2)}
-  .pb{padding:14px 16px;font-size:13.5px;line-height:2.1;letter-spacing:1px;color:#5a3a28}
-  .pb p{margin:0 0 12px}
-  .pb p:last-child{margin-bottom:0}
-  .sp .pb{padding:12px 14px;font-size:12.5px;line-height:1.95}
+  .card{background:#fff;border:1px solid #e6e6e6;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .card .ch{padding:10px 14px;font-size:14px;font-weight:700;color:#333;border-bottom:1px solid #f0f0f0}
 
-  .avatar{width:64px;height:64px;border-radius:8px;background:#41566b;color:#fdf2e0;
-    display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px;
-    border:3px solid #fdf2e0;outline:2px solid #d9b98a;box-shadow:0 4px 12px rgba(120,50,25,.25);cursor:zoom-in}
-  .kv{display:flex;gap:8px;font-size:12px;line-height:2;color:#7a5236}
-  .kv b{color:#52687f;font-weight:600;flex-shrink:0}
+  /* ---------- 个人主页卡 ---------- */
+  .pcov{height:90px;background:linear-gradient(135deg,#4a4a52,#2f2f36);position:relative}
+  .pcov::after{content:"";position:absolute;right:14px;top:14px;width:44px;opacity:.3}
+  .pava{width:72px;height:72px;border-radius:6px;border:3px solid #fff;margin:-42px 0 0 16px;
+    background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);overflow:hidden;cursor:zoom-in;position:relative;z-index:1}
+  .pava img{width:100%;height:100%;object-fit:cover;display:block}
+  .pbody{padding:8px 16px 14px}
+  .pname{font-size:18px;font-weight:700;display:flex;align-items:center;gap:6px}
+  .vtag{font-size:10px;color:#ff8200;border:1px solid #ff8200;border-radius:3px;padding:0 4px;letter-spacing:1px}
+  .pstats{display:flex;gap:26px;margin:12px 0 10px}
+  .pstats div{cursor:pointer}
+  .pstats b{display:block;font-size:16px;color:#333}
+  .pstats span{font-size:12px;color:#808080}
+  .pdesc{font-size:13px;color:#808080;line-height:1.9}
+  .pdesc b{color:#333;font-weight:400}
+  .pvisit{margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;font-size:12px;color:#808080}
+  .pvisit i{font-style:normal;color:#333}
 
-  /* 天气卡：他只记阴天 */
-  .weather{text-align:center;padding:12px 10px}
-  .weather .wday{font-size:11px;color:#c9ad8c;letter-spacing:2px;font-family:var(--mono)}
-  .weather .wico{font-size:24px;margin:4px 0;color:#52687f}
-  .weather .wnote{font-size:11.5px;color:#8a6a4a;line-height:1.9}
+  /* ---------- 他的关注（走过才有） ---------- */
+  .fu{display:flex;gap:10px;align-items:center;padding:9px 14px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .15s}
+  .fu:last-child{border-bottom:none}
+  .fu:hover{background:#fafafa}
+  .fu .fa{width:38px;height:38px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:16px;font-weight:700}
+  .fu .fn{font-size:13.5px;color:#333;font-weight:600}
+  .fu:hover .fn{color:#ff8200}
+  .fu .fd{font-size:11.5px;color:#999;margin-top:2px}
+  .fuempty{padding:14px;font-size:12.5px;color:#999;line-height:1.9}
 
-  /* 留言板：空着的位置 */
-  .gb-empty{font-size:12px;color:#b8845c;text-align:center;line-height:2;padding:4px 0}
-  .gb-empty b{color:#41566b;font-weight:600}
+  /* ---------- 他分享的音乐 ---------- */
+  .mus{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid #f5f5f5}
+  .mus:last-child{border-bottom:none}
+  .mus .mi{width:36px;height:36px;border-radius:4px;background:linear-gradient(135deg,#ff9d3c,#ff8200);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;flex-shrink:0;cursor:pointer}
+  .mus .mt{font-size:13.5px;color:#333;font-weight:600}
+  .mus:hover .mt{color:#ff8200;cursor:pointer}
+  .mus .md{font-size:11.5px;color:#999;margin-top:2px}
 
-  /* 年份分隔：不是标签，就是日记本里的分页纸 */
-  .yhead{margin:26px 0 14px;display:flex;align-items:center;gap:12px}
-  .yhead:first-child{margin-top:4px}
-  .yhead b{font-size:17px;color:#3f5a75;letter-spacing:4px;font-family:var(--mono)}
-  .yhead i{flex:1;border-top:2px dashed #d9b98a}
-  .yhead small{font-size:10.5px;color:#c9ad8c;letter-spacing:2px;font-family:var(--mono)}
+  /* ---------- 微博信息流 ---------- */
+  .wb{display:flex;gap:12px;padding:18px 20px 6px;border-bottom:1px solid #f0f0f0}
+  .wb .wa{width:46px;height:46px;border-radius:5px;overflow:hidden;background:#fff;flex-shrink:0;
+    border:1px solid #eee;cursor:zoom-in}
+  .wb .wa img{width:100%;height:100%;object-fit:cover}
+  .wbody{flex:1;min-width:0;padding-bottom:12px}
+  .whead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .wname{font-size:14px;font-weight:700;color:#eb735;cursor:pointer}
+  .wname:hover{text-decoration:underline}
+  .wlock{font-size:11px;color:#bbb;border:1px solid #ddd;border-radius:3px;padding:0 5px}
+  .wtime{font-size:12px;color:#808080}
+  .wtime .src{color:#939393}
+  .wtext{font-size:14.5px;line-height:1.95;margin-top:6px;color:#333;white-space:pre-line;word-break:break-all}
+  .wtext .deep{color:#eb735;cursor:pointer}
+  .wtext .deep:hover{text-decoration:underline}
+  .wtext .code{font-family:var(--mono);color:#eb735;background:#fff7ef;border-radius:3px;padding:0 5px}
+  .wtext .code.go{cursor:pointer;border-bottom:1px dashed #eb735}
+  .wfold{max-height:118px;overflow:hidden;position:relative}
+  .wfold::after{content:"";position:absolute;left:0;right:0;bottom:0;height:52px;
+    background:linear-gradient(180deg,rgba(255,255,255,0),#fff)}
+  .wmore{color:#eb735;font-size:13.5px;cursor:pointer;margin-top:4px;display:inline-block}
+  .wmore:hover{text-decoration:underline}
 
-  /* 一条碎碎念：贴着一小条胶带，右下角有淡淡的爪印或蝶印 */
-  .post{background:#fffdf7;border:1px solid #ecd9b0;border-radius:10px;
-    padding:16px 18px 12px;margin-bottom:15px;box-shadow:0 4px 12px rgba(120,50,25,.08);position:relative}
-  .post::before{content:"";position:absolute;top:-8px;left:34px;width:58px;height:18px;
-    background:rgba(217,168,121,.34);border-left:1px dashed rgba(96,100,110,.28);
-    border-right:1px dashed rgba(96,100,110,.28);transform:rotate(-2.5deg);
-    box-shadow:0 1px 2px rgba(120,50,25,.1)}
-  .post:hover{box-shadow:0 6px 18px rgba(120,50,25,.14);transform:translateY(-1px)}
-  .post{transition:box-shadow .25s,transform .25s}
-  .post .pdate{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
-    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap}
-  .post .lock{font-size:10px;color:#41566b;border:1px solid #b9c6d4;border-radius:4px;
-    padding:1px 7px;letter-spacing:2px;background:#eef2f6;flex-shrink:0}
-  .post .mood{font-size:10px;color:#a8886a;letter-spacing:1px;border-bottom:1px dotted #d9b98a;margin-left:auto}
-  .post .ptext{font-size:13px;line-height:2.15;color:#5a3a28;letter-spacing:.8px;white-space:pre-line}
-  .post .pself{margin-top:10px;border-top:1px dashed #e8cba0;padding-top:8px;
-    font-size:12px;line-height:1.95;color:#8a6a4a}
-  .post .pself b{color:#52687f;font-weight:700;margin-right:6px}
-  .post .pself .none{color:#c9ad8c;font-size:11px;letter-spacing:1px}
-  .code{font-family:var(--mono);color:#41566b;background:#eef2f6;border-radius:4px;padding:0 5px}
-  /* 帖子角落的淡爪印：楼下那只卷毛猫来过 */
-  .paw{position:absolute;bottom:8px;right:12px;font-size:15px;opacity:.14;pointer-events:none}
+  /* 分享的音乐卡（微博味） */
+  .wmusic{margin-top:8px;border:1px solid #f0d5b8;background:#fffcf7;border-radius:6px;padding:10px 14px;
+    display:flex;gap:12px;align-items:center;cursor:pointer;transition:background .15s}
+  .wmusic:hover{background:#fff6ea}
+  .wmusic .mc{width:44px;height:44px;border-radius:5px;background:linear-gradient(135deg,#ff9d3c,#ff8200);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0}
+  .wmusic .mt{font-size:14px;color:#333;font-weight:600}
+  .wmusic .md{font-size:12px;color:#999;margin-top:3px}
+  .wmusic .mp{margin-left:auto;color:#ff8200;font-size:20px}
 
-  /* 歌单 */
-  .song{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed #e8cba0}
-  .song:last-child{border-bottom:none}
-  .song .no{color:#c9ad8c;font-family:var(--mono);font-size:11px;flex-shrink:0}
-  .song .st{color:#7a4a30;font-weight:600;font-size:12.5px;letter-spacing:1px}
-  .song .hot{font-size:11px;color:#a8886a;line-height:1.8;margin-top:2px}
+  /* 操作栏：转发 评论 赞 */
+  .wacts{display:flex;margin-top:10px;border-top:1px solid #f5f5f5}
+  .wacts span{flex:1;text-align:center;padding:9px 0;font-size:13px;color:#808080;cursor:pointer;transition:color .15s}
+  .wacts span:hover{color:#ff8200}
+  .wacts span.on{color:#ff8200}
 
-  .lbx{position:fixed;inset:0;background:rgba(40,20,10,.75);display:none;
-    align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
-  .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  /* 评论区 */
+  .wcmts{background:#fafafa;border-radius:4px;margin-top:8px;padding:10px 12px;display:none}
+  .wcmts.show{display:block}
+  .wcmt{display:flex;gap:8px;padding:7px 0;border-bottom:1px dashed #eee;font-size:13px;line-height:1.8}
+  .wcmt:last-of-type{border-bottom:none}
+  .wcmt .ca{width:26px;height:26px;border-radius:4px;overflow:hidden;flex-shrink:0;border:1px solid #eee}
+  .wcmt .ca img{width:100%;height:100%;object-fit:cover}
+  .wcmt b{color:#eb735;font-weight:600}
+  .wcmt.none{color:#999;font-size:12.5px;border:none;padding:4px 0}
+  .wcinput{display:flex;gap:6px;margin-top:8px}
+  .wcinput input{flex:1;border:1px solid #ddd;border-radius:4px;padding:6px 10px;font-size:12.5px;outline:none;font-family:inherit;color:#333}
+  .wcinput input:focus{border-color:#ff8200}
+  .wcinput button{border:1px solid #ff8200;background:#ff8200;color:#fff;border-radius:4px;padding:0 14px;
+    font-size:12.5px;cursor:pointer}
+  .wcinput button:hover{background:#f07600}
+  .wcnote{font-size:11.5px;color:#999;margin-top:6px;min-height:1.6em}
+
+  /* 右侧小卡 */
+  .sidecard{margin-bottom:12px}
+
+  .foot{text-align:center;font-size:12px;color:#939393;padding:20px 0 8px;line-height:2}
+  .foot a{color:#507daf;text-decoration:none;margin:0 6px;cursor:pointer}
+
+  .lbx{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
+  .lbx img{max-width:80vw;max-height:80vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .lbx.show{display:flex}
-
-  /* 顶部导航：老博客那种横条式站内导航 */
-  .bnav{margin:16px 0 0;display:flex;justify-content:center;gap:0;flex-wrap:wrap;
-    border-top:2px solid #41566b;border-bottom:2px solid #41566b;
-    padding:8px 0;background:linear-gradient(180deg,#fffdf7,#f9efdb)}
-  .bnav a{font-size:12.5px;letter-spacing:3px;color:#7a4a30;padding:4px 18px;cursor:pointer;
-    border-right:1px dotted #d9b98a;transition:all .15s}
-  .bnav a:last-child{border-right:none}
-  .bnav a:hover{color:#41566b;background:#eef2f6}
-
-  /* 归档：真人博客都有的那一列 */
-  .arch{display:flex;justify-content:space-between;align-items:baseline;padding:5px 4px;
-    border-bottom:1px dotted #e8cba0;cursor:pointer;border-radius:4px;transition:background .2s}
-  .arch:hover{background:#eef2f6}
-  .arch.on{background:#eef2f6}
-  .arch .ay{color:#7a4a30;font-weight:700;font-size:12.5px;letter-spacing:2px;font-family:var(--mono)}
-  .arch.on .ay{color:#41566b}
-  .arch .ac{color:#c9ad8c;font-size:10.5px;font-family:var(--mono)}
-
-  /* 留言板：能写，但…… */
-  .gbinput{display:flex;gap:6px;margin-top:6px}
-  .gbinput input{flex:1;border:1.5px solid #d9b98a;border-radius:6px;background:#fffdf7;
-    padding:5px 9px;font-size:12px;color:#5a3a28;letter-spacing:1px;outline:none;font-family:inherit}
-  .gbinput input:focus{border-color:#8fa3b8}
-  .gbinput button{border:1.5px solid #41566b;background:linear-gradient(180deg,#52687f,#41566b);
-    color:#fdf2e0;border-radius:6px;padding:4px 12px;font-size:11.5px;letter-spacing:2px;cursor:pointer;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
-  .gbinput button:hover{filter:brightness(1.08)}
-  .gbnote{font-size:11px;color:#b8845c;letter-spacing:1px;margin-top:6px;line-height:1.8;min-height:1.8em}
-
-  /* 友情链接：他常去的地方 */
-  .flink{padding:4px 2px;border-bottom:1px dotted #e8cba0;font-size:12.5px;letter-spacing:1px}
-  .flink:last-child{border-bottom:none}
-  .flink a{color:#7a4a30;cursor:pointer;text-decoration:none}
-  .flink a:hover{color:#41566b;text-decoration:underline}
-  .flink .fd{display:block;font-size:10.5px;color:#c9ad8c;letter-spacing:1px;margin-top:1px}
-
-  /* 碎碎念里提到的地方：走到过的才点得动 */
-  .deep{color:#41566b;border-bottom:1px dashed #41566b;cursor:pointer}
-  .deep:hover{background:#eef2f6}
-
-  /* 帖子页脚：真博客都有的那行小字 */
-  .pmeta{margin-top:9px;font-size:10.5px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
-    border-top:1px dotted #e8cba0;padding-top:6px;display:flex;justify-content:space-between}
-
-  .foot{margin-top:18px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
-  .foot b{color:#41566b}
-  .counter{margin-top:6px;font-family:var(--mono);font-size:10.5px;color:#c9ad8c;letter-spacing:3px}
-  .counter i{display:inline-block;background:#5a3a28;color:#fdf2e0;border-radius:2px;
-    padding:1px 4px;margin:0 1px;font-style:normal}
 </style>
 </head>
 <body>
 <div class="moon"></div>
-<div class="wrap">
 
-  <div class="banner">
-    <span class="tape tl"></span><span class="tape tr"></span>
-    <svg class="bfly" viewBox="0 0 60 48" fill="none">
-      <path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#c7d5e2"/>
-      <path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#c7d5e2"/>
-      <path d="M30 24 C20 34, 12 44, 18 46 C23 47, 28 38, 30 26 Z" fill="#aec3d6"/>
-      <path d="M30 24 C40 34, 48 44, 42 46 C37 47, 32 38, 30 26 Z" fill="#aec3d6"/>
-      <rect x="28.6" y="16" width="2.8" height="16" rx="1.4" fill="#5a3a28"/>
-    </svg>
-    <svg class="bfly2" viewBox="0 0 60 48" fill="none">
-      <path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#c7d5e2"/>
-      <path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#c7d5e2"/>
-      <rect x="28.6" y="16" width="2.8" height="16" rx="1.4" fill="#5a3a28"/>
-    </svg>
-    <h1>北 屋</h1>
-    <div class="sub">～ 说了也没人听，就记在这里 ～</div>
-    <div class="upd">访问量：8 · 粉丝：0 · 最后更新：今天</div>
-    <div class="seal">渡</div>
-  </div>
-
-  <div class="bnav">
-    <a data-to="feedPanel">首 页</a><a data-to="feedPanel">碎碎念</a><a data-to="archPanel">归 档</a><a data-to="songsPanel">歌 单</a><a data-to="gbPanel">留言板</a><a data-to="aboutPanel">关 于</a>
-  </div>
-
-  <div class="cols">
-    <div class="side">
-      <div class="panel sp" id="aboutPanel">
-        <div class="ph">关于这个号</div>
-        <div class="pb">
-          <div class="avatar" id="avatar">?</div>
-          <div class="kv"><b>昵称：</b><span>北屋</span></div>
-          <div class="kv"><b>注册：</b><span>2022-08-08</span></div>
-          <div class="kv"><b>地区：</b><span>（不填）</span></div>
-          <div class="kv"><b>生日：</b><span>08-08</span></div>
-          <div class="kv"><b>简介：</b><span>先渡自己。</span></div>
-          <div class="kv"><b>访问：</b><span>8 次。都是我自己。</span></div>
-        </div>
-      </div>
-
-      <div class="panel sp">
-        <div class="ph">我的天气</div>
-        <div class="pb weather">
-          <div class="wday">TODAY</div>
-          <div class="wico">☁ ☁</div>
-          <div class="wnote">今天：阴<br>明天：阴<br>后天：懒得看</div>
-        </div>
-      </div>
-
-      <div class="panel sp" id="archPanel">
-        <div class="ph">归 档</div>
-        <div class="pb" id="arch"></div>
-      </div>
-
-      <div class="panel sp" id="frPanel">
-        <div class="ph">友情链接</div>
-        <div class="pb" id="friends"></div>
-      </div>
-
-      <div class="panel sp" id="songsPanel">
-        <div class="ph">他的歌单 · 仅自己可见</div>
-        <div class="pb" id="songs"></div>
-      </div>
-
-      <div class="panel sp" id="gbPanel">
-        <div class="ph">留言板</div>
-        <div class="pb">
-          <div class="gb-empty">还没有人留言。<br><b>第一条</b>的位置，一直空着。</div>
-          <div class="gbinput"><input id="gbText" maxlength="50" placeholder="说点什么……"><button id="gbGo">留 言</button></div>
-          <div class="gbnote" id="gbNote"></div>
-        </div>
-      </div>
+<div class="topbar">
+  <div class="in">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="13" cy="17" r="10" fill="#ff8200"/><ellipse cx="13" cy="17" rx="5.5" ry="4.5" fill="#fff"/><circle cx="13" cy="17" r="2.6" fill="#2b2b2b"/><path d="M21 9 C23 4, 28 3, 29 5 C30 7, 27 10, 23 11 Z" fill="#ffb26b"/></svg>
+      <b>微博</b>
     </div>
-
-    <div class="main">
-      <div class="panel" id="feedPanel">
-        <div class="ph">碎碎念</div>
-        <div class="pb" id="feed"></div>
-      </div>
+    <div class="tsearch"><span>🔍</span>大家都在搜：年度关键词</div>
+    <div class="tnav">
+      <span>首页</span><span>发现</span><span>消息</span>
+      <span class="me">🦋</span>
     </div>
   </div>
-
-  <div class="foot">这个号没有告诉过任何人。包括<span style="color:#41566b">你</span>。</div>
-  <div class="counter">访客计数 <i>0</i><i>0</i><i>0</i><i>0</i><i>0</i><i>9</i></div>
 </div>
+
+<div class="cols">
+  <div class="sideL">
+    <div class="card">
+      <div class="pcov"></div>
+      <div class="pava" id="avatar"><img src="assets/media/butterfly.png" alt=""></div>
+      <div class="pbody">
+        <div class="pname">北屋 <span class="vtag">未认证</span></div>
+        <div class="pstats">
+          <div><b>3</b><span>关注</span></div>
+          <div><b>0</b><span>粉丝</span></div>
+          <div id="postnum"><b>–</b><span>微博</span></div>
+        </div>
+        <div class="pdesc"><b>简介：</b>先渡自己。<br><b>注册时间：</b>2022-08-08<br><b>地区：</b>（不填）</div>
+        <div class="pvisit">今日访客：<i id="visit">8</i></div>
+      </div>
+    </div>
+
+    <div class="card" id="fuPanel">
+      <div class="ch">他的关注</div>
+      <div id="follows"></div>
+    </div>
+
+    <div class="card">
+      <div class="ch">他分享的音乐</div>
+      <div id="songs"></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <div class="ch" style="display:flex;justify-content:space-between"><span>微博</span><span style="font-size:12px;color:#999;font-weight:400">全部原创 · 仅自己可见</span></div>
+      <div id="feed"></div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <a>关于微博</a><a>微博客服</a><a>意见反馈</a><br>
+  这个号没有告诉过任何人。包括<span style="color:#eb735">你</span>。
+</div>
+
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
-<script src="assets/game.js?v=76"></script>
+
+<script src="assets/game.js?v=77"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
   const $ = id => document.getElementById(id);
   const ch = DJ.state.chapter;
 
-  /* ---------- 碎碎念：超长、仅自己可见、2022-2026 ---------- */
-  const YEARS = [
-    { y:"2026", tag:"还在更新", posts:[
-      { d:"09-26", mood:"心情：醒着", paw:"🐾", lock:true, t:`凌晨三点十七分醒的。没有闹钟，是自己醒的。
+  /* ---------- 微博内容：2022-2026，全部仅自己可见 ---------- */
+  const POSTS = [
+    { d:"今天 03:17", y:"2026", long:true, t:`凌晨三点十七分醒的。没有闹钟，是自己醒的。
 
 躺了一会儿，习惯性拿起手机看后台。这个号我四年没告诉过任何人，访问量一直是 8——我自己登一次算一次。
 
@@ -279,15 +217,15 @@ function main(){
 又拿起来看了一遍。还是 9。
 
 我把灯关了，假装不在。` },
-      { d:"08-08", mood:"心情：照旧", paw:"🐾", lock:true, t:`一年了。
+    { d:"08-08", y:"2026", long:true, t:`一年了。
 
 备忘录里那条"明天回电"还挂着，我一直没删，也不敢点开。点开它就会问我：现在回吗？
 
 有时候我想，如果那天我赢的是另一场，是不是电话就会响。后来不这么想了。赢不赢，电话都不会响的。电话响的时候，你永远不会想到是这一天。
 
 今天楼道的声控灯坏了一盏，我上去的时候在黑里站了几秒。也没觉得害怕。黑的地方我熟。`,
-        self:{ w:"北屋", m:"补：声控灯今天修好了。踩上去「啪」一声，我居然吓了一跳。呵。" } },
-      { d:"05-20", mood:"心情：没劲", lock:true, t:`今天满世界都是 520。
+      cmt:"补：声控灯今天修好了。踩上去「啪」一声，我居然吓了一跳。呵。" },
+    { d:"05-20", y:"2026", long:true, t:`今天满世界都是 520。
 
 我的手机安安静静。挺好。省得我练接电话。
 
@@ -296,48 +234,45 @@ function main(){
 备注是"家"的那个，还是不接。不是不想。是怕一接，就得说话；一说话，就得解释；一解释，就得承认这八年。
 
 算了。明天再说。明天的我一向比我勇敢。` },
-      { d:"03-02", mood:"心情：软的", paw:"🐾", lock:true, t:`楼下有只卷毛的猫，蹲在门口，像没睡醒。
+    { d:"03-02", y:"2026", long:true, t:`楼下有只卷毛的猫，蹲在门口，像没睡醒。
 
 我隔着玻璃看了它十分钟，没敢开窗。
 
 我怕开了窗，它就要进来了。它进来了，家里就有第二个心跳了。有第二个心跳，夜晚就会短一点。夜晚短一点，人就软一点。
 
 我还是没开窗。明天再看看它在不在。`,
-        self:{ w:"北屋", m:"补：在。还带了只蝴蝶，逗着玩。猫都比我过得好。" } }
-    ]},
-    { y:"2025", tag:"", posts:[
-      { d:"08-07 · 23:58", mood:"心情：收尾", lock:true, t:`把这八年的东西都整理好了，放在 <span class="code">yunti.cloud</span>，提取码 <span class="code">0808</span>。
+      cmt:"补：在。还带了只蝴蝶，逗着玩。猫都比我过得好。" },
+    { d:"2025-08-07 23:58", y:"2025", long:true, t:`把这八年的东西都整理好了，放在 <span class="code">yunti.cloud</span>，提取码 <span class="code">0808</span>。
 
 有些是截屏，有些是录音，有些是我半夜写的没人会看的东西。放在一起比我想象中重。
 
-要是哪天我不在了，看到的人替我删掉。`, self:{ w:"北屋", m:"补：别删。留着。总有一天用得上。另外提取码改了——改成那四个字了。你们懂。" } },
-      { d:"12-24", mood:"心情：静", lock:true, t:`平安夜。楼下的餐厅在放歌，隔着墙都听得见热闹。
+要是哪天我不在了，看到的人替我删掉。`,
+      cmt:"补：别删。留着。总有一天用得上。另外提取码改了——改成那四个字了。你们懂。" },
+    { d:"2025-12-24", y:"2025", long:true, t:`平安夜。楼下的餐厅在放歌，隔着墙都听得见热闹。
 
 我戴上耳机，听一个很冷门的电台。亥时开播，一晚上就一句话。播完就没了，像烧完的火柴。
 
 别人跨年倒数，我跨年等一句话。一句话等了一年，明年还等。
 
 你问我图什么。图它准时。八年了，它比我认识的所有人都准时。` },
-      { d:"07-19", mood:"心情：等", lock:true, t:`年度报告出来了，说我今年的关键词是"等"。
+    { d:"2025-07-19", y:"2025", long:true, t:`年度报告出来了，说我今年的关键词是"等"。
 
 等一个电话，等一句夸，等一个结果。报告还会看下一个年度的关键词是什么。我很想提前剧透给它：不会变的。
 
 好几年了，关键词没换过。换人可以，换关键词不行。` },
-      { d:"04-05", mood:"心情：回家的那种", paw:"🐾", lock:true, t:`清明回去了一趟。
+    { d:"2025-04-05", y:"2025", long:true, t:`清明回去了一趟。
 
 老房子的纱窗破了个洞，一只白蝶从那儿进来的，停在窗台上，停了很久。我没赶它。
 
 小时候外婆说，蝶是引路的，别跟着走丢。她说话的时候手里总在剥豆子，豆子落进盆里，一颗一声。
 
 我坐到天黑才走。走之前把纱窗的洞按了按，没补。万一她还要来呢。` },
-      { d:"04-01", mood:"心情：真话日", lock:true, t:`今天是愚人节，最适合说真话。
+    { d:"2025-04-01", y:"2025", long:true, t:`今天是愚人节，最适合说真话。
 
 我想说我其实输不起。表面上说"重在参与"，回房间能把那一局复盘到凌晨四点。
 
-今天也有一只白蝶，停在纱窗外面。不知道是不是上次那只。我没跟。我就在原地。` }
-    ]},
-    { y:"2024", tag:"", posts:[
-      { d:"11-08", mood:"心情：松了一口气", lock:true, t:`又赢了一次。
+今天也有一只白蝶，停在纱窗外面。不知道是不是上次那只。我没跟。我就在原地。` },
+    { d:"2024-11-08", y:"2024", long:true, t:`又赢了一次。
 
 他们说我这届最稳，问我有什么诀窍。我说睡得好。
 
@@ -346,186 +281,212 @@ function main(){
 赛后有人问，站上去什么感觉。说实话，也就一般吧。没有想象中那个劲儿，就是松了一口气，像还了一笔债。
 
 第二天接着欠。` },
-      { d:"08-08", mood:"心情：不吃蛋糕", lock:true, t:`今天是我的生日。也是这个号的生日。我故意选的，省得记两个日子。
+    { d:"2024-08-08", y:"2024", long:true, t:`今天是我的生日。也是这个号的生日。我故意选的，省得记两个日子。
 
 给自己买了个小蛋糕，吃到一半觉得没意思，剩下的放冰箱了。
 
 关冰箱门的时候听见它"嗡"了一声。行吧，至少它回应我。` },
-      { d:"06-18", mood:"心情：记账中", lock:true, t:`把"输"改了个名字，叫"先攒着"。
+    { d:"2024-06-18", y:"2024", long:true, t:`把"输"改了个名字，叫"先攒着"。
 
 攒着攒着，攒了 108 次。这个数字我记在本子上，本子放在枕头底下。
 
 小时候家里人说，攒着攒着就没了。说得对，说得都对，每一句我都记得。就是没人问过我记不记得。` },
-      { d:"01-01", mood:"心情：老愿望", lock:true, t:`新年愿望：接电话的手不要抖。
+    { d:"2024-01-01", y:"2024", long:true, t:`新年愿望：接电话的手不要抖。
 
 去年就许的这个。前年也是。
 
-许愿这个东西吧，许一次没实现，许两次没实现，第三次你就会换个愿望。我不换。我固执起来连自己都怕。` }
-    ]},
-    { y:"2023", tag:"", posts:[
-      { d:"10-31", mood:"心情：第七层", lock:true, t:`画了一个面具。本来只想画一层，回过神来已经画了七层。
+许愿这个东西吧，许一次没实现，许两次没实现，第三次你就会换个愿望。我不换。我固执起来连自己都怕。` },
+    { d:"2023-10-31", y:"2023", long:true, t:`画了一个面具。本来只想画一层，回过神来已经画了七层。
 
 第八层没画完，笔没水了。
 
 也许是天意。也许第八层下面什么都没有，就像那家茶室的深夜场——你排到了，才发现接待的只有你自己。`,
-        self:{ w:"北屋", m:"补：后来找到笔了。还是没画第八层。有些层留着，万一以后用得上。" } },
-      { d:"08-08", mood:"心情：一个人过", lock:true, t:`生日。自我注册这个号起，今天是两岁。
+      cmt:"补：后来找到笔了。还是没画第八层。有些层留着，万一以后用得上。" },
+    { d:"2023-08-08", y:"2023", long:true, t:`生日。自我注册这个号起，今天是两岁。
 
 给自己定的规矩：这一天不打排位，不复盘，不重算。就坐着。
 
 坐到晚上十一点，没忍住，开了两把。都赢了。
 
 赢了也没开心。你看，规矩就是用来输给自己的。` },
-      { d:"06-14", mood:"心情：412 分之一", lock:true, t:`通讯录里 412 个人。
+    { d:"2023-06-14", y:"2023", long:true, t:`通讯录里 412 个人。
 
 今天闲着，从头翻到尾，试着找出五个"凌晨三点能打"的。挑来挑去挑出两个，再挑就挑不下去了。
 
 "家"那个备注，去年改成了一串数字。这样它看起来就跟别的未接来电一样，不会特别疼。` },
-      { d:"05-01", mood:"心情：啪", lock:true, t:`搬了家。朝北，晒不到太阳，房租便宜两百。
+    { d:"2023-05-01", y:"2023", long:true, t:`搬了家。朝北，晒不到太阳，房租便宜两百。
 
 楼道的声控灯特别灵，跺一下脚就亮。我上楼从来不跺脚，就站在黑里等它自己亮。
 
 它一般不亮。我一般就摸黑上去。
 
 住我楼下的大爷说：小伙子，灯是给人照的，你捂着干嘛。我说习惯了。` },
-      { d:"02-14", mood:"心情：第八把", lock:true, t:`今天全世界都在过节。
+    { d:"2023-02-14", y:"2023", long:true, t:`今天全世界都在过节。
 
 我在排队，赢了八把。第八把赢完，我看着战报想，这话说给谁听呢。
 
 后来发在了只有我一个人看的群里。系统提示：发送成功。
 
-你看，至少系统是站在我这边的。` }
-    ]},
-    { y:"2022", tag:"这个号的开始", posts:[
-      { d:"12-31", mood:"心情：盘点", lock:true, t:`今年打了 1,208 场，胜率 81%。
+你看，至少系统是站在我这边的。` },
+    { d:"2022-12-31", y:"2022", long:true, t:`今年打了 1,208 场，胜率 81%。
 
 唯一输的那场，我到现在还记得对方的 ID。不是记仇。是我总在想，那天要是我再多睡一个小时，是不是就赢了。
 
 睡得多，输得少。这是这几年学会的唯一一件事。` },
-      { d:"09-15", mood:"心情：新本子", lock:true, t:`买了个新本子，横线的，深红色皮。
+    { d:"2022-09-15", y:"2022", long:true, t:`买了个新本子，横线的，深红色皮。
 
 本来想记点正经事，写了三行，全是别人听不懂的。字倒是写得比以前认真。
 
 这个本子现在放在枕头底下。枕头底下放本子，是从外婆那儿学的——她说重要的事要压在头底下睡，睡着睡着就长进脑子里了。
 
 这个号也一样。写在这儿，睡着睡着，就长进这儿了。` },
-      { d:"08-08", mood:"心情：新号", lock:true, t:`注册了这个号。
+    { d:"2022-08-08", y:"2022", long:true, t:`注册了这个号。
 
 大的那个号太多人看了，说什么都要想三遍，说到一半像在工作。这里说点真的。
 
 ……想了半天，也没什么真的可说。
 
 就这样。晚安。`,
-        self:{ w:"北屋", m:"补：改主意了，不删。有的话写给谁不重要，写下来才重要。" } }
-    ]}
+      cmt:"补：改主意了，不删。有的话写给谁不重要，写下来才重要。" }
   ];
+  $("postnum").innerHTML = `<b>${POSTS.length}</b><span>微博</span>`;
 
-  /* ---------- 他的歌单：歌是编的，心事是真的 ---------- */
+  /* ---------- 他分享的音乐（微博分享音乐卡片） ---------- */
   const SONGS = [
-    { t:"八点零八", hot:"这个时间打来的电话，我从来不敢不接。" },
-    { t:"白蝶",    hot:"蝶是引路的。别跟着走丢。" },
-    { t:"亥时",    hot:"亥时以后，夜场只接待一个人。" },
-    { t:"朝北",    hot:"晒不到太阳，正好。反正我也怕被看清楚。" },
-    { t:"先攒着",  hot:"攒了 108 次了。本子在枕头底下。" },
-    { t:"声控灯",  hot:"站在黑里等它自己亮。它一般不亮。" }
+    { t:"八点零八", d:"北屋 · 分享了音乐", cap:"这个时间打来的电话，我从来不敢不接。" },
+    { t:"白蝶",    d:"北屋 · 分享了音乐", cap:"蝶是引路的。别跟着走丢。" },
+    { t:"亥时",    d:"北屋 · 分享了音乐", cap:"亥时以后，夜场只接待一个人。" },
+    { t:"朝北",    d:"北屋 · 分享了音乐", cap:"晒不到太阳，正好。反正我也怕被看清楚。" },
+    { t:"先攒着",  d:"北屋 · 分享了音乐", cap:"攒了 108 次了。本子在枕头底下。" },
+    { t:"声控灯",  d:"北屋 · 分享了音乐", cap:"站在黑里等它自己亮。它一般不亮。" }
   ];
-  $("songs").innerHTML = SONGS.map((s,i) =>
-    `<div class="song"><span class="no">0${i+1}</span><div><div class="st">${s.t}</div><div class="hot">— ${s.hot}</div></div></div>`
-  ).join("") + (ch >= 9 ? `<div class="song" style="margin-top:8px"><span class="no">📻</span><div><div class="st" style="color:#41566b;cursor:pointer" id="radioLink">深夜电台 FM 08.8</div><div class="hot">—— 八年只播一句话</div></div></div>` : "");
-
+  $("songs").innerHTML = SONGS.map(s =>
+    `<div class="mus"><div class="mi">▶</div><div><div class="mt">${s.t}</div><div class="md">${s.cap}</div></div></div>`
+  ).join("") + (ch >= 9 ? `<div class="mus" id="radioLink" style="cursor:pointer"><div class="mi">📻</div><div><div class="mt">深夜电台 FM 08.8</div><div class="md">八年只播一句话</div></div></div>` : "");
   if (ch >= 9) $("radioLink").onclick = () => { DJ.sfx.click(); location.href = "radio.html"; };
 
-  /* ---------- 归档：真博客都有的那列年份，点哪年翻哪年 ---------- */
-  const renderFeed = (year) => {
-    $("feed").innerHTML = YEARS.filter(Y => !year || Y.y === year).map(Y =>
-      `<div class="yhead"><b>${Y.y}</b><i></i><small>${Y.tag || ""}</small></div>` +
-      Y.posts.map(p =>
-        `<div class="post"><div class="pdate"><span>${Y.y}-${p.d}</span><span class="mood">${p.mood || ""}</span><span class="lock">仅自己可见</span></div>` +
-        `<div class="ptext">${p.t}</div>` +
-        (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>`
-                : `<div class="pself"><span class="none">— 暂无补充。他还没想好要说给谁听。</span></div>`) +
-        (p.paw ? `<span class="paw">${p.paw}</span>` : "") +
-        `<div class="pmeta"><span>阅读 8</span><span>评论 0</span></div></div>`
-      ).join("")
-    ).join("");
-    /* 碎碎念里提到的地方：走到过的，字就活了，能点进去 */
-    const DEEP = [
-      { w:"未接来电", go:"dial.html", c:1 },
-      { w:"茶室的深夜场", go:"oracle.html", c:4 },
-      { w:"卷毛的猫", go:"adopt.html", c:7 },
-      { w:"画了一个面具", go:"mask.html", c:9 },
-      { w:"亥时开播", go:"radio.html", c:9 }
-    ];
-    document.querySelectorAll("#feed .ptext").forEach(el => {
-      for (const d of DEEP) {
-        if (ch >= d.c && el.textContent.indexOf(d.w) !== -1) {
-          el.innerHTML = el.innerHTML.replace(d.w, `<span class="deep" data-go="${d.go}">${d.w}</span>`);
-        }
+  /* ---------- 他的关注：走过才有，从这进各站 ---------- */
+  const FU = [
+    { t:"搜搜",        d:"什么都搜不到的搜索引擎", go:"search.html",   c:3,  col:"#7aa7d9", i:"搜" },
+    { t:"空耳FM",      d:"听见没人在听的声音",     go:"music.html",    c:3,  col:"#ff8200", i:"♪" },
+    { t:"倒影小组",    d:"审了三年还没审完",       go:"forum.html",    c:5,  col:"#6bbd8f", i:"倒" },
+    { t:"云屉网盘",    d:"八年的东西都在里面",     go:"cloud.html",    c:8,  col:"#8d8dd9", i:"云" },
+    { t:"深夜电台",    d:"每天亥时开播",           go:"radio.html",    c:9,  col:"#555",    i:"📻" },
+    { t:"网上医院",    d:"夜间门诊八点零八分开放", go:"hospital.html", c:10, col:"#e08888", i:"医" },
+    { t:"一面墙",      d:"写满了别人的心事",       go:"board.html",    c:10, col:"#b0a58a", i:"墙" }
+  ];
+  $("follows").innerHTML = FU.filter(f => ch >= f.c).map(f =>
+    `<div class="fu" data-go="${f.go}"><div class="fa" style="background:${f.col}">${f.i}</div><div><div class="fn">${f.t}</div><div class="fd">${f.d}</div></div></div>`
+  ).join("") || `<div class="fuempty">他只关注了 3 个官方账号。<br>一个人住，关注列表也这么安静。</div>`;
+  document.querySelectorAll("#follows .fu").forEach(el => {
+    el.onclick = () => { DJ.sfx.click(); location.href = el.dataset.go; };
+  });
+
+  /* ---------- 渲染微博流 ---------- */
+  const DEEP = [
+    { w:"未接来电",       go:"dial.html",  c:1 },
+    { w:"茶室的深夜场",   go:"oracle.html", c:4 },
+    { w:"卷毛的猫",       go:"adopt.html",  c:7 },
+    { w:"画了一个面具",   go:"mask.html",   c:9 },
+    { w:"亥时开播",       go:"radio.html",  c:9 }
+  ];
+  $("feed").innerHTML = POSTS.map((p, idx) => {
+    const comments = p.cmt ? `<div class="wcmt"><div class="ca"><img src="assets/media/butterfly.png" alt=""></div><div><b>北屋</b>：${p.cmt}</div></div>` : `<div class="wcmt none">还没有评论。这条微博只有一个人看得到。</div>`;
+    return `<div class="wb">
+      <div class="wa" data-lb="${idx}"><img src="assets/media/butterfly.png" alt=""></div>
+      <div class="wbody">
+        <div class="whead">
+          <span class="wname">北屋</span>
+          <span class="wlock">🔒 仅自己可见</span>
+          <span class="wtime">${p.d}<span class="src"> · 来自北屋的旧手机</span></span>
+        </div>
+        <div class="wtext ${p.long ? "wfold" : ""}" id="wt${idx}">${p.t}</div>
+        ${p.long ? `<span class="wmore" data-t="${idx}">全文</span>` : ""}
+        <div class="wacts">
+          <span data-a="fw${idx}">🔁 转发 0</span>
+          <span data-a="cm${idx}">💬 评论 ${p.cmt ? 1 : 0}</span>
+          <span data-a="lk${idx}" id="lk${idx}">👍 赞 0</span>
+        </div>
+        <div class="wcmts" id="cm${idx}">${comments}
+          <div class="wcinput"><input id="ci${idx}" maxlength="60" placeholder="说点什么……"><button data-s="${idx}">评论</button></div>
+          <div class="wcnote" id="cn${idx}"></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  /* 全文折叠 */
+  document.querySelectorAll(".wmore").forEach(m => {
+    m.onclick = () => {
+      DJ.sfx.click();
+      const t = $("wt" + m.dataset.t);
+      const folded = t.classList.toggle("wfold");
+      m.textContent = folded ? "全文" : "收起";
+    };
+  });
+
+  /* 转发 / 赞 */
+  document.querySelectorAll(".wacts span").forEach(s => {
+    s.onclick = () => {
+      const a = s.dataset.a;
+      if (!a) return;
+      if (a.startsWith("fw")) {
+        DJ.sfx.err();
+        s.textContent = "仅自己可见的微博，转发给谁呢";
+      } else if (a.startsWith("lk")) {
+        DJ.sfx.click();
+        const on = s.classList.toggle("on");
+        s.textContent = on ? "👍 赞 1" : "👍 赞 0";
+      } else if (a.startsWith("cm")) {
+        DJ.sfx.click();
+        $("cm" + a.slice(2)).classList.toggle("show");
+      }
+    };
+  });
+
+  /* 评论：能写，写完就等吧 */
+  document.querySelectorAll(".wcinput button").forEach(b => {
+    b.onclick = () => {
+      const i = b.dataset.s;
+      const t = $("ci" + i).value.trim();
+      if (!t) return;
+      $("ci" + i).value = "";
+      $("cn" + i).textContent = "已发送。等它显示出来吧。";
+    };
+  });
+  document.querySelectorAll(".wcinput input").forEach(inp => {
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") inp.nextElementSibling.click(); });
+  });
+
+  /* 碎碎念里提到的地方：走到过的，字就活了 */
+  document.querySelectorAll(".wtext").forEach(el => {
+    for (const d of DEEP) {
+      if (ch >= d.c && el.innerHTML.indexOf(d.w) !== -1) {
+        el.innerHTML = el.innerHTML.replace(d.w, `<span class="deep" data-go="${d.go}">${d.w}</span>`);
+      }
+    }
+  });
+  document.querySelectorAll(".wtext .deep").forEach(s => {
+    s.onclick = () => { DJ.sfx.click(); location.href = s.dataset.go; };
+  });
+
+  /* yunti.cloud：走到云屉那章后，链接就活了 */
+  if (ch >= 8) {
+    document.querySelectorAll(".wtext .code").forEach(c => {
+      if (c.textContent.indexOf("yunti.cloud") !== -1) {
+        c.classList.add("go");
+        c.onclick = () => { DJ.sfx.click(); location.href = "cloud.html"; };
       }
     });
-    document.querySelectorAll("#feed .deep").forEach(s => {
-      s.onclick = () => { DJ.sfx.click(); location.href = s.dataset.go; };
-    });
-    /* yunti.cloud：走到云屉那章后，碎碎念里的链接就能点进去了 */
-    if (ch >= 8) {
-      document.querySelectorAll("#feed .code").forEach(c => {
-        if (c.textContent.indexOf("yunti.cloud") !== -1) {
-          c.style.cursor = "pointer";
-          c.style.borderBottom = "1px dashed #41566b";
-          c.onclick = () => { DJ.sfx.click(); location.href = "cloud.html"; };
-        }
-      });
-    }
-  };
-  const renderArch = (active) => {
-    $("arch").innerHTML = YEARS.map(Y =>
-      `<div class="arch ${active === Y.y ? "on" : ""}" data-y="${Y.y}"><span class="ay">${Y.y} 年</span><span class="ac">${Y.posts.length} 篇</span></div>`
-    ).join("") +
-    (active ? `<div class="arch" data-y=""><span class="ay" style="color:#a8886a">← 全部年份</span><span class="ac">回</span></div>` : "");
-    document.querySelectorAll("#arch .arch").forEach(el => {
-      el.onclick = () => {
-        DJ.sfx.click();
-        renderFeed(el.dataset.y || null);
-        renderArch(el.dataset.y || null);
-        $("feedPanel").scrollIntoView({ behavior: "smooth" });
-      };
-    });
-  };
-  renderArch(null);
-  renderFeed(null);
+  }
 
-  /* ---------- 友情链接：他常去的地方。走进过的站，列表里才有它 ---------- */
-  const FR = [
-    { t:"搜搜", d:"什么都搜不到的搜索引擎", go:"search.html", c:3 },
-    { t:"倒影小组", d:"审了三年还没审完", go:"forum.html", c:5 },
-    { t:"云屉网盘", d:"八年的东西都在里面", go:"cloud.html", c:8 },
-    { t:"空耳FM", d:"听见没人在听的声音", go:"music.html", c:3 },
-    { t:"深夜电台 FM 08.8", d:"每天亥时开播", go:"radio.html", c:9 },
-    { t:"网上医院 · 夜间门诊", d:"八点零八分开放", go:"hospital.html", c:10 },
-    { t:"备忘 · 一面墙", d:"写满了别人的心事", go:"board.html", c:10 }
-  ];
-  $("friends").innerHTML = FR.filter(f => ch >= f.c).map(f =>
-    `<div class="flink"><a data-go="${f.go}">☆ ${f.t}</a><span class="fd">${f.d}</span></div>`
-  ).join("") || `<div class="flink" style="color:#c9ad8c;font-size:11.5px">（还没有可以交换的链接。）</div>`;
-  document.querySelectorAll("#friends a").forEach(a => {
-    a.onclick = () => { DJ.sfx.click(); location.href = a.dataset.go; };
-  });
-
-  /* ---------- 顶部导航：锚点滚动 ---------- */
-  document.querySelectorAll(".bnav a").forEach(a => {
-    a.onclick = () => { DJ.sfx.click(); $(a.dataset.to).scrollIntoView({ behavior: "smooth" }); };
-  });
-
-  /* ---------- 留言板：能写。写完就等吧 ---------- */
-  $("gbGo").onclick = () => {
-    const t = $("gbText").value.trim();
-    if (!t) return;
-    $("gbText").value = "";
-    $("gbNote").textContent = "已提交。等它显示出来吧。";
-  };
-  $("gbText").addEventListener("keydown", e => { if (e.key === "Enter") $("gbGo").onclick(); });
+  /* 今日访客：第一篇微博写过"显示 9"。到这来，它就是 9 */
+  $("visit").textContent = "9";
 
   $("avatar").onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
+  document.querySelectorAll("[data-lb]").forEach(el => {
+    el.onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
+  });
   $("lbx").onclick = () => $("lbx").classList.remove("show");
 }
 </script>
