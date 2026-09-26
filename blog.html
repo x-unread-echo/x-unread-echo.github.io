@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>慢半拍 · 记录一些没什么用的事</title>
-<link rel="stylesheet" href="assets/style.css?v=66">
+<link rel="stylesheet" href="assets/style.css?v=67">
 <style>
   body{
     background:
@@ -21,20 +21,7 @@
 
   .wrap{max-width:900px;margin:0 auto;padding:18px 14px 90px;position:relative}
 
-  /* 顶部年份标签条 */
-  .yeartabbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;
-    background:linear-gradient(180deg,#b13a2a,#92291d);border:2px solid #7d2118;border-radius:8px;
-    padding:8px 10px;box-shadow:0 8px 24px rgba(120,50,25,.25)}
-  .ytab{font-size:12px;color:#f3d9a4;padding:4px 12px;border-radius:5px;cursor:pointer;letter-spacing:1px;
-    border:1px solid transparent;transition:all .2s;font-family:var(--mono)}
-  .ytab:hover{color:#fff;background:rgba(255,255,255,.12)}
-  .ytab.on{background:#fdf6e8;color:#8a3222;font-weight:700;border-color:#7d2118}
-  .ytab.lock{opacity:.45}
-  .ytab.next{animation:brt 2.8s ease-in-out infinite}
-  @keyframes brt{0%,100%{opacity:.4}50%{opacity:1}}
-  .nextword{margin-left:auto;font-size:11px;color:#eec98a;letter-spacing:1px}
-
-  /* 头部横幅 */
+  /* 顶部横幅 */
   .banner{margin-top:12px;border:2px solid #b8352a;border-radius:12px;overflow:hidden;
     background:linear-gradient(180deg,#fffdf7,#faedd7);
     box-shadow:0 10px 34px rgba(120,50,25,.18);text-align:center;padding:26px 16px 20px;position:relative}
@@ -103,13 +90,11 @@
 <div class="moon"></div>
 <div class="wrap">
 
-  <div class="yeartabbar" id="ytabs"></div>
-
   <div class="banner">
     <svg class="stk butterfly" viewBox="0 0 24 24"><g fill="#fdf6e8" stroke="#b8352a" stroke-width="1"><path d="M12 12 C9 5, 2.5 4, 3 9.5 C3.4 13.5, 8.5 14, 11 12.6 Z"/><path d="M12 12 C15 5, 21.5 4, 21 9.5 C20.6 13.5, 15.5 14, 13 12.6 Z"/><ellipse cx="12" cy="13" rx="1.1" ry="3.4" fill="#b8352a" stroke="none"/></g></svg>
     <h1>慢半拍</h1>
     <div class="sub">～ 记录一些没什么用的事 ～</div>
-    <div class="upd" id="upd">最后更新于：——</div>
+    <div class="upd" id="upd">最后更新于：2025 年 8 月 7 日 23:58</div>
     <div class="bnav">首页<span>☆</span>日记<span>☆</span>相册<span>☆</span>留言板<span>☆</span>关于我</div>
   </div>
 
@@ -153,7 +138,7 @@
   <div class="online" id="online"></div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=65"></script>
+<script src="assets/game.js?v=67"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -193,44 +178,28 @@ function main(){
     ]}
   ];
 
-  /* ---------- 渲染 ---------- */
-  const yt = $("ytabs");
-  let curYear = "2025";
-  /* 只渲染已经走到的年份。没走到的年份不存在——玩到哪，博客长到哪 */
-  YEARS.filter(Y => ch >= Y.lock).forEach(Y => {
-    const t = document.createElement("span");
-    t.className = "ytab" + (Y.y === curYear ? " on" : "");
-    t.textContent = Y.y;
-    t.onclick = () => {
-      DJ.sfx.click();
-      curYear = Y.y;
-      document.querySelectorAll(".ytab").forEach(x => x.classList.remove("on"));
-      t.classList.add("on");
-      render(Y);
-    };
-    yt.appendChild(t);
-  });
-
   const bindLk = () => {
     document.querySelectorAll(".lk").forEach(a => {
       a.onclick = () => {
-        if (a.classList.contains("dim")){
-          DJ.sfx.err(); DJ.envHintNow(a.dataset.err || "还不到时候。");
-          return;
-        }
+        if (a.classList.contains("dim")) return; /* 没玩到的：就是普通文字 */
         DJ.sfx.click(); location.href = a.dataset.go;
       };
     });
   };
 
-  const render = (Y) => {
-    $("ytitle").textContent = Y.title;
-    $("upd").textContent = Y.upd;
-    $("diary").innerHTML = Y.posts.map(p =>
-      `<div class="dayhead">${Y.y} 年 ${p.d}</div>${p.html}<div style="height:14px"></div>`).join("");
+  /* ---------- 渲染：就是一篇篇日记，按时间倒序往下排。玩到哪，哪一篇出现 ---------- */
+  const render = () => {
+    let html = "";
+    for (const Y of YEARS.slice().reverse()){   /* 最新的年份在最上面 */
+      if (ch < Y.lock) continue;
+      for (const p of Y.posts){
+        html += `<div class="dayhead">${Y.y} 年 ${p.d}</div>${p.html}<div style="height:14px"></div>`;
+      }
+    }
+    $("diary").innerHTML = html;
     bindLk();
   };
-  render(YEARS.find(Y => Y.y === curYear));
+  render();
 
   /* 留言板：陌生人一条条留的话（全部固定，永远不长） */
   const GB = [
