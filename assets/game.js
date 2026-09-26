@@ -49,14 +49,21 @@ const DJ = (() => {
     try {
       history.replaceState({ daji: ch, cur: 1 }, "");
       history.pushState({ daji: ch, open: 1 }, "");
-      window.addEventListener("popstate", (e) => {
-        /* 只响应我们自己埋的状态位；页面内 # 锚点跳转 state 为 null，不会误触。
-           后退 = 留在原地：把刚退掉的状态推回去，页面不跳、进度不丢。
-           想回味旧章节，用各页自己的返回按钮和导航。 */
-        if (e.state && e.state.cur){
-          try { history.pushState({ daji: ch, open: 1 }, ""); } catch (err) {}
-        }
+      window.addEventListener("popstate", () => {
+        /* 后退永远留在原地：按多少次都不会掉回上一章。
+           想回去翻线索，用左下角的「◂ 北屋」。 */
+        try { history.pushState({ daji: ch, open: 1 }, ""); } catch (err) {}
       });
+      /* 左下角的家：每一章都能随时回北屋翻旧线索 */
+      if (!document.getElementById("dajiHome") && document.body){
+        const a = document.createElement("a");
+        a.id = "dajiHome";
+        a.href = "blog.html";
+        a.title = "回去翻翻";
+        a.textContent = "◂ 北屋";
+        a.style.cssText = "position:fixed;left:10px;bottom:10px;z-index:90;font-size:12px;letter-spacing:2px;color:#8a5038;text-decoration:none;background:rgba(255,253,247,.92);border:1px solid #d9b98a;border-radius:8px;padding:4px 10px;box-shadow:0 2px 8px rgba(120,50,25,.18)";
+        document.body.appendChild(a);
+      }
     } catch (err) {}
   }
 

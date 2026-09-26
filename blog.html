@@ -109,6 +109,11 @@
         </div>
       </div>
 
+      <div class="panel sp" id="oldpanel">
+        <div class="ph">翻旧账 · 走过的地方</div>
+        <div class="pb" id="old"></div>
+      </div>
+
       <div class="panel sp">
         <div class="ph">他的歌单 · 仅自己可见</div>
         <div class="pb" id="songs"></div>
@@ -126,9 +131,9 @@
   <div class="foot">这个号没有告诉过任何人。包括<span style="color:#b8352a">你</span>。</div>
 </div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
-<script src="assets/game.js?v=69"></script>
+<script src="assets/game.js?v=70"></script>
 <script>
-if (DJ.gate(2)) main();
+if (DJ.gate(1)) main();
 function main(){
   const $ = id => document.getElementById(id);
   const ch = DJ.state.chapter;
@@ -244,6 +249,15 @@ function main(){
   ).join("") + (ch >= 9 ? `<div class="song" style="margin-top:8px"><span class="no">▸</span><div><div class="st" style="color:#b8352a;cursor:pointer" id="radioLink">深夜电台 FM 08.8</div><div class="hot">—— 八年只播一句话</div></div></div>` : "");
 
   if (ch >= 9) $("radioLink").onclick = () => { DJ.sfx.click(); location.href = "radio.html"; };
+
+  /* ---------- 翻旧账：只有走过的章节会出现，没走过的不存在 ---------- */
+  const OLD = [[1,"拨号 · 那个未接来电"],[2,"未读 · 三十八条"],[3,"青云观 · 白蝶为钥"],[4,"第八茶室 · 亥时深夜场"],[5,"倒影小组"],[6,"流水账"],[7,"卷毛猫"],[8,"云屉网盘"],[9,"面具"],[10,"档案室"],[11,"镜中人"],[12,"顺其自然"]];
+  $("old").innerHTML = OLD.filter(o => ch >= o[0]).map(o =>
+    `<div style="padding:3px 0"><span class="go" data-go="${[{},{1:"dial.html",2:"chat.html",3:"guanyun.html",4:"oracle.html",5:"forum.html",6:"ledger.html",7:"adopt.html",8:"cloud.html",9:"mask.html",10:"archive.html",11:"echo8.html",12:"final.html"}[o[0]]]}" style="cursor:pointer;border-bottom:1px dotted #b8845c">☆ ${o[1]}</span></div>`
+  ).join("");
+  document.querySelectorAll("#old .go").forEach(el => {
+    el.onclick = () => { DJ.sfx.click(); location.href = el.dataset.go; };
+  });
 
   /* ---------- 渲染 ---------- */
   $("feed").innerHTML = YEARS.map(Y =>
