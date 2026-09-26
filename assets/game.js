@@ -65,13 +65,8 @@ const DJ = (() => {
     save,
     toast,
     flag(k, v = true) {
-      const isNew = !s.flags[k];
+      /* 无声记线索：不弹提示 */
       s.flags[k] = v; save();
-      /* 进度反馈：每记下一条新线索，轻轻浮一下 */
-      if (isNew && !s.done){
-        const n = Object.keys(s.flags).length;
-        toast("◈ 已记下一条线索 · 第 " + n + " 条");
-      }
     },
     has(k) { return !!s.flags[k]; },
     /** 重访计数：每个页面每次进入都 +1。返回值 1=第一次来，2=第二次……
@@ -91,20 +86,16 @@ const DJ = (() => {
       return true;
     },
     unlock(ch) {
+      /* 无声解锁：不弹任何提示，进度只藏在页面状态里 */
       if (s.chapter < ch) {
         s.chapter = ch; save();
-        /* 自动存档提示：像老式单机游戏那样，轻轻浮一下 */
-        const names = { 1:"错位的起源", 2:"未 读", 3:"青 云 观", 4:"赛博仙人", 5:"倒影小组",
-                        6:"流水账", 7:"卷毛猫", 8:"亥 时", 9:"面 具", 10:"档 案 室",
-                        11:"镜中人", 12:"顺其自然" };
-        toast("◈ 浏览记录已更新 ·「" + names[ch] + "」");
       }
     }
   };
 
-  /* ---- 智能返回：不依赖 history（后退守卫会吃掉 back），直接回浏览器主页 ---- */
+  /* ---- 智能返回：回序章 ---- */
   api.back = (fallback) => {
-    location.href = fallback || "blog.html";
+    location.href = fallback || "index.html";
   };
 
   /* ---- 极简音效（WebAudio，无外部文件） ---- */

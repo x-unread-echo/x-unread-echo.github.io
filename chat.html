@@ -342,7 +342,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=54"></script>
+<script src="assets/game.js?v=69"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -528,7 +528,7 @@ function main(){
     naT = setTimeout(() => { $("noanswer").classList.remove("show"); $("noanswer").textContent = "无应答"; }, 3200);
     DJ.flag("saw_avatar");
   };
-  $("backBtn").onclick = () => { DJ.sfx.click(); document.body.classList.add("flash"); setTimeout(() => location.href = "blog.html", 380); };
+  $("backBtn").onclick = () => { DJ.sfx.click(); document.body.classList.add("flash"); setTimeout(() => location.href = "dial.html", 380); };
 
   /* 搜索浮层 */
   $("camNav").onclick = noAnswer;
@@ -547,6 +547,7 @@ function main(){
     else if (q.includes("还好")) r.innerHTML = "<span style='color:#8e8e93'>「还好」在这段对话里出现过 24 次。全部是在回答。</span>";
     else if (q.includes("顺其自然")) r.innerHTML = "<span style='color:#ff453a'>搜索结果：还不急。</span>";
     else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。</span>";
+    else if (q.includes("博客") || q.includes("慢半拍")) r.innerHTML = "<span style='color:#0a84ff'>找到一个博客。「慢半拍 ～ 记录一些没什么用的事 ～」 八年没有换过模板。 <a href='blog.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
     else r.textContent = "没有找到「" + q + "」的结果。";
   });
 
@@ -555,7 +556,7 @@ function main(){
     if (e.target.id === "toGuan" || e.currentTarget.classList.contains("key")){
       DJ.unlock(3); DJ.sfx.ok();
       document.body.classList.add("flash");
-      setTimeout(() => location.href = "blog.html", 400);
+      setTimeout(() => location.href = "guanyun.html", 400);
     }
   };
 
