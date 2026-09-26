@@ -32,6 +32,43 @@
   .bnav{margin-top:16px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;
     font-size:13px;letter-spacing:2px;color:#8a3222}
   .bnav span{color:#d9a879;margin:0 4px}
+  .bnav b{cursor:pointer;font-weight:400;transition:color .2s}
+  .bnav b:hover{color:#d9552f;text-decoration:underline}
+
+  /* 日记底部的 meta 行：真博客都有的 阅读/评论 */
+  .pmeta{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px;
+    display:flex;gap:14px;border-top:1px dashed #e8cba0;padding-top:8px;margin-top:4px}
+  .pmeta span{cursor:pointer;transition:color .2s}
+  .pmeta span:hover{color:#b8352a}
+  .cmts{margin-top:8px;background:#fdf6e8;border:1px solid #ecd9b0;border-radius:8px;
+    padding:10px 12px;font-size:12px;line-height:1.9;color:#7a5236}
+  .cmts .cwho{color:#a8552f;font-weight:700;margin-right:6px}
+
+  /* 相册：拍立得墙 */
+  .alb{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px}
+  .alb img{width:100%;height:74px;object-fit:cover;border:3px solid #fffdf7;outline:1px solid #d9b98a;
+    box-shadow:0 3px 8px rgba(120,50,25,.2);cursor:zoom-in;transform:rotate(-1.5deg);transition:transform .2s}
+  .alb img:nth-child(2n){transform:rotate(1.5deg)}
+  .alb img:hover{transform:rotate(0) scale(1.04)}
+  .alb .none{grid-column:1/-1;font-size:11px;color:#c9ad8c;letter-spacing:2px;text-align:center;padding:6px 0}
+  .albname{font-size:10px;color:#8a6a4a;text-align:center;margin-top:2px;letter-spacing:1px}
+
+  /* 灯箱：点图片放大 */
+  .lbx{position:fixed;inset:0;background:rgba(40,20,10,.75);display:none;
+    align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
+  .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lbx.show{display:flex}
+
+  /* 注销提示：点留言人的名字 */
+  .gx{position:fixed;inset:0;background:rgba(40,20,10,.55);display:none;
+    align-items:center;justify-content:center;z-index:98;cursor:pointer}
+  .gx.show{display:flex}
+  .gxbox{background:#fffdf7;border:2px solid #b8352a;border-radius:10px;padding:26px 40px;
+    text-align:center;color:#5a3a28;box-shadow:0 18px 50px rgba(0,0,0,.4)}
+  .gxbox b{display:block;font-size:16px;letter-spacing:3px;color:#8a3222;margin-bottom:8px}
+  .gxbox small{font-size:11px;color:#c9ad8c;font-family:var(--mono);letter-spacing:1px}
+  .who{cursor:pointer}
+  .who:hover{text-decoration:underline}
 
   /* 布局：侧栏 + 正文 */
   .cols{display:flex;gap:14px;margin-top:14px;align-items:flex-start}
@@ -100,17 +137,22 @@
 
   <div class="cols">
     <div class="side">
-      <div class="panel sp">
+      <div class="panel sp" id="aboutPanel">
         <div class="ph">关于我</div>
         <div class="pb">
-          <div class="avatar">?</div>
+          <div class="avatar" id="avatar" style="cursor:zoom-in">?</div>
           <div class="kv"><b>昵称：</b><span>（没有填）</span></div>
           <div class="kv"><b>星座：</b><span>（不想说）</span></div>
           <div class="kv"><b>座右铭：</b><span>先渡自己。</span></div>
         </div>
       </div>
 
-      <div class="panel sp">
+      <div class="panel sp" id="albumPanel">
+        <div class="ph">相册</div>
+        <div class="alb" id="album"></div>
+      </div>
+
+      <div class="panel sp" id="gbPanel">
         <div class="ph">留言板</div>
         <div class="pb" id="gb"></div>
       </div>
@@ -128,7 +170,7 @@
     </div>
 
     <div class="main">
-      <div class="panel">
+      <div class="panel" id="diaryPanel">
         <div class="ph" id="ytitle">日记</div>
         <div class="pb" id="diary"></div>
       </div>
@@ -138,7 +180,9 @@
   <div class="online" id="online"></div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=67"></script>
+<div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
+<div class="gx" id="gx"><div class="gxbox"><b>该用户已注销</b><small>注销时间：2025-08-08 23:58</small></div></div>
+<script src="assets/game.js?v=68"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -187,19 +231,80 @@ function main(){
     });
   };
 
+  /* ---------- 每篇日记的网友评论（固定不变，像博客该有的样子） ---------- */
+  const CMTS = {
+    "8 月 7 日 · 深夜":[{w:"路人甲",m:"沙发。这么晚还没睡？"},{w:"momo",m:"抱抱。"}],
+    "8 月 1 日":[{w:"路过的人",m:"写日记的人也要好好吃饭。"},{w:"momo",m:"蹲一个更新。"}],
+    "11 月 8 日":[{w:"同路人",m:"八点的号要早点去排队。"},{w:"匿名",m:"医生说的话别全信。"}],
+    "10 月 31 日":[{w:"匿名",m:"第一层就很好看了。"},{w:"路过的人",m:"万圣节快乐。"}],
+    "8 月 8 日":[{w:"momo",m:"网盘会跑路的，还是存硬盘吧。"},{w:"同好",m:"八年才传一次照片？"}],
+    "4 月 1 日":[{w:"路过的人",m:"四月一日不是愚人节吗，别骗我们。"},{w:"momo",m:"卷毛猫很乖的。"}],
+    "12 月 8 日":[{w:"同好",m:"差的那笔可能是手续费。"},{w:"匿名",m:"账平不了就算了吧。"}],
+    "7 月 22 日":[{w:"同好",m:"哪个小组？带带我。"},{w:"momo",m:"自言自语也是一种发帖。"}],
+    "10 月 2 日":[{w:"路人甲",m:"亥时是几点？"},{w:"匿名",m:"深夜场听着就瘆得慌。"}],
+    "3 月 12 日":[{w:"路过的人",m:"香灰不烫是好事。"},{w:"momo",m:"朝北的房间冬天冷吧。"}]
+  };
+  const VIEWS = { "8 月 7 日 · 深夜":"3", "8 月 1 日":"156", "11 月 8 日":"89", "10 月 31 日":"2077",
+    "8 月 8 日":"443", "4 月 1 日":"826", "12 月 8 日":"312", "7 月 22 日":"508", "10 月 2 日":"964", "3 月 12 日":"8" };
+
   /* ---------- 渲染：就是一篇篇日记，按时间倒序往下排。玩到哪，哪一篇出现 ---------- */
   const render = () => {
     let html = "";
     for (const Y of YEARS.slice().reverse()){   /* 最新的年份在最上面 */
       if (ch < Y.lock) continue;
       for (const p of Y.posts){
-        html += `<div class="dayhead">${Y.y} 年 ${p.d}</div>${p.html}<div style="height:14px"></div>`;
+        const cs = CMTS[p.d] || [];
+        const cm = cs.map(c => `<div><span class="cwho">${c.w}：</span>${c.m}</div>`).join("");
+        html += `<div class="dayhead">${Y.y} 年 ${p.d}</div>${p.html}` +
+          `<div class="pmeta"><span>阅读(${VIEWS[p.d] || "233"})</span><span class="pcmt">评论(${cs.length}) ▾</span></div>` +
+          `<div class="cmts" hidden>${cm}</div><div style="height:14px"></div>`;
       }
     }
     $("diary").innerHTML = html;
+    document.querySelectorAll(".pcmt").forEach(s => {
+      s.onclick = () => {
+        DJ.sfx.click();
+        const box = s.parentElement.nextElementSibling;
+        box.hidden = !box.hidden;
+        s.textContent = s.textContent.replace(/▾|▴/, box.hidden ? "▾" : "▴");
+      };
+    });
     bindLk();
   };
   render();
+
+  /* ---------- 顶部导航：真锚点，滚到对应板块 ---------- */
+  document.querySelectorAll(".bnav b").forEach(b => {
+    b.onclick = () => {
+      DJ.sfx.click();
+      const el = document.getElementById(b.dataset.nav);
+      if (el) el.scrollIntoView({behavior:"smooth", block:"start"});
+    };
+  });
+
+  /* ---------- 相册：走过的章节照片才挂出来 ---------- */
+  const PHOTOS = [
+    { src:"assets/media/temple.png",     name:"青云观外", c:3 },
+    { src:"assets/media/snowstreet.png", name:"雪夜的街", c:8 },
+    { src:"assets/media/room.png",       name:"房间",     c:8 },
+    { src:"assets/media/reflection.png", name:"倒影",     c:8 }
+  ];
+  const got = PHOTOS.filter(p => ch >= p.c);
+  $("album").innerHTML = got.length
+    ? got.map(p => `<div><img src="${p.src}" data-big="${p.src}" alt="${p.name}"><div class="albname">${p.name}</div></div>`).join("")
+    : `<div class="none">（胶卷还没洗出来）</div>`;
+  document.querySelectorAll("#album img").forEach(img => {
+    img.onclick = () => { DJ.sfx.click(); $("lbximg").src = img.dataset.big; $("lbx").classList.add("show"); };
+  });
+  $("avatar").onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
+  $("lbx").onclick = () => $("lbx").classList.remove("show");
+
+  /* ---------- 点留言人的名字：全部都是同一个注销时间 ---------- */
+  document.querySelectorAll("#gb .who").forEach(w => {
+    w.classList.add("who");
+    w.onclick = () => { DJ.sfx.click(); $("gx").classList.add("show"); };
+  });
+  $("gx").onclick = () => $("gx").classList.remove("show");
 
   /* 留言板：陌生人一条条留的话（全部固定，永远不长） */
   const GB = [
