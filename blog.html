@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>北屋 · 仅自己可见</title>
-<link rel="stylesheet" href="assets/style.css?v=73">
+<link rel="stylesheet" href="assets/style.css?v=74">
 <style>
   body{
     background:
@@ -118,6 +118,34 @@
   .lbx img{max-width:82vw;max-height:82vh;border:6px solid #fffdf7;box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .lbx.show{display:flex}
 
+  /* 顶部导航：真博客都有的那一排 */
+  .bnav{margin:14px auto 0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+  .bnav a{font-size:12.5px;letter-spacing:3px;color:#8a3222;text-decoration:none;
+    background:linear-gradient(180deg,#fffdf7,#f7e9cf);border:1.5px solid #d9b98a;border-radius:20px;
+    padding:5px 16px;cursor:pointer;box-shadow:0 2px 6px rgba(120,50,25,.10), inset 0 1px 0 rgba(255,255,255,.9);
+    transition:all .2s}
+  .bnav a:hover{background:#fdf0ea;border-color:#c96a4a;transform:translateY(-1px)}
+
+  /* 归档：真人博客都有的那一列 */
+  .arch{display:flex;justify-content:space-between;align-items:baseline;padding:5px 4px;
+    border-bottom:1px dotted #e8cba0;cursor:pointer;border-radius:4px;transition:background .2s}
+  .arch:hover{background:#fdf0ea}
+  .arch.on{background:#fdf0ea}
+  .arch .ay{color:#7a4a30;font-weight:700;font-size:12.5px;letter-spacing:2px;font-family:var(--mono)}
+  .arch.on .ay{color:#b8352a}
+  .arch .ac{color:#c9ad8c;font-size:10.5px;font-family:var(--mono)}
+
+  /* 留言板：能写，但…… */
+  .gbinput{display:flex;gap:6px;margin-top:6px}
+  .gbinput input{flex:1;border:1.5px solid #d9b98a;border-radius:6px;background:#fffdf7;
+    padding:5px 9px;font-size:12px;color:#5a3a28;letter-spacing:1px;outline:none;font-family:inherit}
+  .gbinput input:focus{border-color:#c96a4a}
+  .gbinput button{border:1.5px solid #b8352a;background:linear-gradient(180deg,#c14a36,#9d3324);
+    color:#fdf2e0;border-radius:6px;padding:4px 12px;font-size:11.5px;letter-spacing:2px;cursor:pointer;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+  .gbinput button:hover{filter:brightness(1.08)}
+  .gbnote{font-size:11px;color:#b8845c;letter-spacing:1px;margin-top:6px;line-height:1.8;min-height:1.8em}
+
   .foot{margin-top:18px;text-align:center;font-size:11px;color:#b8845c;letter-spacing:2px;line-height:2}
   .foot b{color:#b8352a}
   .counter{margin-top:6px;font-family:var(--mono);font-size:10.5px;color:#c9ad8c;letter-spacing:3px}
@@ -149,9 +177,13 @@
     <div class="seal">渡</div>
   </div>
 
+  <div class="bnav">
+    <a data-to="feedPanel">首 页</a><a data-to="feedPanel">碎碎念</a><a data-to="archPanel">归 档</a><a data-to="songsPanel">歌 单</a><a data-to="gbPanel">留言板</a><a data-to="aboutPanel">关 于</a>
+  </div>
+
   <div class="cols">
     <div class="side">
-      <div class="panel sp">
+      <div class="panel sp" id="aboutPanel">
         <div class="ph">关于这个号</div>
         <div class="pb">
           <div class="avatar" id="avatar">?</div>
@@ -173,26 +205,28 @@
         </div>
       </div>
 
-      <div class="panel sp" id="oldpanel">
-        <div class="ph">翻旧账 · 走过的地方</div>
-        <div class="pb" id="old"></div>
+      <div class="panel sp" id="archPanel">
+        <div class="ph">归 档</div>
+        <div class="pb" id="arch"></div>
       </div>
 
-      <div class="panel sp">
+      <div class="panel sp" id="songsPanel">
         <div class="ph">他的歌单 · 仅自己可见</div>
         <div class="pb" id="songs"></div>
       </div>
 
-      <div class="panel sp">
+      <div class="panel sp" id="gbPanel">
         <div class="ph">留言板</div>
         <div class="pb">
           <div class="gb-empty">还没有人留言。<br><b>第一条</b>的位置，一直空着。</div>
+          <div class="gbinput"><input id="gbText" maxlength="50" placeholder="说点什么……"><button id="gbGo">留 言</button></div>
+          <div class="gbnote" id="gbNote"></div>
         </div>
       </div>
     </div>
 
     <div class="main">
-      <div class="panel">
+      <div class="panel" id="feedPanel">
         <div class="ph">碎碎念</div>
         <div class="pb" id="feed"></div>
       </div>
@@ -203,7 +237,7 @@
   <div class="counter">访客计数 <i>0</i><i>0</i><i>0</i><i>0</i><i>0</i><i>9</i></div>
 </div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
-<script src="assets/game.js?v=73"></script>
+<script src="assets/game.js?v=74"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -380,42 +414,63 @@ function main(){
 
   if (ch >= 9) $("radioLink").onclick = () => { DJ.sfx.click(); location.href = "radio.html"; };
 
-  /* ---------- 翻旧账：只有走过的章节会出现，没走过的不存在 ---------- */
-  const OLD = [[1,"拨号 · 那个未接来电"],[2,"未读 · 三十八条"],[3,"青云观 · 白蝶为钥"],[4,"第八茶室 · 亥时深夜场"],[5,"倒影小组"],[6,"流水账"],[7,"卷毛猫"],[8,"云屉网盘"],[9,"面具"],[10,"档案室"],[11,"镜中人"],[12,"顺其自然"]];
-  const GO = {1:"dial.html",2:"chat.html",3:"guanyun.html",4:"oracle.html",5:"forum.html",6:"ledger.html",7:"adopt.html",8:"cloud.html",9:"mask.html",10:"archive.html",11:"echo8.html",12:"final.html"};
-  $("old").innerHTML = OLD.filter(o => ch >= o[0]).map(o =>
-    `<div style="padding:3px 0"><span class="go" data-go="${GO[o[0]] || ""}" style="cursor:pointer;border-bottom:1px dotted #b8845c">☆ ${o[1]}</span></div>`
-  ).join("");
-  document.querySelectorAll("#old .go").forEach(el => {
-    el.onclick = () => { DJ.sfx.click(); location.href = el.dataset.go; };
+  /* ---------- 归档：真博客都有的那列年份，点哪年翻哪年 ---------- */
+  const renderFeed = (year) => {
+    $("feed").innerHTML = YEARS.filter(Y => !year || Y.y === year).map(Y =>
+      `<div class="yhead"><b>${Y.y}</b><i></i><small>${Y.tag || ""}</small></div>` +
+      Y.posts.map(p =>
+        `<div class="post"><div class="pdate"><span>${Y.y}-${p.d}</span><span class="mood">${p.mood || ""}</span><span class="lock">仅自己可见</span></div>` +
+        `<div class="ptext">${p.t}</div>` +
+        (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>`
+                : `<div class="pself"><span class="none">— 暂无补充。他还没想好要说给谁听。</span></div>`) +
+        (p.paw ? `<span class="paw">${p.paw}</span>` : "") +
+        `</div>`
+      ).join("")
+    ).join("");
+    /* yunti.cloud：走到云屉那章后，碎碎念里的链接就能点进去了 */
+    if (ch >= 8) {
+      document.querySelectorAll("#feed .code").forEach(c => {
+        if (c.textContent.indexOf("yunti.cloud") !== -1) {
+          c.style.cursor = "pointer";
+          c.style.borderBottom = "1px dashed #b8352a";
+          c.onclick = () => { DJ.sfx.click(); location.href = "cloud.html"; };
+        }
+      });
+    }
+  };
+  const renderArch = (active) => {
+    $("arch").innerHTML = YEARS.map(Y =>
+      `<div class="arch ${active === Y.y ? "on" : ""}" data-y="${Y.y}"><span class="ay">${Y.y} 年</span><span class="ac">${Y.posts.length} 篇</span></div>`
+    ).join("") +
+    (active ? `<div class="arch" data-y=""><span class="ay" style="color:#a8886a">← 全部年份</span><span class="ac">回</span></div>` : "");
+    document.querySelectorAll("#arch .arch").forEach(el => {
+      el.onclick = () => {
+        DJ.sfx.click();
+        renderFeed(el.dataset.y || null);
+        renderArch(el.dataset.y || null);
+        $("feedPanel").scrollIntoView({ behavior: "smooth" });
+      };
+    });
+  };
+  renderArch(null);
+  renderFeed(null);
+
+  /* ---------- 顶部导航：锚点滚动 ---------- */
+  document.querySelectorAll(".bnav a").forEach(a => {
+    a.onclick = () => { DJ.sfx.click(); $(a.dataset.to).scrollIntoView({ behavior: "smooth" }); };
   });
 
-  /* ---------- 渲染 ---------- */
-  $("feed").innerHTML = YEARS.map(Y =>
-    `<div class="yhead"><b>${Y.y}</b><i></i><small>${Y.tag || ""}</small></div>` +
-    Y.posts.map(p =>
-      `<div class="post"><div class="pdate"><span>${Y.y}-${p.d}</span><span class="mood">${p.mood || ""}</span><span class="lock">仅自己可见</span></div>` +
-      `<div class="ptext">${p.t}</div>` +
-      (p.self ? `<div class="pself"><b>${p.self.w}：</b>${p.self.m}</div>`
-              : `<div class="pself"><span class="none">— 暂无补充。他还没想好要说给谁听。</span></div>`) +
-      (p.paw ? `<span class="paw">${p.paw}</span>` : "") +
-      `</div>`
-    ).join("")
-  ).join("");
+  /* ---------- 留言板：能写。写完就等吧 ---------- */
+  $("gbGo").onclick = () => {
+    const t = $("gbText").value.trim();
+    if (!t) return;
+    $("gbText").value = "";
+    $("gbNote").textContent = "已提交。等它显示出来吧。";
+  };
+  $("gbText").addEventListener("keydown", e => { if (e.key === "Enter") $("gbGo").onclick(); });
 
   $("avatar").onclick = () => { DJ.sfx.click(); $("lbximg").src = "assets/media/butterfly.png"; $("lbx").classList.add("show"); };
   $("lbx").onclick = () => $("lbx").classList.remove("show");
-
-  /* yunti.cloud：走到云屉那章后，碎碎念里的链接就能点进去了——像他真的把入口留在了这里 */
-  if (ch >= 8) {
-    document.querySelectorAll("#feed .code").forEach(c => {
-      if (c.textContent.indexOf("yunti.cloud") !== -1) {
-        c.style.cursor = "pointer";
-        c.style.borderBottom = "1px dashed #b8352a";
-        c.onclick = () => { DJ.sfx.click(); location.href = "cloud.html"; };
-      }
-    });
-  }
 }
 </script>
 </body>
