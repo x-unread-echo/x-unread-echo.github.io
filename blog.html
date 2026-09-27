@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>嘀咕</title>
-<link rel="stylesheet" href="assets/style.css?v=81">
+<link rel="stylesheet" href="assets/style.css?v=82">
 <style>
   body{background:#f2f2f5;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333;min-height:100vh}
   .moon{display:none !important}
@@ -38,6 +38,10 @@
 
   /* ---------- 发帖框 ---------- */
   .compose{display:flex;gap:12px;padding:16px 18px;align-items:flex-start}
+  .resume{display:flex;align-items:center;gap:12px;padding:12px 18px;font-size:13px;color:#7a6a55}
+  .resume .rgo{margin-left:auto;background:#eb7350;color:#fff;border:none;border-radius:18px;
+    padding:7px 18px;font-size:13px;letter-spacing:1px;cursor:pointer;transition:all .2s}
+  .resume .rgo:hover{background:#d95f3c;transform:translateY(-1px)}
   .compose .cava{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;cursor:zoom-in}
   .compose .cava img{width:100%;height:100%;object-fit:cover}
   .cright{flex:1}
@@ -201,6 +205,8 @@
       </div>
     </div>
 
+    <div class="card resume" id="resume" style="display:none"></div>
+
     <div class="card" id="feed"></div>
 
     <div class="foot">
@@ -246,12 +252,25 @@
 <div class="npop" id="npop"></div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
 
-<script src="assets/game.js?v=81"></script>
+<script src="assets/game.js?v=82"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
   const $ = id => document.getElementById(id);
   const ch = DJ.state.chapter;
+
+  /* 继续走：从这里一步回到最近走到的那一站 */
+  const RESUME = {1:"dial.html",2:"chat.html",3:"guanyun.html",4:"oracle.html",5:"forum.html",
+                  6:"ledger.html",7:"adopt.html",8:"cloud.html",9:"mask.html",10:"archive.html",
+                  11:"echo8.html",12:"final.html"};
+  const RNAME = {1:"拨号",2:"未读",3:"青云观",4:"第八茶室",5:"倒影小组",6:"流水账",
+                 7:"同城领养",8:"云屉网盘",9:"面具",10:"档案室",11:"镜中人",12:"终章"};
+  if (ch >= 1 && RESUME[ch]){
+    const rc = $("resume");
+    rc.style.display = "flex";
+    rc.innerHTML = `<span>上次看到「${RNAME[ch]}」</span><button class="rgo" id="rgo">继续走 →</button>`;
+    $("rgo").onclick = () => { DJ.sfx.click(); location.href = RESUME[ch]; };
+  }
 
   /* 搜搜热搜 */
   const HOT = [
