@@ -366,7 +366,12 @@ function main(){
     const v = $("keyInput").value.trim().toLowerCase().replace(/\s/g,"");
     if (["白蝶","baidie","白蝶为钥","baidieyaoyao"].includes(v) || v.includes("白蝶")){
       DJ.sfx.ok(); DJ.unlock(4); DJ.flag("saw_charm");
-      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>你把门推开。正殿没有人，长明灯还亮着。<br>求签的案上压着一摞黄色平安符，印版已经很旧了：一个人骑在虎背上，举着剑，云里悬着一枚小印。印版磨得看不清眉目，只认得出那只虎。<br>每张符的角上都有两个小字：<b>大吉</b>。<br>廊下挂满了还愿牌，大多旧得发白。最新的一块，字迹还很新：<br>「谢谢无量师父。茶很好。下次我还来。」`;
+      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>你把门推开。正殿没有人，长明灯还亮着。<br>求签的案上压着一摞黄色平安符，印版已经很旧了：一个人骑在虎背上，举着剑，云里悬着一枚小印。印版磨得看不清眉目，只认得出那只虎。<br>每张符的角上都有两个小字：<b>大吉</b>。<br>廊下挂满了还愿牌，大多旧得发白。最新的一块，字迹还很新：<br>「谢谢无量师父。茶很好。下次我还来。」<br><span style="color:#6b7688">（风从你身后灌进来。殿门正在缓缓合上——）</span>`;
+      if (!window.__dajiWalking){
+        window.__dajiWalking = true;
+        setTimeout(() => { document.body.style.transition = "opacity .8s"; document.body.style.opacity = "0"; }, 7000);
+        setTimeout(() => location.href = "oracle.html", 8000);
+      }
     } else {
       $("keyTip").textContent = "锁没动。";
       DJ.sfx.err();
