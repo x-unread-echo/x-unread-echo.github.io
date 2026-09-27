@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>搜搜 — 搜点正经的</title>
-<link rel="stylesheet" href="assets/style.css?v=91">
+<link rel="stylesheet" href="assets/style.css?v=92">
 <style>
   /* 搜搜 · 网易云风格 */
   body{background:#f4f5f7;font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;color:#333}
@@ -46,7 +46,7 @@
 </style></head>
 <body>
 <div class="ny-top">
-  <button class="back" id="backChat" title="返回">‹</button>
+  <button class="back" id="backChat" title="后退">‹</button>
   <span class="ny-brand">搜搜</span>
   <span class="ny-tag">全球第 8 大搜索引擎</span>
 </div>
@@ -67,7 +67,7 @@
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=91"></script>
+<script src="assets/game.js?v=92"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -234,7 +234,8 @@ function main(){
   }
   $("go").onclick = doSearch;
   $("q").addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
-  $("backChat").onclick = () => location.href="chat.html";
+  /* 返回 = 浏览器后退：从哪来的回哪去，这是真浏览器的行为 */
+  $("backChat").onclick = () => { DJ.sfx.click(); if (history.length > 1) history.back(); else location.href = "index.html"; };
 
   /* ---- 搜索联想：只联想玩家真正在别处见过的词。见得越多，联想越多 ---- */
   const suggPool = [];

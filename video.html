@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MUTE.TV — 每一帧都值得</title>
-<link rel="stylesheet" href="assets/style.css?v=91">
+<link rel="stylesheet" href="assets/style.css?v=92">
 <style>
   body{background:#e1dbc9;font-family:-apple-system,"PingFang SC",sans-serif;color:#585144}
   .v-wrap{max-width:860px;margin:0 auto;padding:0 16px 90px}
@@ -43,14 +43,13 @@
   .navlinks{display:flex;gap:16px;font-size:12.5px;margin-top:8px}
   .navlinks a{color:#4a7dd6;text-decoration:none}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=91"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=92"></head>
 <body>
 <div class="v-wrap">
   <div class="v-top">
     <div class="v-logo">MUTE<b>.TV</b><span class="sm">每一帧都值得 · 反正也没人看</span></div>
     <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
     <button class="corner" style="position:static" id="toMusic">‹ 空耳FM</button>
-    <button class="corner" style="position:static" id="toChat">‹ 未 读</button>
   </div>
 
   <!-- 视频 1：蝴蝶 -->
@@ -103,7 +102,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=91"></script>
+<script src="assets/game.js?v=92"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -141,7 +140,6 @@ function main(){
 
   $("toSearch").onclick = () => location.href="search.html";
   $("toMusic").onclick = () => location.href="music.html";
-  $("toChat").onclick = () => location.href="chat.html";
 
   DJ.envHint("第一条视频的评论区，有人说了个地方。", "vd1", 70);
   DJ.envHint("点视频。八次。别眨眼。", "vd2", 160);

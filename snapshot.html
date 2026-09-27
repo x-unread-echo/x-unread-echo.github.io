@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>拾光机 · 网页存档馆</title>
-<link rel="stylesheet" href="assets/style.css?v=91">
+<link rel="stylesheet" href="assets/style.css?v=92">
 <style>
   body{background:#eef1f4;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#2c3440;min-height:100vh}
   .moon{display:none !important}
@@ -70,6 +70,9 @@
   .yfile .fs{margin-left:auto;font-size:11.5px;color:#403b32}
   .ftext{display:none;background:#fbfcfd;border-top:1px dashed #dfe6ea;padding:16px 22px;font-size:13.5px;line-height:2.1;color:#4a5664;white-space:pre-line}
   .ftext.show{display:block}
+  /* 照片卡（拍立得感） */
+  .photo{width:100%;max-width:250px;height:158px;border:8px solid #f7f4ea;outline:1px solid #d8d2c2;box-shadow:0 3px 10px rgba(60,50,30,.18);margin:4px 0 2px}
+  .phcap{font-size:12px;color:#7a7365;margin:8px 0 12px;letter-spacing:.5px;white-space:normal}
   .dead{padding:34px 18px;text-align:center;color:#3b362e;font-size:13.5px;line-height:2.2}
   .dead b{color:#5a6a78}
 
@@ -78,7 +81,7 @@
   .about.show{display:block}
   .foot{margin-top:44px;text-align:center;font-size:11.5px;color:#403b32;line-height:2.2}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=91"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=92"></head>
 <body>
 <div class="moon"></div>
 <div class="wrap">
@@ -132,7 +135,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=91"></script>
+<script src="assets/game.js?v=92"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -176,12 +179,21 @@ function main(){
             <div class="yhead">文件列表（8）</div>
             <div class="yfile" data-f="dead1"><div class="fi" style="background:#5b8db8">TXT</div>《给八年后的我》.txt<span class="fs">2 KB</span></div>
             <div class="yfile" data-f="wav"><div class="fi" style="background:#d98a6a">WAV</div>录音_0317.wav<span class="fs">3 分 17 秒</span></div>
-            <div class="yfile" data-f="img"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_1.jpg ~ IMG_0808_5.jpg<span class="fs">5 个文件</span></div>
+            <div class="yfile" data-f="img1"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_1.jpg<span class="fs">1.2 MB</span></div>
+            <div class="yfile" data-f="img2"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_2.jpg<span class="fs">0.9 MB</span></div>
+            <div class="yfile" data-f="img3"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_3.jpg<span class="fs">1.4 MB</span></div>
+            <div class="yfile" data-f="img4"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_4.jpg<span class="fs">0.8 MB</span></div>
+            <div class="yfile" data-f="img5"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_5.jpg<span class="fs">2.1 MB</span></div>
             <div class="yfile" data-f="mp4"><div class="fi" style="background:#7a9950">MP4</div>未命名.mp4<span class="fs">8 秒</span></div>
             <div class="yfile" data-f="del"><div class="fi" style="background:#c0666a">TXT</div>《删除清单》.txt<span class="fs">1 KB</span></div>
             <div class="ftext" id="f-wav">【音频已损坏】<br>播放失败。只剩 3 分 17 秒的波形。<br>波形的前半段很密，像有人在很小的声量里说了很久。<br>最后一段是平的。平了很久。</div>
             <div class="ftext" id="f-mp4">【视频可播放 8 秒】<br>画面：一扇朝北的窗。天是灰的。<br>第 6 秒，一只白蝶从画面左下角飞进来，停了一下，又飞出去了。<br>没有别的事发生。</div>
             <div class="ftext" id="f-del">${DELLIST}</div>
+            <div class="ftext" id="f-img1"><div class="photo" style="background:linear-gradient(180deg,#aeb9c2 0%,#c9d0d6 52%,#6f7a72 52%,#5f6a62 100%)"></div><div class="phcap">【缩略图已缓存】朝北的窗。天是灰的。EXIF 拍摄时间：23:51。</div></div>
+            <div class="ftext" id="f-img2"><div class="photo" style="background:linear-gradient(180deg,#d8d4c8 0%,#dbd7cb 70%,#b0a894 70%,#a39a85 100%)"></div><div class="phcap">窗台上的一瓶花。养不活的，还是买了。瓶子是个罐头瓶。</div></div>
+            <div class="ftext" id="f-img3"><div class="photo" style="background:linear-gradient(180deg,#c9cfc9 0%,#cdd2cc 62%,#8a8f88 62%,#777c75 100%)"></div><div class="phcap">长椅上有一团三色的影子。对焦失败。放大看，耳朵是尖的。</div></div>
+            <div class="ftext" id="f-img4"><div class="photo" style="background:linear-gradient(180deg,#e3e0d6 0%,#e6e3d9 66%,#cfcabb 66%,#bcb6a4 100%)"></div><div class="phcap">桌面。一个药盒，一杯水。药盒是空的。水是满的。</div></div>
+            <div class="ftext" id="f-img5"><div class="photo" style="background:radial-gradient(circle at 68% 42%, #f5e9c8 0%, #f5e9c8 2.5%, #232a26 14%, #14181a 100%)"></div><div class="phcap">很黑。远处有一盏灯亮着。这条路的路灯，坏了一盏。EXIF：03:17。</div></div>
           </div>` },
       { d:"2025-08-08", note:"最后的快照。抓取时，原页面刚刚被主人删除。",
         body:`<h2>云屉 · 分享「拾遗」</h2><div class="rm">yun-ti.drive · 抓取于 2025-08-08 23:58:42</div>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=91">
+<link rel="stylesheet" href="assets/style.css?v=92">
 <style>
   body{background:#e0dbc9;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
@@ -114,12 +114,10 @@
   .foot{color:#33415e;font-size:11.5px;text-align:center;margin-top:44px;letter-spacing:2px}
   .foot a{color:#33415e}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=91"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=92"></head>
 <body>
 <div class="moon"></div>
 <div class="pagenav">
-  <button class="corner" id="backHome">未 读</button>
-  <span class="dot">·</span>
   <button class="corner" id="toSearch">搜 搜</button>
 </div>
 
@@ -201,7 +199,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=91"></script>
+<script src="assets/game.js?v=92"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -375,7 +373,6 @@ function main(){
     }
   };
   $("keyInput").addEventListener("keydown", e => { if (e.key === "Enter") $("keyBtn").click(); });
-  $("backHome").onclick = () => location.href="chat.html";
   $("toSearch").onclick = () => location.href="search.html";
 
   /* ---------- 断点续玩：离开再回来，进度原样恢复，绝不回到原点 ---------- */

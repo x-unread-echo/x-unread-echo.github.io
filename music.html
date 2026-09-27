@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>空耳FM — 听见没人在听的声音</title>
-<link rel="stylesheet" href="assets/style.css?v=91">
+<link rel="stylesheet" href="assets/style.css?v=92">
 <style>
   body{background:#e0dac9;font-family:-apple-system,"PingFang SC",sans-serif;color:#585144}
   .m-wrap{max-width:680px;margin:0 auto;padding:0 18px 130px}
@@ -52,13 +52,12 @@
   .lyric.show{display:block}
   .lyric .hl{color:#484238}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=91"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=92"></head>
 <body>
 <div class="m-wrap">
   <div class="m-top">
     <div class="m-logo">空耳<b>FM</b><span class="sm">听见没人在听的声音 · 在线 1 人</span></div>
     <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
-    <button class="corner" style="position:static" id="toChat">‹ 未 读</button>
   </div>
 
   <div class="pl-head">
@@ -86,7 +85,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=91"></script>
+<script src="assets/game.js?v=92"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -185,7 +184,6 @@ function main(){
   };
 
   $("toSearch").onclick = () => location.href="search.html";
-  $("toChat").onclick = () => location.href="chat.html";
 
   DJ.envHint("歌名第一个字。竖着读。", "mu1", 70);
   DJ.envHint("第八首 0:08。听完它。", "mu2", 170);
