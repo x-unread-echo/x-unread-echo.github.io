@@ -506,6 +506,23 @@ ${bodies[i]}</div>
   }
   function openFloor8(){
     show("v_thread");
+    /* 已解开的玩家回来：直接显示镜子已认得你的状态，绝不再要证据、绝不再输时辰 */
+    if (DJ.has("found_floor8")){
+      $("threadBody").innerHTML = `<div class="floor"><div class="favatar">${bpart(1,fills[1])}</div><div style="flex:1">
+      <div class="fhead">未命名文件夹 · 楼主 · 注册于 2025-08-08</div>
+      <div class="postbody center">
+        <div class="mirror8"></div>
+        8 楼没有帖子。只有一面镜子。
+
+镜子已经认得你了。它不再问时辰。</div>
+      <div class="verdict"><div class="small" style="letter-spacing:1px">
+        镜子深处，他正伏在什么上打字。屏幕的光里，能认出一个标题：<br>
+        「三年，我给他转的每一笔」——发在一个叫「生活组」的版块。<br><br>
+        想不起来路的话，搜搜里直接搜：<a href="ledger.html" style="color:#5a4a3f;border-bottom:1px solid #5a4a3f">记账</a></div></div>
+      </div></div>`;
+      window.scrollTo(0,0);
+      return;
+    }
     /* 环环相扣：第 8 页只给集齐三样跨页证据的人开门。
        青云观的纸条 → 蝴蝶图点 8 次 → 笔迹鉴定，缺一不可。 */
     const need = [
@@ -554,7 +571,7 @@ ${bodies[i]}</div>
         DJ.sfx.read(); DJ.flag("found_floor8"); DJ.unlock(6);
         $("whenErr").textContent = "";
         $("whenInput").disabled = true;
-        $("whenErr").innerHTML = "镜子深处，他正伏在什么上打字。屏幕的光里，能认出一个标题：<br>「三年，我给他转的每一笔」——发在一个叫「生活组」的版块。";
+        $("whenErr").innerHTML = "镜子深处，他正伏在什么上打字。屏幕的光里，能认出一个标题：<br>「三年，我给他转的每一笔」——发在一个叫「生活组」的版块。<br><span style=\"color:#6b6355\">（镜子安静下来。你可以去搜搜里翻翻「生活组」了。）</span>";
       } else {
         wfails++;
         $("whenErr").textContent = wfails >= 3 ? "纸条说了前一半。蝴蝶烧出了后一半。" : "镜子不说话。它只是等。";
