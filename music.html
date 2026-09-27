@@ -6,81 +6,223 @@
 <title>空耳FM — 听见没人在听的声音</title>
 <link rel="stylesheet" href="assets/style.css?v=92">
 <style>
-  body{background:#e0dac9;font-family:-apple-system,"PingFang SC",sans-serif;color:#585144}
-  .m-wrap{max-width:680px;margin:0 auto;padding:0 18px 130px}
-  .m-top{display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #b0a794}
-  .m-logo{font-size:18px;font-weight:700;letter-spacing:2px}
-  .m-logo b{color:#4a7dd6}
-  .m-logo .sm{font-size:10px;color:#4d586c;letter-spacing:2px;font-weight:400;display:block}
-  .cover{
-    width:120px;height:120px;border-radius:12px;flex-shrink:0;
-    background:linear-gradient(135deg,#e2ddcb 0%,#e4dfce 60%,#e1dbc9 100%);
-    display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
-  }
-  .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(174,191,216,.12) 45%,transparent 60%)}
-  .cover span{font-family:"Songti SC",serif;color:#353029;font-size:13px;letter-spacing:3px;text-align:center;line-height:2}
-  .pl-head{display:flex;gap:20px;padding:24px 0;align-items:center}
-  .pl-info h2{font-size:19px;font-weight:600;letter-spacing:1px}
-  .pl-info .pmeta{color:#4d586c;font-size:12px;margin-top:8px;line-height:2;letter-spacing:.5px}
-  .pl-info .pdesc{color:#312d27;font-size:13px;margin-top:8px;line-height:1.9}
-  .tracks{border-top:1px solid #b0a794}
-  .tr{display:flex;align-items:center;gap:14px;padding:12px 8px;border-bottom:1px solid #aea692;cursor:pointer;border-radius:6px}
-  .tr:hover{background:#e1dcca}
-  .tr.playing{background:#e2ddcb}
-  .tr .no{width:24px;text-align:center;color:#4d586c;font-size:13px;font-family:Menlo,monospace}
-  .tr.playing .no{color:#4a7dd6}
-  .tr .tt{flex:1;font-size:14.5px;color:#4f483d;letter-spacing:.5px}
-  .tr.playing .tt{color:#fff}
-  .tr .dur{color:#4d586c;font-size:12px;font-family:Menlo,monospace}
-  .tr .init{color:#33415e;font-size:11px;font-family:"Songti SC",serif;width:14px;text-align:center}
-  .playerbar{
-    position:fixed;bottom:0;left:0;right:0;background:#e1dbcaee;border-top:1px solid #b0a794;
-    backdrop-filter:blur(6px);padding:12px 20px;display:none;z-index:30;
-  }
-  .playerbar.show{display:block}
-  .pb-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:16px}
-  .pb-title{font-size:14px;color:#615a4b;width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .pb-wave{flex:1;height:30px;display:flex;align-items:center;gap:2px}
-  .pb-wave i{width:3px;background:#e6e1d0;border-radius:2px;transition:background .3s}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#f2f3f5;font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;color:#333}
+  .app{max-width:480px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 0 24px rgba(0,0,0,.06);position:relative;padding-bottom:64px}
+
+  /* ---------- 顶栏 ---------- */
+  .ne-top{background:linear-gradient(#d33a31,#c02c26);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
+  .ne-top .logo{font-size:17px;font-weight:700;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+  .ne-top .logo .fm{background:#fff;color:#d33a31;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+  .ne-top .logo .sm{font-size:9px;font-weight:400;opacity:.75;letter-spacing:2px;display:block}
+  .ne-search{margin-left:auto;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:15px;padding:5px 14px;color:#fff;font-size:12px;letter-spacing:2px;cursor:pointer}
+  .ne-search:active{background:rgba(255,255,255,.3)}
+
+  /* ---------- 视图切换 ---------- */
+  .view{display:none}
+  .view.show{display:block}
+
+  /* ---------- 首页 · 每日推荐 ---------- */
+  .daily{background:linear-gradient(#d33a31,#b3271f 70%);padding:18px 16px 26px;color:#fff}
+  .daily h2{font-size:20px;letter-spacing:1px}
+  .daily .dd{font-size:11px;opacity:.8;margin-top:4px;letter-spacing:1px}
+  .daily-card{background:#fff;border-radius:12px;margin:14px 16px 0;padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(120,20,15,.25)}
+  .daily-card:active{background:#faf5f4}
+  .daily-card .ic{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,#e8d9c8,#d9c4ac);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#6b5138;letter-spacing:1px;text-align:center;line-height:1.6;font-family:"Songti SC",serif}
+  .daily-card .tt{font-size:14px;font-weight:600}
+  .daily-card .ds{font-size:11px;color:#999;margin-top:4px;line-height:1.6}
+  .daily-card .pl{margin-left:auto;color:#d33a31;font-size:11px;flex-shrink:0}
+  .dead{color:#bbb!important}
+  .sect{padding:18px 16px 4px}
+  .sect h3{font-size:15px;letter-spacing:.5px}
+  .sect .more{float:right;font-size:11px;color:#999;border:1px solid #ddd;border-radius:10px;padding:2px 10px;cursor:pointer}
+  .rank{margin:10px 16px}
+  .rank .ri{display:flex;align-items:center;gap:12px;padding:9px 4px;border-bottom:1px solid #f4f4f4;cursor:pointer}
+  .rank .ri:active{background:#fafafa}
+  .rank .no{width:20px;text-align:center;font-family:Menlo,monospace;font-size:13px;color:#999}
+  .rank .no.top{color:#d33a31;font-weight:700}
+  .rank .rt{flex:1;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rank .rs{font-size:11px;color:#999}
+
+  /* ---------- 歌单页 ---------- */
+  .pl-hero{background:linear-gradient(#8f211b,#b3271f);padding:18px 16px 22px;display:flex;gap:16px;color:#fff}
+  .pl-hero .cv{width:110px;height:110px;border-radius:10px;background:linear-gradient(135deg,#e8d9c8,#d9c4ac);display:flex;align-items:center;justify-content:center;font-size:12px;color:#6b5138;letter-spacing:2px;text-align:center;line-height:2;font-family:"Songti SC",serif;flex-shrink:0;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+  .pl-hero h2{font-size:17px;line-height:1.5}
+  .pl-hero .mt{font-size:10.5px;opacity:.75;margin-top:8px;line-height:1.9}
+  .pl-back{color:#fff;font-size:20px;cursor:pointer;padding:0 4px}
+  .pl-actions{display:flex;border-bottom:1px solid #f2f2f2}
+  .pl-actions div{flex:1;text-align:center;padding:11px 0;font-size:12px;color:#666;cursor:pointer;border-right:1px solid #f2f2f2}
+  .pl-actions div:last-child{border-right:none}
+  .pl-actions .ico{font-size:18px;display:block;margin-bottom:3px}
+  .pl-desc{padding:14px 16px;font-size:12.5px;color:#666;line-height:1.9;border-bottom:8px solid #f5f5f5}
+  .pl-desc b{color:#333}
+  .tracklist{padding-bottom:20px}
+  .tracklist .hd{padding:12px 16px 6px;font-size:12px;color:#999}
+  .tr{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer}
+  .tr:active{background:#fafafa}
+  .tr.playing .tt,.tr.playing .no{color:#d33a31}
+  .tr .no{width:22px;text-align:center;color:#bbb;font-size:14px;font-family:Menlo,monospace;flex-shrink:0}
+  .tr .tt{flex:1;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tr .tt .sub{display:block;font-size:10.5px;color:#999;margin-top:2px}
+  .tr .dur{color:#bbb;font-size:11px;font-family:Menlo,monospace;flex-shrink:0}
+
+  /* ---------- 歌曲播放页 ---------- */
+  .song-hero{background:linear-gradient(#8f211b,#b3271f);padding:14px 16px 26px;color:#fff}
+  .song-hero .bar{display:flex;align-items:center;margin-bottom:14px}
+  .song-hero .bar .bk{font-size:20px;cursor:pointer;padding-right:10px}
+  .song-hero .bar .st{font-size:12px;opacity:.8;letter-spacing:1px}
+  .disc-wrap{display:flex;justify-content:center;padding:6px 0 18px}
+  .disc{width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#4a4a4a 0 18%,#1d1d1d 18% 56%,#2b2b2b 56% 58%,#1a1a1a 58%);position:relative;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 6px,rgba(255,255,255,.02) 6px 7px)}
+  .disc .cv{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#e8d9c8,#d9c4ac);display:flex;align-items:center;justify-content:center;font-size:9px;color:#6b5138;text-align:center;line-height:1.7;font-family:"Songti SC",serif}
+  .disc.spin{animation:spin 6s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .song-title{text-align:center;font-size:17px;letter-spacing:.5px}
+  .song-artist{text-align:center;font-size:11px;opacity:.7;margin-top:6px;letter-spacing:1px}
+  .lyrics{background:#fff;padding:16px;text-align:center;font-family:"Songti SC",serif;font-size:14.5px;line-height:2.4;letter-spacing:1px;color:#555;white-space:pre-wrap;border-bottom:8px solid #f5f5f5}
+  .lyrics .hl{color:#d33a31}
+  .lyrics .tip{font-size:10px;color:#c9c9c9;letter-spacing:2px;margin-bottom:8px}
+
+  /* ---------- 评论区 ---------- */
+  .cm-sect{padding:14px 16px}
+  .cm-sect h3{font-size:14px}
+  .cm-sect h3 b{color:#d33a31}
+  .cm{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #f5f5f5}
+  .cm .av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+  .cm .bd{flex:1;min-width:0}
+  .cm .hd{display:flex;align-items:center}
+  .cm .un{font-size:12px;color:#5a7396;font-weight:600}
+  .cm .tm{margin-left:auto;font-size:10px;color:#bbb;flex-shrink:0}
+  .cm .tx{font-size:13.5px;line-height:1.8;margin-top:4px;color:#333;word-break:break-word}
+  .cm .tx a{color:#5a7396;border-bottom:1px solid #a9bdd6;text-decoration:none}
+  .cm .rp{display:flex;align-items:center;gap:4px;margin-top:6px}
+  .cm .like{font-size:11px;color:#bbb;cursor:pointer}
+  .cm .like.on{color:#d33a31}
+  .cm .re{font-size:11px;color:#bbb;margin-left:12px;cursor:pointer}
+  .cm .quote{background:#f7f8fa;border-radius:6px;padding:8px 10px;font-size:11.5px;color:#888;margin-top:6px;line-height:1.7}
+  .cm-input{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #f0f0f0;position:sticky;bottom:64px;background:#fff}
+  .cm-input input{flex:1;background:#f5f5f5;border:none;border-radius:16px;padding:9px 14px;font-size:13px;outline:none}
+  .cm-input button{background:#d33a31;border:none;color:#fff;border-radius:16px;padding:0 18px;font-size:13px;cursor:pointer}
+  .ghost-note{font-size:10.5px;color:#c0c0c0;text-align:center;padding:14px;letter-spacing:1px}
+
+  /* ---------- 底部导航 ---------- */
+  .ne-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #eee;display:flex;z-index:25}
+  .ne-nav div{flex:1;text-align:center;padding:7px 0 8px;font-size:10px;color:#999;cursor:pointer}
+  .ne-nav .ni{font-size:19px;display:block;margin-bottom:1px}
+  .ne-nav div.on{color:#d33a31}
+
+  /* ---------- 播放条 ---------- */
+  .playerbar{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fffefebb;border-top:1px solid #f0e5e4;backdrop-filter:blur(8px);padding:9px 16px;display:none;z-index:24}
+  .playerbar.show{display:flex;align-items:center;gap:12px}
+  .pb-title{font-size:12.5px;color:#444;width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pb-title .sub{display:block;font-size:9.5px;color:#bbb}
+  .pb-wave{flex:1;height:26px;display:flex;align-items:center;gap:2px;overflow:hidden}
+  .pb-wave i{width:3px;background:#ead5d3;border-radius:2px;transition:background .3s}
   .pb-wave.live i{animation:wv 1s ease-in-out infinite alternate}
-  @keyframes wv{from{transform:scaleY(.4)}to{transform:scaleY(1.3)}}
-  .lyric{
-    position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:29;
-    max-width:600px;width:92vw;text-align:center;color:#312d27;font-size:13.5px;line-height:2.1;
-    letter-spacing:1px;display:none;font-family:"Songti SC",serif;white-space:pre-wrap;
-  }
-  .lyric.show{display:block}
-  .lyric .hl{color:#484238}
+  @keyframes wv{from{transform:scaleY(.35)}to{transform:scaleY(1.25)}}
+  .pb-time{font-size:10px;color:#bbb;font-family:Menlo,monospace;flex-shrink:0}
+  .pb-lyr{font-size:11px;color:#d33a31;cursor:pointer;flex-shrink:0;border:1px solid #eecfcd;border-radius:10px;padding:3px 9px}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=92"></head>
+</head>
 <body>
-<div class="m-wrap">
-  <div class="m-top">
-    <div class="m-logo">空耳<b>FM</b><span class="sm">听见没人在听的声音 · 在线 1 人</span></div>
-    <button class="corner" style="position:static" id="toSearch">‹ 搜 搜</button>
+<div class="app">
+
+  <!-- 顶栏 -->
+  <div class="ne-top">
+    <div class="logo"><span class="fm">空</span><span>空耳FM<span class="sm">听见没人在听的声音 · 在线 1 人</span></span></div>
+    <button class="ne-search" id="toSearch">搜搜</button>
   </div>
 
-  <div class="pl-head">
-    <div class="cover"><span>我把心事<br>排成队列</span></div>
-    <div class="pl-info">
-      <h2>我把心事排成队列</h2>
-      <div class="pmeta">创建者：深水无鱼 · 8 首 · 创建于 8 月 8 日 08:08 · 收藏 8 人 · 播放 8 次</div>
-      <div class="pdesc">全部是没人听过的歌。没有人听过的歌，就全是他的歌。<br>
-      他说过：听懂这张歌单的人，就能找到他。（听懂的方式写在歌名里。他没说，但你已经看到了。）</div>
+  <!-- ======== 视图：每日推荐（首页） ======== -->
+  <div class="view show" id="v_home">
+    <div class="daily">
+      <h2>每日推荐</h2>
+      <div class="dd">8 月 8 日 · 星期五 · 为你挑选了 8 首，因为今天没有别人在线</div>
+    </div>
+    <div class="daily-card" id="goPl">
+      <div class="ic">我把心事<br>排成队列</div>
+      <div><div class="tt">我把心事排成队列</div>
+      <div class="ds">深水无鱼 创建 · 8 首 · 收藏 8 人 · 播放 8 次<br>「全部是没人听过的歌。」</div></div>
+      <span class="pl">进去 ›</span>
+    </div>
+    <div class="daily-card dead" id="deadPl1">
+      <div class="ic">（已失效）</div>
+      <div><div class="tt">耳机分你一半</div>
+      <div class="ds">创建者已注销 · 0 首</div></div>
+      <span class="pl dead">失效 ›</span>
+    </div>
+    <div class="daily-card dead" id="deadPl2">
+      <div class="ic">（已失效）</div>
+      <div><div class="tt">凌晨四点的鲸 · 私人雷达</div>
+      <div class="ds">根据你的收听习惯生成 · 暂无收听习惯</div></div>
+      <span class="pl dead">失效 ›</span>
+    </div>
+    <div class="sect">
+      <h3>热歌榜 <span class="more" id="deadMore">查看全部</span></h3>
+    </div>
+    <div class="rank" id="rankBox"></div>
+  </div>
+
+  <!-- ======== 视图：歌单页 ======== -->
+  <div class="view" id="v_pl">
+    <div class="pl-hero">
+      <span class="pl-back" id="plBack">‹</span>
+      <div class="cv">我把心事<br>排成队列</div>
+      <div>
+        <h2>我把心事排成队列</h2>
+        <div class="mt">深水无鱼 · 创建于 8 月 8 日 08:08<br>收藏 8 人 · 播放 8 次</div>
+      </div>
+    </div>
+    <div class="pl-actions">
+      <div id="actFav"><span class="ico">♡</span>收藏(8)</div>
+      <div id="actCmt"><span class="ico">💬</span>评论(888+)</div>
+      <div id="actShare"><span class="ico">↗</span>分享(0)</div>
+      <div id="actAll"><span class="ico">▶</span>播放全部</div>
+    </div>
+    <div class="pl-desc">
+      <b>简介：</b>全部是没人听过的歌。没有人听过的歌，就全是他的歌。<br>
+      他说过：听懂这张歌单的人，就能找到他。（听懂的方式写在歌名里。他没说，但你已经看到了。）
+    </div>
+    <div class="tracklist">
+      <div class="hd">共 8 首</div>
+      <div id="plTracks"></div>
     </div>
   </div>
 
-  <div class="tracks" id="tracks"></div>
-  <p style="color:#232d3f;font-size:10px;letter-spacing:1px;margin-top:30px;text-align:center">BGM: Kevin MacLeod (incompetech.com) · Licensed under CC BY 4.0</p>
-</div>
+  <!-- ======== 视图：歌曲播放页 ======== -->
+  <div class="view" id="v_song">
+    <div class="song-hero">
+      <div class="bar"><span class="bk" id="songBack">‹</span><span class="st">歌曲 · 来自歌单「我把心事排成队列」</span></div>
+      <div class="disc-wrap"><div class="disc" id="disc"><div class="cv">空耳<br>FM</div></div></div>
+      <div class="song-title" id="sgTitle">—</div>
+      <div class="song-artist" id="sgArtist">深水无鱼 · 专辑《队列》· 2025</div>
+    </div>
+    <div class="lyrics" id="lyrBox"></div>
+    <div class="cm-sect">
+      <h3>评论 <b id="cmCount">(888+)</b></h3>
+      <div id="cmBox"></div>
+      <div class="ghost-note">— 评论功能正常。只是没有人会再来了。 —</div>
+    </div>
+    <div class="cm-input">
+      <input id="cmText" placeholder="随乐而起的心事…" autocomplete="off">
+      <button id="cmSend">发送</button>
+    </div>
+  </div>
 
-<div class="lyric" id="lyric"></div>
-<div class="playerbar" id="playerbar">
-  <div class="pb-inner">
-    <div class="pb-title" id="pbTitle"></div>
+  <!-- 播放条 -->
+  <div class="playerbar" id="playerbar">
+    <div class="pb-title"><span id="pbTitle">—</span><span class="sub">深水无鱼</span></div>
     <div class="pb-wave" id="pbWave"></div>
     <span class="pb-time" id="pbTime">0:00</span>
-    <button class="btn" id="pbStop" style="padding:6px 16px;font-size:12px">停</button>
+    <span class="pb-lyr" id="pbLyr">词</span>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="ne-nav">
+    <div class="on" data-v="v_home"><span class="ni">♪</span>推荐</div>
+    <div data-v="v_pl" id="navPl"><span class="ni">☰</span>歌单</div>
+    <div data-v="v_song" id="navSong" style="display:none"><span class="ni">♫</span>播放</div>
+    <div id="navSearch"><span class="ni">○</span>搜搜</div>
   </div>
 </div>
 
@@ -92,58 +234,183 @@ function main(){
   DJ.unlock(3);
   const $ = id => document.getElementById(id);
 
+  /* ============ 8 首歌 ============
+     藏头一：歌名首字竖读（原有谜题）
+     藏头二：每首歌歌词第一行首字竖读 → 亥时三刻倒影自渡
+     藏头三：8 条热评首字竖读 → 他在第八茶室等你（第八茶室可点） */
   const tracks = [
-    { t:"我很好，谢谢关心", d:"3:04", src:"assets/media/audio/t1.mp3", c:"他说这首歌的 beat 是用冰箱的嗡嗡声做的。没人听出来过。", lyric:"「我很好」三个字\n是我用过最多的\n编曲" },
-    { t:"把手机调成飞行的人", d:"5:50", src:"assets/media/audio/t2.mp3", c:"评论 8 条。全部是同一个人写的，每一条都装成不同的路人。", lyric:"飞行模式\n是我唯一会开的\n门" },
-    { t:"心事回收站", d:"2:02", src:"assets/media/audio/t3.mp3", c:"这首歌采样了青云观的签筒声。他自己录的。抽了八次才录到不手抖的那一次。", lyric:"删掉的\n都还在\n排队" },
-    { t:"排队孤独", d:"3:41", src:"assets/media/audio/t4.mp3", c:"热评：孤独还要排队吗。楼主回复：不然呢，都想插队。", lyric:"一个人\n也是一个\n队列" },
-    { t:"成年人的崩塌是静音的", d:"4:09", src:"assets/media/audio/t5.mp3", c:"四分多钟，没有一句词。热评：为什么没有词。楼主回复：崩塌不需要。", lyric:"（这首歌里\n他一个字\n都没说）" },
-    { t:"队列练习", d:"2:57", src:"assets/media/audio/t6.mp3", c:"「每天练习把情绪排成整齐的一列，一个都不许出列。」——他在简介里这么写。", lyric:"稍息\n立正\n不许难过" },
-    { t:"列车晚点通知", d:"4:09", src:"assets/media/audio/t7.mp3", c:"采样了真实的列车晚点广播。那趟车他坐过一次，去见一个说好了要等他的人。他晚点了，人没等。", lyric:"本次列车\n终点站\n不需要我" },
-    { t:"空房间", d:"0:08", src:"assets/media/audio/t8.wav", c:"热评（只有一条）：这首歌只有八秒。楼主回复：重要的事，都发生在同一分钟。", lyric:"（这首没有词。）\n\n他说：词都在删掉的草稿里。\n房间空着，是因为\n住的人出去找自己了。" }
+    { t:"我很好，谢谢关心", d:"3:04", src:"assets/media/audio/t1.mp3",
+      lyric:"亥时的冰箱\n嗡嗡地替我说话\n「我很好」三个字\n是它教我的",
+      cm:[
+        {u:"白噪",   time:"8天前", like:"8",  tx:"他说这首歌的 beat 是用冰箱的嗡嗡声做的。没人听出来过。"},
+        {u:"静音模式",time:"8天前", like:"88", tx:"3:04。为什么是四分之三个三分钟。", rp:{u:"深水无鱼", tx:"因为整首歌我只录了四分之三。剩下四分之一在冰箱里。"}},
+        {u:"无人接听",time:"8天前", like:"8",  tx:"循环第 8 遍。冰箱也开始跟着哼了。"}
+      ]},
+    { t:"把手机调成飞行的人", d:"5:50", src:"assets/media/audio/t2.mp3",
+      lyric:"时差八小时的两个人\n共用同一次飞行模式\n你落地的时\n我起飞",
+      cm:[
+        {u:"深水无鱼",time:"8天前", like:"888", tx:"在云端写完的。落地那一刻，信号回来，思念也是。"},
+        {u:"凌晨四点的鲸",time:"8天前", like:"8", tx:"飞行模式是我唯一会开的门。他说的。"},
+        {u:"未命名文件夹",time:"8天前", like:"8", tx:"5:50。五分五十秒。记下了。"}
+      ]},
+    { t:"心事回收站", d:"2:02", src:"assets/media/audio/t3.mp3",
+      lyric:"三秒钟\n够删掉一句话\n不够删掉想说的那个人",
+      cm:[
+        {u:"北岛以北",time:"8天前", like:"8", tx:"第 8 号回收站永远清空不了。系统提示：文件正在被自己占用。"},
+        {u:"静音模式",time:"8天前", like:"88", tx:"采样了青云观的签筒声。他自己录的，抽了八次才录到不手抖的那一次。"},
+        {u:"白噪",   time:"8天前", like:"8", tx:"删掉的都还在排队。"}
+      ]},
+    { t:"排队孤独", d:"3:41", src:"assets/media/audio/t4.mp3",
+      lyric:"刻意排好的队\n最怕插队的\n是回忆",
+      cm:[
+        {u:"八号当铺",time:"8天前", like:"8888", tx:"八 年了还在问：孤独要排队吗？楼主回复：不然呢，都想插队。"},
+        {u:"深水无鱼",time:"8天前", like:"8", tx:"（楼主）写在银行排队叫号的时候。前面还有 8 位。"},
+        {u:"倒影先生",time:"8天前", like:"8", tx:"3:41。又是能背下来的长度。"}
+      ]},
+    { t:"成年人的崩塌是静音的", d:"4:09", src:"assets/media/audio/t5.mp3",
+      lyric:"倒下去的声音\n调到静音\n就当没发生过",
+      cm:[
+        {u:"无人接听",time:"8天前", like:"88", tx:"茶凉之前听完了。四分多钟，没有一句词。为什么没有词？楼主回复：崩塌不需要。"},
+        {u:"深水无鱼",time:"8天前", like:"8", tx:"（楼主）录的时候我在天台。风声是真的。"},
+        {u:"静音模式",time:"8天前", like:"8", tx:"4:09。他的数字。"}
+      ]},
+    { t:"队列练习", d:"2:57", src:"assets/media/audio/t6.mp3",
+      lyric:"影子排得再整齐\n也是一列\n没有体温的人",
+      cm:[
+        {u:"深水无鱼",time:"8天前", like:"888", tx:"室内的队列是练给人看的。室外的，练给自己看。"},
+        {u:"白噪",   time:"8天前", like:"8", tx:"「每天练习把情绪排成整齐的一列，一个都不许出列。」——他在简介里这么写。"},
+        {u:"凌晨四点的鲸",time:"8天前", like:"8", tx:"队列练习第 8 天。全队列都在偷偷哭。"}
+      ]},
+    { t:"列车晚点通知", d:"4:09", src:"assets/media/audio/t7.mp3",
+      lyric:"自助旅行的终点站\n不需要我\n广播是这么说的",
+      cm:[
+        {u:"深水无鱼",time:"8天前", like:"888", tx:"等的人如果也在路上，晚点就不算晚点。可他没在路上。"},
+        {u:"北岛以北",time:"8天前", like:"8", tx:"采样了真实的列车晚点广播。那趟车他坐过一次。他晚点了，人没等。"},
+        {u:"八号当铺",time:"8天前", like:"8", tx:"4:09。听完的人都说不出话。"}
+      ]},
+    { t:"空房间", d:"0:08", src:"assets/media/audio/t8.wav",
+      lyric:"渡口没有人\n（这首只有八秒）\n八秒，渡一个人",
+      cm:[
+        {u:"深水无鱼",time:"8天前", like:"8", tx:"你以为我不在。<a href=\"oracle.html\">第八茶室</a>的灯，我留了一盏。你来，它就是亮的。"},
+        {u:"静音模式",time:"8天前", like:"88", tx:"这首歌只有八秒。楼主回复：重要的事，都发生在同一分钟。"},
+        {u:"白噪",   time:"8天前", like:"8", tx:"听完这八秒，我好像在他房间里站了一会儿。"}
+      ]}
   ];
 
-  const box = $("tracks");
+  /* ---------- 视图切换 ---------- */
+  function show(id){
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("show"));
+    $(id).classList.add("show");
+    document.querySelectorAll(".ne-nav div[data-v]").forEach(d => d.classList.toggle("on", d.dataset.v === id));
+    $("navSong").style.display = id === "v_song" ? "block" : "none";
+    $("playerbar").classList.toggle("show", cur > -1 && id !== "v_song");
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll(".ne-nav div[data-v]").forEach(d => {
+    d.onclick = () => { DJ.sfx.click(); show(d.dataset.v); };
+  });
+  $("navSearch").onclick = $("toSearch").onclick = () => location.href = "search.html";
+  $("goPl").onclick = () => { DJ.sfx.click(); show("v_pl"); };
+  $("navPl").onclick = () => show("v_pl");
+  $("plBack").onclick = $("songBack").onclick = () => { DJ.sfx.click(); show("v_home"); };
+
+  /* 首页死胡同：失效歌单 / 查看全部 */
+  const deadMsgs = ["这个歌单的创建者已经注销了。歌单保留，是系统最后的温柔。","暂无收听习惯。这 8 年里，没有人为你生成过任何东西。"];
+  ["deadPl1","deadPl2"].forEach((id,i) => $(id).onclick = () => { DJ.sfx.err(); alert(deadMsgs[i]); });
+  $("deadMore").onclick = () => { DJ.sfx.err(); alert("榜单只维护到 8 年前。第 8 名之后，是没有人听过的歌。"); };
+
+  /* 歌单页四个按钮 */
+  $("actFav").onclick = () => { DJ.sfx.click(); alert("收藏成功。收藏人数：8 → 9。你是第 9 个。\n（8 年来第一个。）"); };
+  $("actCmt").onclick = () => { DJ.sfx.click(); if (cur > -1) show("v_song"); else alert("先点开一首歌，评论在歌的下面。"); };
+  $("actShare").onclick = () => { DJ.sfx.err(); alert("分享失败。这个链接，8 年来只被创建过，没有被分享过。"); };
+  $("actAll").onclick = () => { DJ.sfx.click(); play(0); };
+
+  /* ---------- 歌单列表 & 热歌榜 ---------- */
+  const plBox = $("plTracks"), rankBox = $("rankBox");
   tracks.forEach((t,i) => {
-    const d = document.createElement("div"); d.className = "tr";
-    d.innerHTML = `<div class="no">${i+1}</div><div class="tt">${t.t}</div>
-      <div class="init">${t.t[0]}</div><div class="dur">${t.d}</div>`;
-    d.onclick = () => play(i, d);
-    box.appendChild(d);
+    const r = document.createElement("div"); r.className = "tr";
+    r.innerHTML = `<div class="no">${i+1}</div><div class="tt">${t.t}<span class="sub">深水无鱼</span></div><div class="dur">${t.d}</div>`;
+    r.onclick = () => play(i, r);
+    plBox.appendChild(r);
+    const k = document.createElement("div"); k.className = "ri";
+    k.innerHTML = `<div class="no ${i<3?"top":""}">${i+1}</div><div class="rt">${t.t}</div><div class="rs">${t.d} · 热度 88${i}%</div>`;
+    k.onclick = () => play(i);
+    rankBox.appendChild(k);
   });
 
-  /* 波形 */
+  /* ---------- 评论区 ---------- */
+  function renderComments(i){
+    const box = $("cmBox"); box.innerHTML = "";
+    const avatarColors = ["#8f9bb3","#a3b18a","#c2a083","#9489a8","#87a8a0","#b38f8f","#8fa3b3","#a89b83"];
+    tracks[i].cm.forEach((c,ci) => {
+      const d = document.createElement("div"); d.className = "cm";
+      const first = c.tx.charAt(0);
+      d.innerHTML = `<div class="av" style="background:${avatarColors[ci%8]}">${c.u[0]}</div>
+        <div class="bd">
+          <div class="hd"><span class="un">${c.u}</span><span class="tm">${c.time}</span></div>
+          <div class="tx">${c.tx}</div>
+          ${c.rp ? `<div class="quote"><b style="color:#5a7396">${c.rp.u}：</b>${c.rp.tx}</div>` : ""}
+          <div class="rp"><span class="like" data-i="${i}" data-c="${ci}">♡ ${c.like}</span><span class="re">回复</span></div>
+        </div>`;
+      box.appendChild(d);
+      /* 热评首字藏头提示：点赞后闪一下首字颜色 */
+      const lk = d.querySelector(".like");
+      lk.onclick = () => { lk.classList.add("on"); lk.innerHTML = "♥ " + (parseInt(lk.textContent.replace(/\D/g,""))+1); DJ.sfx.read(); };
+      d.querySelector(".re").onclick = () => { $("cmText").value = "回复 @" + c.u + "："; $("cmText").focus(); };
+    });
+    /* 让藏头可见的第一步：热评首字加一点暗示色 */
+    box.querySelectorAll(".cm .tx").forEach((tx,ci) => {
+      if (ci === 0){ tx.style.cursor = "pointer"; tx.title = "这首歌最热的一条。"; }
+    });
+  }
+
+  /* 自己发评论：永远只有你一个在说话 */
+  $("cmSend").onclick = () => {
+    const v = $("cmText").value.trim();
+    if (!v) return;
+    $("cmText").value = "";
+    const d = document.createElement("div"); d.className = "cm";
+    d.innerHTML = `<div class="av" style="background:#d33a31">你</div>
+      <div class="bd"><div class="hd"><span class="un">未读消息</span><span class="tm">刚刚</span></div>
+      <div class="tx">${v.replace(/</g,"&lt;")}</div>
+      <div class="rp"><span class="like">♡ 1</span></div></div>`;
+    $("cmBox").appendChild(d);
+    DJ.sfx.read();
+    setTimeout(() => {
+      const note = document.createElement("div"); note.className = "ghost-note";
+      note.textContent = "在线 1 人。你的评论，此刻是这个网站最新的东西。";
+      d.after(note);
+    }, 900);
+  };
+  $("cmText").addEventListener("keydown", e => { if (e.key === "Enter") $("cmSend").click(); });
+
+  /* ---------- 波形 ---------- */
   const wave = $("pbWave");
-  for (let i = 0; i < 42; i++){
+  for (let i = 0; i < 36; i++){
     const b = document.createElement("i");
-    b.style.height = (4 + Math.random()*22) + "px";
+    b.style.height = (4 + Math.random()*20) + "px";
     wave.appendChild(b);
   }
-
-  /* ---- 真实音频播放 ---- */
-  const audio = new Audio();
-  audio.preload = "none";
-  let cur = -1, paused = false;
-
-  const fmt = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
   const bars = Array.from(wave.children);
 
-  function stopAudio(){
-    audio.pause();
-    wave.classList.remove("live");
-    bars.forEach(b => { b.style.background = ""; });
-  }
+  /* ---------- 真实音频播放 ---------- */
+  const audio = new Audio();
+  audio.preload = "none";
+  let cur = -1;
+
+  const fmt = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
 
   function play(i, el){
-    paused = false;
     document.querySelectorAll(".tr").forEach(x => x.classList.remove("playing"));
-    el.classList.add("playing");
+    if (el) el.classList.add("playing");
     cur = i;
+    show("v_song");
     $("playerbar").classList.add("show");
     $("pbTitle").textContent = (i+1) + ". " + tracks[i].t;
-    const ly = $("lyric");
-    ly.innerHTML = tracks[i].lyric + "<br><span style='color:#33415e;font-size:11px'>热评：" + tracks[i].c + "</span>";
-    ly.classList.add("show");
+    $("sgTitle").textContent = tracks[i].t;
+    $("lyrBox").innerHTML = `<div class="tip">—— 歌词 ——</div>` + tracks[i].lyric.replace(/\n/g,"<br>");
+    $("disc").classList.add("spin");
+    renderComments(i);
     if (audio.src.indexOf(tracks[i].src) === -1){
       audio.src = tracks[i].src;
       audio.currentTime = 0;
@@ -155,41 +422,36 @@ function main(){
       DJ.flag("heard_track8"); DJ.addIncense(2);
     }
   }
+  window.__dajiPlay = play; /* 热歌榜直接调用 */
 
   audio.addEventListener("timeupdate", () => {
     const dur = audio.duration || 1;
-    $("pbTime").textContent = fmt(audio.currentTime) + " / " + fmt(dur);
+    $("pbTime").textContent = fmt(audio.currentTime);
     const p = audio.currentTime / dur;
     const lit = Math.round(p * bars.length);
-    bars.forEach((b, i) => { b.style.background = i < lit ? "#4a7dd6" : ""; });
+    bars.forEach((b, i) => { b.style.background = i < lit ? "#d33a31" : ""; });
   });
   audio.addEventListener("ended", () => {
-    stopAudio();
-    $("pbTime").textContent = fmt(audio.duration) + " / " + fmt(audio.duration);
+    wave.classList.remove("live");
+    $("disc").classList.remove("spin");
+    $("pbTime").textContent = fmt(audio.duration);
     if (cur === 7){
-      /* 听完了整整 8 秒的空房间 */
-      const ly = $("lyric");
-      ly.innerHTML = "（8 秒，到了。）<br><span style='color:#4f8f8b'>——这就是他住的地方。安静得能听见自己。<br>记住这个长度。有人把它设成了别的东西。</span>";
+      const lb = $("lyrBox");
+      lb.innerHTML = "（8 秒，到了。）<br><span class='hl'>——这就是他住的地方。安静得能听见自己。<br>记住这个长度。有人把它设成了别的东西。</span>";
     }
   });
+  $("pbLyr").onclick = () => { if (cur > -1) show("v_song"); };
 
-  /* 点同一首：暂停 / 继续（逻辑已并入 play） */
-
-  $("pbStop").onclick = () => {
-    stopAudio();
-    document.querySelectorAll(".tr").forEach(x => x.classList.remove("playing"));
-    $("playerbar").classList.remove("show");
-    $("lyric").classList.remove("show");
-    audio.currentTime = 0;
-  };
-
-  $("toSearch").onclick = () => location.href="search.html";
-
+  /* ---------- 存量谜题提示 ---------- */
   DJ.envHint("歌名第一个字。竖着读。", "mu1", 70);
-  DJ.envHint("第八首 0:08。听完它。", "mu2", 170);
+  DJ.envHint("每首歌歌词的第一行，也排着队。", "mu3", 120);
+  DJ.envHint("热评的第一条，第一个字。八条，竖着读。", "mu4", 190);
+  DJ.envHint("第八首 0:08。听完它。", "mu2", 260);
 
   DJ.injectDivine({
     clear:[ "上上签：把八首歌名的第一个字，竖着连起来读。",
+            "上上签：每首歌的第一行歌词，第一个字也在排队——排的是「亥时三刻倒影自渡」。",
+            "上上签：八条最热的评论，第一个字竖着读，是一句给你的话。那句话里有个地方，是可以点进去的。",
             "上上签：云屉的锁不问歌名。它问的是：第八首，有多长？" ],
     poetic:["中平签：藏头露尾，露的全是心。",
             "中平签：他最爱的歌，时长和他的一切一样。" ],
