@@ -3,142 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>北屋 @嘀咕</title>
-<link rel="stylesheet" href="assets/style.css?v=79">
+<title>嘀咕</title>
+<link rel="stylesheet" href="assets/style.css?v=80">
 <style>
   body{background:#f2f2f5;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333;min-height:100vh}
   .moon{display:none !important}
   #envhint{display:none !important}
-  svg.ic{width:1.1em;height:1.1em;vertical-align:-0.15em;fill:currentColor}
+  svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 
-  /* ---------- 顶栏 ---------- */
-  .topbar{background:#fff;border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:50}
-  .topbar .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:0 16px;height:50px}
-  .logo{display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;user-select:none}
-  .logo b{font-size:21px;color:#ff8200;font-weight:800}
-  .tsearch{flex:1;max-width:280px;background:#f2f2f5;border:1px solid #ededed;border-radius:16px;
-    height:30px;display:flex;align-items:center;padding:0 14px;color:#9a9a9a;font-size:13px;gap:8px}
-  .tnav{margin-left:auto;display:flex;align-items:center;gap:26px;font-size:14px;color:#3d3d3d}
-  .tnav span{cursor:pointer;display:flex;align-items:center;gap:5px}
-  .tnav span:hover{color:#ff8200}
-  .tnav .me{width:30px;height:30px;border-radius:50%;overflow:hidden;border:1px solid #e3e3e3;cursor:pointer;padding:0;background:#fff}
-  .tnav .me img{width:100%;height:100%;object-fit:cover}
+  /* ---------- 新版三栏：左导航 / 中间流 / 右栏 ---------- */
+  .frame{max-width:1180px;margin:0 auto;display:flex;gap:24px;padding:0 16px 70px;align-items:flex-start}
+  .navcol{width:230px;flex-shrink:0;position:sticky;top:0;height:100vh;padding-top:10px}
+  .maincol{width:600px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
+  .rightcol{flex:1;min-width:250px;display:flex;flex-direction:column;gap:12px}
+  @media (max-width:1120px){ .rightcol{display:none} }
+  @media (max-width:880px){ .frame{flex-direction:column} .navcol{width:100%;height:auto;position:static;padding:10px 0 0} .maincol{width:100%} .navlist{flex-direction:row !important;flex-wrap:wrap} }
 
-  .cols{max-width:1080px;margin:14px auto 0;display:flex;gap:14px;padding:0 16px 70px;align-items:flex-start}
-  @media (max-width:920px){ .sideR{display:none} }
-  @media (max-width:760px){ .cols{flex-direction:column} .sideL{width:100% !important} }
-  .sideL{width:245px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
-  .main{flex:1;min-width:0}
-  .sideR{width:245px;flex-shrink:0}
+  /* ---------- 左侧导航 ---------- */
+  .logo{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;user-select:none}
+  .logo b{font-size:24px;color:#ff8200;font-weight:800}
+  .navsearch{margin:4px 14px 14px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;
+    padding:9px 16px;color:#9a9a9a;font-size:13.5px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:text}
+  .navlist{display:flex;flex-direction:column;gap:2px}
+  .nitem{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:999px;font-size:16px;color:#333;
+    cursor:pointer;transition:background .15s}
+  .nitem:hover{background:#e9e9ec}
+  .nitem.on{color:#ff8200;font-weight:700}
+  .nitem.on svg.ic{stroke:#ff8200}
 
-  .card{background:#fff;border:1px solid #e8e8e8;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.03)}
-  .card .ch{padding:10px 14px;font-size:14px;font-weight:700;color:#333;border-bottom:1px solid #f2f2f2;display:flex;justify-content:space-between;align-items:baseline}
-  .card .ch small{font-size:11px;color:#b0b0b0;font-weight:400}
+  /* ---------- 卡片 ---------- */
+  .card{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+  .card .ch{padding:14px 18px;font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:baseline}
+  .card .ch small{font-size:11.5px;color:#b8b8b8;font-weight:400}
 
-  /* ---------- 个人主页卡 ---------- */
-  .pcov{height:96px;background:linear-gradient(120deg,#3c4a58,#6a7d8e);position:relative;overflow:hidden}
-  .pcov svg{position:absolute;right:18px;top:16px;width:60px;opacity:.18}
-  .pava{width:76px;height:76px;border-radius:8px;border:3px solid #fff;margin:-44px 0 0 16px;
-    background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18);overflow:hidden;cursor:zoom-in;position:relative;z-index:1}
-  .pava img{width:100%;height:100%;object-fit:cover;display:block}
-  .pbody{padding:8px 16px 14px}
-  .pname{font-size:18px;font-weight:700;display:flex;align-items:center;gap:6px}
-  .pname .lv{font-size:10px;color:#f5a623;border:1px solid #f5a623;border-radius:8px;padding:0 5px;letter-spacing:1px}
-  .pstats{display:flex;gap:28px;margin:12px 0 10px}
-  .pstats b{display:block;font-size:16px;color:#333}
+  /* ---------- 发帖框 ---------- */
+  .compose{display:flex;gap:12px;padding:16px 18px;align-items:flex-start}
+  .compose .cava{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;cursor:zoom-in}
+  .compose .cava img{width:100%;height:100%;object-fit:cover}
+  .cright{flex:1}
+  .cinput{background:#f2f2f5;border-radius:10px;padding:12px 14px;font-size:14.5px;color:#9a9a9a;cursor:text}
+  .ctools{display:flex;align-items:center;gap:16px;margin-top:12px;padding:0 4px}
+  .ctools span{color:#8a8a8a;cursor:pointer;display:flex}
+  .ctools span:hover{color:#ff8200}
+  .cbtn{margin-left:auto;background:#ff8200;color:#fff;border:none;border-radius:999px;padding:8px 20px;
+    font-size:13.5px;cursor:pointer;font-weight:600}
+  .cbtn:hover{background:#f07600}
+  .cnote{font-size:11.5px;color:#b8b8b8;margin-top:8px;min-height:1.4em}
+
+  /* ---------- 个人主页卡（右栏） ---------- */
+  .pcov{height:88px;background:linear-gradient(120deg,#3c4a58,#6a7d8e);border-radius:14px 14px 0 0;position:relative;overflow:hidden}
+  .pcov svg{position:absolute;right:16px;top:14px;width:56px;opacity:.16}
+  .pava{width:72px;height:72px;border-radius:8px;border:3px solid #fff;margin:-42px 0 0 16px;background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);overflow:hidden;cursor:zoom-in;position:relative;z-index:1}
+  .pava img{width:100%;height:100%;object-fit:cover}
+  .pbody{padding:8px 18px 16px}
+  .pname{font-size:17px;font-weight:700}
+  .pstats{display:flex;gap:26px;margin:10px 0 8px}
+  .pstats b{display:block;font-size:15px}
   .pstats span{font-size:12px;color:#808080}
-  .pdesc{font-size:13px;color:#808080;line-height:2}
-  .pdesc b{color:#333;font-weight:400}
-  .pvisit{margin-top:10px;padding-top:10px;border-top:1px solid #f2f2f2;font-size:12px;color:#808080}
+  .pdesc{font-size:12.5px;color:#808080;line-height:1.9}
+  .pvisit{margin-top:9px;padding-top:9px;border-top:1px solid #f2f2f2;font-size:12px;color:#808080}
   .pvisit i{font-style:normal;color:#333}
 
-  /* ---------- 他的关注 ---------- */
-  .fu{display:flex;gap:10px;align-items:center;padding:9px 14px;border-bottom:1px solid #f5f5f5;cursor:pointer}
-  .fu:last-child{border-bottom:none}
+  /* 热搜 */
+  .hot .hi{display:flex;gap:8px;align-items:center;padding:8px 18px;font-size:13.5px;color:#333;cursor:pointer}
+  .hot .hi:hover{color:#ff8200}
+  .hot .hi b{color:#e35c5c;font-size:11px;font-style:normal;flex-shrink:0}
+  .hot .hi small{margin-left:auto;color:#bbb;font-size:11px}
+
+  /* 关注 / 音乐 */
+  .fu{display:flex;gap:10px;align-items:center;padding:9px 18px;cursor:pointer}
   .fu:hover{background:#fafafa}
-  .fu .fa{width:38px;height:38px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-    color:#fff;font-size:15px;font-weight:700}
-  .fu .fn{font-size:13.5px;color:#333;font-weight:600}
+  .fu .fa{width:38px;height:38px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:700}
+  .fu .fn{font-size:13.5px;font-weight:600}
   .fu:hover .fn{color:#ff8200}
-  .fu .fd{font-size:11.5px;color:#999;margin-top:2px}
-  .fuempty{padding:14px;font-size:12.5px;color:#999;line-height:1.9}
+  .fu .fd{font-size:11.5px;color:#999;margin-top:1px}
+  .fuempty{padding:14px 18px;font-size:12.5px;color:#999;line-height:1.9}
+  .mus{display:flex;gap:10px;align-items:center;padding:10px 18px;cursor:pointer}
+  .mus:hover{background:#fafafa}
+  .mus .mi{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#ff9d3c,#ff8200);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mus .mi svg{width:15px;height:15px;fill:#fff}
+  .mus .mt{font-size:13.5px;font-weight:600}
+  .mus:hover .mt{color:#ff8200}
+  .mus .md{font-size:11.5px;color:#999;margin-top:1px}
 
-  /* ---------- 他分享的音乐 ---------- */
-  .mus{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid #f5f5f5}
-  .mus:last-child{border-bottom:none}
-  .mus .mi{width:36px;height:36px;border-radius:4px;background:linear-gradient(135deg,#ff9d3c,#ff8200);
-    display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
-  .mus .mi svg{width:16px;height:16px;fill:#fff}
-  .mus .mt{font-size:13.5px;color:#333;font-weight:600}
-  .mus:hover .mt{color:#ff8200;cursor:pointer}
-  .mus .md{font-size:11.5px;color:#999;margin-top:2px}
-
-  /* ---------- 信息流 ---------- */
-  .wb{display:flex;gap:12px;padding:16px 20px 4px;border-bottom:1px solid #f0f0f0}
-  .wb:last-child{border-bottom:none}
-  .wb .wa{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid #ececec;cursor:zoom-in;background:#fff}
+  /* ---------- 一条嘀咕 ---------- */
+  .wb{padding:16px 18px 6px}
+  .wb + .wb{border-top:1px solid #f5f5f5}
+  .wbhead{display:flex;gap:12px}
+  .wb .wa{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid #f0f0f0;cursor:zoom-in}
   .wb .wa img{width:100%;height:100%;object-fit:cover}
-  .wbody{flex:1;min-width:0;padding-bottom:10px}
-  .wname{font-size:14px;font-weight:700;color:#eb735;cursor:pointer}
-  .wname:hover{text-decoration:underline}
-  .wtime{font-size:12px;color:#808080;margin-top:2px}
-  .wtime .src{color:#9a9a9a}
-  .wlock{float:right;font-size:11px;color:#b8b8b8;border:1px solid #e3e3e3;border-radius:2px;padding:0 5px;background:#fafafa}
-  .wtext{font-size:14px;line-height:1.9;margin-top:6px;color:#333;white-space:pre-line;word-break:break-all}
+  .wbmeta{flex:1;min-width:0}
+  .wnamerow{display:flex;align-items:center;gap:8px}
+  .wname{font-size:15px;font-weight:700;color:#333;cursor:pointer}
+  .wname:hover{color:#ff8200}
+  .wlock{font-size:11px;color:#b8b8b8;border:1px solid #e8e8e8;border-radius:4px;padding:0 5px;background:#fafafa}
+  .wtime{font-size:12px;color:#9a9a9a;margin-top:2px}
+  .wtext{font-size:15px;line-height:1.85;margin-top:8px;white-space:pre-line;word-break:break-all;color:#333}
   .wtext .deep{color:#eb735;cursor:pointer}
   .wtext .deep:hover{text-decoration:underline}
   .wtext .code{color:#eb735}
   .wtext .code.go{cursor:pointer;border-bottom:1px dashed #eb735}
-  .wfold{max-height:122px;overflow:hidden;position:relative}
+  .wfold{max-height:126px;overflow:hidden;position:relative}
   .wfold::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff)}
-  .wmore{color:#eb735;font-size:13px;cursor:pointer;display:inline-block;margin-top:2px}
+  .wmore{color:#eb735;font-size:13.5px;cursor:pointer;display:inline-block;margin-top:2px}
   .wmore:hover{text-decoration:underline}
 
-  /* 分享的音乐卡 */
-  .wmusic{margin-top:8px;border:1px solid #f0e2d0;background:#fffcf8;border-radius:4px;padding:10px 14px;
-    display:flex;gap:12px;align-items:center;cursor:pointer}
-  .wmusic:hover{background:#fff6ea}
-  .wmusic .mc{width:42px;height:42px;border-radius:4px;background:linear-gradient(135deg,#ff9d3c,#ff8200);
-    display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .wmusic .mc svg{width:18px;height:18px;fill:#fff}
-  .wmusic .mt{font-size:13.5px;color:#333;font-weight:600}
-  .wmusic .md{font-size:12px;color:#999;margin-top:3px}
-  .wmusic .mp{margin-left:auto}
-  .wmusic .mp svg{width:20px;height:20px;fill:#ff8200}
-
-  /* 操作栏 */
-  .wacts{display:flex;margin-top:10px;border-top:1px solid #f5f5f5}
-  .wacts span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 0;
-    font-size:13px;color:#808080;cursor:pointer}
-  .wacts span:hover{color:#ff8200}
-  .wacts span.on{color:#ff8200}
-  .wacts svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  /* 操作栏：新版胶囊 hover */
+  .wacts{display:flex;gap:4px;margin-top:10px;border-top:1px solid #f5f5f5;padding-top:6px}
+  .wacts span{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 0;
+    font-size:13px;color:#808080;border-radius:999px;cursor:pointer;transition:all .15s}
+  .wacts span:hover{color:#ff8200;background:#fff4e8}
+  .wacts span.on{color:#ff8200;background:#fff4e8}
+  .wacts svg{width:17px;height:17px}
 
   /* 评论区 */
-  .wcmts{background:#fafafa;border-radius:3px;margin-top:8px;padding:10px 12px;display:none}
+  .wcmts{background:#f7f8fa;border-radius:10px;margin-top:8px;padding:10px 14px;display:none}
   .wcmts.show{display:block}
-  .wcmt{display:flex;gap:8px;padding:7px 0;border-bottom:1px dashed #eee;font-size:13px;line-height:1.8}
+  .wcmt{display:flex;gap:9px;padding:8px 0;border-bottom:1px dashed #ececec;font-size:13.5px;line-height:1.8}
   .wcmt:last-of-type{border-bottom:none}
-  .wcmt .ca{width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid #eee}
+  .wcmt .ca{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0}
   .wcmt .ca img{width:100%;height:100%;object-fit:cover}
   .wcmt b{color:#eb735;font-weight:600}
   .wcmt.none{color:#999;font-size:12.5px;border:none;padding:4px 0}
-  .wcinput{display:flex;gap:6px;margin-top:8px}
-  .wcinput input{flex:1;border:1px solid #ddd;border-radius:3px;padding:6px 10px;font-size:12.5px;outline:none;font-family:inherit;color:#333}
+  .wcinput{display:flex;gap:8px;margin-top:8px}
+  .wcinput input{flex:1;border:1px solid #e5e5e5;border-radius:8px;padding:8px 12px;font-size:13px;outline:none;font-family:inherit;color:#333;background:#fff}
   .wcinput input:focus{border-color:#ff8200}
-  .wcinput button{border:1px solid #ff8200;background:#ff8200;color:#fff;border-radius:3px;padding:0 14px;font-size:12.5px;cursor:pointer}
+  .wcinput button{border:none;background:#ff8200;color:#fff;border-radius:8px;padding:0 16px;font-size:13px;cursor:pointer}
   .wcinput button:hover{background:#f07600}
-  .wcnote{font-size:11.5px;color:#999;margin-top:6px;min-height:1.6em}
+  .wcnote{font-size:11.5px;color:#999;margin-top:6px;min-height:1.5em}
 
-  /* 右栏：搜搜热搜 */
-  .hot{padding:4px 0}
-  .hot .hi{display:flex;gap:8px;align-items:center;padding:7px 14px;font-size:13px;color:#333;cursor:pointer}
-  .hot .hi:hover{background:#fafafa;color:#ff8200}
-  .hot .hi b{color:#e35c5c;font-size:11px;font-style:normal;flex-shrink:0}
-  .hot .hi small{margin-left:auto;color:#bbb;font-size:11px}
-
-  .foot{text-align:center;font-size:12px;color:#9a9a9a;padding:18px 0 6px;line-height:2}
-  .foot a{color:#507daf;text-decoration:none;margin:0 6px;cursor:pointer}
+  .foot{font-size:12px;color:#9a9a9a;padding:10px 6px;line-height:2}
+  .foot a{color:#507daf;text-decoration:none;margin-right:10px;cursor:pointer}
 
   .lbx{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
   .lbx img{max-width:80vw;max-height:80vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
@@ -148,39 +144,71 @@
 <body>
 <div class="moon"></div>
 
-<div class="topbar">
-  <div class="in">
+<div class="frame">
+
+  <!-- 左侧竖排导航 -->
+  <div class="navcol">
     <div class="logo">
-      <svg width="26" height="26" viewBox="0 0 26 26"><path d="M13 2 C6.4 2, 1.5 6.6, 1.5 12.2 C1.5 15.4, 3.1 18.2, 5.7 20.1 L4.8 24 L9.2 21.6 C10.4 21.9, 11.7 22.1, 13 22.1 C19.6 22.1, 24.5 17.6, 24.5 12.2 C24.5 6.6, 19.6 2, 13 2 Z" fill="#ff8200"/><circle cx="9.2" cy="12.4" r="1.7" fill="#fff"/><circle cx="16.8" cy="12.4" r="1.7" fill="#fff"/></svg>
+      <svg width="30" height="30" viewBox="0 0 26 26"><path d="M13 2 C6.4 2, 1.5 6.6, 1.5 12.2 C1.5 15.4, 3.1 18.2, 5.7 20.1 L4.8 24 L9.2 21.6 C10.4 21.9, 11.7 22.1, 13 22.1 C19.6 22.1, 24.5 17.6, 24.5 12.2 C24.5 6.6, 19.6 2, 13 2 Z" fill="#ff8200"/><circle cx="9.2" cy="12.4" r="1.7" fill="#fff"/><circle cx="16.8" cy="12.4" r="1.7" fill="#fff"/></svg>
       <b>嘀咕</b>
     </div>
-    <div class="tsearch"><svg class="ic" viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 1 0 4.6 13.4l4.7 4.7 1.4-1.4-4.7-4.7A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg>大家都在搜：年度关键词</div>
-    <div class="tnav">
-      <span><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-4v-6h-4v6H6v-9H3l9-8z"/></svg>首页</span>
-      <span><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm3.5 4.5l-2.2 5.3-5.3 2.2 2.2-5.3 5.3-2.2z"/></svg>发现</span>
-      <span><svg class="ic" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3v1h16v-1l-2-3V9a6 6 0 0 0-6-6zm-2 15a2 2 0 0 0 4 0h-4z"/></svg>消息</span>
-      <span class="me"><img src="assets/media/butterfly.png" alt=""></span>
+    <div class="navsearch"><svg class="ic" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 1 0 4.6 13.4l4.7 4.7 1.4-1.4-4.7-4.7A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg>搜索</div>
+    <div class="navlist">
+      <div class="nitem on"><svg class="ic" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9z"/></svg>首页</div>
+      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z"/></svg>视频</div>
+      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/><path d="M17 7l1.8-1.8"/></svg>发现</div>
+      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3v1h16v-1l-2-3V9a6 6 0 0 0-6-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>消息</div>
+      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>热榜</div>
     </div>
   </div>
-</div>
 
-<div class="cols">
-  <div class="sideL">
+  <!-- 中间：发帖框 + 信息流 -->
+  <div class="maincol">
     <div class="card">
-      <div class="pcov">
-        <svg viewBox="0 0 60 48" fill="none"><path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#fff"/><path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#fff"/></svg>
+      <div class="compose">
+        <div class="cava" data-lb="c"><img src="assets/media/butterfly.png" alt=""></div>
+        <div class="cright">
+          <div class="cinput" id="cinput">既然没人看，就随便说说……</div>
+          <div class="ctools">
+            <span><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 10h.01M15.5 10h.01M8.5 14.5s1.2 1.5 3.5 1.5 3.5-1.5 3.5-1.5"/></svg></span>
+            <span><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg></span>
+            <span><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg></span>
+            <span><svg class="ic" viewBox="0 0 24 24"><path d="M12 4v10M12 20v-2M5 12h14M5 12l3-3M5 12l3 3M19 12l-3-3M19 12l-3 3"/></svg></span>
+            <button class="cbtn" id="composeBtn">发嘀咕</button>
+          </div>
+          <div class="cnote" id="composeNote"></div>
+        </div>
       </div>
+    </div>
+
+    <div class="card" id="feed"></div>
+
+    <div class="foot">
+      <a>关于嘀咕</a><a>嘀咕公约</a><a>意见反馈</a><br>
+      这个号没有告诉过任何人。包括<span style="color:#eb735">你</span>。
+    </div>
+  </div>
+
+  <!-- 右栏 -->
+  <div class="rightcol">
+    <div class="card">
+      <div class="pcov"><svg viewBox="0 0 60 48" fill="none"><path d="M30 24 C18 4, 2 6, 6 18 C9 27, 20 28, 30 24 Z" fill="#fff"/><path d="M30 24 C42 4, 58 6, 54 18 C51 27, 40 28, 30 24 Z" fill="#fff"/></svg></div>
       <div class="pava" id="avatar"><img src="assets/media/butterfly.png" alt=""></div>
       <div class="pbody">
-        <div class="pname">北屋 <span class="lv">LV.3</span></div>
+        <div class="pname">北屋</div>
         <div class="pstats">
           <div><b>3</b><span>关注</span></div>
           <div><b>0</b><span>粉丝</span></div>
           <div id="postnum"><b>–</b><span>嘀咕</span></div>
         </div>
-        <div class="pdesc"><b>简介：</b>先渡自己。<br><b>注册时间：</b>2022-08-08<br><b>地区：</b>（不填）</div>
+        <div class="pdesc">先渡自己。<br>注册时间：2022-08-08 · 地区（不填）</div>
         <div class="pvisit">今日访客：<i id="visit">8</i></div>
       </div>
+    </div>
+
+    <div class="card hot">
+      <div class="ch">搜搜热搜<small>实时</small></div>
+      <div id="hot"></div>
     </div>
 
     <div class="card" id="fuPanel">
@@ -193,37 +221,18 @@
       <div id="songs"></div>
     </div>
   </div>
-
-  <div class="main">
-    <div class="card">
-      <div class="ch"><span>他的嘀咕</span><small>全部可见范围：仅自己</small></div>
-      <div id="feed"></div>
-    </div>
-  </div>
-
-  <div class="sideR">
-    <div class="card">
-      <div class="ch">搜搜热搜<small>实时</small></div>
-      <div class="hot" id="hot"></div>
-    </div>
-  </div>
-</div>
-
-<div class="foot">
-  <a>关于嘀咕</a><a>嘀咕客服</a><a>意见反馈</a><br>
-  这个号没有告诉过任何人。包括<span style="color:#eb735">你</span>。
 </div>
 
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
 
-<script src="assets/game.js?v=79"></script>
+<script src="assets/game.js?v=80"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
   const $ = id => document.getElementById(id);
   const ch = DJ.state.chapter;
 
-  /* ---------- 搜搜热搜：跟故事有关的那条混在里面 ---------- */
+  /* 搜搜热搜 */
   const HOT = [
     ["接电话之前先深呼吸", "2.1亿"],
     ["年度关键词是“等”", "1.4亿"],
@@ -235,7 +244,7 @@ function main(){
     `<div class="hi"><b>${i===0?"热":"新"}</b>${h[0]}<small>${h[1]}</small></div>`
   ).join("");
 
-  /* ---------- 嘀咕内容：2022-2026，全部仅自己可见 ---------- */
+  /* 嘀咕内容：2022-2026，全部仅自己可见 */
   const POSTS = [
     { d:"今天 03:17", long:true, t:`凌晨三点十七分醒的。没有闹钟，是自己醒的。
 
@@ -382,7 +391,7 @@ function main(){
   ];
   $("postnum").innerHTML = `<b>${POSTS.length}</b><span>嘀咕</span>`;
 
-  /* ---------- 他分享的音乐 ---------- */
+  /* 他分享的音乐 */
   const SONGS = [
     { t:"八点零八", cap:"这个时间打来的电话，我从来不敢不接。" },
     { t:"白蝶",    cap:"蝶是引路的。别跟着走丢。" },
@@ -394,10 +403,10 @@ function main(){
   const playSvg = `<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>`;
   $("songs").innerHTML = SONGS.map(s =>
     `<div class="mus"><div class="mi">${playSvg}</div><div><div class="mt">${s.t}</div><div class="md">${s.cap}</div></div></div>`
-  ).join("") + (ch >= 9 ? `<div class="mus" id="radioLink" style="cursor:pointer"><div class="mi">${playSvg}</div><div><div class="mt">深夜电台 FM 08.8</div><div class="md">八年只播一句话</div></div></div>` : "");
+  ).join("") + (ch >= 9 ? `<div class="mus" id="radioLink"><div class="mi">${playSvg}</div><div><div class="mt">深夜电台 FM 08.8</div><div class="md">八年只播一句话</div></div></div>` : "");
   if (ch >= 9) $("radioLink").onclick = () => { DJ.sfx.click(); location.href = "radio.html"; };
 
-  /* ---------- 他的关注：走过才有 ---------- */
+  /* 他的关注 */
   const FU = [
     { t:"搜搜",     d:"什么都搜不到的搜索引擎", go:"search.html",   c:3,  col:"#7aa7d9", i:"搜" },
     { t:"空耳FM",   d:"听见没人在听的声音",     go:"music.html",    c:3,  col:"#ff8200", i:"♪" },
@@ -414,7 +423,7 @@ function main(){
     el.onclick = () => { DJ.sfx.click(); location.href = el.dataset.go; };
   });
 
-  /* ---------- 渲染嘀咕流 ---------- */
+  /* 渲染嘀咕流 */
   const DEEP = [
     { w:"未接来电",     go:"dial.html",   c:1 },
     { w:"茶室的深夜场", go:"oracle.html", c:4 },
@@ -422,27 +431,31 @@ function main(){
     { w:"画了一个面具", go:"mask.html",   c:9 },
     { w:"亥时开播",     go:"radio.html",  c:9 }
   ];
+  const icFw  = `<svg class="ic" viewBox="0 0 24 24"><path d="M14 5l7 7-7 7v-4C8 15 5 17 3 20c0-6 3-10 11-11V5z"/></svg>`;
+  const icCm  = `<svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z"/></svg>`;
+  const icLk  = `<svg class="ic" viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm2 9V10.5L13 3c1.3.2 2 1.1 2 2.5V9h5a2 2 0 0 1 2 2l-1.6 7a2 2 0 0 1-2 1.5H9z"/></svg>`;
   $("feed").innerHTML = POSTS.map((p, idx) => {
     const comments = p.cmt
       ? `<div class="wcmt"><div class="ca"><img src="assets/media/butterfly.png" alt=""></div><div><b>北屋</b>：${p.cmt}</div></div>`
       : `<div class="wcmt none">还没有评论。</div>`;
     return `<div class="wb">
-      <div class="wa" data-lb="${idx}"><img src="assets/media/butterfly.png" alt=""></div>
-      <div class="wbody">
-        <span class="wlock">仅自己可见</span>
-        <div class="wname">北屋</div>
-        <div class="wtime">${p.d}<span class="src"> · 来自北屋的旧手机</span></div>
-        <div class="wtext ${p.long ? "wfold" : ""}" id="wt${idx}">${p.t}</div>
-        ${p.long ? `<span class="wmore" data-t="${idx}">全文</span>` : ""}
-        <div class="wacts">
-          <span data-a="fw${idx}"><svg viewBox="0 0 24 24"><path d="M14 5l7 7-7 7v-4C8 15 5 17 3 20c0-6 3-10 11-11V5z"/></svg>转发</span>
-          <span data-a="cm${idx}"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4V4z"/></svg>评论 ${p.cmt ? 1 : 0}</span>
-          <span data-a="lk${idx}" id="lk${idx}"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm2 9V10.5L13 3c1.3.2 2 1.1 2 2.5V9h5a2 2 0 0 1 2 2l-1.6 7a2 2 0 0 1-2 1.5H9z"/></svg>赞 <em id="lkn${idx}" style="font-style:normal">0</em></span>
+      <div class="wbhead">
+        <div class="wa" data-lb="${idx}"><img src="assets/media/butterfly.png" alt=""></div>
+        <div class="wbmeta">
+          <div class="wnamerow"><span class="wname">北屋</span><span class="wlock">仅自己可见</span></div>
+          <div class="wtime">${p.d} · 来自北屋的旧手机</div>
         </div>
-        <div class="wcmts" id="cm${idx}">${comments}
-          <div class="wcinput"><input id="ci${idx}" maxlength="60" placeholder="说点什么……"><button data-s="${idx}">评论</button></div>
-          <div class="wcnote" id="cn${idx}"></div>
-        </div>
+      </div>
+      <div class="wtext ${p.long ? "wfold" : ""}" id="wt${idx}">${p.t}</div>
+      ${p.long ? `<span class="wmore" data-t="${idx}">全文</span>` : ""}
+      <div class="wacts">
+        <span data-a="fw${idx}">${icFw}转发</span>
+        <span data-a="cm${idx}">${icCm}评论 ${p.cmt ? 1 : 0}</span>
+        <span data-a="lk${idx}" id="lk${idx}">${icLk}赞 <em id="lkn${idx}" style="font-style:normal">0</em></span>
+      </div>
+      <div class="wcmts" id="cm${idx}">${comments}
+        <div class="wcinput"><input id="ci${idx}" maxlength="60" placeholder="说点什么……"><button data-s="${idx}">评论</button></div>
+        <div class="wcnote" id="cn${idx}"></div>
       </div>
     </div>`;
   }).join("");
@@ -464,8 +477,8 @@ function main(){
       if (!a) return;
       if (a.startsWith("fw")) {
         DJ.sfx.err();
-        s.style.color = "#999";
-        s.innerHTML = `<svg class="ic" viewBox="0 0 24 24"><path d="M14 5l7 7-7 7v-4C8 15 5 17 3 20c0-6 3-10 11-11V5z"/></svg>仅自己可见，转发给谁呢`;
+        s.innerHTML = `${icFw}仅自己可见，转发给谁呢`;
+        s.style.color = "#b8b8b8";
       } else if (a.startsWith("lk")) {
         DJ.sfx.click();
         const on = s.classList.toggle("on");
@@ -490,6 +503,15 @@ function main(){
   document.querySelectorAll(".wcinput input").forEach(inp => {
     inp.addEventListener("keydown", e => { if (e.key === "Enter") inp.nextElementSibling.click(); });
   });
+
+  /* 发帖框：写了也没人看 */
+  $("cinput").onclick = () => { $("cinput").contentEditable = true; $("cinput").focus(); };
+  $("composeBtn").onclick = () => {
+    DJ.sfx.click();
+    $("cinput").textContent = "既然没人看，就随便说说……";
+    $("cinput").contentEditable = false;
+    $("composeNote").textContent = "已发布。0 人可见。";
+  };
 
   /* 深链 */
   document.querySelectorAll(".wtext").forEach(el => {
