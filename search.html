@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>搜搜 — 搜点正经的</title>
-<link rel="stylesheet" href="assets/style.css?v=81">
+<link rel="stylesheet" href="assets/style.css?v=84">
 <style>
   body{background:#f4f6fa;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .s-wrap{max-width:640px;margin:0 auto;padding:8vh 20px 80px}
@@ -53,11 +53,10 @@
 
 <button class="corner" style="color:#8b93a3;border-color:#d8dee9" id="backChat">‹ 未 读</button>
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=81"></script>
+<script src="assets/game.js?v=84"></script>
 <script>
-if (DJ.gate(3)) main();
+if (DJ.gate(1)) main();
 function main(){
-  DJ.unlock(3);
   const $ = id => document.getElementById(id);
   const light = {envhint:"rgba(90,98,116,.8)"};
 
@@ -69,6 +68,30 @@ function main(){
       <div class="r"><a class="t" href="forum.html">倒影小组：8 楼为什么打不开？</a>
       <div class="u">reflexion-bbs.2025 › 站务</div>
       <div class="d">…页码只到 8 就没有了。有人说 8 楼住着<em>镜子</em>。谣言。一定是谣言…</div></div>` },
+    { kw:["领养","卷毛","猫","宠物"], html:`
+      <div class="r"><a class="t" href="adopt.html">同城领养 — 卷毛（未命名，八个月）</a>
+      <div class="u">tongcheng-adopt.web › 猫 › 待领养</div>
+      <div class="d">…很乖，不吵。人回家的时候它会等在门口，但从来不叫。<em>发布者注：请只领养一次，它记性很好。</em>…</div></div>` },
+    { kw:["电台","深夜","fm","广播"], html:`
+      <div class="r"><a class="t" href="radio.html">深夜电台 FM 08.8 — 在线收听</a>
+      <div class="u">fm-0808.web › live</div>
+      <div class="d">…本台每晚亥时开播。八年，只播一句话。<em>有听众留言问是哪一句话。主持人没有回。</em>…</div></div>` },
+    { kw:["面具","手工","画"], html:`
+      <div class="r"><div class="t" style="cursor:default">为什么有人戴八层面具？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案：不是想藏。<em>是一层一层揭下来的时候，怕最里面那层已经不在了。</em>（该回答已被编辑 8 次，每一版都更长）</div></div>` },
+    { kw:["记账","流水账","账单","开销"], html:`
+      <div class="r"><div class="t" style="cursor:default">坚持记账八年是什么体验？</div>
+      <div class="u">wenda.soso.com › 提问</div>
+      <div class="d">最佳答案（8 个赞）：<em>每一笔都记得清清楚楚，唯独记不清钱花在了哪里。</em>账不会骗人。但记账的人会——他会把最重要的一笔，记成「其他」。</div></div>` },
+    { kw:["医院","门诊","病历","看病"], html:`
+      <div class="r"><a class="t" href="hospital.html">网上医院 · 内网入口</a>
+      <div class="u">hospital-net.web › portal</div>
+      <div class="d">…夜间门诊开放时间：<em>八点零八分</em>。请携带您的全部身份。本系统患者评价功能维护中，已维护 8 年。</div></div>` },
+    { kw:["一面墙","留言","贴","备忘"], html:`
+      <div class="r"><a class="t" href="board.html">一面墙 — 请随意留下点什么</a>
+      <div class="u">one-wall.web › index</div>
+      <div class="d">…墙上的字条没有人清理。最早的一张贴于八年前。<em>有人的字条被撕走了一半，剩下的一半写着：不用等我。</em>…</div></div>` },
     { kw:["洛书","九宫"], html:`
       <div class="r"><div class="t" style="cursor:default">洛书的规矩是什么？</div>
       <div class="u">baike.soso.com › 词条</div>

@@ -88,7 +88,8 @@ const DJ = (() => {
     addIncense(n) { s.incense = Math.max(0, s.incense + n); save(); },
     /** 页面门禁：未解锁则踢回序章；通过则装上"后退=上一章"守卫 */
     gate(ch) {
-      if (s.chapter < ch) { location.href = "index.html?locked=1"; return false; }
+      /* 开放世界：不锁任何门。玩家可以从任何地方进来、往任何方向走。
+         章节号只在内部记录，用于北屋「继续走」和搜索联想——玩家永远看不见它 */
       installBackGuard(ch);
       return true;
     },
