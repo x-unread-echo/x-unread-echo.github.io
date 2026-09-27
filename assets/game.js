@@ -51,18 +51,15 @@ const DJ = (() => {
       history.pushState({ daji: ch, open: 1 }, "");
       window.addEventListener("popstate", () => {
         /* 后退永远留在原地：按多少次都不会掉回上一章。
-           想回去翻线索，用左下角的「◂ 北屋」。 */
+           想找什么，用顶条的 [搜搜]——那是这个世界唯一的入口。 */
         try { history.pushState({ daji: ch, open: 1 }, ""); } catch (err) {}
       });
-      /* 左下角的家：每一章都能随时回北屋翻旧线索 */
-      if (!document.getElementById("dajiHome") && document.body){
-        const a = document.createElement("a");
-        a.id = "dajiHome";
-        a.href = "blog.html";
-        a.title = "回去翻翻";
-        a.textContent = "◂ 北屋";
-        a.style.cssText = "position:fixed;left:10px;bottom:10px;z-index:90;font-size:12px;letter-spacing:2px;color:#8a5038;text-decoration:none;background:rgba(255,253,247,.92);border:1px solid #d9b98a;border-radius:8px;padding:4px 10px;box-shadow:0 2px 8px rgba(120,50,25,.18)";
-        document.body.appendChild(a);
+      /* 2008 论坛顶条：每个"网页"都长着它。[搜搜] 是真的——那是这个世界的浏览器，不是游戏按钮 */
+      if (document.querySelector('link[href*="skin-bbs"]') && !document.getElementById("dajiTopbar") && document.body){
+        const b = document.createElement("div");
+        b.id = "dajiTopbar";
+        b.innerHTML = '<span class="tb-t">《大吉》个人版 v8.08\u2002·\u2002今天你登陆了吗？\u2002[注册] [登录]</span> <a href="search.html">[搜搜]</a><span class="tb-t">\u2002·\u2002站内未读 (38)\u2002·\u2002最后访问：八年前</span>';
+        document.body.appendChild(b);
       }
     } catch (err) {}
   }

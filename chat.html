@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=86">
+<link rel="stylesheet" href="assets/style.css?v=88">
 <style>
   body{background:#dfd9c7;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -203,7 +203,7 @@
   @keyframes bjump{0%,100%{transform:scale(1)}40%{transform:scale(1.35)}}
   .navbadge.jump{animation:bjump .4s ease}
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=88"></head>
 <body>
 
 <div class="iphone">
@@ -328,7 +328,7 @@
     <div class="draft"><div class="dt">草稿 · 8月20日 20:08</div>
       <div class="db">第九稿：算了，你不会懂的。（第八稿：你会懂的。第七稿：删。）</div></div>
     <div class="draft key" id="draftKey"><div class="dt">草稿 · 未标日期 · 亥时</div>
-      <div class="db">明天去青云观。亥时三刻。倒影自渡。</div></div>
+      <div class="db">明天去<span id="guanWord" style="cursor:pointer;border-bottom:1px dotted #8a8172">青云观</span>。亥时三刻。倒影自渡。</div></div>
     <div class="draft" id="draft8" style="display:none"><div class="dt">草稿 · 第八日</div>
       <div class="db">今天也没有事发生。
 我把留在留白里的那句话，又写了一遍，又删了。
@@ -341,7 +341,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=86"></script>
+<script src="assets/game.js?v=88"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -553,6 +553,11 @@ function main(){
 
   /* 草稿箱：读完就是读完。青云观在哪，玩家自己会想起来去搜。 */
   $("draftKey").onclick = () => { DJ.unlock(3); DJ.sfx.read(); };
+  $("guanWord").onclick = e => {
+    e.stopPropagation();
+    DJ.sfx.click();
+    location.href = "guanyun.html";
+  };
 
   /* C10：深夜占位符 */
   const h = new Date().getHours();
