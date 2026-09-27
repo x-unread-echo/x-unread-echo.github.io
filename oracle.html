@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>第八茶室 — 在线 8 人</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=83">
 <style>
   body{background:#05070c;font-family:"Courier New","PingFang SC",monospace;color:#b8c2d4;overflow-x:hidden}
   .o-wrap{max-width:640px;margin:0 auto;padding:5vh 18px 90px;min-height:88vh}
@@ -73,7 +73,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=70"></script>
+<script src="assets/game.js?v=83"></script>
 <script>
 if (DJ.gate(4)) main();
 function main(){
@@ -231,8 +231,9 @@ function main(){
     push("sys","系统","茶室打烊了。下一间房的灯还亮着。");
     setTimeout(()=>{
       DJ.unlock(5); DJ.sfx.read();
-      document.body.classList.add("flash");
-      setTimeout(() => location.href = "forum.html", 420);
+      push("sys","桌上","打烊前，无量把找零推了过来。硬币底下压着一张皱掉的小票，背面有一行圆珠笔字，笔画很重：<span id='toForum' style='cursor:pointer;border-bottom:1px dotted currentColor'>倒影小组 · 8 号群 · 审核快下来了</span>");
+      const tf = document.getElementById("toForum");
+      if (tf) tf.onclick = () => { DJ.sfx.click(); location.href = "forum.html"; };
     }, 5200);
   };
 

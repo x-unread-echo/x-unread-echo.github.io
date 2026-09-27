@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>通话记录 — 无服务</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=83">
 <style>
   body{background:#04060b;font-family:-apple-system,"PingFang SC",sans-serif;color:#c7cedb;overflow-x:hidden}
   .p-wrap{max-width:420px;margin:0 auto;padding:6vh 22px 90px;min-height:88vh}
@@ -181,12 +181,12 @@
       没有发过一条动态。没有取关。<br>
       <em>它只是在看。</em>
     </div>
-    <button class="pf-go" id="pfgo">拨给那个空白头像 →</button>
+    <button class="pf-go" id="pfgo" style="letter-spacing:0">短信 · 未读（38） · 最后一条 08-08 23:58</button>
   </div>
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=70"></script>
+<script src="assets/game.js?v=83"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -314,7 +314,7 @@ function main(){
     DJ.unlock(2); DJ.sfx.ok();
     document.body.classList.add("flash");
     setTimeout(() => location.href = "chat.html", 420);
-  };
+  };  /* 手机上点开未读，是玩家自己的手指做的决定 */
 
   /* 断点续玩 */
   if (DJ.has("dialed_secret")){
