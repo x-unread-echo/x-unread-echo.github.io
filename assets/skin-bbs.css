@@ -1,0 +1,39 @@
+/* 《大吉》老中文论坛皮肤（号1）—— 盖在每页内联样式之后，只动颜色和字，不动布局 */
+:root{
+  --bg:#f2f0e4; --bg2:#f4f1e6; --panel:#fbf9f0; --panel2:#f7f4e9;
+  --line:#c6bfa9; --ink:#3a3630; --dim:#8a8172; --faint:#9a917f;
+  --blue:#1f3d7a; --moon:#5a5348; --white:#2e2a24; --teal:#3d716d;
+  --warn:#b0483e; --paper:#43403a;
+}
+body{
+  background:#f2f0e4 !important; color:#3a3630 !important;
+  font-family:"Songti SC","Noto Serif SC","STSong",serif !important;
+  padding-top:34px !important;
+}
+/* 2008 年论坛顶条 */
+body::before{
+  content:"《大吉》个人版 v8.08  ·  今天你登陆了吗？  [注册] [登录] [搜搜]  ·  站内未读 (38)  ·  最后访问：八年前";
+  display:block; position:fixed; top:0; left:0; right:0; z-index:9999;
+  background:#1f3d7a; color:#e8ecf5; font-size:12px; letter-spacing:1px;
+  padding:7px 14px; box-shadow:0 1px 0 #14294f; white-space:nowrap; overflow:hidden;
+  font-family:"Songti SC","STSong",serif;
+}
+.moon{display:none !important}
+::selection{background:#f0d98c;color:#3a3630}
+a{color:#2b62c4 !important}
+h1,h2,h3,h4{color:#3a3630 !important}
+.small,.dimt{color:#8a8172 !important}
+.btn{
+  background:#fdfcf5 !important;border:1px solid #a89f8c !important;color:#3a3630 !important;
+  box-shadow:none !important;
+}
+.btn:hover{border-color:#1f3d7a !important;color:#1f3d7a !important;box-shadow:1px 2px 0 #d8d2c0 !important}
+input[type=text],textarea,select{
+  background:#fdfcf5 !important;border:1px solid #a89f8c !important;color:#3a3630 !important;
+  box-shadow:none !important;
+}
+.panel,.divbox{
+  background:#fbf9f0 !important;border:1px solid #c6bfa9 !important;color:#3a3630 !important;
+  box-shadow:none !important;
+}
+.stage{background:#f2f0e4 !important}

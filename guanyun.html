@@ -5,50 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
-  body{background:#0b0f14;font-family:"Songti SC","Noto Serif SC",serif}
+  body{background:#e0dbc9;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
   .oldhdr{
-    text-align:center;padding:26px 0 14px;border-bottom:3px double #2c3a52;
+    text-align:center;padding:26px 0 14px;border-bottom:3px double #b5ad99;
   }
-  .oldhdr h1{color:#dfe5ee;font-size:34px;letter-spacing:16px;font-weight:600}
+  .oldhdr h1{color:#5d5648;font-size:34px;letter-spacing:16px;font-weight:600}
   .oldhdr .slogan{color:#5a6a84;font-size:12px;letter-spacing:5px;margin-top:8px}
   .marquee{
-    overflow:hidden;border:1px solid #22304a;margin:14px 0;padding:6px 0;background:#0e141d;
+    overflow:hidden;border:1px solid #b3ab97;margin:14px 0;padding:6px 0;background:#e1dbca;
   }
   .marquee span{color:#6d80a0;font-size:12.5px;letter-spacing:3px;white-space:nowrap;display:inline-block;animation:mq 26s linear infinite}
   @keyframes mq{from{transform:translateX(60vw)}to{transform:translateX(-100%)}}
-  .sect{border:1px solid #22304a;background:#0e141d;margin:22px 0;padding:22px 26px;border-radius:4px}
-  .sect h2{color:#aebfd8;font-size:17px;letter-spacing:6px;margin-bottom:10px;border-left:3px solid #3a5080;padding-left:12px}
+  .sect{border:1px solid #b3ab97;background:#e1dbca;margin:22px 0;padding:22px 26px;border-radius:4px}
+  .sect h2{color:#484238;font-size:17px;letter-spacing:6px;margin-bottom:10px;border-left:3px solid #bbb39e;padding-left:12px}
   .askbtns{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
   .askbtn{
-    background:#141d2e;border:1px solid #2c3a52;color:#c9d6ea;padding:10px 22px;
+    background:#e2ddcc;border:1px solid #b5ad99;color:#544e42;padding:10px 22px;
     font-size:15px;letter-spacing:4px;border-radius:3px;
   }
-  .askbtn:hover{border-color:#4a7dd6;color:#f2f5fa}
+  .askbtn:hover{border-color:#c4bda7;color:#665e4f}
   #qianResult{margin-top:18px;min-height:96px}
   .qhead{color:#4f8f8b;font-size:20px;letter-spacing:8px}
-  .qtext{color:#aebfd8;margin-top:10px;letter-spacing:2px;white-space:pre-line}
-  .qtext.bad{color:#8b9ab5}
+  .qtext{color:#484238;margin-top:10px;letter-spacing:2px;white-space:pre-line}
+  .qtext.bad{color:#353029}
   #moji{
     font-family:var(--mono);color:#42536f;font-size:14px;line-height:2;word-break:break-all;
-    cursor:pointer;user-select:none;margin-top:14px;padding:14px;border:1px dashed #22304a;
+    cursor:pointer;user-select:none;margin-top:14px;padding:14px;border:1px dashed #b3ab97;
   }
-  #moji:hover{border-color:#3a5080}
-  #moji.clr{color:#dfe5ee;border-color:#4f8f8b}
+  #moji:hover{border-color:#bbb39e}
+  #moji.clr{color:#5d5648;border-color:#c5bea8}
   .grid8{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-top:12px}
   .cell{
-    aspect-ratio:1;background:#101827;border:1px solid #1c2c4a;color:#42536f;
+    aspect-ratio:1;background:#e2dccb;border:1px solid #b2aa96;color:#42536f;
     font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:0;
   }
-  .cell.hi{border-color:#4a7dd6;color:#aebfd8;cursor:pointer;box-shadow:inset 0 0 8px rgba(74,125,214,.12);position:relative}
+  .cell.hi{border-color:#c4bda7;color:#484238;cursor:pointer;box-shadow:inset 0 0 8px rgba(74,125,214,.12);position:relative}
   .cell.hi .num{
     position:absolute;right:2px;bottom:1px;font-size:8px;color:#3d4f73;
     font-family:var(--mono);line-height:1;
   }
-  .cell.hi:hover .num{color:#7d94bb}
-  .cell.hi.done{background:#152543;color:#dfe5ee;border-color:#4f8f8b}
+  .cell.hi:hover .num{color:#312d26}
+  .cell.hi.done{background:#e4decd;color:#5d5648;border-color:#c5bea8}
   .cell.hi.done .num{color:#4f8f8b}
   .lushu{color:#5a6a84;font-size:12.5px;letter-spacing:2px;margin-top:10px}
   .stickpit{text-align:center;margin-top:6px;position:relative;display:inline-block;padding:0 30px}
@@ -67,14 +67,14 @@
   /* 签筒：梯形木筒，接住签 */
   .pitcup{
     width:120px;height:46px;margin:-8px auto 0;position:relative;
-    background:linear-gradient(#6b4f30,#4a3620);
+    background:linear-gradient(#ebe7d7,#e7e2d2);
     border-radius:8px 8px 12px 12px;
     box-shadow:inset 0 4px 8px rgba(0,0,0,.55), 0 6px 14px rgba(0,0,0,.5);
-    border:1px solid #3a2a16;
+    border:1px solid #b2aa96;
   }
   .pitcup::before{ /* 筒口沿 */
     content:"";position:absolute;top:-4px;left:-4px;right:-4px;height:10px;
-    background:linear-gradient(#7d5e3a,#5a4227);border-radius:6px;border:1px solid #3a2a16;
+    background:linear-gradient(#eee9da,#e9e4d4);border-radius:6px;border:1px solid #b2aa96;
   }
   .pitcup::after{ /* 筒身上的「青云观」刻字 */
     content:"青 云 观";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
@@ -84,11 +84,11 @@
     width:120px;height:86px;margin:8px auto;position:relative;cursor:pointer;
   }
   .censer-big .body{
-    position:absolute;bottom:0;left:15px;width:90px;height:44px;background:#1a2334;
-    border:2px solid #2c3a52;border-radius:0 0 40px 40px;
+    position:absolute;bottom:0;left:15px;width:90px;height:44px;background:#e3decd;
+    border:2px solid #b5ad99;border-radius:0 0 40px 40px;
   }
-  .censer-big .leg{position:absolute;bottom:-10px;width:10px;height:12px;background:#1a2334;border:1px solid #2c3a52}
-  .censer-big .ash{position:absolute;bottom:44px;left:22px;width:76px;height:12px;background:#2b2f36;border-radius:4px}
+  .censer-big .leg{position:absolute;bottom:-10px;width:10px;height:12px;background:#e3decd;border:1px solid #b5ad99}
+  .censer-big .ash{position:absolute;bottom:44px;left:22px;width:76px;height:12px;background:#e5e0cf;border-radius:4px}
   .censer-big .smoke{
     position:absolute;bottom:56px;left:58px;width:2px;height:40px;
     background:linear-gradient(to top,rgba(174,191,216,.5),rgba(174,191,216,0));
@@ -114,7 +114,7 @@
   .foot{color:#33415e;font-size:11.5px;text-align:center;margin-top:44px;letter-spacing:2px}
   .foot a{color:#33415e}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="moon"></div>
 <div class="pagenav">
@@ -171,7 +171,7 @@
   <div class="sect">
     <h2>本 观 旧 照</h2>
     <div style="text-align:center">
-      <img src="assets/media/temple.png" alt="青云观旧照" style="max-width:100%;border-radius:4px;border:1px solid #22304a;filter:saturate(.8)">
+      <img src="assets/media/temple.png" alt="青云观旧照" style="max-width:100%;border-radius:4px;border:1px solid #b3ab97;filter:saturate(.8)">
       <div class="small" style="margin-top:8px;letter-spacing:1px">摄于 2025-08-08 亥时三刻 · 最后一张有香灰的照片</div>
     </div>
   </div>
@@ -201,7 +201,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -275,7 +275,7 @@ function main(){
       if (pulls === 6) out.textContent = "第七签：小吉。……这一次，真的不是第八签。";
     } else {
       out.innerHTML =
-`<span class="qhead" style="color:#c9d6ea">第 八 签</span>
+`<span class="qhead" style="color:#544e42">第 八 签</span>
 签文：孩童持签，立于观前。
 　　　签上只余两字：大吉。
 　　　有人笑着说：大吉，往后的日子都是好的。
@@ -294,7 +294,7 @@ function main(){
     if (!dug){
       dug = true;
       $("paperSlip").style.display = "block";
-      document.querySelector(".censer-big .ash").style.background = "#23262d";
+      document.querySelector(".censer-big .ash").style.background = "#e7e2d1";
       document.querySelector(".censer-big .ash").style.boxShadow = "inset 0 2px 6px rgba(0,0,0,.7)";
       DJ.flag("found_slip"); DJ.addIncense(1);
       setTimeout(openGate, 800);
@@ -381,7 +381,7 @@ function main(){
   /* ---------- 断点续玩：离开再回来，进度原样恢复，绝不回到原点 ---------- */
   (function restore(){
     const R = DJ.state.flags;
-    const q8 = `<span class="qhead" style="color:#c9d6ea">第 八 签</span>
+    const q8 = `<span class="qhead" style="color:#544e42">第 八 签</span>
 签文：孩童持签，立于观前。
 　　　签上只余两字：大吉。
 　　　有人笑着说：大吉，往后的日子都是好的。

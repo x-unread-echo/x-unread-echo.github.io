@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
-  body{background:#04070c;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
+  body{background:#dfd9c7;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
     width:min(430px,100vw);height:min(92vh,900px);margin:2vh auto;position:relative;
-    background:#000;border-radius:46px;border:1px solid #2a2a2e;overflow:hidden;
+    background:#000;border-radius:46px;border:1px solid #b2aa96;overflow:hidden;
     box-shadow:0 0 0 10px #101012,0 40px 90px rgba(0,0,0,.8);
     display:flex;flex-direction:column;
   }
@@ -27,7 +27,7 @@
   .batt i{display:block;height:100%;width:72%;background:#fff;border-radius:1.5px}
   /* ---- 导航栏（毛玻璃）---- */
   .readreceipt{
-    text-align:center;color:#8b93a3;font-size:11px;letter-spacing:6px;
+    text-align:center;color:#312d27;font-size:11px;letter-spacing:6px;
     margin:10px 0 6px;animation:fadein 1.2s ease both;
   }
   .navbar{
@@ -36,21 +36,21 @@
     border-bottom:.5px solid rgba(255,255,255,.14);position:relative;z-index:15;
   }
   .navback{display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;min-width:86px;padding:0}
-  .chev{width:11px;height:11px;border-left:2.5px solid #0a84ff;border-bottom:2.5px solid #0a84ff;transform:rotate(45deg);border-radius:1px}
+  .chev{width:11px;height:11px;border-left:2.5px solid #c2baa5;border-bottom:2.5px solid #c2baa5;transform:rotate(45deg);border-radius:1px}
   .navback span{color:#0a84ff;font-size:16.5px}
   .navbadge{
     background:#ff3b30;color:#fff;font-size:10.5px;font-weight:700;min-width:19px;height:19px;
     border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 5px;
     transition:all .6s;
   }
-  .navbadge.read{background:rgba(255,255,255,.14);color:#9a9aa0}
+  .navbadge.read{background:rgba(255,255,255,.14);color:#36312a}
   .navcenter{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
   .navava{
     width:44px;height:44px;border-radius:50%;
     /* 一面极小的镜子：中心一点微光，四周近黑 */
-    background:radial-gradient(circle at 50% 42%, #3a4a68 0%, #141d30 55%, #05080e 100%);
+    background:radial-gradient(circle at 50% 42%, #e9e5d5 0%, #e2ddcc 55%, #dfd9c8 100%);
     border:.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;
-    font-size:19px;color:#dfe5ee;font-weight:500;position:relative;
+    font-size:19px;color:#5d5648;font-weight:500;position:relative;
   }
   .navava::after{
     content:"";position:absolute;width:11px;height:15px;border-radius:50%;
@@ -67,7 +67,7 @@
   }
   .msgs::-webkit-scrollbar{width:0}
   .datebar{
-    text-align:center;color:#8e8e93;font-size:11px;font-weight:600;margin:14px 0 8px;
+    text-align:center;color:#2f2b25;font-size:11px;font-weight:600;margin:14px 0 8px;
     letter-spacing:.2px;
   }
   .mrow{display:flex}
@@ -84,16 +84,16 @@
     content:"";position:absolute;right:-4px;bottom:0;width:8px;height:11px;background:#24a843;
     clip-path:path("M0 0 C5.5 0 8 3 8 7 C8 10.5 4.5 11 0 11 Z");
   }
-  .ts{font-size:9.5px;color:#8e8e93;text-align:right;margin-top:2px;padding-right:6px;display:none}
+  .ts{font-size:9.5px;color:#2f2b25;text-align:right;margin-top:2px;padding-right:6px;display:none}
   .mrow.last .ts{display:block}
   .sysmsg{text-align:center;color:#6d6d72;font-size:11px;margin:10px 0 4px}
   /* 撤回的消息：iMessage 的灰色「已移除」样式 */
   .bub.removed{
-    background:#1c1c1e;color:#8e8e93;font-style:italic;font-size:15px;
+    background:#e2ddcc;color:#2f2b25;font-style:italic;font-size:15px;
     cursor:pointer;user-select:none;-webkit-user-select:none;
   }
-  .deliv{font-size:10.5px;color:#8e8e93;text-align:right;padding:4px 8px 8px;min-height:26px;letter-spacing:.2px}
-  .deliv.read{color:#9a9aa0}
+  .deliv{font-size:10.5px;color:#2f2b25;text-align:right;padding:4px 8px 8px;min-height:26px;letter-spacing:.2px}
+  .deliv.read{color:#36312a}
   .watermark{
     margin:20px auto 12px;color:rgba(142,142,147,.35);font-size:11px;letter-spacing:3px;display:none;
   }
@@ -104,12 +104,12 @@
     border-top:.5px solid rgba(255,255,255,.14);position:relative;z-index:15;
   }
   .cicon{
-    width:34px;height:34px;border-radius:50%;background:#1c1c1e;border:none;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;background:#e2ddcc;border:none;cursor:pointer;
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
   }
   .cicon svg{stroke:#8e8e93;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
   .pill{
-    flex:1;display:flex;align-items:center;background:#1c1c1e;border-radius:19px;padding:0 6px 0 14px;height:38px;
+    flex:1;display:flex;align-items:center;background:#e2ddcc;border-radius:19px;padding:0 6px 0 14px;height:38px;
   }
   .pill input{
     flex:1;background:none;border:none;outline:none;color:#fff;font-size:16px;
@@ -133,21 +133,21 @@
   @keyframes sheetin{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
   .sheet .grabber{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.22)}
   .sclose{position:absolute;top:52px;right:20px;background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer}
-  .searchwrap{display:flex;align-items:center;background:#1c1c1e;border-radius:11px;padding:8px 12px;gap:8px;margin-top:16px}
+  .searchwrap{display:flex;align-items:center;background:#e2ddcc;border-radius:11px;padding:8px 12px;gap:8px;margin-top:16px}
   .searchwrap input{flex:1;background:none;border:none;outline:none;color:#fff;font-size:16px;font-family:inherit}
   .searchwrap input::placeholder{color:#6d6d72}
-  #searchResult{margin-top:16px;font-size:14px;color:#8e8e93;line-height:1.7;min-height:24px}
+  #searchResult{margin-top:16px;font-size:14px;color:#2f2b25;line-height:1.7;min-height:24px}
   /* 联系人页 */
   .contactpage{align-items:center;text-align:center}
   .bigava{
     width:96px;height:96px;border-radius:50%;margin:26px auto 10px;position:relative;
-    background:radial-gradient(circle at 50% 42%, #3a4a68 0%, #141d30 55%, #05080e 100%);
-    border:.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:38px;color:#dfe5ee;
+    background:radial-gradient(circle at 50% 42%, #e9e5d5 0%, #e2ddcc 55%, #dfd9c8 100%);
+    border:.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:38px;color:#5d5648;
   }
   .bigava::after{content:"";position:absolute;width:24px;height:32px;border-radius:50%;
     background:linear-gradient(115deg,transparent 20%,rgba(200,214,235,.55) 50%,transparent 80%)}
   .cname{color:#fff;font-size:24px;font-weight:600;max-width:240px;margin:0 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .csub{color:#8e8e93;font-size:12.5px;margin-top:5px}
+  .csub{color:#2f2b25;font-size:12.5px;margin-top:5px}
   .actionrow{display:flex;justify-content:center;gap:44px;margin:26px 0 8px}
   .act{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer}
   .act .acircle{
@@ -164,26 +164,26 @@
     border-bottom:.5px solid rgba(255,255,255,.14);cursor:pointer;
   }
   .crow .cl{color:#fff;font-size:16px}
-  .crow .cr{color:#8e8e93;font-size:15px;display:flex;align-items:center;gap:6px}
-  .crow .chevsm{width:8px;height:8px;border-right:2px solid #5a5a5e;border-bottom:2px solid #5a5a5e;transform:rotate(-45deg)}
+  .crow .cr{color:#2f2b25;font-size:15px;display:flex;align-items:center;gap:6px}
+  .crow .chevsm{width:8px;height:8px;border-right:2px solid #bdb6a1;border-bottom:2px solid #bdb6a1;transform:rotate(-45deg)}
   .crow.key .cl{color:#0a84ff}
   /* 草稿箱 */
   .draft{
-    background:#1c1c1e;border-radius:12px;padding:13px 16px;margin-bottom:10px;cursor:pointer;
+    background:#e2ddcc;border-radius:12px;padding:13px 16px;margin-bottom:10px;cursor:pointer;
     transition:background .3s;
   }
-  .draft:active{background:#2c2c2e}
-  .draft .dt{font-size:10.5px;color:#8e8e93;margin-bottom:5px}
+  .draft:active{background:#e5e0cf}
+  .draft .dt{font-size:10.5px;color:#2f2b25;margin-bottom:5px}
   .draft .db{color:#fff;font-size:15px;line-height:1.6;white-space:pre-wrap}
   .draft.key .db{color:#0a84ff}
   .linkline{color:#0a84ff;text-decoration:none;font-size:13px}
   .sheettitle{color:#fff;font-size:20px;font-weight:700;text-align:center;margin-top:18px}
-  .sheetsub{color:#8e8e93;font-size:12.5px;text-align:center;margin-top:5px;margin-bottom:20px}
+  .sheetsub{color:#2f2b25;font-size:12.5px;text-align:center;margin-top:5px;margin-bottom:20px}
   /* 手机框内不要月光装饰 */
   .moon{display:none !important}
   /* 撤回气泡的尾巴也是灰色 */
   .bub.removed::after{
-    background:#1c1c1e;
+    background:#e2ddcc;
   }
   /* 问卦按钮收进手机框内 */
   #divbtn{
@@ -191,10 +191,10 @@
     bottom:88px;left:14px;width:auto;height:auto;z-index:35;
     background:rgba(28,28,30,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
     border:.5px solid rgba(255,255,255,.14);border-radius:99px;
-    color:#8e8e93;font-size:12px;letter-spacing:2px;padding:6px 14px;
+    color:#2f2b25;font-size:12px;letter-spacing:2px;padding:6px 14px;
     font-family:inherit;
   }
-  #divbtn:hover{color:#d0d0d4;border-color:rgba(255,255,255,.3)}
+  #divbtn:hover{color:#524c40;border-color:rgba(255,255,255,.3)}
   .glitch{animation:glitch .18s steps(2) 3}
   /* 消息入场：新气泡轻轻浮上来 */
   @keyframes popin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -203,7 +203,7 @@
   @keyframes bjump{0%,100%{transform:scale(1)}40%{transform:scale(1.35)}}
   .navbadge.jump{animation:bjump .4s ease}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 
 <div class="iphone">
@@ -341,7 +341,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -542,8 +542,8 @@ function main(){
       r.innerHTML = "<span style='color:#0a84ff'>找到 1 条相关结果——但它从来没有被发送过。在 ⓘ → 草稿箱。</span>";
       DJ.flag("hint_draft");
     }
-    else if (q.includes("为什么")) r.innerHTML = "<span style='color:#8e8e93'>没有找到「为什么」的结果。</span>";
-    else if (q.includes("还好")) r.innerHTML = "<span style='color:#8e8e93'>「还好」在这段对话里出现过 24 次。全部是在回答。</span>";
+    else if (q.includes("为什么")) r.innerHTML = "<span style='color:#2f2b25'>没有找到「为什么」的结果。</span>";
+    else if (q.includes("还好")) r.innerHTML = "<span style='color:#2f2b25'>「还好」在这段对话里出现过 24 次。全部是在回答。</span>";
     else if (q.includes("顺其自然")) r.innerHTML = "<span style='color:#ff453a'>搜索结果：还不急。</span>";
     else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。地图上查到了它：青云观 · 有求必应。 <a href='guanyun.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
     else if (q.includes("博客") || q.includes("小号") || q.includes("北屋") || q.includes("碎碎念")) r.innerHTML = "<span style='color:#0a84ff'>找到一个号。「北屋」。粉丝 0，访问 8 次。最后更新：今天。 <a href='blog.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";

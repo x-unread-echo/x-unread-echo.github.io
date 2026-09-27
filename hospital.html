@@ -4,27 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>北岭市第八医院 · 心理睡眠医学中心 · 网上服务平台</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
   body{background:#eef1f4;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a3340}
   .hwrap{max-width:880px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(30,50,90,.12)}
   /* 院徽头 */
-  .htop{background:linear-gradient(135deg,#1d5fa8 0%,#123c6e 100%);color:#fff;padding:18px 26px;
+  .htop{background:linear-gradient(135deg,#ebe7d7 0%,#e6e1d1 100%);color:#fff;padding:18px 26px;
     display:flex;align-items:center;gap:14px}
   .hcross{width:40px;height:40px;background:#fff;border-radius:8px;position:relative;flex-shrink:0}
-  .hcross::before,.hcross::after{content:"";position:absolute;background:#1d5fa8}
+  .hcross::before,.hcross::after{content:"";position:absolute;background:#ebe7d7}
   .hcross::before{left:16px;top:6px;width:8px;height:28px}
   .hcross::after{left:6px;top:16px;width:28px;height:8px}
   .htop h1{font-size:19px;letter-spacing:2px;font-weight:600}
   .htop .sub1{font-size:11px;opacity:.75;letter-spacing:3px;margin-top:3px}
   .htop .r{text-align:right;margin-left:auto;font-size:11px;opacity:.8;line-height:1.9}
   /* 导航 */
-  .hnav{background:#f5f8fb;border-bottom:2px solid #1d5fa8;display:flex;gap:0;flex-wrap:wrap}
+  .hnav{background:#f5f8fb;border-bottom:2px solid #bcb49f;display:flex;gap:0;flex-wrap:wrap}
   .hnav span{padding:10px 22px;font-size:13.5px;color:#3c5570;letter-spacing:2px;cursor:pointer;
     border-right:1px solid #e2e9f2}
   .hnav span:hover,.hnav span.on{background:#fff;color:#1d5fa8;font-weight:600}
   /* 轮播位 */
-  .banner{background:linear-gradient(120deg,#28486e,#3a6ea8);color:#fff;padding:34px 30px;position:relative;overflow:hidden}
+  .banner{background:linear-gradient(120deg,#e8e4d3,#eeeada);color:#fff;padding:34px 30px;position:relative;overflow:hidden}
   .banner h2{font-size:24px;letter-spacing:4px;font-weight:600;margin-bottom:10px}
   .banner p{font-size:13px;opacity:.85;letter-spacing:2px;line-height:2}
   .banner .deco{position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;
@@ -32,7 +32,7 @@
   .banner .deco2{position:absolute;right:60px;bottom:-50px;width:120px;height:120px;border-radius:50%;
     background:rgba(255,255,255,.05)}
   /* 通知栏 */
-  .notice{border-bottom:1px solid #e2e9f2;padding:10px 26px;font-size:12px;color:#8a94a4;display:flex;gap:20px}
+  .notice{border-bottom:1px solid #e2e9f2;padding:10px 26px;font-size:12px;color:#312d27;display:flex;gap:20px}
   .notice b{color:#c0392b;font-weight:600}
   /* 主体 */
   .hbody{padding:26px;display:grid;grid-template-columns:1fr 250px;gap:26px}
@@ -45,36 +45,36 @@
   .qrow{display:flex;gap:10px;flex-wrap:wrap}
   .qrow input{flex:1;min-width:180px;border:1px solid #c6d2e0;border-radius:6px;padding:10px 14px;
     font-size:14px;letter-spacing:2px;outline:none}
-  .qrow input:focus{border-color:#1d5fa8}
-  .qrow button{background:#1d5fa8;color:#fff;border:none;border-radius:6px;padding:10px 26px;
+  .qrow input:focus{border-color:#bcb49f}
+  .qrow button{background:#ebe7d7;color:#fff;border:none;border-radius:6px;padding:10px 26px;
     font-size:14px;letter-spacing:3px;cursor:pointer}
-  .qrow button:hover{background:#123c6e}
-  .qhint{font-size:11.5px;color:#a4aebc;margin-top:8px;letter-spacing:1px}
+  .qrow button:hover{background:#e6e1d1}
+  .qhint{font-size:11.5px;color:#3f3a31;margin-top:8px;letter-spacing:1px}
   .qerr{color:#c0392b;font-size:12px;min-height:18px;margin-top:6px;letter-spacing:1px}
   /* 就诊记录 */
   #recs{display:none}
-  .rec{border-left:3px solid #1d5fa8;background:#f8fafc;border-radius:0 6px 6px 0;
+  .rec{border-left:3px solid #bcb49f;background:#f8fafc;border-radius:0 6px 6px 0;
     padding:13px 16px;margin-bottom:12px;animation:fadein .8s ease both}
   .rec .rdate{font-family:var(--mono);font-size:12px;color:#1d5fa8;letter-spacing:1px;margin-bottom:5px}
   .rec .rdate b{color:#c0392b}
   .rec p{font-size:13px;line-height:2;margin:2px 0}
-  .rec .label{color:#8a94a4;font-size:11.5px;letter-spacing:1px}
-  .rec.miss{border-left-color:#c0392b;background:#fdf6f5}
+  .rec .label{color:#312d27;font-size:11.5px;letter-spacing:1px}
+  .rec.miss{border-left-color:#bfb7a2;background:#fdf6f5}
   /* 手写备注 */
   .hand{font-family:"Kaiti SC","STKaiti","KaiTi",serif;color:#26466e;font-size:14px}
   .lastword{margin-top:18px;border-top:1px dashed #d5dde8;padding-top:16px;font-size:13.5px;
     color:#3c4a5c;line-height:2.3;letter-spacing:1px}
   .lastword em{color:#c0392b;font-style:normal;font-weight:600}
   .goecho{display:none;margin-top:16px;text-align:center}
-  .goecho button{background:none;border:1px solid #1d5fa8;color:#1d5fa8;border-radius:6px;
+  .goecho button{background:none;border:1px solid #bcb49f;color:#1d5fa8;border-radius:6px;
     padding:11px 30px;font-size:14px;letter-spacing:4px;cursor:pointer}
-  .goecho button:hover{background:#1d5fa8;color:#fff}
+  .goecho button:hover{background:#ebe7d7;color:#fff}
   /* 侧栏 */
   .side .card2 .inner{font-size:12.5px;line-height:2.2;color:#6a7686;padding:14px 18px}
   .side b{color:#1d5fa8}
-  .hfoot{border-top:1px solid #e2e9f2;padding:16px 26px;font-size:11px;color:#a4aebc;letter-spacing:1.5px;line-height:2}
+  .hfoot{border-top:1px solid #e2e9f2;padding:16px 26px;font-size:11px;color:#3f3a31;letter-spacing:1.5px;line-height:2}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="hwrap">
   <div class="htop">
@@ -141,7 +141,7 @@
           心理睡眠医学中心<br>
           出诊：每周三 夜间诊<br>
           患者评价：「问得很少，听得多。」<br>
-          <span style="color:#a4aebc">（评价共 1 条）</span>
+          <span style="color:#3f3a31">（评价共 1 条）</span>
         </div>
       </div>
       <div class="card2">
@@ -161,7 +161,7 @@
   </div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(10)) main();
 function main(){

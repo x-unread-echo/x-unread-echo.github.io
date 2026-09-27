@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>猫屋 — 同城领养 · 银灰卷毛</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
   body{background:#f2f4f7;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .a-wrap{max-width:460px;margin:0 auto;padding:4vh 18px 90px}
   .a-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
   .a-logo{font-size:20px;font-weight:700;letter-spacing:2px}
   .a-logo b{color:#e0864f}
-  .a-city{font-size:12px;color:#8b93a3}
+  .a-city{font-size:12px;color:#312d27}
   /* 卡片 */
   .card{background:#fff;border-radius:14px;box-shadow:0 3px 16px rgba(30,50,90,.08);overflow:hidden;margin-bottom:16px}
   .photo{height:190px;position:relative;
-    background:linear-gradient(140deg,#b9bfc9 0%,#9aa2af 45%,#7d8593 100%)}
+    background:linear-gradient(140deg,#b9bfc9 0%,#9aa2af 45%,#b6ae99 100%)}
   .photo .cat{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);font-size:100px;filter:grayscale(.6) contrast(.9)}
   .photo .un{position:absolute;top:12px;right:14px;background:rgba(0,0,0,.45);color:#eee;font-size:10px;
     padding:4px 8px;border-radius:4px;letter-spacing:1px}
@@ -23,7 +23,7 @@
   .c-title{font-size:16px;font-weight:700;letter-spacing:1px}
   .c-tags{margin:8px 0 10px}
   .c-tags span{display:inline-block;font-size:11px;color:#6a7386;background:#eef1f5;border-radius:4px;padding:3px 8px;margin-right:6px}
-  .c-loc{font-size:12px;color:#8b93a3;display:flex;align-items:center;gap:5px}
+  .c-loc{font-size:12px;color:#312d27;display:flex;align-items:center;gap:5px}
   .c-loc .moved{color:#c0564f;font-weight:700}
   .c-btn{margin-top:12px;width:100%;border:none;background:#e0864f;color:#fff;border-radius:8px;
     padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer}
@@ -44,7 +44,7 @@
   .bub .tx em{color:#c0564f;font-style:normal;font-weight:700}
   .bub .tx .tap{border-bottom:1px dashed #8b93a3;cursor:pointer}
   .bub .tx .tap:hover{color:#4a7dd6}
-  .bub .time{font-size:10px;color:#b3bac7;align-self:flex-end;margin:0 6px}
+  .bub .time{font-size:10px;color:#464036;align-self:flex-end;margin:0 6px}
   /* 矛盾计数 */
   .cbar{padding:0 16px 14px;font-size:12px;color:#6a7386;letter-spacing:1px}
   .cbar b{color:#c0564f}
@@ -55,48 +55,48 @@
   #map{display:none;margin-top:16px}
   #map.on{display:block;animation:fadein 1.2s}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
-  .mapbox{height:230px;background:#060a12;border-radius:14px;position:relative;overflow:hidden}
+  .mapbox{height:230px;background:#e0dac8;border-radius:14px;position:relative;overflow:hidden}
   .mapbox .grid{position:absolute;inset:0;
-    background-image:linear-gradient(#141c2c 1px,transparent 1px),linear-gradient(90deg,#141c2c 1px,transparent 1px);
+    background-image:linear-gradient(#e2ddcb 1px,transparent 1px),linear-gradient(90deg,#e2ddcb 1px,transparent 1px);
     background-size:34px 34px}
   .mapbox .dot{position:absolute;left:38%;top:52%;width:10px;height:10px;border-radius:50%;background:#e05555;
     box-shadow:0 0 0 6px rgba(224,85,85,.15),0 0 24px 8px rgba(224,85,85,.25);animation:pulse 2s infinite}
   @keyframes pulse{50%{box-shadow:0 0 0 12px rgba(224,85,85,.08),0 0 30px 12px rgba(224,85,85,.18)}}
-  .mapbox .coord{position:absolute;left:16px;bottom:14px;color:#8a93a8;font-size:12px;letter-spacing:2px;font-family:"Courier New",monospace}
+  .mapbox .coord{position:absolute;left:16px;bottom:14px;color:#312d27;font-size:12px;letter-spacing:2px;font-family:"Courier New",monospace}
   .mapbox .coord em{color:#e05555;font-style:normal}
   .mapnote{margin-top:12px;font-size:12.5px;color:#5a6274;line-height:2;text-align:center}
   .mapnote em{color:#c0564f;font-style:normal}
-  .mapgo{margin-top:12px;width:100%;border:1px solid #33415e;background:none;color:#2a2f3a;border-radius:8px;
+  .mapgo{margin-top:12px;width:100%;border:1px solid #b7af9b;background:none;color:#2a2f3a;border-radius:8px;
     padding:11px;font-size:14px;letter-spacing:3px;cursor:pointer}
-  .mapgo:hover{border-color:#c0564f;color:#c0564f}
+  .mapgo:hover{border-color:#c4bca7;color:#c0564f}
   /* 卫星图三连放大 */
   #sat{display:none;margin-top:16px}
   #sat.on{display:block;animation:fadein 1.2s}
-  .satbox{height:270px;background:#05080f;border-radius:14px;position:relative;overflow:hidden;
-    cursor:zoom-in;border:1px solid #1a2436}
+  .satbox{height:270px;background:#dfd9c8;border-radius:14px;position:relative;overflow:hidden;
+    cursor:zoom-in;border:1px solid #b0a894}
   .satbox .dunes{position:absolute;inset:-30%;transition:transform 1.4s ease;background:
-    radial-gradient(ellipse 60% 16% at 30% 62%, #111826 0%, transparent 60%),
-    radial-gradient(ellipse 50% 13% at 72% 38%, #0d1320 0%, transparent 60%),
-    radial-gradient(ellipse 70% 18% at 48% 82%, #0a0f1a 0%, transparent 55%),
-    radial-gradient(ellipse 40% 10% at 18% 30%, #0c1220 0%, transparent 60%),
-    #060a12}
+    radial-gradient(ellipse 60% 16% at 30% 62%, #e2dccb 0%, transparent 60%),
+    radial-gradient(ellipse 50% 13% at 72% 38%, #e1dbca 0%, transparent 60%),
+    radial-gradient(ellipse 70% 18% at 48% 82%, #e0dbc9 0%, transparent 55%),
+    radial-gradient(ellipse 40% 10% at 18% 30%, #e1dbca 0%, transparent 60%),
+    #e0dac8}
   .satbox.z1 .dunes{transform:scale(1.7) translate(4%, -3%)}
   .satbox.z2 .dunes{transform:scale(2.7) translate(8%, -6%)}
   .track{position:absolute;left:6%;top:36%;width:112%;height:3px;
-    background:linear-gradient(90deg,transparent,#232f45 18%,#2e3d59 50%,#232f45 82%,transparent);
+    background:linear-gradient(90deg,transparent,#e5e0cf 18%,#e7e2d2 50%,#e5e0cf 82%,transparent);
     transform:rotate(18deg);box-shadow:0 1px 0 #10161f}
-  .ruin{position:absolute;background:#10182a;border:1px solid #1c2740}
+  .ruin{position:absolute;background:#e2dccb;border:1px solid #b1a995}
   .satbox .r1{left:30%;top:38%;width:62px;height:44px;transform:rotate(-6deg)}
   .satbox .r2{left:58%;top:52%;width:84px;height:30px;transform:rotate(3deg)}
   .satbox .r3{left:44%;top:60%;width:36px;height:54px;transform:rotate(10deg)}
-  .satcap{position:absolute;left:0;right:0;bottom:12px;text-align:center;color:#8a93a8;
+  .satcap{position:absolute;left:0;right:0;bottom:12px;text-align:center;color:#312d27;
     font-size:12.5px;letter-spacing:2px;line-height:1.9;padding:0 20px;text-shadow:0 1px 4px #000}
   .satcap em{color:#e05555;font-style:normal}
   .satdot{position:absolute;left:52%;top:45%;width:9px;height:9px;border-radius:50%;background:#f5f2e8;
     cursor:pointer;display:none;
     box-shadow:0 0 0 5px rgba(245,242,232,.12),0 0 18px 6px rgba(245,242,232,.35);animation:pulse 2s infinite}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="a-wrap">
   <div class="a-head">
@@ -117,7 +117,7 @@
   <div class="card" id="chatcard">
     <div class="cc-h"><span>与「北大王猫舍888」的对话</span><span class="warn">⚠ 该账号已更换 8 次昵称</span></div>
     <div class="cc-body" id="ccbody"></div>
-    <div class="cbar">对不上的地方：<b id="cnum">0</b> / 3 &nbsp;<span style="color:#b3bac7">（点那些说不过去的字）</span></div>
+    <div class="cbar">对不上的地方：<b id="cnum">0</b> / 3 &nbsp;<span style="color:#464036">（点那些说不过去的字）</span></div>
     <button id="report">举 报 该 用 户</button>
   </div>
 
@@ -148,7 +148,7 @@
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(7)) main();
 function main(){

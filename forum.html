@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>倒影小组 - Reflexion BBS - 2025</title>
 <!-- 你看到这里了。你看东西，总是越过表面。 -->
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
   /* ===== 老旧中文论坛风（2000 年代末 · 宋体 · 蓝链接 · 白底表格） ===== */
   body{background:#cdd3db;color:#000}
@@ -14,9 +14,9 @@
   .moon{display:none}
   #envhint{color:#555;text-shadow:none}
   #divbtn.corner{background:#fff;color:#555;border:1px solid #9aa7b8}
-  #divbtn.corner:hover{color:#000;border-color:#33589b;box-shadow:none}
+  #divbtn.corner:hover{color:#000;border-color:#bcb49f;box-shadow:none}
   /* 表头：老论坛的蓝色横幅 */
-  .fhdr{background:linear-gradient(#e9f0f9,#cfdeef);border-bottom:2px solid #33589b;
+  .fhdr{background:linear-gradient(#e9f0f9,#cfdeef);border-bottom:2px solid #bcb49f;
     padding:14px 14px 10px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 -14px}
   .fhdr h1{color:#1c3d7c;font-family:"SimHei","黑体","Microsoft YaHei",sans-serif;
     font-size:27px;font-weight:700;letter-spacing:5px;white-space:nowrap}
@@ -25,8 +25,8 @@
     .fhdr{flex-direction:column;gap:2px;align-items:flex-start}
     .fhdr h1{font-size:22px;letter-spacing:4px}
   }
-  .navbar{background:linear-gradient(#4a79c2,#33589b);border-bottom:2px solid #22447e;
-    padding:7px 12px;font-size:13px;color:#dce6f5;display:flex;gap:16px;flex-wrap:wrap;margin:0 -14px}
+  .navbar{background:linear-gradient(#4a79c2,#ebe7d7);border-bottom:2px solid #b7af9b;
+    padding:7px 12px;font-size:13px;color:#5d5648;display:flex;gap:16px;flex-wrap:wrap;margin:0 -14px}
   .navbar a{color:#fff;text-decoration:none;letter-spacing:2px;font-weight:700}
   .navbar a:hover{color:#ffe37a;text-decoration:underline}
   /* 帖子列表：加粗大标题 · 虚线分隔 · 经典蓝链接 */
@@ -65,15 +65,15 @@
   #butterflyBig{width:200px;cursor:pointer;user-select:none;transition:filter .4s}
   #butterflyBig:hover{filter:drop-shadow(0 0 8px rgba(0,0,0,.3))}
   #burnWord{color:#c00;opacity:0;transition:opacity 2s;letter-spacing:6px;font-size:16px;margin-top:10px;font-weight:700}
-  .mirror8{width:150px;height:190px;border:4px solid #4a4a4a;border-radius:0;margin:16px auto;
-    background:linear-gradient(135deg,#1a2436 0%,#0d1420 60%,#22314d 100%);position:relative;overflow:hidden}
+  .mirror8{width:150px;height:190px;border:4px solid #b9b29d;border-radius:0;margin:16px auto;
+    background:linear-gradient(135deg,#e3decd 0%,#e1dbca 60%,#e5e0d0 100%);position:relative;overflow:hidden}
   .mirror8::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 45%,transparent 60%)}
   .verdict{background:#fffbe8;border:1px dashed #b8a35a;padding:18px;margin-top:12px}
   .verdict .num{font-family:var(--mono);color:#a03028;font-size:32px;letter-spacing:2px;font-weight:700}
   .trashlink{color:#999;font-size:11px;letter-spacing:2px;cursor:pointer;text-decoration:underline dotted}
   .center{color:#555}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="moon"></div>
 
@@ -180,7 +180,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(5)) main();
 function main(){
@@ -189,7 +189,7 @@ function main(){
 
   /* 蝴蝶局部头像（八块拼图） */
   const bpart = (r,fill) => `<svg width="30" height="30" viewBox="0 0 24 24"><g transform="translate(${-r*6},0)"><g fill="${fill}"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></g></svg>`;
-  const fills = ["#3f5378","#5a6a84","#33415e","#4a6285","#2c3a52","#55647e","#45526b","#243550"];
+  const fills = ["#3f5378","#5a6a84","#ede9d9","#4a6285","#ebe7d7","#55647e","#45526b","#eae5d5"];
 
   const users = ["深水无鱼","静音模式","北岛以北","倒影先生","未命名文件夹","凌晨四点的鲸","无人接听","白噪"];
   const titles = [
@@ -390,7 +390,7 @@ ${bodies[i]}</div>
       <div class="postbody">今天在废墟里拍到的一只蝴蝶。黑白。本来想调色，后来觉得黑白更好。</div>
       <div style="text-align:center;margin:18px 0">
         <div id="butterflyBig">
-          <svg width="200" height="160" viewBox="0 0 24 24"><g fill="#3a3a3a"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></svg>
+          <svg width="200" height="160" viewBox="0 0 24 24"><g fill="#ece7d7"><path d="M12 12 C9 6, 3 5, 3 10 C3 14, 8 14, 11 12.5 Z"/><path d="M12 12 C15 6, 21 5, 21 10 C21 14, 16 14, 13 12.5 Z"/><ellipse cx="12" cy="13" rx="1.2" ry="3.2"/></g></svg>
         </div>
         <div id="burnWord">三刻</div>
       </div></div></div>`;
@@ -500,7 +500,7 @@ ${bodies[i]}</div>
     a.style.margin = "0 3px";
     a.onclick = e => {
       e.preventDefault();
-      if (i === 8){ openFloor8(); } else { DJ.sfx.err(); a.style.color = "#33415e"; }
+      if (i === 8){ openFloor8(); } else { DJ.sfx.err(); a.style.color = "#ede9d9"; }
     };
     nums.appendChild(a);
   }
@@ -521,7 +521,7 @@ ${bodies[i]}</div>
       for (let r = 0; r < 8; r++){
         html += `<div class="floor"><div class="favatar" style="background:#e6eaf2"></div>
           <div style="flex:1"><div class="fhead">${71+r}楼 · 匿名</div>
-          <div class="reply" style="color:#a8a8a8">该楼层仅对特定成员可见。</div></div></div>`;
+          <div class="reply" style="color:#3d382f">该楼层仅对特定成员可见。</div></div></div>`;
       }
       html += `<div class="verdict"><div class="small" style="letter-spacing:1px">
         这一页不看陌生人。它数过你身上的证据——还差 ${missing.length} 样。<br><br>
@@ -583,7 +583,7 @@ ${bodies[i]}</div>
     const key = el.dataset.hall;
     const av = el.querySelector(".tavatar");
     if (key === "butterfly") av.innerHTML = bpart(0, fills[0]);
-    else if (key === "locked") av.innerHTML = `<svg width="30" height="30" viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="9" rx="1.5" fill="none" stroke="#33415e" stroke-width="1.6"/><path d="M8.5 10 V7.5 a3.5 3.5 0 0 1 7 0 V10" fill="none" stroke="#33415e" stroke-width="1.6"/></svg>`;
+    else if (key === "locked") av.innerHTML = `<svg width="30" height="30" viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="9" rx="1.5" fill="none" stroke="#ede9d9" stroke-width="1.6"/><path d="M8.5 10 V7.5 a3.5 3.5 0 0 1 7 0 V10" fill="none" stroke="#ede9d9" stroke-width="1.6"/></svg>`;
     else av.innerHTML = bpart(parseInt(key), fills[parseInt(key)]);
     el.onclick = () => {
       if (key === "butterfly") { butterflyPost(); }

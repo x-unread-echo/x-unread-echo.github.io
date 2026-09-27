@@ -4,38 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FM 08.8 · 深夜电台</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
-  body{background:#06090f;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  body{background:#dfdac8;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
   .radioBox{width:min(520px,92vw);text-align:center;position:relative;padding:20px 0 60px}
-  .dial{display:flex;justify-content:space-between;align-items:center;border:1px solid #1c2c4a;
-    background:#0b1220;border-radius:12px;padding:14px 22px;margin-bottom:34px}
-  .dial .freq{font-family:var(--mono);font-size:26px;color:#dfe5ee;letter-spacing:4px}
+  .dial{display:flex;justify-content:space-between;align-items:center;border:1px solid #b2aa96;
+    background:#e1dbca;border-radius:12px;padding:14px 22px;margin-bottom:34px}
+  .dial .freq{font-family:var(--mono);font-size:26px;color:#5d5648;letter-spacing:4px}
   .dial .freq em{color:#4f8f8b;font-style:normal}
-  .dial .on-air{font-size:10px;color:#c0564f;letter-spacing:4px;border:1px solid #3a2226;
+  .dial .on-air{font-size:10px;color:#c0564f;letter-spacing:4px;border:1px solid #b2a995;
     padding:3px 10px;border-radius:3px;animation:air 2.4s infinite}
   @keyframes air{50%{opacity:.35}}
-  .scale{height:26px;background:repeating-linear-gradient(90deg,#1c2c4a 0 1px,transparent 1px 14px);
+  .scale{height:26px;background:repeating-linear-gradient(90deg,#e5dfcf 0 1px,transparent 1px 14px);
     border-radius:3px;position:relative;margin-top:12px}
   .scale i{position:absolute;top:-4px;left:88%;width:2px;height:12px;background:#4f8f8b;
     box-shadow:0 0 8px rgba(79,143,139,.6)}
   .stage{min-height:180px;display:flex;flex-direction:column;justify-content:center}
   #night{font-size:11px;color:#42536f;letter-spacing:4px;margin-bottom:16px}
-  #line{font-size:17px;color:#c9d6ea;letter-spacing:2px;line-height:2.1;min-height:76px;
+  #line{font-size:17px;color:#544e42;letter-spacing:2px;line-height:2.1;min-height:76px;
     white-space:pre-wrap;font-family:"Songti SC","SimSun",serif}
   #line.glitch{animation:gl .5s steps(2) infinite}
-  #line.speaking{color:#dfe5ee;text-shadow:0 0 18px rgba(174,191,216,.25)}
+  #line.speaking{color:#5d5648;text-shadow:0 0 18px rgba(174,191,216,.25)}
   @keyframes gl{50%{opacity:.55;transform:translateX(1px)}}
   #static{font-size:10px;color:#2c3a55;letter-spacing:6px;margin-top:14px;min-height:16px}
   .ctl{margin-top:30px;display:flex;gap:14px;justify-content:center}
-  .knob{border:1px solid #2c3a52;background:#0b1220;color:#8fa0bd;border-radius:99px;
+  .knob{border:1px solid #b5ad99;background:#e1dbca;color:#38332b;border-radius:99px;
     padding:10px 26px;font-size:13px;letter-spacing:4px;cursor:pointer;transition:all .25s}
-  .knob:hover{border-color:#4f8f8b;color:#dfe5ee}
+  .knob:hover{border-color:#c5bea8;color:#5d5648}
   .knob.off{display:none}
-  #offBtn{border-color:#3a2226;color:#c0564f}
-  #offBtn:hover{border-color:#c0564f}
+  #offBtn{border-color:#b2a995;color:#c0564f}
+  #offBtn:hover{border-color:#c4bca7}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="moon"></div>
 <div class="radioBox">
@@ -54,7 +54,7 @@
   </div>
 </div>
 <div id="envhint"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(9)) main();
 function main(){

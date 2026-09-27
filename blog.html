@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>嘀咕</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
   body{background:#f2f2f5;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333;min-height:100vh}
   .moon{display:none !important}
@@ -23,7 +23,7 @@
   .logo{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;user-select:none}
   .logo b{font-size:24px;color:#ff8200;font-weight:800}
   .navsearch{margin:4px 14px 14px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;
-    padding:9px 16px;color:#9a9a9a;font-size:13.5px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:text}
+    padding:9px 16px;color:#35312a;font-size:13.5px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:text}
   .navlist{display:flex;flex-direction:column;gap:2px}
   .nitem{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:999px;font-size:16px;color:#333;
     cursor:pointer;transition:background .15s}
@@ -34,7 +34,7 @@
   /* ---------- 卡片 ---------- */
   .card{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
   .card .ch{padding:14px 18px;font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:baseline}
-  .card .ch small{font-size:11.5px;color:#b8b8b8;font-weight:400}
+  .card .ch small{font-size:11.5px;color:#454036;font-weight:400}
 
   /* ---------- 发帖框 ---------- */
   .compose{display:flex;gap:12px;padding:16px 18px;align-items:flex-start}
@@ -45,17 +45,17 @@
   .compose .cava{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;cursor:zoom-in}
   .compose .cava img{width:100%;height:100%;object-fit:cover}
   .cright{flex:1}
-  .cinput{background:#f2f2f5;border-radius:10px;padding:12px 14px;font-size:14.5px;color:#9a9a9a;cursor:text}
+  .cinput{background:#f2f2f5;border-radius:10px;padding:12px 14px;font-size:14.5px;color:#35312a;cursor:text}
   .ctools{display:flex;align-items:center;gap:16px;margin-top:12px;padding:0 4px}
   .ctools span{color:#8a8a8a;cursor:pointer;display:flex}
   .ctools span:hover{color:#ff8200}
   .cbtn{margin-left:auto;background:#ff8200;color:#fff;border:none;border-radius:999px;padding:8px 20px;
     font-size:13.5px;cursor:pointer;font-weight:600}
   .cbtn:hover{background:#f07600}
-  .cnote{font-size:11.5px;color:#b8b8b8;margin-top:8px;min-height:1.4em}
+  .cnote{font-size:11.5px;color:#454036;margin-top:8px;min-height:1.4em}
 
   /* ---------- 个人主页卡（右栏） ---------- */
-  .pcov{height:88px;background:linear-gradient(120deg,#3c4a58,#6a7d8e);border-radius:14px 14px 0 0;position:relative;overflow:hidden}
+  .pcov{height:88px;background:linear-gradient(120deg,#e9e4d4,#ada491);border-radius:14px 14px 0 0;position:relative;overflow:hidden}
   .pcov svg{position:absolute;right:16px;top:14px;width:56px;opacity:.16}
   .pava{width:72px;height:72px;border-radius:8px;border:3px solid #fff;margin:-42px 0 0 16px;background:#fff;
     box-shadow:0 2px 8px rgba(0,0,0,.15);overflow:hidden;cursor:zoom-in;position:relative;z-index:1}
@@ -101,8 +101,8 @@
   .wnamerow{display:flex;align-items:center;gap:8px}
   .wname{font-size:15px;font-weight:700;color:#333;cursor:pointer}
   .wname:hover{color:#ff8200}
-  .wlock{font-size:11px;color:#b8b8b8;border:1px solid #e8e8e8;border-radius:4px;padding:0 5px;background:#fafafa}
-  .wtime{font-size:12px;color:#9a9a9a;margin-top:2px}
+  .wlock{font-size:11px;color:#454036;border:1px solid #e8e8e8;border-radius:4px;padding:0 5px;background:#fafafa}
+  .wtime{font-size:12px;color:#35312a;margin-top:2px}
   .wtext{font-size:15px;line-height:1.85;margin-top:8px;white-space:pre-line;word-break:break-all;color:#333}
   .wtext .deep{color:#eb735;cursor:pointer}
   .wtext .deep:hover{text-decoration:underline}
@@ -137,7 +137,7 @@
   .wcinput button:hover{background:#f07600}
   .wcnote{font-size:11.5px;color:#999;margin-top:6px;min-height:1.5em}
 
-  .foot{font-size:12px;color:#9a9a9a;padding:10px 6px;line-height:2}
+  .foot{font-size:12px;color:#35312a;padding:10px 6px;line-height:2}
   .foot a{color:#507daf;text-decoration:none;margin-right:10px;cursor:pointer}
 
   .lbx{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
@@ -158,12 +158,12 @@
   .flash{animation:hotflash 1.2s ease 2}
   @keyframes hotflash{0%,100%{box-shadow:0 1px 4px rgba(0,0,0,.05)}50%{box-shadow:0 0 0 3px rgba(255,130,0,.4)}}
   /* 陌生人评论：已注销 */
-  .wcmt b.gone{text-decoration:line-through;color:#9a9a9a}
+  .wcmt b.gone{text-decoration:line-through;color:#35312a}
   .gtag{font-size:10.5px;color:#bbb;border:1px solid #e8e8e8;border-radius:4px;padding:0 4px;margin-left:6px;background:#fafafa}
   .gava{width:28px;height:28px;border-radius:50%;background:#d8dde3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
   .wcmt .dlink{color:#eb735;cursor:pointer;border-bottom:1px dashed #eb735}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="moon"></div>
 
@@ -252,7 +252,7 @@
 <div class="npop" id="npop"></div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
 
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -539,7 +539,7 @@ function main(){
     { t:"倒影小组", d:"审了三年还没审完",       go:"forum.html",    c:5,  col:"#6bbd8f", i:"倒" },
     { t:"云屉网盘", d:"八年的东西都在里面",     go:"cloud.html",    c:8,  col:"#8d8dd9", i:"云" },
     { t:"拾光机",   d:"网页存档馆 · 让消失的有处可回", go:"snapshot.html", c:1,  col:"#5b8db8", i:"拾" },
-    { t:"深夜电台", d:"每天亥时开播",           go:"radio.html",    c:9,  col:"#4a4a4a", i:"波" },
+    { t:"深夜电台", d:"每天亥时开播",           go:"radio.html",    c:9,  col:"#efebdc", i:"波" },
     { t:"网上医院", d:"夜间门诊八点零八分开放", go:"hospital.html", c:10, col:"#e08888", i:"医" },
     { t:"一面墙",   d:"写满了别人的心事",       go:"board.html",    c:10, col:"#b0a58a", i:"墙" }
   ];

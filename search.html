@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>搜搜 — 搜点正经的</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
   body{background:#f4f6fa;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .s-wrap{max-width:640px;margin:0 auto;padding:8vh 20px 80px}
   .s-logo{text-align:center;font-size:38px;font-weight:700;letter-spacing:6px;color:#2a2f3a}
   .s-logo b{color:#4a7dd6}
-  .s-logo .sm{display:block;font-size:11px;color:#8b93a3;letter-spacing:3px;margin-top:4px;font-weight:400}
+  .s-logo .sm{display:block;font-size:11px;color:#312d27;letter-spacing:3px;margin-top:4px;font-weight:400}
   .s-box{display:flex;margin:34px 0 14px;box-shadow:0 4px 20px rgba(30,50,90,.10);border-radius:8px;overflow:hidden}
   .s-box input{flex:1;border:none;outline:none;padding:14px 18px;font-size:15px;background:#fff;color:#2a2f3a}
   .s-box button{border:none;background:#4a7dd6;color:#fff;padding:0 30px;letter-spacing:4px;cursor:pointer}
-  .s-box button:hover{background:#3a67bd}
+  .s-box button:hover{background:#eee9da}
   .sugg{margin:2px 2px 22px}
-  .sugg .sg-h{font-size:11px;color:#b3bac7;letter-spacing:2px;margin-bottom:8px}
+  .sugg .sg-h{font-size:11px;color:#464036;letter-spacing:2px;margin-bottom:8px}
   .sugg .sg-chip{display:inline-block;border:1px solid #e3e8f0;background:#fff;border-radius:99px;
     padding:6px 16px;margin:0 8px 8px 0;font-size:13px;color:#5a6274;cursor:pointer;letter-spacing:1px}
-  .sugg .sg-chip:hover{border-color:#4a7dd6;color:#4a7dd6}
+  .sugg .sg-chip:hover{border-color:#c4bda7;color:#4a7dd6}
   .results{min-height:200px}
   .r{margin-bottom:24px}
   .r .t{color:#1d3a8f;font-size:17px;cursor:pointer;text-decoration:none}
@@ -27,13 +27,13 @@
   .r .u{color:#3d8b5f;font-size:12px;margin:2px 0;letter-spacing:.5px}
   .r .d{color:#5a6274;font-size:13.5px;line-height:1.8}
   .r .d em{color:#c0564f;font-style:normal}
-  .s-foot{color:#a8b0bf;font-size:11px;text-align:center;margin-top:60px;letter-spacing:2px}
+  .s-foot{color:#413b32;font-size:11px;text-align:center;margin-top:60px;letter-spacing:2px}
   .ad{border:1px solid #e3e8f0;border-radius:8px;padding:14px 18px;margin-bottom:24px;background:#fff}
-  .ad .tag{font-size:10px;color:#8b93a3;border:1px solid #e3e8f0;border-radius:2px;padding:0 4px;margin-right:6px}
+  .ad .tag{font-size:10px;color:#312d27;border:1px solid #e3e8f0;border-radius:2px;padding:0 4px;margin-right:6px}
   .ad .t{color:#2a2f3a;font-size:15px}
-  .ad .d{color:#8b93a3;font-size:12.5px;margin-top:4px}
+  .ad .d{color:#312d27;font-size:12.5px;margin-top:4px}
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body>
 <div class="s-wrap">
   <div class="s-logo">搜搜<b>.</b><span class="sm">搜点正经的 · 全球第 8 大搜索引擎</span></div>
@@ -51,9 +51,9 @@
   <div class="s-foot">搜搜 Soso © 2025 · 找到约 8,080,808 条结果（0.08 秒）</div>
 </div>
 
-<button class="corner" style="color:#8b93a3;border-color:#d8dee9" id="backChat">‹ 未 读</button>
+<button class="corner" style="color:#312d27;border-color:#595245" id="backChat">‹ 未 读</button>
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){

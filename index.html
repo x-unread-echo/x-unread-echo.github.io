@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=85">
+<link rel="stylesheet" href="assets/style.css?v=86">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,26 +14,26 @@
     font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     min-height: 100vh;
   }
-  body.night { background:#0b0e16; color:#aebad0; }
+  body.night { background:#e0dac9; color:#464036; }
   .nvbar { background:#fff; border-bottom:1px solid #ececec; padding:0 5vw; height:52px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
-  body.night .nvbar { background:#10141f; border-bottom:1px solid #1d2436; }
+  body.night .nvbar { background:#e1dbca; border-bottom:1px solid #b0a894; }
   .nvlogo { font-size:16px; font-weight:600; color:#222; letter-spacing:.5px; }
-  body.night .nvlogo { color:#c9d4e8; }
+  body.night .nvlogo { color:#544d41; }
   .nvlogo em { font-style:normal; color:#aaa; font-size:11px; font-weight:400; margin-left:8px; }
   body.night .nvlogo em { color:#4a5570; }
   .nvlinks { display:flex; gap:20px; font-size:13px; }
   .nvlinks a { color:#888; text-decoration:none; }
   body.night .nvlinks a { color:#445072; }
   .nvlinks a.on { color:#111; font-weight:600; }
-  body.night .nvlinks a.on { color:#dfe7f5; }
+  body.night .nvlinks a.on { color:#5e5749; }
   .wrap { max-width:620px; margin:30px auto 70px; padding:0 18px; }
 
   .hero h1 { font-size:25px; color:#1a1a1a; font-weight:700; }
-  body.night .hero h1 { color:#dfe7f5; }
+  body.night .hero h1 { color:#5e5749; }
   .hero .sub { color:#8a8a8a; font-size:13.5px; margin-top:8px; }
   body.night .hero .sub { color:#4a5570; }
-  .statline { font-size:12px; color:#b5b5b5; border-top:1px solid #f0f0f0; border-bottom:1px solid #f0f0f0; padding:9px 2px; display:flex; gap:22px; margin:20px 0 24px; flex-wrap:wrap;}
-  body.night .statline { border-color:#1d2436; color:#3d4a68; }
+  .statline { font-size:12px; color:#443e35; border-top:1px solid #f0f0f0; border-bottom:1px solid #f0f0f0; padding:9px 2px; display:flex; gap:22px; margin:20px 0 24px; flex-wrap:wrap;}
+  body.night .statline { border-color:#b0a894; color:#3d4a68; }
   .statline b { color:#7a7a7a; font-weight:500; }
   body.night .statline b { color:#6c7ca3; }
 
@@ -41,22 +41,22 @@
   .sched { background:#fff; border:1px solid #ececec; border-radius:8px; padding:6px 0; }
   .row { display:flex; gap:16px; padding:11px 20px; border-bottom:1px solid #f5f5f5; font-size:14px; align-items:baseline; }
   .row:last-child { border-bottom:none; }
-  .row .tm { color:#b0b0b0; font-size:12.5px; min-width:52px; letter-spacing:.5px; }
+  .row .tm { color:#413c33; font-size:12.5px; min-width:52px; letter-spacing:.5px; }
   .row .what { color:#333; }
-  .row .what small { color:#b8b8b8; font-size:12px; margin-left:8px; }
+  .row .what small { color:#454036; font-size:12px; margin-left:8px; }
   .row.blank { background:#fcfcfc; }
-  .row.blank .what { color:#d8d8d8; letter-spacing:3px; }
+  .row.blank .what { color:#565043; letter-spacing:3px; }
   .row.noti .what { color:#8a4a44; letter-spacing:1px; }
 
   /* ---- 夜晚：树洞 ---- */
   .hole { display:flex; flex-direction:column; gap:14px; }
-  .hline { position:relative; padding:2px 0 2px 16px; font-size:14.5px; line-height:1.9; color:#aebad0; }
-  .hline::before { content:""; position:absolute; left:0; top:11px; width:6px; height:6px; border-radius:50%; background:#2c3a5c; }
+  .hline { position:relative; padding:2px 0 2px 16px; font-size:14.5px; line-height:1.9; color:#464036; }
+  .hline::before { content:""; position:absolute; left:0; top:11px; width:6px; height:6px; border-radius:50%; background:#e7e2d2; }
   .hline .ht { display:block; font-size:11px; color:#3d4a68; letter-spacing:1px; margin-bottom:3px; }
   .hline.unread::before { background:#c0564f; }
   .hline.unread .who { color:#c0564f; }
   .hline .who { color:#6c7ca3; margin-right:8px; }
-  .hline.glow { color:#dfe7f5; }
+  .hline.glow { color:#5e5749; }
 
   /* ---- 标签面板 ---- */
   .tabview { display:none; }
@@ -66,29 +66,29 @@
   .nvlinks a.on { pointer-events:none; }
 
   /* 待办 */
-  .todo .row .what::before { content:"◻ "; color:#c9c9c9; }
-  .todo .row.done .what::before { content:"◼ "; color:#dcdcdc; }
-  .todo .row.done .what { color:#bdbdbd; text-decoration:line-through; text-decoration-color:#e3e3e3; }
+  .todo .row .what::before { content:"◻ "; color:#4e483d; }
+  .todo .row.done .what::before { content:"◼ "; color:#585245; }
+  .todo .row.done .what { color:#484238; text-decoration:line-through; text-decoration-color:#5c5548; }
   .todo .row.noti .what::before { content:"◻ "; color:#c0392b; }
   .todonote { font-size:12px; color:#bbb; margin-top:12px; letter-spacing:1px; }
   body.night .todonote { color:#3d4a68; }
 
   /* 归档 */
   .arch .row .what { color:#666; }
-  .arch .row .what small { color:#c5c5c5; }
-  .archempty { font-size:13px; color:#c5c5c5; letter-spacing:2px; padding:16px 20px; }
+  .arch .row .what small { color:#4c463b; }
+  .archempty { font-size:13px; color:#4c463b; letter-spacing:2px; padding:16px 20px; }
   body.night .archempty { color:#3d4a68; }
 
   /* 共享设置 */
   .sharebox { background:#fff; border:1px solid #ececec; border-radius:8px; padding:18px 20px; display:flex; align-items:center; gap:14px; }
-  body.night .sharebox { background:#10141f; border-color:#1d2436; }
+  body.night .sharebox { background:#e1dbca; border-color:#b0a894; }
   .sharebox .avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#e8e8e8,#d3d3d3); flex-shrink:0; position:relative; overflow:hidden; }
-  body.night .sharebox .avatar { background:linear-gradient(135deg,#232c42,#161d30); }
+  body.night .sharebox .avatar { background:linear-gradient(135deg,#e5e0cf,#e3ddcc); }
   .sharebox .avatar::after { content:""; position:absolute; inset:0; background:linear-gradient(20deg,transparent 45%,rgba(255,255,255,.5) 50%,transparent 55%); }
   .sharebox .sinfo { flex:1; }
   .sharebox .sname { font-size:14px; color:#333; }
-  body.night .sharebox .sname { color:#aebad0; }
-  .sharebox .sperm { font-size:12px; color:#b5b5b5; margin-top:2px; }
+  body.night .sharebox .sname { color:#464036; }
+  .sharebox .sperm { font-size:12px; color:#443e35; margin-top:2px; }
   body.night .sharebox .sperm { color:#3d4a68; }
   .rmshare { font-size:12px; color:#c0392b; background:none; border:1px solid #e8c5c2; border-radius:14px; padding:5px 14px; cursor:pointer; font-family:inherit; }
   .rmshare:hover { background:#fdf3f2; }
@@ -101,8 +101,8 @@
     padding:12px 50px; border:none; border-radius:22px; cursor:default;
     letter-spacing:2px; transition:all .6s;
   }
-  body.night .cta { background:#1a2338; color:#3d4a68; border:1px solid #1d2436; }
-  .cta.lit, body.night .cta.lit { background:#c0392b; color:#fff; border-color:#c0392b; cursor:pointer; animation:breath 1.6s ease-in-out infinite; }
+  body.night .cta { background:#e3decd; color:#3d4a68; border:1px solid #b0a894; }
+  .cta.lit, body.night .cta.lit { background:#ede9d9; color:#fff; border-color:#bfb7a2; cursor:pointer; animation:breath 1.6s ease-in-out infinite; }
   @keyframes breath { 0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.3)} 50%{box-shadow:0 0 20px 4px rgba(192,57,43,.3)} }
   .cta-note { font-size:12px; color:#bbb; text-align:center; margin-top:10px; letter-spacing:1px; }
   body.night .cta-note { color:#3d4a68; }
@@ -111,7 +111,7 @@
   @keyframes jit { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
   .redded { color:#c0392b !important; }
 
-  .foot { text-align:center; color:#c8c8c8; font-size:11px; line-height:2; padding:34px 0 10px; }
+  .foot { text-align:center; color:#4e483c; font-size:11px; line-height:2; padding:34px 0 10px; }
   body.night .foot { color:#2c3650; }
 
   /* ---- veil ---- */
@@ -119,9 +119,9 @@
   #veil.show { display:flex; }
   #veil.on { opacity:1; }
   #veil .inner { max-width:520px; padding:0 30px; text-align:center; }
-  #veil .vline { color:#8b9ab5; font-size:16px; letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s; }
+  #veil .vline { color:#353029; font-size:16px; letter-spacing:4px; margin:26px 0; opacity:0; transition:opacity 1.8s; }
   #veil .vline.on { opacity:1; }
-  #veil .vline.big { color:#dfe7f5; font-size:26px; letter-spacing:8px; }
+  #veil .vline.big { color:#5e5749; font-size:26px; letter-spacing:8px; }
   /* 原地异变：浮在树洞/日程里的那句话 */
   .hline.redbig { color:#e8b5b0; font-size:19px; letter-spacing:5px;
     text-shadow:0 0 18px rgba(192,86,79,.5); padding:6px 0; }
@@ -132,11 +132,11 @@
   #resume { position:fixed; inset:0; z-index:60; background:rgba(6,9,18,.92); display:none; align-items:center; justify-content:center; }
   #resume.show { display:flex; }
   #resume .panel { text-align:center; padding:0 30px; }
-  #resume .hi { color:#8b9ab5; letter-spacing:3px; font-size:15px; margin-bottom:10px; }
-  #resume .where { color:#dfe7f5; letter-spacing:3px; font-size:17px; margin-bottom:44px; }
-  #resume button { display:block; width:230px; margin:0 auto 16px; padding:13px 0; background:#1a2338; color:#dfe7f5; border:1px solid #2c3a5c; border-radius:4px; font-size:15px; letter-spacing:4px; cursor:pointer; font-family:inherit; }
-  #resume button.ghostb { background:transparent; color:#8b9ab5; }
-  #resume button:hover { border-color:#5a6f9e; }
+  #resume .hi { color:#353029; letter-spacing:3px; font-size:15px; margin-bottom:10px; }
+  #resume .where { color:#5e5749; letter-spacing:3px; font-size:17px; margin-bottom:44px; }
+  #resume button { display:block; width:230px; margin:0 auto 16px; padding:13px 0; background:#e3decd; color:#5e5749; border:1px solid #b6ad99; border-radius:4px; font-size:15px; letter-spacing:4px; cursor:pointer; font-family:inherit; }
+  #resume button.ghostb { background:transparent; color:#353029; }
+  #resume button:hover { border-color:#c2bba5; }
 
   @media (max-width:560px){
     .nvlinks { gap:13px; font-size:12px; }
@@ -145,7 +145,7 @@
     .row { padding:10px 14px; gap:10px; }
   }
 </style>
-</head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=86"></head>
 <body class="fake">
 
 <nav class="nvbar">
@@ -252,7 +252,7 @@
       <div class="sharebox" style="display:block">
         <div class="sname">发件人：<span style="color:#c0564f">（你没有备注过这个名字）</span></div>
         <div class="sperm" style="margin-top:8px">时间：03:00 · 状态：送达，未读</div>
-        <div style="margin-top:14px;padding:14px;background:#0d1420;border:1px solid #1d2436;border-radius:6px;color:#6c7ca3;font-size:13.5px;line-height:2" id="unreadBody">内容加载失败。已重试 8 次。</div>
+        <div style="margin-top:14px;padding:14px;background:#e1dbca;border:1px solid #b0a894;border-radius:6px;color:#6c7ca3;font-size:13.5px;line-height:2" id="unreadBody">内容加载失败。已重试 8 次。</div>
       </div>
       <div class="todonote">你可以不点开。这本身也是一种回答。</div>
     </div>
@@ -296,7 +296,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=85"></script>
+<script src="assets/game.js?v=86"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -329,7 +329,7 @@ $("nvlinks").innerHTML = TABS.map(([tid,label],i) =>
 $("nvlinks").querySelectorAll("a").forEach(a =>
   a.onclick = () => { DJ.sfx.click(); switchTab(a.dataset.tab); });
 $("nvlinks").firstChild.classList.add("on");
-$("nvlinks").firstChild.style.color = isNight ? "#dfe7f5" : "#111";
+$("nvlinks").firstChild.style.color = "#111";
 
 /* 共享设置：移除不掉的人 */
 const rm = $("rmShare");
@@ -403,7 +403,7 @@ if (isReturning) {
   /* ---------- 冷开场：未读爆（前 5 秒的震撼，之后才进入日程页） ---------- */
   function runFlood(done){
     const ov = document.createElement("div");
-    ov.style.cssText = "position:fixed;inset:0;background:#030509;z-index:999;overflow:hidden;transition:opacity 1.2s";
+    ov.style.cssText = "position:fixed;inset:0;background:#dfd9c7;z-index:999;overflow:hidden;transition:opacity 1.2s";
     const hd = document.createElement("div");
     hd.style.cssText = "position:absolute;top:16px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:4px;color:#4a5568";
     const box = document.createElement("div");
@@ -428,7 +428,7 @@ if (isReturning) {
     document.addEventListener("click", bump, { once:true });
     const mk = (txt, left) => {
       const b = document.createElement("div");
-      b.style.cssText = "align-self:" + (left ? "flex-start;background:#151d2e;border:1px solid #26314a;color:#e8edf5;border-radius:4px 12px 12px 12px" : "flex-end;background:#101725;border:1px solid #1a2333;color:#c7cedb;border-radius:12px 4px 12px 12px") + ";padding:8px 13px;font-size:13px;max-width:78%;margin-top:7px;opacity:0;transform:translateY(8px);transition:all .4s";
+      b.style.cssText = "align-self:" + (left ? "flex-start;background:#e2ddcc;border:1px solid #b3ab97;color:#615a4b;border-radius:4px 12px 12px 12px" : "flex-end;background:#e2dccb;border:1px solid #b0a894;color:#514a3f;border-radius:12px 4px 12px 12px") + ";padding:8px 13px;font-size:13px;max-width:78%;margin-top:7px;opacity:0;transform:translateY(8px);transition:all .4s";
       b.textContent = txt;
       box.appendChild(b);
       requestAnimationFrame(()=>{ b.style.opacity = 1; b.style.transform = "none"; });
