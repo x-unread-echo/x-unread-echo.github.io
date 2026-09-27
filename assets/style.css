@@ -146,3 +146,7 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 14
   box-shadow:0 10px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(174,191,216,.04);
 }
 .divbox{box-shadow:0 20px 60px rgba(0,0,0,.5)}
+
+/* v91 呼吸提示：让眼睛知道哪些东西碰得 */
+@keyframes brea{0%,100%{opacity:.4}50%{opacity:1}}
+.brea{animation:brea 2.6s ease-in-out infinite;cursor:pointer}

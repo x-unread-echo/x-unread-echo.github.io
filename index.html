@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X 的本周</title>
-<link rel="stylesheet" href="assets/style.css?v=89">
+<link rel="stylesheet" href="assets/style.css?v=91">
 <style>
   /* ===== 伪装层：白天=日程表，夜晚=树洞。同一个网址，两个时区。 ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -145,7 +145,7 @@
     .row { padding:10px 14px; gap:10px; }
   }
 </style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=89"></head>
+<link rel="stylesheet" href="assets/skin-bbs.css?v=91"></head>
 <body class="fake">
 
 <nav class="nvbar">
@@ -296,7 +296,7 @@
   </div>
 </div>
 
-<script src="assets/game.js?v=89"></script>
+<script src="assets/game.js?v=91"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -467,6 +467,26 @@ if (isReturning) {
     const pv = isNight ? $("pv2") : $("pv");
     pv.textContent = "8";
     pv.parentElement.title = "每天都是第 8 位。";
+  });
+
+  /* v91：能点的东西，让眼睛知道；空白行，点开多一行不该有的小字 */
+  [["dayBlank", "23:00–23:08 · 发了 38 条。一条都没发出去。"],
+   ["dayBlank2", "03:12 · 手机还亮着。屏幕上没有人。"]].forEach(([id, secret]) => {
+    const el = $(id);
+    if (!el) return;
+    el.classList.add("brea");
+    let shown = false;
+    el.addEventListener("click", () => {
+      if (shown) return;
+      shown = true;
+      DJ.sfx.type();
+      const s = document.createElement("small");
+      s.textContent = secret;
+      s.style.color = "#b0483e";
+      el.appendChild(document.createElement("br"));
+      el.appendChild(s);
+      setTimeout(() => { s.remove(); shown = false; }, 7000);
+    });
   });
 
   if (isNight) {

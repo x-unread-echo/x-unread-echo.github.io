@@ -126,6 +126,9 @@ const DJ = (() => {
     scare: () => { tone(80, 0.6, "sawtooth", 0.06); tone(55, 0.9, "sawtooth", 0.05, 0.05); },
     pull:  () => { for (let i = 0; i < 4; i++) tone(300 + Math.random() * 400, 0.06, "square", 0.02, i * 0.09); }
   };
+  /* 浏览器音频解锁：玩家第一次碰屏幕，就把开场音效放出来 */
+  ["pointerdown", "keydown", "touchstart"].forEach(ev =>
+    window.addEventListener(ev, () => { if (AC && AC.state === "suspended") AC.resume(); }, { passive: true }));
 
   /* ---- 隐形环境提示 ---- */
   let idleTimer = null, hintShown = {};
