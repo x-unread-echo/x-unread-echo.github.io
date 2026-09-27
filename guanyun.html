@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=86">
+<link rel="stylesheet" href="assets/style.css?v=87">
 <style>
   body{background:#e0dbc9;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
@@ -201,7 +201,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=86"></script>
+<script src="assets/game.js?v=87"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -367,8 +367,8 @@ function main(){
   $("keyBtn").onclick = () => {
     const v = $("keyInput").value.trim().toLowerCase().replace(/\s/g,"");
     if (["白蝶","baidie","白蝶为钥","baidieyaoyao"].includes(v) || v.includes("白蝶")){
-      DJ.sfx.ok(); DJ.unlock(4);
-      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>你把门推开。正殿没有人，长明灯还亮着。<br>廊下挂满了还愿牌，大多旧得发白。最新的一块，字迹还很新：<br>「谢谢无量师父。茶很好。下次我还来。」`;
+      DJ.sfx.ok(); DJ.unlock(4); DJ.flag("saw_charm");
+      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>你把门推开。正殿没有人，长明灯还亮着。<br>求签的案上压着一摞黄色平安符，印版已经很旧了：一个人骑在虎背上，举着剑，云里悬着一枚小印。印版磨得看不清眉目，只认得出那只虎。<br>每张符的角上都有两个小字：<b>大吉</b>。<br>廊下挂满了还愿牌，大多旧得发白。最新的一块，字迹还很新：<br>「谢谢无量师父。茶很好。下次我还来。」`;
     } else {
       $("keyTip").textContent = "锁没动。";
       DJ.sfx.err();

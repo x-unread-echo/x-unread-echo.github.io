@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>搜搜 — 搜点正经的</title>
-<link rel="stylesheet" href="assets/style.css?v=86">
+<link rel="stylesheet" href="assets/style.css?v=87">
 <style>
   body{background:#f4f6fa;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .s-wrap{max-width:640px;margin:0 auto;padding:8vh 20px 80px}
@@ -53,7 +53,7 @@
 
 <button class="corner" style="color:#312d27;border-color:#595245" id="backChat">‹ 未 读</button>
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=86"></script>
+<script src="assets/game.js?v=87"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -117,6 +117,10 @@ function main(){
       <div class="r"><a class="t" href="guanyun.html">青云观 — 有求必应（在线问签 第 8 版）</a>
       <div class="u">qingyun-guan.web › 首页</div>
       <div class="d">…本观已无住持。签文仅供娱乐。心诚则灵，心不诚亦灵。已有 8 位访客抽到<em>大吉</em>…</div></div>` },
+    { kw:["天师","平安符","骑虎","年画","张道陵"], html:`
+      <div class="r"><div class="t" style="cursor:default">平安符上骑虎持剑的是谁？</div>
+      <div class="u">baike.soso.com › 词条</div>
+      <div class="d">祖天师张道陵，正一教祖。相传骑黑虎，持七星剑，云中悬天师印，<em>「天师赐福，神光普照」</em>。旧俗：这张黄纸请回家要贴满三年才作数——中途揭了，福就散了。符角多印「大吉」二字，取出行安宅、诸事皆大吉之意。</div></div>` },
     { kw:["茶室","茶馆","无量","第八茶室"], html:`
       <div class="r"><a class="t" href="oracle.html">第八茶室 — 在线 8 人</a>
       <div class="u">tea-room-8.web › index</div>
@@ -221,6 +225,7 @@ function main(){
     suggPool.push({ w:"倒影" }, { w:"青云观" }, { w:"亥时" });
   }
   if (DJ.has("saw_lucky") || DJ.state.chapter >= 3) suggPool.push({ w:"大吉" });
+  if (DJ.has("saw_charm") || DJ.state.chapter >= 6) suggPool.push({ w:"平安符" }, { w:"天师" });
   if (DJ.has("noticed_same") || DJ.has("butterfly_8")) suggPool.push({ w:"蝴蝶" });
   if (DJ.has("video_hai")) suggPool.push({ w:"空耳" });
   if (DJ.has("heard_track8")) suggPool.push({ w:"空房间" });
