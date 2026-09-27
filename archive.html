@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>心理健康档案系统 v8.08</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=81">
 <style>
   body{background:#080b11}
   .wrapa{max-width:860px;margin:0 auto;padding:34px 20px 110px}
@@ -105,6 +105,16 @@
     <div class="result8" id="result8"></div>
   </div>
 
+  <!-- 随身物品 -->
+  <div class="panel">
+    <h2>随 身 物 品 登 记</h2>
+    <p class="small">编号 04 · 一张打印纸。折了八折，折痕快要断了。</p>
+    <p class="small" style="color:#5a6a84">纸上大部分是黑白的雪花噪点。中间有一小段红色的字，和一个红色的图案。像是有人半夜从某个网页上打印下来的。打印机记录：无。没人见他打印过任何东西。</p>
+    <p class="small" style="color:#5a6a84">纸的背面有一行很轻的铅笔字，轻得像不想被自己看见：</p>
+    <p class="hw" style="margin:10px 0 16px">「别念出声。念了，就要接。」</p>
+    <button class="btn" id="seePrayer">展 开 纸 页</button>
+  </div>
+
   <div class="door" id="door">
     <button class="btn" id="toFinal">往 里 走</button>
   </div>
@@ -121,7 +131,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=70"></script>
+<script src="assets/game.js?v=81"></script>
 <script>
 if (DJ.gate(10)) main();
 function main(){
@@ -257,6 +267,12 @@ function main(){
     DJ.sfx.ok(); DJ.unlock(11);
     document.body.classList.add("flash");
     setTimeout(() => location.href = "echo8.html", 420);
+  };
+
+  /* 随身物品：打印纸 → 亥时祈愿 */
+  $("seePrayer").onclick = () => {
+    DJ.sfx.click();
+    location.href = "prayer.html";
   };
 
   /* 环境提示 */
