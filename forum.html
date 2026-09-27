@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>倒影小组 - Reflexion BBS - 2025</title>
 <!-- 你看到这里了。你看东西，总是越过表面。 -->
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   /* ===== 老旧中文论坛风（2000 年代末 · 宋体 · 蓝链接 · 白底表格） ===== */
   body{background:#cdd3db;color:#000}
@@ -180,7 +180,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(5)) main();
 function main(){
@@ -545,29 +545,23 @@ ${bodies[i]}</div>
         <input type="text" id="whenInput" autocomplete="off" placeholder="什么时辰？" style="margin-top:10px;background:#fff;color:#000;border:1px solid #7f9db9;padding:9px 14px;width:240px;letter-spacing:3px;font-size:14px;text-align:center">
         <div class="small" id="whenErr" style="color:#8a4b46;margin-top:6px;min-height:16px"></div>
       </div>
-      <div class="center"><span class="btn88" id="toMask" style="display:none">推门进去 →</span></div>
       </div></div>`;
     let wfails = 0;
     $("whenInput").addEventListener("keydown", e => {
       if (e.key !== "Enter") return;
       const v = $("whenInput").value.replace(/[\s点分]/g, "");
       if (v.includes("亥时三刻") || v === "21:45" || v === "2145" || v === "2145"){
-        DJ.sfx.read(); DJ.flag("found_floor8");
+        DJ.sfx.read(); DJ.flag("found_floor8"); DJ.unlock(6);
         $("whenErr").textContent = "";
         $("whenInput").disabled = true;
-        $("toMask").style.display = "inline-block";
-        $("toMask").classList.add("glitch");
+        $("whenErr").innerHTML = "镜子深处，他正伏在什么上打字。屏幕的光里，能认出一个标题：<br>「三年，我给他转的每一笔」——发在一个叫「生活组」的版块。";
       } else {
         wfails++;
         $("whenErr").textContent = wfails >= 3 ? "纸条说了前一半。蝴蝶烧出了后一半。" : "镜子不说话。它只是等。";
         DJ.sfx.err();
       }
     });
-    $("toMask").onclick = () => {
-      DJ.unlock(6); DJ.sfx.ok();
-      document.body.classList.add("flash");
-      setTimeout(() => location.href = "ledger.html", 400);
-    };
+  /* 镜子接受时辰之后就安静了。生活组的帖子，玩家自己会想起来去搜。 */
     window.scrollTo(0,0);
   }
 

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>青云观 — 有求必应</title>
 <!-- 青云观没有第八签。从来没有。 -->
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   body{background:#0b0f14;font-family:"Songti SC","Noto Serif SC",serif}
   .paper{max-width:720px;margin:0 auto;padding:30px 22px 90px}
@@ -201,7 +201,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(3)) main();
 function main(){
@@ -368,9 +368,7 @@ function main(){
     const v = $("keyInput").value.trim().toLowerCase().replace(/\s/g,"");
     if (["白蝶","baidie","白蝶为钥","baidieyaoyao"].includes(v) || v.includes("白蝶")){
       DJ.sfx.ok(); DJ.unlock(4);
-      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>门缝上塞着一张打印的小票，边角被雪浸软了：<br><span class="slipgo" style="cursor:pointer;border-bottom:1px dotted currentColor">第八茶室 · 亥时三刻 · 留座</span>`;
-      const slip = document.querySelector(".slipgo");
-      if (slip) slip.onclick = () => { DJ.sfx.click(); location.href = "oracle.html"; };
+      $("keyTip").innerHTML = `门开了一条缝。里面黑。<br>你把门推开。正殿没有人，长明灯还亮着。<br>廊下挂满了还愿牌，大多旧得发白。最新的一块，字迹还很新：<br>「谢谢无量师父。茶很好。下次我还来。」`;
     } else {
       $("keyTip").textContent = "锁没动。";
       DJ.sfx.err();

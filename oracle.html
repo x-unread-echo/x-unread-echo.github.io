@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>第八茶室 — 在线 8 人</title>
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   body{background:#05070c;font-family:"Courier New","PingFang SC",monospace;color:#b8c2d4;overflow-x:hidden}
   .o-wrap{max-width:640px;margin:0 auto;padding:5vh 18px 90px;min-height:88vh}
@@ -73,7 +73,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(4)) main();
 function main(){
@@ -228,13 +228,11 @@ function main(){
     push("host","无量","……对了。");
     push("host","无量","你懂那种歌吗。有人想拉我一把，可拉的人自己都没站稳。");
     push("host","无量","先站稳的人，才配谈渡不渡。去吧。茶钱记你账上了。");
-    push("sys","系统","茶室打烊了。下一间房的灯还亮着。");
+    DJ.unlock(5);
     setTimeout(()=>{
-      DJ.unlock(5); DJ.sfx.read();
-      push("sys","桌上","打烊前，无量把找零推了过来。硬币底下压着一张皱掉的小票，背面有一行圆珠笔字，笔画很重：<span id='toForum' style='cursor:pointer;border-bottom:1px dotted currentColor'>倒影小组 · 8 号群 · 审核快下来了</span>");
-      const tf = document.getElementById("toForum");
-      if (tf) tf.onclick = () => { DJ.sfx.click(); location.href = "forum.html"; };
-    }, 5200);
+      push("sys","门口","你起身要走。留言板上贴满了便签，穿堂风把它们吹得哗哗响。最新一张的笔迹很急：「倒影小组 8 号群，通过了。谢谢无量。」");
+      DJ.sfx.read();
+    }, 4200);
   };
 
   DJ.envHint("这间茶室八年没换过名字。也八年没换过人。", "or1", 130);

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   body{background:#04070c;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -328,8 +328,7 @@
     <div class="draft"><div class="dt">草稿 · 8月20日 20:08</div>
       <div class="db">第九稿：算了，你不会懂的。（第八稿：你会懂的。第七稿：删。）</div></div>
     <div class="draft key" id="draftKey"><div class="dt">草稿 · 未标日期 · 亥时</div>
-      <div class="db">明天去青云观。亥时三刻。倒影自渡。
-        <br><span class="linkline" id="toGuan">按住这句，看看它通向哪里 →</span></div></div>
+      <div class="db">明天去青云观。亥时三刻。倒影自渡。</div></div>
     <div class="draft" id="draft8" style="display:none"><div class="dt">草稿 · 第八日</div>
       <div class="db">今天也没有事发生。
 我把留在留白里的那句话，又写了一遍，又删了。
@@ -342,7 +341,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -546,20 +545,14 @@ function main(){
     else if (q.includes("为什么")) r.innerHTML = "<span style='color:#8e8e93'>没有找到「为什么」的结果。</span>";
     else if (q.includes("还好")) r.innerHTML = "<span style='color:#8e8e93'>「还好」在这段对话里出现过 24 次。全部是在回答。</span>";
     else if (q.includes("顺其自然")) r.innerHTML = "<span style='color:#ff453a'>搜索结果：还不急。</span>";
-    else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。</span>";
+    else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。地图上查到了它：青云观 · 有求必应。 <a href='guanyun.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
     else if (q.includes("博客") || q.includes("小号") || q.includes("北屋") || q.includes("碎碎念")) r.innerHTML = "<span style='color:#0a84ff'>找到一个号。「北屋」。粉丝 0，访问 8 次。最后更新：今天。 <a href='blog.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
     else if (q.includes("存档") || q.includes("快照") || q.includes("拾光机")) r.innerHTML = "<span style='color:#0a84ff'>找到「拾光机」· 网页存档馆。口号是：把消失的网页，存在原处。 <a href='snapshot.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
     else r.textContent = "没有找到「" + q + "」的结果。";
   });
 
-  /* 草稿箱 → 第二章入口 */
-  $("draftKey").onclick = e => {
-    if (e.target.id === "toGuan" || e.currentTarget.classList.contains("key")){
-      DJ.unlock(3); DJ.sfx.ok();
-      document.body.classList.add("flash");
-      setTimeout(() => location.href = "guanyun.html", 400);
-    }
-  };
+  /* 草稿箱：读完就是读完。青云观在哪，玩家自己会想起来去搜。 */
+  $("draftKey").onclick = () => { DJ.unlock(3); DJ.sfx.read(); };
 
   /* C10：深夜占位符 */
   const h = new Date().getHours();

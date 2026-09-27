@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>心理健康档案系统 v8.08</title>
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   body{background:#080b11}
   .wrapa{max-width:860px;margin:0 auto;padding:34px 20px 110px}
@@ -131,7 +131,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(10)) main();
 function main(){
@@ -265,8 +265,11 @@ function main(){
   }
   $("popGo").onclick = () => {
     DJ.sfx.ok(); DJ.unlock(11);
-    document.body.classList.add("flash");
-    setTimeout(() => location.href = "echo8.html", 420);
+    $("chatpop").classList.remove("show");
+    const log = document.createElement("div");
+    log.style.cssText = "color:#7f8ea3;margin-top:14px;letter-spacing:1px;font-size:12px";
+    log.textContent = "档案系统日志 · 最后一条：本档案曾于「第八日」被访问。访问者：（空白）";
+    const r = $("result8"); if (r) r.appendChild(log);
   };
 
   /* 随身物品：打印纸 → 亥时祈愿 */

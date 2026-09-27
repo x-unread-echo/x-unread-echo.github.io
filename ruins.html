@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>亥时 — 废墟</title>
 <!-- 亥时三刻。你自己挑的时间。 -->
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   body{background:#04070d;overflow:hidden}
   /* .scene 由 JS 按图片比例计算出"cover 矩形"，热点在里面按百分比定位——任何屏幕都和画面对得上 */
@@ -84,7 +84,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(8)) main();
 function main(){
@@ -193,13 +193,11 @@ function main(){
 <span class="ehl">一深，一浅。走向同一个方向。</span>
 你抬起自己的脚，比了比。
 两行，都是你刚才走进来时踩的。
-<span class="ehl">只是其中一行，比你的鞋，小八码。</span>${rvRuins >= 2 ? "\n\n这一次，雪地上比上次多了一行字，是用手指划出来的：\n<span class='ehl'>「别数了。你每次都会回来数。」</span>" : ""}`);
-    $("nextBtn").style.display = "inline-block";
-    $("nextBtn").onclick = () => {
-      DJ.sfx.ok(); DJ.unlock(9);
-      document.body.classList.add("flash");
-      setTimeout(() => location.href = "mask.html", 400);
-    };
+<span class="ehl">只是其中一行，比你的鞋，小八码。</span>
+收音机的杂音里，忽然飘出半句人声，轻得像自言自语：
+<span class="ehl">「……第八楼，还亮着。」</span>${rvRuins >= 2 ? "\n\n这一次，雪地上比上次多了一行字，是用手指划出来的：\n<span class='ehl'>「别数了。你每次都会回来数。」</span>" : ""}`);
+    $("nextBtn").style.display = "none"; /* 脚印是你自己的事。第八楼在哪，玩家自己会想起来去搜。 */
+    DJ.unlock(9);
   }
 
   /* 点击空白处关闭事件浮层 */

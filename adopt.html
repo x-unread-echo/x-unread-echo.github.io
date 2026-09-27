@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>猫屋 — 同城领养 · 银灰卷毛</title>
-<link rel="stylesheet" href="assets/style.css?v=84">
+<link rel="stylesheet" href="assets/style.css?v=85">
 <style>
   body{background:#f2f4f7;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
   .a-wrap{max-width:460px;margin:0 auto;padding:4vh 18px 90px}
@@ -148,7 +148,7 @@
 </div>
 
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=84"></script>
+<script src="assets/game.js?v=85"></script>
 <script>
 if (DJ.gate(7)) main();
 function main(){
@@ -267,9 +267,7 @@ function main(){
     e.stopPropagation();
     DJ.sfx.ok(); DJ.flag("adopt_done"); DJ.addIncense(1);
     DJ.unlock(8);
-    $("satcap").innerHTML = `×8 —— 放大到头了。那个点不是猫，是一间自助仓。<br>仓门上贴着一张褪色的贴纸：<span id="toCloud" style="cursor:pointer;border-bottom:1px dotted currentColor">云屉网盘 · 东西都在，码他没舍得换</span>`;
-    const tc = document.getElementById("toCloud");
-    if (tc) tc.onclick = () => { DJ.sfx.click(); location.href = "cloud.html"; };
+    $("satcap").innerHTML = `×8 —— 放大到头了。那个点不是猫，是一间自助仓。<br>仓门上贴着一张打印的贴纸，边角已经翘起来：<br><b>yunti.cloud</b> · 你的每一次回忆，都值得被妥善存放`;
   };
 
   /* ---------- 出口：打开卫星图 ---------- */
