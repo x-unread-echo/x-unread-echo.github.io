@@ -4,56 +4,70 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>搜搜 — 搜点正经的</title>
-<link rel="stylesheet" href="assets/style.css?v=88">
+<link rel="stylesheet" href="assets/style.css?v=89">
 <style>
-  body{background:#f4f6fa;font-family:-apple-system,"PingFang SC",sans-serif;color:#2a2f3a}
-  .s-wrap{max-width:640px;margin:0 auto;padding:8vh 20px 80px}
-  .s-logo{text-align:center;font-size:38px;font-weight:700;letter-spacing:6px;color:#2a2f3a}
-  .s-logo b{color:#4a7dd6}
-  .s-logo .sm{display:block;font-size:11px;color:#312d27;letter-spacing:3px;margin-top:4px;font-weight:400}
-  .s-box{display:flex;margin:34px 0 14px;box-shadow:0 4px 20px rgba(30,50,90,.10);border-radius:8px;overflow:hidden}
-  .s-box input{flex:1;border:none;outline:none;padding:14px 18px;font-size:15px;background:#fff;color:#2a2f3a}
-  .s-box button{border:none;background:#4a7dd6;color:#fff;padding:0 30px;letter-spacing:4px;cursor:pointer}
-  .s-box button:hover{background:#eee9da}
-  .sugg{margin:2px 2px 22px}
-  .sugg .sg-h{font-size:11px;color:#464036;letter-spacing:2px;margin-bottom:8px}
-  .sugg .sg-chip{display:inline-block;border:1px solid #e3e8f0;background:#fff;border-radius:99px;
-    padding:6px 16px;margin:0 8px 8px 0;font-size:13px;color:#5a6274;cursor:pointer;letter-spacing:1px}
-  .sugg .sg-chip:hover{border-color:#c4bda7;color:#4a7dd6}
+  /* 搜搜 · 网易云风格 */
+  body{background:#f4f5f7;font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;color:#333}
+  /* 红色顶栏 */
+  .ny-top{position:fixed;top:0;left:0;right:0;z-index:9998;height:50px;background:#d33a31;
+    display:flex;align-items:center;gap:12px;padding:0 16px;box-shadow:0 1px 6px rgba(180,30,20,.28)}
+  .ny-top .back{background:none;border:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:4px 8px 6px;opacity:.92}
+  .ny-top .back:hover{opacity:1}
+  .ny-brand{color:#fff;font-size:17px;font-weight:700;letter-spacing:3px}
+  .ny-tag{margin-left:auto;color:rgba(255,255,255,.78);font-size:11px;letter-spacing:1px}
+  .s-wrap{max-width:640px;margin:0 auto;padding:86px 20px 80px}
+  .s-logo{text-align:center;font-size:42px;font-weight:700;letter-spacing:6px;color:#333}
+  .s-logo b{color:#d33a31}
+  .s-logo .sm{display:block;font-size:11px;color:#b0b0b0;letter-spacing:3px;margin-top:6px;font-weight:400}
+  .s-box{display:flex;margin:32px 0 14px;background:#fff;border:1px solid #e6e6e6;border-radius:99px;
+    overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.07)}
+  .s-box:focus-within{border-color:#d33a31;box-shadow:0 2px 16px rgba(211,58,49,.16)}
+  .s-box input{flex:1;border:none;outline:none;padding:13px 24px;font-size:15px;background:transparent;color:#333;min-width:0}
+  .s-box input::placeholder{color:#c0c0c0}
+  .s-box button{border:none;background:#d33a31;color:#fff;padding:0 32px;letter-spacing:5px;cursor:pointer;font-size:14px;font-weight:600}
+  .s-box button:hover{background:#c22f27}
+  .sugg{margin:2px 4px 24px}
+  .sugg .sg-h{font-size:11px;color:#b0b0b0;letter-spacing:2px;margin-bottom:10px}
+  .sugg .sg-chip{display:inline-block;border:1px solid #e6e6e6;background:#fff;border-radius:99px;
+    padding:6px 16px;margin:0 8px 8px 0;font-size:13px;color:#666;cursor:pointer;letter-spacing:1px;transition:all .15s}
+  .sugg .sg-chip:hover{border-color:#d33a31;color:#d33a31;background:#fdf3f2}
   .results{min-height:200px}
-  .r{margin-bottom:24px}
-  .r .t{color:#1d3a8f;font-size:17px;cursor:pointer;text-decoration:none}
-  .r .t:hover{text-decoration:underline}
-  .r .u{color:#3d8b5f;font-size:12px;margin:2px 0;letter-spacing:.5px}
-  .r .d{color:#5a6274;font-size:13.5px;line-height:1.8}
-  .r .d em{color:#c0564f;font-style:normal}
-  .s-foot{color:#413b32;font-size:11px;text-align:center;margin-top:60px;letter-spacing:2px}
-  .ad{border:1px solid #e3e8f0;border-radius:8px;padding:14px 18px;margin-bottom:24px;background:#fff}
-  .ad .tag{font-size:10px;color:#312d27;border:1px solid #e3e8f0;border-radius:2px;padding:0 4px;margin-right:6px}
-  .ad .t{color:#2a2f3a;font-size:15px}
-  .ad .d{color:#312d27;font-size:12.5px;margin-top:4px}
-</style>
-<link rel="stylesheet" href="assets/skin-bbs.css?v=88"></head>
+  .r{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+  .r .t{color:#333;font-size:16px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+  .r .t:hover{color:#d33a31}
+  .r .u{color:#3d8b5f;font-size:12px;margin:4px 0 2px;letter-spacing:.5px}
+  .r .d{color:#777;font-size:13.5px;line-height:1.9}
+  .r .d em{color:#d33a31;font-style:normal;font-weight:500}
+  .ad{border:1px solid #f0dedd;background:#fffdfc}
+  .ad .tag{font-size:10px;color:#d33a31;border:1px solid #e8b5b2;border-radius:3px;padding:0 5px;margin-right:6px}
+  .ad .t{color:#333;font-size:15px;font-weight:500}
+  .ad .d{color:#999;font-size:12.5px;margin-top:4px}
+  .s-foot{color:#c0c0c0;font-size:11px;text-align:center;margin-top:56px;letter-spacing:2px}
+</style></head>
 <body>
+<div class="ny-top">
+  <button class="back" id="backChat" title="返回">‹</button>
+  <span class="ny-brand">搜搜</span>
+  <span class="ny-tag">全球第 8 大搜索引擎</span>
+</div>
 <div class="s-wrap">
-  <div class="s-logo">搜搜<b>.</b><span class="sm">搜点正经的 · 全球第 8 大搜索引擎</span></div>
+  <div class="s-logo">搜搜<b>.</b><span class="sm">搜点正经的</span></div>
   <div class="s-box">
     <input type="text" id="q" placeholder="搜点正经的……" autocomplete="off">
     <button id="go">搜 索</button>
   </div>
   <div class="sugg" id="sugg"></div>
   <div class="results" id="results">
-    <div class="ad"><span class="tag">广告</span><span class="t">解压积木 · 一盒八块装</span>
+    <div class="r ad"><span class="tag">广告</span><span class="t">解压积木 · 一盒八块装</span>
       <div class="d">拼好的都会拆，拆完的还得再拼。买过的人都说：像极了生活。</div></div>
-    <div class="ad"><span class="tag">广告</span><span class="t">失眠救星 · 三秒入睡课程（第 8 期）</span>
+    <div class="r ad"><span class="tag">广告</span><span class="t">失眠救星 · 三秒入睡课程（第 8 期）</span>
       <div class="d">已有 8 位学员成功入睡。其余学员还在上课。</div></div>
   </div>
   <div class="s-foot">搜搜 Soso © 2025 · 找到约 8,080,808 条结果（0.08 秒）</div>
 </div>
 
-<button class="corner" style="color:#312d27;border-color:#595245" id="backChat">‹ 未 读</button>
 <div id="envhint" style="text-shadow:none"></div>
-<script src="assets/game.js?v=88"></script>
+<script src="assets/game.js?v=89"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){

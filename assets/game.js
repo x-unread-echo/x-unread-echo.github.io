@@ -58,7 +58,7 @@ const DJ = (() => {
       if (document.querySelector('link[href*="skin-bbs"]') && !document.getElementById("dajiTopbar") && document.body){
         const b = document.createElement("div");
         b.id = "dajiTopbar";
-        b.innerHTML = '<span class="tb-t">《大吉》个人版 v8.08\u2002·\u2002今天你登陆了吗？\u2002[注册] [登录]</span> <a href="search.html">[搜搜]</a><span class="tb-t">\u2002·\u2002站内未读 (38)\u2002·\u2002最后访问：八年前</span>';
+        b.innerHTML = '<span class="tb-t tb-1">《大吉》个人版 v8.08</span> <a href="search.html">[搜搜]</a><span class="tb-t tb-2">\u2002·\u2002今天你登陆了吗？\u2002·\u2002站内未读 (38)\u2002·\u2002最后访问：八年前</span>';
         document.body.appendChild(b);
       }
     } catch (err) {}

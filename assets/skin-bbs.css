@@ -16,9 +16,15 @@ body{
   background:#1f3d7a; color:#e8ecf5; font-size:12px; letter-spacing:1px;
   padding:7px 14px; box-shadow:0 1px 0 #14294f; white-space:nowrap; overflow:hidden;
   font-family:"Songti SC","STSong",serif;
+  display:flex; align-items:center;
 }
-#dajiTopbar a{color:#f0d98c !important;text-decoration:underline}
+#dajiTopbar .tb-2{overflow:hidden;text-overflow:ellipsis;min-width:0}
+#dajiTopbar a{color:#f0d98c !important;text-decoration:underline;flex-shrink:0}
 #dajiTopbar a:hover{color:#fff !important}
+@media (max-width:720px){
+  #dajiTopbar .tb-2{display:none}
+  #dajiTopbar{font-size:13px}
+}
 .moon{display:none !important}
 ::selection{background:#f0d98c;color:#3a3630}
 a{color:#2b62c4 !important}
