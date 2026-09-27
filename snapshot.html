@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拾光机 · 网页存档馆</title>
+<link rel="stylesheet" href="assets/style.css?v=81">
+<style>
+  body{background:#eef1f4;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#2c3440;min-height:100vh}
+  .moon{display:none !important}
+  #envhint{display:none !important}
+
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px 80px}
+
+  /* 顶栏 */
+  .top{display:flex;align-items:center;gap:12px;padding:16px 4px}
+  .top .lg{display:flex;align-items:center;gap:9px;cursor:pointer}
+  .top b{font-size:20px;color:#3f6a8f;font-weight:800;letter-spacing:1px}
+  .top .tag{font-size:12px;color:#8a97a5;margin-left:4px}
+  .topnav{margin-left:auto;display:flex;gap:20px;font-size:13.5px;color:#5a6a78}
+  .topnav span{cursor:pointer}
+  .topnav span:hover{color:#3f6a8f}
+
+  /* 主区 */
+  .hero{text-align:center;padding:44px 0 30px}
+  .hero h1{font-size:30px;font-weight:800;color:#2c3440;letter-spacing:2px}
+  .hero p{font-size:13.5px;color:#8a97a5;margin-top:10px}
+  .sbox{display:flex;gap:10px;max-width:620px;margin:26px auto 0}
+  .sbox input{flex:1;border:2px solid #c6d2dc;border-radius:10px;padding:13px 18px;font-size:15px;outline:none;font-family:inherit;color:#2c3440;background:#fff}
+  .sbox input:focus{border-color:#3f6a8f}
+  .sbox button{border:none;background:#3f6a8f;color:#fff;border-radius:10px;padding:0 26px;font-size:15px;cursor:pointer;font-weight:600}
+  .sbox button:hover{background:#355b7a}
+  .shint{font-size:12px;color:#a5b1bd;margin-top:12px}
+
+  /* 结果 */
+  .res{margin-top:26px;display:none}
+  .res.show{display:block}
+  .rh{font-size:13px;color:#8a97a5;padding:0 4px 10px}
+  .snap{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(30,50,70,.08);padding:16px 20px;margin-bottom:12px;cursor:pointer;transition:box-shadow .2s}
+  .snap:hover{box-shadow:0 4px 14px rgba(30,50,70,.14)}
+  .snap .st{font-size:15.5px;font-weight:700;color:#2c5a82}
+  .snap .st:hover{text-decoration:underline}
+  .snap .su{font-size:12px;color:#7a9950;margin-top:3px}
+  .snap .sd{font-size:13px;color:#5a6a78;margin-top:7px;line-height:1.8}
+  .snap .sd em{font-style:normal;background:#fdf3d8;color:#8a6d1a;padding:0 4px;border-radius:3px}
+  .snap .dates{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .snap .dates span{font-size:11.5px;color:#3f6a8f;background:#e8eff5;border-radius:5px;padding:2px 9px}
+
+  /* 快照阅读器 */
+  .rdmask{position:fixed;inset:0;background:rgba(20,30,40,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .rdmask.show{display:flex}
+  .reader{background:#fff;border-radius:14px;width:min(760px,100%);max-height:86vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .rbar{display:flex;align-items:center;gap:10px;background:#f2f5f7;border-bottom:1px solid #dfe6ea;padding:10px 16px}
+  .rdot{width:11px;height:11px;border-radius:50%}
+  .rurl{flex:1;background:#fff;border:1px solid #dfe6ea;border-radius:7px;font-size:12px;color:#5a6a78;padding:5px 12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .rclose{border:none;background:none;font-size:17px;color:#8a97a5;cursor:pointer;padding:2px 6px}
+  .rclose:hover{color:#2c3440}
+  .rnotice{background:#fdf6e3;color:#8a6d1a;font-size:12px;padding:7px 18px;border-bottom:1px solid #f0e6c8}
+  .rbody{overflow-y:auto;padding:26px 30px 34px}
+  .rbody h2{font-size:19px;color:#2c3440;margin-bottom:4px}
+  .rbody .rm{font-size:12px;color:#9aa7b2;margin-bottom:18px}
+
+  /* 云屉页面拟真 */
+  .ybox{border:1px solid #e3e9ee;border-radius:10px;overflow:hidden}
+  .yhead{background:#f7f9fa;padding:12px 18px;font-size:13px;color:#5a6a78;border-bottom:1px solid #eef2f5}
+  .yhead b{color:#2c3440}
+  .yfile{display:flex;align-items:center;gap:11px;padding:11px 18px;border-bottom:1px solid #f0f3f6;cursor:pointer;font-size:14px}
+  .yfile:hover{background:#f6f9fb}
+  .yfile .fi{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0}
+  .yfile .fs{margin-left:auto;font-size:11.5px;color:#a5b1bd}
+  .ftext{display:none;background:#fbfcfd;border-top:1px dashed #dfe6ea;padding:16px 22px;font-size:13.5px;line-height:2.1;color:#4a5664;white-space:pre-line}
+  .ftext.show{display:block}
+  .dead{padding:34px 18px;text-align:center;color:#9aa7b2;font-size:13.5px;line-height:2.2}
+  .dead b{color:#5a6a78}
+
+  /* 关于 */
+  .about{display:none;background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(30,50,70,.08);padding:20px 24px;margin-top:26px;font-size:13.5px;line-height:2.2;color:#5a6a78}
+  .about.show{display:block}
+  .foot{margin-top:44px;text-align:center;font-size:11.5px;color:#a5b1bd;line-height:2.2}
+</style>
+</head>
+<body>
+<div class="moon"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="lg" id="lg">
+      <svg width="26" height="26" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="#3f6a8f"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <b>拾光机</b>
+    </div>
+    <span class="tag">网页存档馆 · shiguangji.archive</span>
+    <div class="topnav"><span id="abBtn">关于本馆</span><span id="hpBtn">帮助</span></div>
+  </div>
+
+  <div class="hero">
+    <h1>把消失的网页，存在原处。</h1>
+    <p>本馆自动抓取公开网页的快照。网页会消失，快照不会。</p>
+    <div class="sbox">
+      <input id="q" placeholder="输入网址或关键词，看看它以前的样子……" maxlength="24">
+      <button id="go">取快照</button>
+    </div>
+    <div class="shint">试试：yunti.cloud · 白蝶 · 倒影小组</div>
+  </div>
+
+  <div class="res" id="res">
+    <div class="rh" id="rh"></div>
+    <div id="list"></div>
+  </div>
+
+  <div class="about" id="about">
+    <b>关于本馆</b><br>
+    拾光机成立于 2019 年，由几位相信「网页不该说没就没」的人维护。<br>
+    本馆不判断网页的好坏，只负责记住。主人删掉的东西，本馆原本也不看——<br>
+    但抓取程序是自动的。它不懂什么叫「别看」。<br>
+    <span style="color:#a5b1bd;font-size:12px">馆藏快照 8,080,808 份 · 今日新增 8 份 · 馆藏没有主人。</span>
+  </div>
+
+  <div class="foot">
+    拾光机 shiguangji.archive · 快照仅作存档，不代表本馆立场<br>
+    如果你在这个馆里找到了不该找到的东西——那它本来就在那儿。
+  </div>
+</div>
+
+<div class="rdmask" id="rdmask">
+  <div class="reader">
+    <div class="rbar">
+      <span class="rdot" style="background:#e3655b"></span><span class="rdot" style="background:#e8b64c"></span><span class="rdot" style="background:#7ac074"></span>
+      <div class="rurl" id="rurl"></div>
+      <button class="rclose" id="rclose">✕</button>
+    </div>
+    <div class="rnotice" id="rnotice"></div>
+    <div class="rbody" id="rbody"></div>
+  </div>
+</div>
+
+<script src="assets/game.js?v=81"></script>
+<script>
+if (DJ.gate(1)) main();
+function main(){
+  const $ = id => document.getElementById(id);
+
+  /* ---------- 快照馆藏 ---------- */
+  /* 云屉分享页三个年份的快照 */
+  const LETTER = `八年后的我：
+
+如果你打开这个文件，说明你把这件事做了八年。
+八年前的我说，我在等一个电话。八年后的你，等到了吗。
+
+等到了：替我谢谢那天没有挂断的自己。
+没等到：也替我谢谢那天没有关机的自己。
+
+不管等没等到，先把本子从枕头底下拿出来，晒晒太阳。
+纸放久了会有潮气。人也一样。
+
+—— 2022-08-08，凌晨 03:17`;
+  const DELLIST = `删除清单（不要问为什么删）：
+
+一、录音_0317 —— 太响了。不是我录的那么轻。
+二、未命名.mp4 —— 拍的时候不知道自己在拍什么。看的时候知道了。
+三、给八年后的我 —— 八年到了。不用再给。
+
+一和二必须删。三删不掉，所以把整个分享删了。`;
+
+  const YUNTI = {
+    url:"yun-ti.drive › share › 拾遗",
+    snaps:[
+      { d:"2022-08-08", note:"最早的快照。分享刚建好，里面只有 1 个文件。",
+        body:`<h2>云屉 · 分享「拾遗」</h2><div class="rm">分享者：<b style="color:#2c3440">北屋</b> · 1 个文件 · 2022-08-08 03:17 创建</div>
+          <div class="ybox">
+            <div class="yhead">文件列表（1）</div>
+            <div class="yfile" data-f="letter"><div class="fi" style="background:#5b8db8">TXT</div>《给八年后的我》.txt<span class="fs">2 KB</span></div>
+            <div class="ftext" id="f-letter">${LETTER}</div>
+          </div>` },
+      { d:"2024-08-08", note:"两年的快照。文件涨到了 8 个。",
+        body:`<h2>云屉 · 分享「拾遗」</h2><div class="rm">分享者：<b style="color:#2c3440">北屋</b> · 8 个文件 · 抓取于 2024-08-08 23:58</div>
+          <div class="ybox">
+            <div class="yhead">文件列表（8）</div>
+            <div class="yfile" data-f="dead1"><div class="fi" style="background:#5b8db8">TXT</div>《给八年后的我》.txt<span class="fs">2 KB</span></div>
+            <div class="yfile" data-f="wav"><div class="fi" style="background:#d98a6a">WAV</div>录音_0317.wav<span class="fs">3 分 17 秒</span></div>
+            <div class="yfile" data-f="img"><div class="fi" style="background:#8d8dd9">IMG</div>IMG_0808_1.jpg ~ IMG_0808_5.jpg<span class="fs">5 个文件</span></div>
+            <div class="yfile" data-f="mp4"><div class="fi" style="background:#7a9950">MP4</div>未命名.mp4<span class="fs">8 秒</span></div>
+            <div class="yfile" data-f="del"><div class="fi" style="background:#c0666a">TXT</div>《删除清单》.txt<span class="fs">1 KB</span></div>
+            <div class="ftext" id="f-wav">【音频已损坏】<br>播放失败。只剩 3 分 17 秒的波形。<br>波形的前半段很密，像有人在很小的声量里说了很久。<br>最后一段是平的。平了很久。</div>
+            <div class="ftext" id="f-mp4">【视频可播放 8 秒】<br>画面：一扇朝北的窗。天是灰的。<br>第 6 秒，一只白蝶从画面左下角飞进来，停了一下，又飞出去了。<br>没有别的事发生。</div>
+            <div class="ftext" id="f-del">${DELLIST}</div>
+          </div>` },
+      { d:"2025-08-08", note:"最后的快照。抓取时，原页面刚刚被主人删除。",
+        body:`<h2>云屉 · 分享「拾遗」</h2><div class="rm">yun-ti.drive · 抓取于 2025-08-08 23:58:42</div>
+          <div class="dead"><b>该分享已被主人删除。</b><br>你看到的不是页面，是页面消失前一秒的样子。<br><span style="font-size:12.5px">抓取程序最后存到的内容，是《删除清单》.txt 的缓存：</span></div>
+          <div class="ybox" style="margin-top:8px">
+            <div class="ftext show" style="border-top:none">${DELLIST}</div>
+          </div>` }
+    ]
+  };
+
+  const BUTTERFLY = {
+    url:"bailu-album.pic › 废墟 › 白蝶",
+    snaps:[
+      { d:"2022-05-01", note:"一张原片已删除的照片的快照。",
+        body:`<h2>废墟 · 白蝶（原片已删除）</h2><div class="rm">抓取于 2022-05-01 · 原页面上传者：北屋</div>
+          <div class="ybox">
+            <div class="dead" style="padding:22px"><b>图片缓存失败。</b><br>只剩图注：</div>
+            <div class="ftext show" style="border-top:none">外婆说，蝶是引路的，别跟着走丢。<br>这张拍虚了。虚的也要留着——引路的东西，不一定要看得清。</div>
+          </div>` }
+    ]
+  };
+
+  const FORUM = {
+    url:"reflexion-bbs.2025 › 树洞 › 第 1 帖",
+    snaps:[
+      { d:"2022-08-08", note:"倒影小组的第一个帖子。发帖人当晚注销。",
+        body:`<h2>倒影小组 · 树洞 · 第 1 帖</h2><div class="rm">抓取于 2022-08-08 · 发帖人：（已注销）</div>
+          <div class="ybox">
+            <div class="ftext show" style="border-top:none">有人在这里说话吗。<br>我先说一句试试：今天我注册了两个号，一个给大家看，一个给自己看。<br>如果有一天连给自己看的那个也没了，请替我记住：我一直在等一个电话。<br>—— 03:17</div>
+          </div>` }
+    ]
+  };
+
+  const DB = [
+    { kw:["yunti","云屉","拾遗"], ref:YUNTI },
+    { kw:["蝶","白蝶","蝴蝶"],   ref:BUTTERFLY },
+    { kw:["倒影","论坛","小组"], ref:FORUM }
+  ];
+
+  let curRef = null;
+  const search = () => {
+    const q = $("q").value.trim();
+    if (!q) return;
+    DJ.sfx.click();
+    const hit = DB.find(d => d.kw.some(k => q.includes(k)));
+    curRef = hit ? hit.ref : null;
+    $("res").classList.add("show");
+    $("about").classList.remove("show");
+    if (!hit){
+      $("rh").textContent = `「${q}」的快照 · 找到 0 份`;
+      $("list").innerHTML = `<div class="snap" style="cursor:default"><div class="sd">没有找到相关快照。<br>可能它消失得太快，没赶上被记住。<br><span style="color:#a5b1bd;font-size:12px">拾光机只存公开网页。有些网页，从上线起就不算公开。</span></div></div>`;
+      return;
+    }
+    $("rh").textContent = `${curRef.url} · 找到 ${curRef.snaps.length} 份快照`;
+    $("list").innerHTML = curRef.snaps.map((s,i) =>
+      `<div class="snap" data-i="${i}">
+        <div class="st">云屉 / 相册页快照 — ${s.d}</div>
+        <div class="su">${curRef.url}</div>
+        <div class="sd">${s.note}</div>
+        <div class="dates"><span>快照 ${s.d}</span><span>来源：自动抓取</span></div>
+      </div>`).join("");
+    document.querySelectorAll("#list .snap[data-i]").forEach(el => {
+      el.onclick = () => openSnap(+el.dataset.i);
+    });
+  };
+
+  const openSnap = (i) => {
+    const s = curRef.snaps[i];
+    DJ.sfx.click();
+    $("rurl").textContent = "https://" + curRef.url.replace(" › ", "/").replace(/ › /g, "/");
+    $("rnotice").textContent = `这是 ${s.d} 的快照。原页面可能已经发生了变化——比如，消失。`;
+    $("rbody").innerHTML = s.body;
+    $("rdmask").classList.add("show");
+    document.querySelectorAll(".yfile[data-f]").forEach(f => {
+      f.onclick = () => {
+        DJ.sfx.click();
+        const t = $("f-" + f.dataset.f);
+        if (t) t.classList.toggle("show");
+      };
+    });
+  };
+
+  $("go").onclick = search;
+  $("q").addEventListener("keydown", e => { if (e.key === "Enter") search(); });
+  $("rclose").onclick = () => { DJ.sfx.click(); $("rdmask").classList.remove("show"); };
+  $("rdmask").onclick = e => { if (e.target === $("rdmask")) $("rdmask").classList.remove("show"); };
+  $("lg").onclick = () => { $("res").classList.remove("show"); $("about").classList.remove("show"); };
+  $("abBtn").onclick = () => { DJ.sfx.click(); $("about").classList.add("show"); $("about").scrollIntoView({behavior:"smooth"}); };
+  $("hpBtn").onclick = () => { DJ.sfx.click(); $("q").focus(); $("q").placeholder = "输入网址或关键词。本馆不懂什么叫私人的。"; };
+}
+</script>
+</body>
+</html>

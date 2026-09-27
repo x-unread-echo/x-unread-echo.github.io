@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>信息</title>
-<link rel="stylesheet" href="assets/style.css?v=54">
+<link rel="stylesheet" href="assets/style.css?v=81">
 <style>
   body{background:#04070c;font-family:-apple-system,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
   .iphone{
@@ -342,7 +342,7 @@
 </div>
 
 <div id="envhint"></div>
-<script src="assets/game.js?v=70"></script>
+<script src="assets/game.js?v=81"></script>
 <script>
 if (DJ.gate(2)) main();
 function main(){
@@ -548,6 +548,7 @@ function main(){
     else if (q.includes("顺其自然")) r.innerHTML = "<span style='color:#ff453a'>搜索结果：还不急。</span>";
     else if (q.includes("青云观")) r.innerHTML = "<span style='color:#0a84ff'>这个词来自一条草稿。</span>";
     else if (q.includes("博客") || q.includes("小号") || q.includes("北屋") || q.includes("碎碎念")) r.innerHTML = "<span style='color:#0a84ff'>找到一个号。「北屋」。粉丝 0，访问 8 次。最后更新：今天。 <a href='blog.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
+    else if (q.includes("存档") || q.includes("快照") || q.includes("拾光机")) r.innerHTML = "<span style='color:#0a84ff'>找到「拾光机」· 网页存档馆。口号是：把消失的网页，存在原处。 <a href='snapshot.html' style='color:#0a84ff;text-decoration:underline'>打开</a></span>";
     else r.textContent = "没有找到「" + q + "」的结果。";
   });
 

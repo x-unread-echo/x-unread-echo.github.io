@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>嘀咕</title>
-<link rel="stylesheet" href="assets/style.css?v=80">
+<link rel="stylesheet" href="assets/style.css?v=81">
 <style>
   body{background:#f2f2f5;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333;min-height:100vh}
   .moon{display:none !important}
@@ -139,6 +139,25 @@
   .lbx{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
   .lbx img{max-width:80vw;max-height:80vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .lbx.show{display:flex}
+
+  /* 弹出小提示卡 */
+  .npop{position:fixed;left:246px;bottom:26px;max-width:360px;background:#fff;border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.16);padding:14px 18px;font-size:13.5px;line-height:1.9;color:#333;
+    z-index:60;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none}
+  .npop.show{opacity:1;transform:none}
+  @media (max-width:880px){.npop{left:16px;right:16px;max-width:none}}
+  /* 搜索结果条 */
+  .nr{padding:9px 16px;font-size:13px;line-height:1.8;cursor:pointer;border-radius:8px}
+  .nr:hover{background:#f7f7f9}
+  .nr b{color:#333;font-size:13.5px}
+  /* 热榜卡片高亮 */
+  .flash{animation:hotflash 1.2s ease 2}
+  @keyframes hotflash{0%,100%{box-shadow:0 1px 4px rgba(0,0,0,.05)}50%{box-shadow:0 0 0 3px rgba(255,130,0,.4)}}
+  /* 陌生人评论：已注销 */
+  .wcmt b.gone{text-decoration:line-through;color:#9a9a9a}
+  .gtag{font-size:10.5px;color:#bbb;border:1px solid #e8e8e8;border-radius:4px;padding:0 4px;margin-left:6px;background:#fafafa}
+  .gava{width:28px;height:28px;border-radius:50%;background:#d8dde3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+  .wcmt .dlink{color:#eb735;cursor:pointer;border-bottom:1px dashed #eb735}
 </style>
 </head>
 <body>
@@ -152,13 +171,14 @@
       <svg width="30" height="30" viewBox="0 0 26 26"><path d="M13 2 C6.4 2, 1.5 6.6, 1.5 12.2 C1.5 15.4, 3.1 18.2, 5.7 20.1 L4.8 24 L9.2 21.6 C10.4 21.9, 11.7 22.1, 13 22.1 C19.6 22.1, 24.5 17.6, 24.5 12.2 C24.5 6.6, 19.6 2, 13 2 Z" fill="#ff8200"/><circle cx="9.2" cy="12.4" r="1.7" fill="#fff"/><circle cx="16.8" cy="12.4" r="1.7" fill="#fff"/></svg>
       <b>嘀咕</b>
     </div>
-    <div class="navsearch"><svg class="ic" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 1 0 4.6 13.4l4.7 4.7 1.4-1.4-4.7-4.7A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg>搜索</div>
+    <div class="navsearch" id="navsearch"><svg class="ic" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 1 0 4.6 13.4l4.7 4.7 1.4-1.4-4.7-4.7A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg><span id="nsPlaceholder">搜索</span><input id="nsInput" style="display:none;border:none;outline:none;flex:1;font-size:13.5px;background:transparent;color:#333;font-family:inherit" maxlength="20"></div>
+    <div id="nsResult" style="display:none;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.10);margin:0 14px 10px;padding:4px 0"></div>
     <div class="navlist">
-      <div class="nitem on"><svg class="ic" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9z"/></svg>首页</div>
-      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z"/></svg>视频</div>
-      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/><path d="M17 7l1.8-1.8"/></svg>发现</div>
-      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3v1h16v-1l-2-3V9a6 6 0 0 0-6-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>消息</div>
-      <div class="nitem"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>热榜</div>
+      <div class="nitem on" data-nav="home"><svg class="ic" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9z"/></svg>首页</div>
+      <div class="nitem" data-nav="video"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z"/></svg>视频</div>
+      <div class="nitem" data-nav="find"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/><path d="M17 7l1.8-1.8"/></svg>发现</div>
+      <div class="nitem" data-nav="msg"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3v1h16v-1l-2-3V9a6 6 0 0 0-6-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>消息</div>
+      <div class="nitem" data-nav="hot"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>热榜</div>
     </div>
   </div>
 
@@ -184,7 +204,7 @@
     <div class="card" id="feed"></div>
 
     <div class="foot">
-      <a>关于嘀咕</a><a>嘀咕公约</a><a>意见反馈</a><br>
+      <a data-foot="about">关于嘀咕</a><a data-foot="rule">嘀咕公约</a><a data-foot="fb">意见反馈</a><br>
       这个号没有告诉过任何人。包括<span style="color:#eb735">你</span>。
     </div>
   </div>
@@ -223,9 +243,10 @@
   </div>
 </div>
 
+<div class="npop" id="npop"></div>
 <div class="lbx" id="lbx"><img id="lbximg" src="" alt=""></div>
 
-<script src="assets/game.js?v=80"></script>
+<script src="assets/game.js?v=81"></script>
 <script>
 if (DJ.gate(1)) main();
 function main(){
@@ -241,8 +262,92 @@ function main(){
     ["凌晨三点你会打给谁", "4988万"]
   ];
   $("hot").innerHTML = HOT.map((h,i) =>
-    `<div class="hi"><b>${i===0?"热":"新"}</b>${h[0]}<small>${h[1]}</small></div>`
+    `<div class="hi" data-q="${h[0]}"><b>${i===0?"热":"新"}</b>${h[0]}<small>${h[1]}</small></div>`
   ).join("");
+
+  /* ---------- 右下角弹出卡：所有"点了会怎样"都从这里轻轻浮出来 ---------- */
+  let popT = null;
+  const pop = (html) => {
+    const p = $("npop");
+    p.innerHTML = html;
+    p.classList.add("show");
+    clearTimeout(popT);
+    popT = setTimeout(() => p.classList.remove("show"), 4200);
+  };
+
+  /* ---------- 左导航：每一项都活着 ---------- */
+  document.querySelectorAll(".nitem").forEach(n => {
+    n.onclick = () => {
+      DJ.sfx.click();
+      const t = n.dataset.nav;
+      if (t === "home"){
+        document.querySelectorAll(".nitem").forEach(x => x.classList.remove("on"));
+        n.classList.add("on");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (t === "video"){
+        pop(`<b>视频</b><br>这个号没有发过视频。一条都没有。<br><span style="color:#999;font-size:12px">上传记录：1 条 · 状态：已删除 · 删除时间：2025-08-08 23:58</span>`);
+      } else if (t === "find"){
+        pop(`<b>发现</b><br>发现页是别人的热闹。他的发现页，四年没有刷新过。`);
+      } else if (t === "msg"){
+        pop(`<b>消息</b><br>私信 0 · 提及 0 · 评论提醒 0。<br>四年，一条都没有。系统都想不起来它。`);
+      } else if (t === "hot"){
+        const h = document.querySelector(".rightcol .hot");
+        if (h){ h.scrollIntoView({ behavior:"smooth", block:"center" }); h.classList.remove("flash"); void h.offsetWidth; h.classList.add("flash"); }
+        else pop(`<b>热榜</b><br>${HOT[0][0]} · ${HOT[0][1]}<br>${HOT[1][0]} · ${HOT[1][1]}<br><span style="color:#999;font-size:12px">他从来不上榜。上榜的那几次，话题都被秒删。</span>`);
+      }
+    };
+  });
+
+  /* ---------- 搜索框：真的能搜 ---------- */
+  const SEARCH = [
+    { kw:["存档","快照","拾光机"], html:`<div class="nr" data-go="snapshot.html"><b>拾光机 · 网页存档馆</b><br><span style="color:#999;font-size:12px">shiguangji.archive — 让消失的网页有地方可回</span></div>` },
+    { kw:["yunti","云屉"], html:`<div class="nr" data-go="snapshot.html"><b>云屉 · 分享「拾遗」（已删除）</b><br><span style="color:#999;font-size:12px">yun-ti.drive › share — 分享已被主人删除。快照还留在拾光机里。</span></div>` },
+    { kw:["北屋"], html:`<div class="nr" style="cursor:default"><b>没有找到「北屋」的公开资料</b><br><span style="color:#999;font-size:12px">这个号的一切都仅自己可见。包括访客名单。</span></div>` },
+    { kw:["声控灯"], html:`<div class="nr" style="cursor:default"><b>话题「谁把声控灯修好了」</b><br><span style="color:#999;font-size:12px">讨论 8,763 条 · 最高赞：灯本来就该亮的，是有人把它用成了黑的。</span></div>` },
+    { kw:["凌晨三点"], html:`<div class="nr" style="cursor:default"><b>话题「凌晨三点你会打给谁」</b><br><span style="color:#999;font-size:12px">讨论 4,988 条 · 最高赞：打给那个永远不接的。听三声，挂掉，就当说过晚安了。</span></div>` },
+    { kw:["朝北"], html:`<div class="nr" style="cursor:default"><b>话题「搬去朝北的房子的人」</b><br><span style="color:#999;font-size:12px">讨论 5,102 条 · 有人说朝北便宜，有人说朝北安静，没人说朝北不冷。</span></div>` },
+    { kw:["接电话","深呼吸"], html:`<div class="nr" style="cursor:default"><b>话题「接电话之前先深呼吸」</b><br><span style="color:#999;font-size:12px">讨论 2.1 亿 · 深呼吸没用。响第三声之前接，手就不会抖。</span></div>` },
+    { kw:["等"], html:`<div class="nr" style="cursor:default"><b>话题「年度关键词是『等』」</b><br><span style="color:#999;font-size:12px">讨论 1.4 亿 · 今年是这个关键词连续在榜的第八年。</span></div>` }
+  ];
+  const runQuery = (q) => {
+    q = (q || "").trim();
+    if (!q) return;
+    const out = $("nsResult");
+    const hit = SEARCH.find(s => s.kw.some(k => q.includes(k)));
+    out.innerHTML = hit ? hit.html
+      : `<div class="nr" style="cursor:default"><b>搜到 0 条</b><br><span style="color:#999;font-size:12px">或者搜到了，但你看不见。</span></div>`;
+    out.style.display = "block";
+    out.querySelectorAll(".nr[data-go]").forEach(el => {
+      el.onclick = () => { DJ.sfx.click(); location.href = el.dataset.go; };
+    });
+  };
+  $("navsearch").onclick = () => {
+    $("nsPlaceholder").style.display = "none";
+    $("nsInput").style.display = "block";
+    $("nsInput").focus();
+  };
+  $("nsInput").addEventListener("keydown", e => {
+    if (e.key === "Enter"){ DJ.sfx.click(); runQuery($("nsInput").value); }
+  });
+  document.querySelectorAll(".hi").forEach(h => {
+    h.onclick = () => {
+      DJ.sfx.click();
+      const q = h.dataset.q.replace(/^话题|「|」/g, "");
+      $("navsearch").onclick && ($("nsPlaceholder").style.display = "none", $("nsInput").style.display = "block");
+      $("nsInput").value = q;
+      runQuery(q);
+    };
+  });
+
+  /* ---------- 页脚：也都有反应 ---------- */
+  const FOOT = {
+    about: `<b>关于嘀咕</b><br>2011 年上线。让每个人都能小声说话。<br><span style="color:#999;font-size:12px">目前有小声说话的人：一位。</span>`,
+    rule:  `<b>嘀咕公约</b><br>第一条：本平台不设审核。<br>第二条：仅自己可见的内容，连系统也不看。<br>第三条：如果你看见了不该看见的，请当作没看见。`,
+    fb:    `<b>意见反馈</b><br>已收到。感谢您的反馈。<br><span style="color:#999;font-size:12px">不会有回复。从来没有过。</span>`
+  };
+  document.querySelectorAll("[data-foot]").forEach(a => {
+    a.onclick = () => { DJ.sfx.click(); pop(FOOT[a.dataset.foot]); };
+  });
 
   /* 嘀咕内容：2022-2026，全部仅自己可见 */
   const POSTS = [
@@ -287,7 +392,9 @@ function main(){
 有些是截屏，有些是录音，有些是我半夜写的没人会看的东西。放在一起比我想象中重。
 
 要是哪天我不在了，看到的人替我删掉。`,
-      cmt:"补：别删。留着。总有一天用得上。另外提取码改了——改成那四个字了。你们懂。" },
+      cmt:"补：别删。留着。总有一天用得上。另外提取码改了——改成那四个字了。你们懂。",
+      others:[{ w:"路过的人", t:`仅自己可见的嘀咕……我为什么会刷到这条？算了。你说的这个不会是<span class="dlink" data-go="snapshot.html">拾光机</span>里面的存档吧。shiguangji.archive，搜 yunti。快照存得比我以为的久。` }],
+      reply:"你是谁。这条评论为什么我看得见。……算了。就当你没来过。" },
     { d:"2025-12-24", long:true, t:`平安夜。楼下的餐厅在放歌，隔着墙都听得见热闹。
 
 我戴上耳机，听一个很冷门的电台。亥时开播，一晚上就一句话。播完就没了，像烧完的火柴。
@@ -412,6 +519,7 @@ function main(){
     { t:"空耳FM",   d:"听见没人在听的声音",     go:"music.html",    c:3,  col:"#ff8200", i:"♪" },
     { t:"倒影小组", d:"审了三年还没审完",       go:"forum.html",    c:5,  col:"#6bbd8f", i:"倒" },
     { t:"云屉网盘", d:"八年的东西都在里面",     go:"cloud.html",    c:8,  col:"#8d8dd9", i:"云" },
+    { t:"拾光机",   d:"网页存档馆 · 让消失的有处可回", go:"snapshot.html", c:1,  col:"#5b8db8", i:"拾" },
     { t:"深夜电台", d:"每天亥时开播",           go:"radio.html",    c:9,  col:"#4a4a4a", i:"波" },
     { t:"网上医院", d:"夜间门诊八点零八分开放", go:"hospital.html", c:10, col:"#e08888", i:"医" },
     { t:"一面墙",   d:"写满了别人的心事",       go:"board.html",    c:10, col:"#b0a58a", i:"墙" }
@@ -435,9 +543,18 @@ function main(){
   const icCm  = `<svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z"/></svg>`;
   const icLk  = `<svg class="ic" viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm2 9V10.5L13 3c1.3.2 2 1.1 2 2.5V9h5a2 2 0 0 1 2 2l-1.6 7a2 2 0 0 1-2 1.5H9z"/></svg>`;
   $("feed").innerHTML = POSTS.map((p, idx) => {
-    const comments = p.cmt
-      ? `<div class="wcmt"><div class="ca"><img src="assets/media/butterfly.png" alt=""></div><div><b>北屋</b>：${p.cmt}</div></div>`
+    /* 评论列表：陌生人的（已注销）在前，他自己的补在后面 */
+    const list = [];
+    (p.others || []).forEach(o => list.push({ w:o.w, t:o.t, gone:true }));
+    if (p.cmt)   list.push({ w:"北屋", t:p.cmt });
+    if (p.reply) list.push({ w:"北屋", t:p.reply });
+    const comments = list.length
+      ? list.map(c => c.gone
+          ? `<div class="wcmt"><div class="gava">路</div><div><b class="gone">${c.w}</b><span class="gtag">已注销</span>：${c.t}</div></div>`
+          : `<div class="wcmt"><div class="ca"><img src="assets/media/butterfly.png" alt=""></div><div><b>${c.w}</b>：${c.t}</div></div>`)
+        .join("")
       : `<div class="wcmt none">还没有评论。</div>`;
+    const cn = list.length;
     return `<div class="wb">
       <div class="wbhead">
         <div class="wa" data-lb="${idx}"><img src="assets/media/butterfly.png" alt=""></div>
@@ -450,7 +567,7 @@ function main(){
       ${p.long ? `<span class="wmore" data-t="${idx}">全文</span>` : ""}
       <div class="wacts">
         <span data-a="fw${idx}">${icFw}转发</span>
-        <span data-a="cm${idx}">${icCm}评论 ${p.cmt ? 1 : 0}</span>
+        <span data-a="cm${idx}">${icCm}评论 ${cn}</span>
         <span data-a="lk${idx}" id="lk${idx}">${icLk}赞 <em id="lkn${idx}" style="font-style:normal">0</em></span>
       </div>
       <div class="wcmts" id="cm${idx}">${comments}
@@ -459,6 +576,11 @@ function main(){
       </div>
     </div>`;
   }).join("");
+
+  /* 评论里的外链（拾光机等） */
+  document.querySelectorAll(".wcmt .dlink").forEach(d => {
+    d.onclick = () => { DJ.sfx.click(); location.href = d.dataset.go; };
+  });
 
   /* 全文折叠 */
   document.querySelectorAll(".wmore").forEach(m => {
